@@ -3,410 +3,710 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>카드게임 처방 도구 · 디자인 변수 10개</title>
+<title>카드게임 고치기 · 바꿀 수 있는 규칙 10가지</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 <script>
 tailwind.config = { theme: { extend: { colors: {
-  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
-  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+  ink:{50:"#f8fafc",100:"#f1f5f9",200:"#e2e8f0",300:"#cbd5e1",400:"#94a3b8",500:"#64748b",600:"#475569",700:"#334155",800:"#1e293b",900:"#0f172a"},
+  key:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3"},
+  warn:{50:"#fffbeb",200:"#fde68a",600:"#d97706",800:"#92400e"},
+  good:{50:"#ecfdf5",200:"#a7f3d0",600:"#059669",800:"#065f46"}
 }}}}
 </script>
 <style>
-*{box-sizing:border-box}
-body{font-family:"Pretendard",system-ui,sans-serif;word-break:keep-all;color:#1e293b;
-  background:radial-gradient(circle at 12% 4%, rgba(99,102,241,.10), transparent 40%),
-             radial-gradient(circle at 88% 96%, rgba(249,115,22,.09), transparent 40%), #f8fafc;
-  margin:0;min-height:100vh}
-.card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06)}
-.chip{border:2px solid #e2e8f0;background:#fff;transition:.15s;cursor:pointer;text-align:left}
-.chip:hover{border-color:#a5b4fc;transform:translateY(-2px)}
-.chip.on{border-color:#4f46e5;background:#eef2ff}
-.chip.on .tick{opacity:1}
-.dchip{border:1.5px solid #e2e8f0;background:#fff;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:700;color:#475569;cursor:pointer;transition:.12s}
-.dchip:hover{border-color:#a5b4fc}
-.dchip.on{background:#4f46e5;border-color:#4f46e5;color:#fff}
-.dchip.good{border-color:#bef264;color:#3f6212}
-.dchip.good.on{background:#65a30d;border-color:#65a30d;color:#fff}
-.tick{opacity:0;transition:.15s}
-.lever-btn{cursor:pointer;transition:.15s}
-.lever-btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(15,23,42,.10)}
-details>summary{cursor:pointer;list-style:none}
-details>summary::-webkit-details-marker{display:none}
-details[open] .chev{transform:rotate(180deg)}
-.chev{transition:.2s}
-code{background:#0f172a;color:#e2e8f0;padding:2px 7px;border-radius:6px;font-size:.86em}
-pre{background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:12px;overflow-x:auto;font-size:13.5px;line-height:1.65}
-pre .c{color:#94a3b8}
-pre .k{color:#c4b5fd}
-pre .n{color:#fdba74}
-@media print{
-  .noprint{display:none!important}
-  body{background:#fff}
-  details{page-break-inside:avoid}
-  details>div{display:block!important}
-}
+  *{box-sizing:border-box}
+  html{font-size:16px}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+    word-break:keep-all; line-height:1.65; color:#1e293b; background:#f4f6fa;
+    margin:0; min-height:100vh; -webkit-text-size-adjust:100%;
+  }
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:18px}
+  .pick{
+    display:block;width:100%;text-align:left;background:#fff;
+    border:2px solid #e2e8f0;border-radius:14px;cursor:pointer;
+    transition:border-color .12s, background-color .12s;
+  }
+  .pick:hover{border-color:#a5b4fc;background:#fbfcff}
+  .pick:focus-visible{outline:3px solid #6366f1;outline-offset:2px}
+  .pick.on{border-color:#4f46e5;background:#eef2ff}
+  .pick .tick{opacity:0;color:#4f46e5}
+  .pick.on .tick{opacity:1}
+
+  .tag{
+    border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;
+    padding:.4rem .8rem;font-size:.9375rem;font-weight:600;color:#334155;
+    cursor:pointer;transition:.12s;line-height:1.3;
+  }
+  .tag:hover{border-color:#818cf8}
+  .tag:focus-visible{outline:3px solid #6366f1;outline-offset:2px}
+  .tag.on{background:#4f46e5;border-color:#4f46e5;color:#fff}
+  .tag.good{border-color:#6ee7b7;color:#065f46}
+  .tag.good.on{background:#059669;border-color:#059669;color:#fff}
+
+  /* 헤더는 글자 크기 조절의 영향을 받지 않도록 px 고정 */
+  .tabbtn{padding:8px 14px;border-radius:999px;font-size:15px;font-weight:700;color:#475569;
+          background:transparent;border:0;cursor:pointer;white-space:nowrap;min-width:0}
+  .fbtn{width:38px;height:38px;font-size:15px;line-height:1}
+  .tabbtn[aria-selected="true"]{background:#0f172a;color:#fff}
+  .tabbtn:focus-visible{outline:3px solid #6366f1;outline-offset:2px}
+
+  details>summary{cursor:pointer;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary:focus-visible{outline:3px solid #6366f1;outline-offset:2px;border-radius:12px}
+  details[open]>summary .chev{transform:rotate(180deg)}
+  .chev{transition:transform .18s;display:inline-block}
+
+  code{background:#e2e8f0;color:#0f172a;padding:.1em .4em;border-radius:5px;font-size:.9em}
+  pre{background:#0f172a;color:#e2e8f0;padding:1rem;border-radius:12px;overflow-x:auto;
+      font-size:.875rem;line-height:1.7;margin:0}
+  pre .c{color:#94a3b8} pre .k{color:#c4b5fd} pre .n{color:#fdba74}
+
+  #step1,#step2,#step3{scroll-margin-top:8rem}
+  @media (min-width:640px){ #step1,#step2,#step3{scroll-margin-top:5rem} }
+
+  .steps{display:flex;gap:.5rem;align-items:center}
+  .stepdot{
+    display:flex;align-items:center;gap:.4rem;font-size:.875rem;font-weight:700;
+    color:#94a3b8;white-space:nowrap;
+  }
+  .stepdot b{
+    width:1.5rem;height:1.5rem;border-radius:999px;background:#e2e8f0;color:#64748b;
+    display:grid;place-items:center;font-size:.8125rem;flex:none;
+  }
+  .stepdot.on{color:#4338ca}
+  .stepdot.on b{background:#4f46e5;color:#fff}
+  .stepdot.done b{background:#c7d2fe;color:#3730a3}
+  .steps hr{flex:1;border:0;border-top:2px dotted #cbd5e1;min-width:10px}
+  @media (max-width:420px){
+    .stepdot .lbl{display:none}
+    .stepdot.on .lbl{display:inline}
+  }
+
+  .logrow{display:grid;grid-template-columns:6.5rem 1fr;gap:.75rem;padding:.85rem 0;border-top:1px solid #e2e8f0}
+  .logrow:first-child{border-top:0}
+  .logrow dt{font-weight:800;color:#4338ca;font-size:.9375rem}
+  .logrow dd{margin:0;font-size:1.0625rem}
+  @media (max-width:520px){
+    .logrow{grid-template-columns:1fr;gap:.15rem}
+    .logrow dt{font-size:.875rem}
+  }
+
+  @media print{
+    .noprint{display:none!important}
+    body{background:#fff}
+    .card{box-shadow:none;border-color:#94a3b8}
+    details{page-break-inside:avoid}
+    details>div{display:block!important}
+  }
 </style>
 </head>
 <body>
 
-<header class="sticky top-0 z-30 bg-white/85 backdrop-blur border-b border-slate-200">
-  <div class="max-w-5xl mx-auto px-5 py-3 flex items-center gap-4 flex-wrap">
-    <div class="font-black text-lg">🎴 카드게임 처방 도구</div>
-    <div class="text-xs text-slate-500 hidden sm:block">바꿀 수 있는 디자인 변수는 열 개뿐입니다</div>
-    <div class="ml-auto flex gap-1 bg-slate-100 rounded-full p-1 noprint">
-      <button id="tab-dx" class="px-4 py-1.5 rounded-full text-sm font-bold bg-slate-900 text-white">진단받기</button>
-      <button id="tab-cat" class="px-4 py-1.5 rounded-full text-sm font-bold text-slate-600">전체 보기</button>
+<header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-ink-200">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-2">
+    <div class="font-black text-base sm:text-lg whitespace-nowrap mr-auto">🎴 카드게임 고치기</div>
+    <div class="order-last sm:order-none w-full sm:w-auto flex gap-1 bg-ink-100 rounded-full p-1 noprint"
+         role="tablist" aria-label="화면 선택">
+      <button class="tabbtn flex-1 sm:flex-none" id="tab-dx"   role="tab" aria-selected="true"  aria-controls="view-dx">고치기</button>
+      <button class="tabbtn flex-1 sm:flex-none" id="tab-cat"  role="tab" aria-selected="false" aria-controls="view-cat">규칙 10가지</button>
+      <button class="tabbtn flex-1 sm:flex-none" id="tab-more" role="tab" aria-selected="false" aria-controls="view-more">더 알아보기</button>
     </div>
+    <button id="fontbtn" class="fbtn noprint shrink-0 border border-ink-300 rounded-full font-black text-ink-600 hover:bg-ink-100"
+            title="글자 크기 바꾸기" aria-label="글자 크기 바꾸기">A</button>
   </div>
 </header>
 
-<main class="max-w-5xl mx-auto px-5 py-7">
+<main class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
-<!-- ============ 진단 모드 ============ -->
-<section id="view-dx">
+<!-- ══════════════ 고치기 ══════════════ -->
+<section id="view-dx" role="tabpanel" aria-labelledby="tab-dx">
+
+  <!-- 진행 표시 -->
+  <div class="steps mb-6 noprint" aria-hidden="true">
+    <span class="stepdot on" id="sd1"><b>1</b><span class="lbl">불만 고르기</span></span>
+    <hr>
+    <span class="stepdot" id="sd2"><b>2</b><span class="lbl">규칙 바꾸기</span></span>
+    <hr>
+    <span class="stepdot" id="sd3"><b>3</b><span class="lbl">기록하기</span></span>
+  </div>
 
   <!-- STEP 1 -->
-  <div class="mb-7">
-    <div class="flex items-baseline gap-3 mb-1">
-      <span class="w-7 h-7 rounded-lg bg-dev-600 text-white font-black grid place-items-center text-sm">1</span>
-      <h2 class="text-2xl font-black">다른 조에게 들은 말 중, 가장 마음에 안 드는 것 하나</h2>
+  <div id="step1" class="mb-8">
+    <h2 class="text-xl sm:text-2xl font-black leading-snug mb-2">
+      다른 조에게 들은 말 중, 가장 마음에 걸리는 것 하나
+    </h2>
+    <p class="text-ink-600 mb-5">
+      꼭 <b class="text-ink-800">하나만</b> 고르세요. 한 번에 하나씩 고쳐야 무엇 때문에 달라졌는지 알 수 있습니다.
+    </p>
+    <div id="symptoms" class="grid sm:grid-cols-2 gap-3"></div>
+
+    <details class="mt-5 card px-5 py-4">
+      <summary class="flex items-center gap-2 font-bold text-ink-700">
+        이 도구를 처음 쓴다면 <span class="chev ml-auto text-ink-400">▾</span>
+      </summary>
+      <ol class="mt-3 space-y-2 text-ink-700 list-decimal pl-5">
+        <li>다른 조가 우리 게임을 해보고 남긴 말 중 <b>하나</b>를 위에서 고릅니다.</li>
+        <li>그 말에 잘 듣는 규칙 후보가 나옵니다. 바꿀 문장 <b>하나</b>를 고릅니다.</li>
+        <li>마지막에 기록 카드가 만들어집니다. 그대로 옮겨 적고, <b>같은 규칙으로 두 판</b> 돌려보세요.</li>
+      </ol>
+    </details>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" class="hidden mb-8">
+    <div class="flex items-start gap-3 mb-2">
+      <h2 class="text-xl sm:text-2xl font-black leading-snug flex-1">바꿀 규칙 하나 고르기</h2>
+      <button class="back noprint text-sm font-bold text-ink-500 hover:text-ink-800 underline underline-offset-4 shrink-0 mt-1" data-back="1">불만 다시 고르기</button>
     </div>
-    <p class="text-slate-500 text-sm mb-4 ml-10">하나만 고릅니다. 한 번에 하나씩 고쳐야 무엇 때문에 달라졌는지 알 수 있습니다.</p>
-    <div id="symptoms" class="grid sm:grid-cols-2 gap-2.5"></div>
+    <p class="text-ink-600 mb-5">
+      아래 문장 중 하나를 골라 우리 규칙서에 <b class="text-ink-800">그대로 옮겨 적으면</b> 됩니다.
+    </p>
+    <div id="rx"></div>
   </div>
 
   <!-- STEP 3 -->
   <div id="step3" class="hidden">
-    <div class="flex items-baseline gap-3 mb-1">
-      <span class="w-7 h-7 rounded-lg bg-flame-600 text-white font-black grid place-items-center text-sm">2</span>
-      <h2 class="text-2xl font-black">처방</h2>
+    <div class="flex items-start gap-3 mb-2">
+      <h2 class="text-xl sm:text-2xl font-black leading-snug flex-1">기록 카드</h2>
+      <button class="back noprint text-sm font-bold text-ink-500 hover:text-ink-800 underline underline-offset-4 shrink-0 mt-1" data-back="2">규칙 다시 고르기</button>
     </div>
-    <p class="text-slate-500 text-sm mb-1 ml-10">아래 규칙 문장 중 하나를 골라 <b>그대로 베껴 쓰면</b> 됩니다.</p>
-    <p class="text-slate-400 text-xs mb-4 ml-10"><b>디자인 변수</b> — 우리가 직접 바꿀 수 있는 규칙 항목. 한 번에 하나만 바꾸는 것이 곧 변인 통제입니다.</p>
-    <div id="rx"></div>
+    <p class="text-ink-600 mb-5">플레이 중에 <b class="text-ink-800">실제로 본 것</b>만 채우면 카드가 완성됩니다.</p>
 
-    <div id="sentence-box" class="card rounded-3xl p-6 mt-6 hidden">
-      <div class="text-xs font-black text-slate-400 tracking-widest mb-3">LOG에 이렇게 적으세요</div>
-      <div class="mb-5">
-        <div class="text-sm font-bold text-slate-600 mb-1">플레이 중에 실제로 벌어진 일 <span class="font-normal text-slate-400">(D · 눌러서 넣거나 직접 적으세요)</span></div>
-        <input id="dtext" type="text" class="w-full border-2 border-slate-200 rounded-xl px-4 py-2.5 focus:border-dev-500 outline-none mb-3"
-               placeholder="직접 적어도 됩니다">
-        <div class="text-[11px] font-black text-slate-400 mb-1.5">고쳐야 할 신호</div>
-        <div id="dfix" class="flex flex-wrap gap-1.5 mb-3"></div>
-        <div class="text-[11px] font-black text-lime-700 mb-1.5">이미 잘 되고 있는 신호 <span class="font-normal text-slate-400">— 이건 건드리지 마세요</span></div>
-        <div id="dgood" class="flex flex-wrap gap-1.5"></div>
-      </div>
-      <p id="sentence" class="text-lg leading-relaxed"></p>
-      <div class="flex gap-2 mt-4 noprint">
-        <button id="copy" class="bg-dev-600 text-white text-sm font-bold px-4 py-2 rounded-full">문장 복사</button>
-        <button id="reset" class="bg-slate-100 text-slate-600 text-sm font-bold px-4 py-2 rounded-full">처음부터</button>
-      </div>
-      <p class="text-sm text-flame-800 bg-flame-50 border border-flame-200 rounded-xl px-4 py-3 mt-4">
-        규칙을 바꿨으면 <b>같은 규칙으로 두 판</b> 돌려보세요. 한 판만 했으면 Log에 "1판 근거 · 잠정"이라고 적습니다.
+    <div class="card p-5 sm:p-6 mb-5">
+      <label for="dtext" class="block font-bold mb-2">플레이 중에 실제로 본 것</label>
+      <input id="dtext" type="text" autocomplete="off"
+             class="w-full border-2 border-ink-200 rounded-xl px-4 py-3 text-base focus:border-key-500 outline-none"
+             placeholder="직접 적거나, 아래 버튼을 눌러 넣으세요">
+
+      <p class="mt-5 mb-2 font-bold text-ink-700">고쳐야 할 신호</p>
+      <div id="dfix" class="flex flex-wrap gap-2"></div>
+
+      <p class="mt-5 mb-2 font-bold text-good-800">잘 되고 있는 신호 <span class="font-medium text-ink-500">— 이건 건드리지 마세요</span></p>
+      <div id="dgood" class="flex flex-wrap gap-2"></div>
+    </div>
+
+    <div class="card p-5 sm:p-6">
+      <div class="text-sm font-black text-ink-500 tracking-widest mb-3">우리 조 기록</div>
+      <dl id="log" class="mb-5"></dl>
+
+      <p class="bg-warn-50 border border-warn-200 text-warn-800 rounded-xl px-4 py-3">
+        규칙을 바꿨으면 <b>같은 규칙으로 두 판</b> 돌려보세요.
+        한 판만 했으면 기록에 <b>"1판만 해봄 · 아직 확실하지 않음"</b>이라고 덧붙입니다.
       </p>
+
+      <div class="flex flex-wrap gap-2 mt-5 noprint">
+        <button id="copy"  class="bg-key-600 hover:bg-key-700 text-white font-bold px-5 py-2.5 rounded-full">기록 복사</button>
+        <button id="print" class="border border-ink-300 text-ink-700 hover:bg-ink-100 font-bold px-5 py-2.5 rounded-full">인쇄</button>
+        <button id="reset" class="border border-ink-300 text-ink-700 hover:bg-ink-100 font-bold px-5 py-2.5 rounded-full">처음부터</button>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 카탈로그 모드 ============ -->
-<section id="view-cat" class="hidden">
-  <div class="card rounded-3xl p-5 mb-6">
-    <div class="text-sm font-black text-slate-400 mb-3">증상으로 찾기</div>
+<!-- ══════════════ 규칙 10가지 ══════════════ -->
+<section id="view-cat" class="hidden" role="tabpanel" aria-labelledby="tab-cat">
+  <h2 class="text-xl sm:text-2xl font-black mb-2">바꿀 수 있는 규칙은 열 가지뿐입니다</h2>
+  <p class="text-ink-600 mb-5">불만으로 걸러 보거나, 그냥 쭉 훑어보세요. 제목을 누르면 펼쳐집니다.</p>
+  <div class="card p-4 mb-5">
+    <div class="font-bold text-ink-700 mb-3">들은 말로 걸러 보기</div>
     <div id="filter" class="flex flex-wrap gap-2"></div>
   </div>
-  <div id="catalog" class="space-y-4"></div>
+  <div id="catalog" class="space-y-3"></div>
+</section>
+
+<!-- ══════════════ 더 알아보기 ══════════════ -->
+<section id="view-more" class="hidden" role="tabpanel" aria-labelledby="tab-more">
+  <h2 class="text-xl sm:text-2xl font-black mb-2">같은 규칙이 다른 게임에서는</h2>
+  <p class="text-ink-600 mb-5">
+    카드게임을 고치는 데 꼭 필요한 내용은 아닙니다.
+    <b class="text-ink-800">먼저 우리 게임을 고치고</b>, 시간이 남으면 열어보세요.
+  </p>
+  <div id="more" class="space-y-3"></div>
 </section>
 
 </main>
 
-<footer class="max-w-5xl mx-auto px-5 pb-12 text-center text-sm text-slate-400">
-  게임 개발 실습 · 3주차 워크숍 도구 · 한 번에 디자인 변수 하나만 바꿉니다
+<footer class="max-w-4xl mx-auto px-4 sm:px-6 pb-12 text-center text-ink-500">
+  게임 개발 실습 · 3주차 워크숍 도구 — 한 번에 규칙 하나만 바꿉니다
 </footer>
 
 <script>
-/* ================== 데이터 ================== */
+/* ══════════ 데이터 ══════════ */
 const SYMPTOMS = [
-  {id:'s1', t:'"지루했어요"',                    sub:'중간부터 흥미가 떨어졌다',        levers:[6,3,8]},
-  {id:'s2', t:'"내 차례 아닐 때 할 게 없어요"',   sub:'남의 차례가 그냥 대기 시간',      levers:[8,6,2]},
-  {id:'s3', t:'"누가 이길지 초반에 뻔했어요"',    sub:'역전이 안 된다',                 levers:[8,5,9]},
-  {id:'s4', t:'"정신없고 규칙이 헷갈려요"',       sub:'외울 게 많다',                   levers:[7,1]},
-  {id:'s5', t:'"게임이 안 끝나요"',              sub:'늘어진다',                       levers:[4,1,9]},
-  {id:'s6', t:'"그냥 운이었어요"',               sub:'고민할 게 없다',                 levers:[10,6,3]},
-  {id:'s7', t:'"한 사람만 계속 당했어요"',        sub:'특정 플레이어에게 몰린다',        levers:[8,2]},
-  {id:'s8', t:'"너무 금방 끝났어요"',            sub:'시작하자마자 끝',                levers:[1,4,9]}
+  {id:'s1', t:'지루했어요',                 sub:'중간부터 흥미가 떨어졌다',   levers:[6,3,8]},
+  {id:'s2', t:'내 차례 아닐 때 할 게 없어요', sub:'남의 차례가 그냥 대기 시간', levers:[8,6,2]},
+  {id:'s3', t:'누가 이길지 초반에 뻔했어요',  sub:'역전이 안 된다',            levers:[8,5,9]},
+  {id:'s4', t:'정신없고 규칙이 헷갈려요',     sub:'외울 게 너무 많다',          levers:[7,1]},
+  {id:'s5', t:'게임이 안 끝나요',            sub:'뒤로 갈수록 늘어진다',       levers:[4,1,9]},
+  {id:'s6', t:'그냥 운이었어요',             sub:'고민할 게 없다',            levers:[10,6,3]},
+  {id:'s7', t:'한 사람만 계속 당했어요',      sub:'공격이 한 명에게 몰린다',    levers:[8,2]},
+  {id:'s8', t:'너무 금방 끝났어요',          sub:'시작하자마자 끝난다',        levers:[1,4,9]}
 ];
 
-const KCOL={'수량':'background:#e0e7ff;color:#4338ca','조건':'background:#e2e8f0;color:#334155','순서·방향':'background:#ffedd5;color:#c2410c'};
-const kchip=l=>`<span class="text-[11px] font-black px-2 py-0.5 rounded-full" style="${KCOL[l.kind]||''}">${l.kind}</span>`;
+const KIND = {
+  '수량'     :'background:#e0e7ff;color:#3730a3',
+  '조건'     :'background:#e2e8f0;color:#334155',
+  '순서·방향':'background:#ffedd5;color:#9a3412'
+};
+const kindChip = l => `<span class="text-sm font-bold px-2.5 py-0.5 rounded-full align-middle" style="${KIND[l.kind]||''}">${l.kind}</span>`;
+
 const LEVERS = [
 {n:1, kind:'수량', name:'손패 크기', icon:'🖐️', gist:'한 번에 고를 수 있는 선택지의 수',
   now:'각자 5장으로 시작',
-  opts:[{r:'각자 3장으로 시작한다', a:'한 판이 짧아지고, 한 장 한 장이 무거워진다'},{r:'각자 7장으로 시작한다', a:'한 판이 길어지고, 초반에는 고민이 줄어든다'},{r:'지난 판에서 이긴 사람만 6장으로 시작한다', a:'실력 차가 줄고 매 판 승부가 붙는다'}],
+  opts:[
+    {r:'각자 3장으로 시작한다', a:'한 판이 짧아지고, 한 장 한 장이 무거워진다'},
+    {r:'각자 7장으로 시작한다', a:'한 판이 길어지고, 초반에는 고민이 줄어든다'},
+    {r:'지난 판에서 이긴 사람만 6장으로 시작한다', a:'실력 차가 줄고 매 판 승부가 붙는다'}],
   warn:'3장 미만으로 줄이면 고를 게 없어져서 그냥 절차가 됩니다.',
-  genre:[{t:'오버워치', g:'액션', d:'스킬 4개 + 궁극기. 버튼이 적어서 매 순간 무엇을 쓸지가 선명해진다'},{t:'슬레이 더 스파이어', g:'로그라이크', d:'매 턴 손패 5장 — 카드게임과 완전히 같은 변수'},{t:'포켓몬', g:'RPG', d:'기술 4개 제한. 이 숫자 하나가 육성의 핵심을 만든다'},{t:'쿠키런', g:'모바일', d:'장착 슬롯 수. 슬롯을 늘리면 고민이 사라진다'}],
-  unity:{what:'리스트·배열의 최대 길이 — Inspector 숫자 하나', code:'[SerializeField] <span class="k">int</span> handSize = <span class="n">5</span>;\nslots = <span class="k">new</span> Item[handSize];', inspector:'PlayerInventory 컴포넌트의 <b>Hand Size</b> 필드', when:'인벤토리·스킬 UI를 만들 때', mission:'3 / 5 / 7 로 바꿔 세 번 플레이하고 각각 한 단어 평가를 적어보기'}},
+  genre:[{t:'오버워치',g:'액션',d:'스킬 4개 + 궁극기. 버튼이 적어서 매 순간 무엇을 쓸지가 선명해진다'},
+         {t:'슬레이 더 스파이어',g:'로그라이크',d:'매 턴 손패 5장 — 카드게임과 완전히 같은 규칙'},
+         {t:'포켓몬',g:'RPG',d:'기술 4개 제한. 이 숫자 하나가 육성의 핵심을 만든다'},
+         {t:'쿠키런',g:'모바일',d:'장착 슬롯 수. 슬롯을 늘리면 고민이 사라진다'}],
+  unity:{what:'리스트·배열의 최대 길이 — Inspector 숫자 하나',
+    code:'[SerializeField] <span class="k">int</span> handSize = <span class="n">5</span>;\nslots = <span class="k">new</span> Item[handSize];',
+    inspector:'PlayerInventory 컴포넌트의 <b>Hand Size</b> 필드',
+    when:'인벤토리·스킬 UI를 만들 때',
+    mission:'3 / 5 / 7 로 바꿔 세 번 플레이하고 각각 한 단어 평가를 적어보기'}},
 
-{n:2, kind:'순서·방향', name:'차례 순서 · 방향', icon:'🔄', gist:'누가 언제 행동하는가',
+{n:2, kind:'순서·방향', name:'차례 순서와 방향', icon:'🔄', gist:'누가 언제 행동하는가',
   now:'딜러 왼쪽부터 시계방향, 한 사람씩',
-  opts:[{r:'J를 내면 진행 방향이 반대로 바뀐다', a:'내 앞뒤가 계속 바뀌어 계획이 무너진다'},{r:'A를 내면 다음 사람이 한 번 쉰다', a:'특정 사람을 노릴 수 있게 된다'},{r:'같은 숫자 두 장을 한 번에 낼 수 있다', a:'손패를 모으는 재미가 생긴다'},{r:'순서 없이, 낼 수 있는 사람이 먼저 내면 인정된다', a:'시끄럽고 빨라진다. 눈치 싸움이 커진다'}],
+  opts:[
+    {r:'J를 내면 진행 방향이 반대로 바뀐다', a:'내 앞뒤가 계속 바뀌어 계획이 무너진다'},
+    {r:'A를 내면 다음 사람이 한 번 쉰다', a:'특정 사람을 노릴 수 있게 된다'},
+    {r:'같은 숫자 두 장을 한 번에 낼 수 있다', a:'손패를 모으는 재미가 생긴다'},
+    {r:'순서 없이, 낼 수 있는 사람이 먼저 내면 인정된다', a:'시끄럽고 빨라진다. 눈치 싸움이 커진다'}],
   warn:'마지막 항목은 조용한 조에서는 잘 굴러가지 않습니다.',
-  genre:[{t:'포켓몬', g:'턴제 RPG', d:'스피드 스탯이 순서를 정한다 — 순서 자체가 육성 대상'},{t:'다크 소울', g:'액션', d:'공격 후 경직(후딜)이 곧 내 차례의 길이'},{t:'스타크래프트', g:'RTS', d:'차례가 없다. 대신 손 속도가 순서를 대신한다'},{t:'리듬 게임', g:'리듬', d:'노트가 오는 간격 = 강제된 차례'}],
-  unity:{what:'턴 매니저의 대기 시간, 또는 쿨타임', code:'<span class="c">// 턴제</span>\n<span class="k">yield return new</span> WaitForSeconds(turnDelay);\n<span class="c">// 실시간</span>\ncooldown -= Time.deltaTime;', inspector:'TurnManager의 <b>Turn Delay</b>, Weapon의 <b>Attack Cooldown</b>', when:'적 AI의 공격 주기를 만들 때', mission:'공격 쿨타임 0.2 / 0.6 / 1.2초로 바꿔보기 — 같은 적이 완전히 다른 적이 된다'}},
+  genre:[{t:'포켓몬',g:'턴제 RPG',d:'스피드 스탯이 순서를 정한다 — 순서 자체가 육성 대상'},
+         {t:'다크 소울',g:'액션',d:'공격 후 경직(후딜)이 곧 내 차례의 길이'},
+         {t:'스타크래프트',g:'RTS',d:'차례가 없다. 대신 손 속도가 순서를 대신한다'},
+         {t:'리듬 게임',g:'리듬',d:'노트가 오는 간격이 곧 강제된 차례'}],
+  unity:{what:'턴 매니저의 대기 시간, 또는 쿨타임',
+    code:'<span class="c">// 턴제</span>\n<span class="k">yield return new</span> WaitForSeconds(turnDelay);\n<span class="c">// 실시간</span>\ncooldown -= Time.deltaTime;',
+    inspector:'TurnManager의 <b>Turn Delay</b>, Weapon의 <b>Attack Cooldown</b>',
+    when:'적 AI의 공격 주기를 만들 때',
+    mission:'공격 쿨타임 0.2 / 0.6 / 1.2초로 바꿔보기 — 같은 적이 완전히 다른 적이 된다'}},
 
 {n:3, kind:'조건', name:'낼 수 있는 조건', icon:'✅', gist:'무엇을 할 수 있는지 판정하는 조건',
   now:'맨 위 카드와 같은 무늬 또는 같은 숫자',
-  opts:[{r:'같은 무늬만 낼 수 있다 (숫자 일치는 무효)', a:'어려워지고 뽑는 횟수가 늘어난다'},{r:'같은 색(빨강/검정)이기만 하면 낼 수 있다', a:'쉬워지고 게임이 빨라진다'},{r:'맨 위 카드보다 큰 숫자만 낼 수 있다', a:'낮은 카드를 언제 버릴지가 고민이 된다'},{r:'맨 위 카드와 무늬도 숫자도 달라야 낼 수 있다', a:'익숙한 감각이 뒤집혀 한동안 헷갈린다'}],
-  genre:[{t:'슈퍼 마리오', g:'플랫포머', d:'점프는 땅에 있을 때만. 이 조건 하나를 풀면(더블 점프) 레벨 디자인 전체를 다시 짜야 한다'},{t:'하스스톤', g:'카드', d:'마나가 카드 비용 이상일 때만 낼 수 있다'},{t:'배틀그라운드', g:'FPS', d:'재장전 중에는 쏠 수 없다 — 못 하는 시간이 긴장을 만든다'},{t:'캔디크러시', g:'퍼즐', d:'같은 색이 3개 이상 붙어야 터진다'}],
-  unity:{what:'조건문 한 줄 — 규칙의 정체입니다', code:'<span class="k">if</span> (isGrounded &amp;&amp; stamina &gt; <span class="n">0</span>) Jump();\n<span class="c">// 조건을 하나 빼면 게임이 완전히 달라진다</span>', inspector:'PlayerController의 <b>Ground Check</b> · <b>Stamina Cost</b>', when:'Player Controller에서 점프·대시 조건을 짤 때', mission:'더블 점프 허용 버전과 금지 버전을 만들어 같은 맵을 두 번 플레이'}},
+  opts:[
+    {r:'같은 무늬만 낼 수 있다 (숫자 일치는 무효)', a:'어려워지고 뽑는 횟수가 늘어난다'},
+    {r:'같은 색(빨강·검정)이기만 하면 낼 수 있다', a:'쉬워지고 게임이 빨라진다'},
+    {r:'맨 위 카드보다 큰 숫자만 낼 수 있다', a:'낮은 카드를 언제 버릴지가 고민이 된다'},
+    {r:'맨 위 카드와 무늬도 숫자도 달라야 낼 수 있다', a:'익숙한 감각이 뒤집혀 한동안 헷갈린다'}],
+  genre:[{t:'슈퍼 마리오',g:'플랫포머',d:'점프는 땅에 있을 때만. 이 조건 하나를 풀면(더블 점프) 레벨 디자인 전체를 다시 짜야 한다'},
+         {t:'하스스톤',g:'카드',d:'마나가 카드 비용 이상일 때만 낼 수 있다'},
+         {t:'배틀그라운드',g:'FPS',d:'재장전 중에는 쏠 수 없다 — 못 하는 시간이 긴장을 만든다'},
+         {t:'캔디크러시',g:'퍼즐',d:'같은 색이 3개 이상 붙어야 터진다'}],
+  unity:{what:'조건문 한 줄 — 규칙의 정체입니다',
+    code:'<span class="k">if</span> (isGrounded &amp;&amp; stamina &gt; <span class="n">0</span>) Jump();\n<span class="c">// 조건을 하나 빼면 게임이 완전히 달라진다</span>',
+    inspector:'PlayerController의 <b>Ground Check</b> · <b>Stamina Cost</b>',
+    when:'Player Controller에서 점프·대시 조건을 짤 때',
+    mission:'더블 점프 허용 버전과 금지 버전을 만들어 같은 맵을 두 번 플레이'}},
 
 {n:4, kind:'수량', name:'못 할 때의 벌칙', icon:'⛔', gist:'실패했을 때 무슨 일이 일어나는가',
   now:'낼 카드가 없으면 한 장 뽑고 차례를 넘긴다',
-  opts:[{r:'못 낼 때 두 장을 뽑는다', a:'손패가 잘 안 줄어 게임이 늘어진다'},{r:'낼 수 있는 카드가 나올 때까지 계속 뽑는다', a:'한 사람이 카드 부자가 되어 역전이 어려워진다'},{r:'뽑지 않고 그냥 차례를 넘긴다', a:'게임이 안 끝날 수 있다 — 반드시 두 판 확인'},{r:'뽑은 카드를 바로 낼 수 있으면 그 자리에서 낸다', a:'뽑기가 기회가 되어 답답함이 줄어든다'}],
-  genre:[{t:'슈퍼 마리오', g:'플랫포머', d:'체크포인트로 돌아가기 vs 스테이지 처음부터 — 간격 하나로 난이도가 결정된다'},{t:'아이작의 번제', g:'로그라이크', d:'영구 사망. 실패의 무게가 게임의 정체성이 된다'},{t:'다크 소울', g:'소울라이크', d:'죽으면 모은 소울을 흘린다. 회수하러 가는 여정이 또 게임이 된다'},{t:'모바일 퍼즐', g:'퍼즐', d:'하트 소모 · 이동 횟수 차감 — 실패에 비용을 붙인다'}],
-  unity:{what:'리스폰 지점과 패널티 처리', code:'lives--;\n<span class="k">if</span> (lives &lt;= <span class="n">0</span>) SceneManager.LoadScene(<span class="n">"GameOver"</span>);\n<span class="k">else</span> transform.position = checkpoint.position;', inspector:'GameManager의 <b>Lives</b>, Checkpoint의 <b>Transform</b>', when:'죽음·리스폰을 구현할 때', mission:'체크포인트 간격을 3배로 늘려서 같은 스테이지를 플레이 — 난이도가 아니라 감정이 바뀐다'}},
+  opts:[
+    {r:'못 낼 때 두 장을 뽑는다', a:'손패가 잘 안 줄어 게임이 늘어진다'},
+    {r:'낼 수 있는 카드가 나올 때까지 계속 뽑는다', a:'한 사람이 카드 부자가 되어 역전이 어려워진다'},
+    {r:'뽑지 않고 그냥 차례를 넘긴다', a:'게임이 안 끝날 수 있다 — 반드시 두 판 확인'},
+    {r:'뽑은 카드를 바로 낼 수 있으면 그 자리에서 낸다', a:'뽑기가 기회가 되어 답답함이 줄어든다'}],
+  genre:[{t:'슈퍼 마리오',g:'플랫포머',d:'체크포인트로 돌아가기 vs 스테이지 처음부터 — 간격 하나로 난이도가 결정된다'},
+         {t:'아이작의 번제',g:'로그라이크',d:'영구 사망. 실패의 무게가 게임의 정체성이 된다'},
+         {t:'다크 소울',g:'소울라이크',d:'죽으면 모은 소울을 흘린다. 회수하러 가는 여정이 또 게임이 된다'},
+         {t:'모바일 퍼즐',g:'퍼즐',d:'하트 소모 · 이동 횟수 차감 — 실패에 비용을 붙인다'}],
+  unity:{what:'리스폰 지점과 패널티 처리',
+    code:'lives--;\n<span class="k">if</span> (lives &lt;= <span class="n">0</span>) SceneManager.LoadScene(<span class="n">"GameOver"</span>);\n<span class="k">else</span> transform.position = checkpoint.position;',
+    inspector:'GameManager의 <b>Lives</b>, Checkpoint의 <b>Transform</b>',
+    when:'죽음·리스폰을 구현할 때',
+    mission:'체크포인트 간격을 3배로 늘려서 같은 스테이지를 플레이 — 난이도가 아니라 감정이 바뀐다'}},
 
 {n:5, kind:'조건', name:'승리 조건', icon:'🏁', gist:'언제 끝나고 누가 이기는가',
   now:'손패를 모두 버린 첫 번째 사람이 승리',
-  opts:[{r:'마지막까지 카드가 남은 사람이 패배다 (1등을 뽑지 않는다)', a:'꼴찌를 피하려는 게임이 되어 견제 대상이 바뀐다'},{r:'한 명이 끝나도 계속 진행해서 순위를 정한다', a:'먼저 끝난 사람이 생겨도 나머지가 몰입한다'},{r:'남은 카드 숫자의 합이 가장 적은 사람이 승리', a:'큰 숫자를 먼저 버리게 되어 순서 고민이 생긴다'},{r:'두 판을 먼저 이겨야 최종 승리', a:'한 판을 진 사람이 포기하지 않는다'}],
-  warn:'가장 크게 흔들리는 변수입니다. 여기를 바꾸면 나머지 전부가 따라 움직입니다.',
-  genre:[{t:'오버워치', g:'FPS', d:'같은 맵도 거점 점령이냐 호위냐에 따라 완전히 다른 게임이 된다'},{t:'배틀그라운드', g:'배틀로얄', d:'킬 수가 아니라 마지막 1인. 그래서 숨는 것도 전략이 된다'},{t:'마리오 카트', g:'레이싱', d:'순위 경쟁 vs 타임어택 — 상대가 있느냐 없느냐가 갈린다'},{t:'마인크래프트', g:'샌드박스', d:'승리 조건이 없다. 목표를 플레이어가 만든다'}],
-  unity:{what:'GameManager의 승패 판정 조건', code:'<span class="k">if</span> (score &gt;= targetScore) Win();\n<span class="c">// "생존 60초"로 바꾸면 레벨 디자인을 다시 해야 한다</span>\n<span class="k">if</span> (survivedTime &gt;= <span class="n">60f</span>) Win();', inspector:'GameManager의 <b>Win Condition</b> · <b>Target Score</b>', when:'게임의 시작·종료 흐름을 만들 때 (가장 먼저 정해야 하는 것)', mission:'목표를 "적 전멸"에서 "60초 생존"으로 바꿔보기 — 플레이어의 행동이 통째로 바뀐다'}},
+  opts:[
+    {r:'마지막까지 카드가 남은 사람이 패배다 (1등을 뽑지 않는다)', a:'꼴찌를 피하려는 게임이 되어 견제 대상이 바뀐다'},
+    {r:'한 명이 끝나도 계속 진행해서 순위를 정한다', a:'먼저 끝난 사람이 생겨도 나머지가 몰입한다'},
+    {r:'남은 카드 숫자의 합이 가장 적은 사람이 승리', a:'큰 숫자를 먼저 버리게 되어 순서 고민이 생긴다'},
+    {r:'두 판을 먼저 이겨야 최종 승리', a:'한 판을 진 사람이 포기하지 않는다'}],
+  warn:'가장 크게 흔들리는 규칙입니다. 여기를 바꾸면 나머지 전부가 따라 움직입니다.',
+  genre:[{t:'오버워치',g:'FPS',d:'같은 맵도 거점 점령이냐 호위냐에 따라 완전히 다른 게임이 된다'},
+         {t:'배틀그라운드',g:'배틀로얄',d:'킬 수가 아니라 마지막 1인. 그래서 숨는 것도 전략이 된다'},
+         {t:'마리오 카트',g:'레이싱',d:'순위 경쟁 vs 타임어택 — 상대가 있느냐 없느냐가 갈린다'},
+         {t:'마인크래프트',g:'샌드박스',d:'승리 조건이 없다. 목표를 플레이어가 만든다'}],
+  unity:{what:'GameManager의 승패 판정 조건',
+    code:'<span class="k">if</span> (score &gt;= targetScore) Win();\n<span class="c">// "생존 60초"로 바꾸면 레벨 디자인을 다시 해야 한다</span>\n<span class="k">if</span> (survivedTime &gt;= <span class="n">60f</span>) Win();',
+    inspector:'GameManager의 <b>Win Condition</b> · <b>Target Score</b>',
+    when:'게임의 시작·종료 흐름을 만들 때 (가장 먼저 정해야 하는 것)',
+    mission:'목표를 "적 전멸"에서 "60초 생존"으로 바꿔보기 — 플레이어의 행동이 통째로 바뀐다'}},
 
-{n:6, kind:'조건', name:'정보 공개 범위', icon:'👁️', gist:'플레이어에게 무엇을 보여주는가',
+{n:6, kind:'조건', name:'보여주는 정보의 범위', icon:'👁️', gist:'플레이어에게 무엇을 보여주는가',
   now:'손패는 비공개, 남은 장수는 눈으로 대충 보임',
-  opts:[{r:'자기 차례에 남은 카드 장수를 소리 내어 말한다', a:'누구를 견제할지가 분명해진다'},{r:'시작할 때 각자 카드 한 장을 앞면으로 놓고 시작한다', a:'상대를 읽는 재미가 생긴다'},{r:'카드가 두 장 남으면 손패를 공개한다', a:'막판 긴장이 확 올라간다'},{r:'버려진 카드 더미를 아무 때나 들춰볼 수 있다', a:'기억력 대신 계산이 들어온다'}],
-  tip:'"지루하다"에 가장 잘 듣는 변수입니다. 볼 것이 생기면 남의 차례에도 할 일이 생깁니다.',
-  genre:[{t:'아웃라스트', g:'공포', d:'손전등 배터리와 좁은 시야 — 안 보여주는 것이 곧 디자인'},{t:'리그 오브 레전드', g:'MOBA', d:'와드로 시야를 사는 것이 게임의 절반'},{t:'몬스터 헌터', g:'액션', d:'몬스터 체력바를 숨기고 다리 절기 같은 간접 신호로만 알려준다'},{t:'스타크래프트', g:'RTS', d:'전장의 안개 — 모르는 것이 전략을 만든다'}],
-  unity:{what:'UI를 켜고 끄는 결정 = 게임 디자인 결정', code:'enemyHealthBar.SetActive(showHealth);\nminimapCamera.enabled = showMinimap;', inspector:'Canvas 하위 UI 오브젝트의 <b>활성화 여부</b>, Minimap Camera', when:'HUD·미니맵을 붙일 때', mission:'적 체력바를 끄고 한 판 — 난이도는 그대로인데 체감이 달라진다'}},
+  opts:[
+    {r:'자기 차례에 남은 카드 장수를 소리 내어 말한다', a:'누구를 견제할지가 분명해진다'},
+    {r:'시작할 때 각자 카드 한 장을 앞면으로 놓고 시작한다', a:'상대를 읽는 재미가 생긴다'},
+    {r:'카드가 두 장 남으면 손패를 공개한다', a:'막판 긴장이 확 올라간다'},
+    {r:'버려진 카드 더미를 아무 때나 들춰볼 수 있다', a:'기억력 대신 계산이 들어온다'}],
+  tip:'"지루하다"에 가장 잘 듣는 규칙입니다. 볼 것이 생기면 남의 차례에도 할 일이 생깁니다.',
+  genre:[{t:'아웃라스트',g:'공포',d:'손전등 배터리와 좁은 시야 — 안 보여주는 것이 곧 디자인'},
+         {t:'리그 오브 레전드',g:'MOBA',d:'와드로 시야를 사는 것이 게임의 절반'},
+         {t:'몬스터 헌터',g:'액션',d:'몬스터 체력바를 숨기고 다리 절기 같은 간접 신호로만 알려준다'},
+         {t:'스타크래프트',g:'RTS',d:'전장의 안개 — 모르는 것이 전략을 만든다'}],
+  unity:{what:'UI를 켜고 끄는 결정이 곧 게임 디자인 결정',
+    code:'enemyHealthBar.SetActive(showHealth);\nminimapCamera.enabled = showMinimap;',
+    inspector:'Canvas 하위 UI 오브젝트의 <b>활성화 여부</b>, Minimap Camera',
+    when:'HUD·미니맵을 붙일 때',
+    mission:'적 체력바를 끄고 한 판 — 난이도는 그대로인데 체감이 달라진다'}},
 
 {n:7, kind:'조건', name:'특수 카드 효과', icon:'✨', gist:'평소 규칙을 깨는 예외 요소',
   now:'없음 — 2·8·J·A 모두 평범한 카드',
-  opts:[{r:'2를 내면 다음 사람이 두 장 뽑는다', a:'2가 가장 값진 카드가 되고 앉은 자리가 중요해진다'},{r:'8을 내면 다음 무늬를 지정한다', a:'막혔을 때 뚫는 수단이 생긴다'},{r:'7을 내면 한 장을 더 낼 수 있다', a:'연속으로 터뜨리는 쾌감이 생긴다'},{r:'특수 규칙 중 하나를 없앤다 (두 판 동안 거의 안 쓰인 것)', a:'설명이 짧아지고 헷갈림이 줄어든다'}],
-  warn:'"정신없다"는 피드백을 받았다면 여기를 늘리지 말고 줄이세요. 특수 카드는 하나만 있어도 게임이 충분히 바뀝니다.',
-  genre:[{t:'슈퍼 마리오', g:'플랫포머', d:'무적 별 — 잠깐 동안 게임의 규칙 자체가 사라진다'},{t:'리그 오브 레전드', g:'MOBA', d:'궁극기 = 쿨타임이 아주 긴 예외 규칙'},{t:'하스스톤', g:'카드', d:'전설 카드의 고유 효과 — 한 장이 판을 뒤집는다'},{t:'테트리스', g:'퍼즐', d:'I 블록. 특별한 능력이 아니라 모양 하나가 특수 효과가 된다'}],
-  unity:{what:'아이템 프리팹 + 효과 스크립트 + 지속시간', code:'<span class="k">void</span> OnPickup() {\n  player.speed *= boost;\n  Invoke(<span class="n">"EndBoost"</span>, duration);\n}', inspector:'PowerUp의 <b>Boost</b> · <b>Duration</b> 두 숫자', when:'아이템·파워업을 만들 때', mission:'지속시간을 3초와 10초로 만들어 비교 — 같은 아이템이 다른 물건이 된다'}},
+  opts:[
+    {r:'2를 내면 다음 사람이 두 장 뽑는다', a:'2가 가장 값진 카드가 되고 앉은 자리가 중요해진다'},
+    {r:'8을 내면 다음 무늬를 지정한다', a:'막혔을 때 뚫는 수단이 생긴다'},
+    {r:'7을 내면 한 장을 더 낼 수 있다', a:'연속으로 터뜨리는 쾌감이 생긴다'},
+    {r:'두 판 동안 거의 안 쓰인 특수 규칙 하나를 없앤다', a:'설명이 짧아지고 헷갈림이 줄어든다'}],
+  warn:'"정신없다"는 말을 들었다면 여기를 늘리지 말고 줄이세요. 특수 카드는 하나만 있어도 게임이 충분히 바뀝니다.',
+  genre:[{t:'슈퍼 마리오',g:'플랫포머',d:'무적 별 — 잠깐 동안 게임의 규칙 자체가 사라진다'},
+         {t:'리그 오브 레전드',g:'MOBA',d:'궁극기는 쿨타임이 아주 긴 예외 규칙'},
+         {t:'하스스톤',g:'카드',d:'전설 카드의 고유 효과 — 한 장이 판을 뒤집는다'},
+         {t:'테트리스',g:'퍼즐',d:'I 블록. 특별한 능력이 아니라 모양 하나가 특수 효과가 된다'}],
+  unity:{what:'아이템 프리팹 + 효과 스크립트 + 지속시간',
+    code:'<span class="k">void</span> OnPickup() {\n  player.speed *= boost;\n  Invoke(<span class="n">"EndBoost"</span>, duration);\n}',
+    inspector:'PowerUp의 <b>Boost</b> · <b>Duration</b> 두 숫자',
+    when:'아이템·파워업을 만들 때',
+    mission:'지속시간을 3초와 10초로 만들어 비교 — 같은 아이템이 다른 물건이 된다'}},
 
 {n:8, kind:'순서·방향', name:'남에게 주는 영향', icon:'🎯', gist:'플레이어끼리 서로에게 미치는 영향',
   now:'없음 — 내 카드를 낼 뿐, 남에게 직접 영향을 주지 못한다',
-  opts:[{r:'K를 내면 원하는 사람 한 명을 지목해 한 장 뽑게 한다', a:'누구를 노릴지 고민이 생기고 관계가 생긴다'},{r:'Q를 내면 옆 사람과 카드 한 장을 강제로 바꾼다', a:'손패 관리가 무너지고 웃음이 난다'},{r:'3을 내면 다음 사람의 손패 한 장을 볼 수 있다', a:'정보 싸움이 시작된다'},{r:'같은 숫자를 가진 사람은 차례가 아니어도 끼어들어 낼 수 있다', a:'모두가 계속 판을 쳐다보게 된다'}],
-  tip:'"내 차례가 아닐 때 할 게 없다"에 가장 잘 듣는 변수입니다.',
+  opts:[
+    {r:'K를 내면 원하는 사람 한 명을 지목해 한 장 뽑게 한다', a:'누구를 노릴지 고민이 생기고 관계가 생긴다'},
+    {r:'Q를 내면 옆 사람과 카드 한 장을 강제로 바꾼다', a:'손패 관리가 무너지고 웃음이 난다'},
+    {r:'3을 내면 다음 사람의 손패 한 장을 볼 수 있다', a:'정보 싸움이 시작된다'},
+    {r:'같은 숫자를 가진 사람은 차례가 아니어도 끼어들어 낼 수 있다', a:'모두가 계속 판을 쳐다보게 된다'}],
+  tip:'"내 차례가 아닐 때 할 게 없다"에 가장 잘 듣는 규칙입니다.',
   warn:'지목 방해는 한 사람만 집중 공격당하는 부작용이 잘 생깁니다. 반드시 두 판 확인하세요.',
-  genre:[{t:'마리오 카트', g:'레이싱', d:'파란 등껍질은 1등만 때린다 — 뒤처진 사람을 위한 설계(고무줄 효과)'},{t:'리그 오브 레전드', g:'MOBA', d:'기절·속박 같은 군중 제어 = 상대의 차례를 빼앗는 것'},{t:'오버쿡드', g:'협동', d:'방해가 아니라 서로 돕는 상호작용도 같은 변수다'},{t:'싱글 게임', g:'전 장르', d:'플레이어가 없으면 적 AI가 이 역할을 한다 — 넉백, 스턴, 방해'}],
-  unity:{what:'상대에게 상태를 전달하는 이벤트', code:'<span class="c">// 멀티가 아니어도 적용된다</span>\nenemy.OnAttack += player.TakeDamage;\nplayer.ApplyKnockback(dir, force);', inspector:'Enemy의 <b>Knockback Force</b> · <b>Stun Duration</b>', when:'적 AI와 피격 반응을 만들 때', mission:'적 공격에 넉백을 넣었다 뺐다 해보기 — 같은 적이 훨씬 무서워진다'}},
+  genre:[{t:'마리오 카트',g:'레이싱',d:'파란 등껍질은 1등만 때린다 — 뒤처진 사람을 위한 설계(고무줄 효과)'},
+         {t:'리그 오브 레전드',g:'MOBA',d:'기절·속박 같은 군중 제어는 상대의 차례를 빼앗는 것'},
+         {t:'오버쿡드',g:'협동',d:'방해가 아니라 서로 돕는 상호작용도 같은 규칙이다'},
+         {t:'싱글 게임',g:'전 장르',d:'상대 플레이어가 없으면 적 AI가 이 역할을 한다 — 넉백, 스턴, 방해'}],
+  unity:{what:'상대에게 상태를 전달하는 이벤트',
+    code:'<span class="c">// 멀티가 아니어도 적용된다</span>\nenemy.OnAttack += player.TakeDamage;\nplayer.ApplyKnockback(dir, force);',
+    inspector:'Enemy의 <b>Knockback Force</b> · <b>Stun Duration</b>',
+    when:'적 AI와 피격 반응을 만들 때',
+    mission:'적 공격에 넉백을 넣었다 뺐다 해보기 — 같은 적이 훨씬 무서워진다'}},
 
 {n:9, kind:'수량', name:'게임 길이', icon:'⏱️', gist:'한 판이 얼마나 걸리는가',
   now:'한 명이 다 버릴 때까지 (제한 없음)',
-  opts:[{r:'5바퀴를 돌면 끝내고, 손패가 가장 적은 사람이 승리', a:'끝이 보여서 계획을 세우게 된다'},{r:'뽑기 더미가 다 떨어지면 그 자리에서 끝낸다', a:'후반이 빨라진다'},{r:'3분 타이머를 켜고, 울리면 종료', a:'서두르게 되고 실수가 늘어난다'}],
-  genre:[{t:'브롤스타즈', g:'모바일', d:'한 판 3분에 맞춰 설계 — 세션 길이가 장르를 결정한다'},{t:'배틀그라운드', g:'배틀로얄', d:'자기장이 좁아지며 강제로 끝을 만든다'},{t:'아케이드 게임', g:'아케이드', d:'잔기 소진 = 세션 종료. 동전을 더 넣게 만드는 설계'},{t:'MMORPG', g:'MMO', d:'끝이 없다. 대신 일일 퀘스트가 하루 단위 세션을 만든다'}],
-  unity:{what:'타이머와 종료 조건', code:'timeLeft -= Time.deltaTime;\n<span class="k">if</span> (timeLeft &lt;= <span class="n">0</span>) EndRound();', inspector:'GameManager의 <b>Round Time</b> · <b>Wave Count</b>', when:'라운드·웨이브 구조를 만들 때', mission:'라운드 시간 60초와 180초 — 3분과 30분은 아예 다른 장르다'}},
+  opts:[
+    {r:'5바퀴를 돌면 끝내고, 손패가 가장 적은 사람이 승리', a:'끝이 보여서 계획을 세우게 된다'},
+    {r:'뽑기 더미가 다 떨어지면 그 자리에서 끝낸다', a:'후반이 빨라진다'},
+    {r:'3분 타이머를 켜고, 울리면 종료', a:'서두르게 되고 실수가 늘어난다'}],
+  genre:[{t:'브롤스타즈',g:'모바일',d:'한 판 3분에 맞춰 설계 — 세션 길이가 장르를 결정한다'},
+         {t:'배틀그라운드',g:'배틀로얄',d:'자기장이 좁아지며 강제로 끝을 만든다'},
+         {t:'아케이드 게임',g:'아케이드',d:'잔기 소진이 곧 세션 종료. 동전을 더 넣게 만드는 설계'},
+         {t:'MMORPG',g:'MMO',d:'끝이 없다. 대신 일일 퀘스트가 하루 단위 세션을 만든다'}],
+  unity:{what:'타이머와 종료 조건',
+    code:'timeLeft -= Time.deltaTime;\n<span class="k">if</span> (timeLeft &lt;= <span class="n">0</span>) EndRound();',
+    inspector:'GameManager의 <b>Round Time</b> · <b>Wave Count</b>',
+    when:'라운드·웨이브 구조를 만들 때',
+    mission:'라운드 시간 60초와 180초 — 3분과 30분은 아예 다른 장르다'}},
 
 {n:10, kind:'수량', name:'운의 크기', icon:'🎲', gist:'결과에 운이 얼마나 개입하는가',
   now:'섞어서 나눠주고, 못 내면 무작위로 뽑는다',
-  opts:[{r:'시작 전에 옆 사람과 카드 한 장을 교환한다', a:'운이 조금 줄고 시작부터 판단이 들어간다'},{r:'뽑기 더미 맨 위 3장을 펼쳐두고 그중에서 골라 뽑는다', a:'뽑기가 선택이 된다. 운의 비중이 크게 준다'},{r:'6장을 나눠주고 1장을 버리고 시작한다', a:'시작 손패를 스스로 만든다'}],
+  opts:[
+    {r:'시작 전에 옆 사람과 카드 한 장을 교환한다', a:'운이 조금 줄고 시작부터 판단이 들어간다'},
+    {r:'뽑기 더미 맨 위 3장을 펼쳐두고 그중에서 골라 뽑는다', a:'뽑기가 선택이 된다. 운의 비중이 크게 준다'},
+    {r:'6장을 나눠주고 1장을 버리고 시작한다', a:'시작 손패를 스스로 만든다'}],
   tip:'"그냥 운이었다"에는 두 번째 항목이 가장 잘 듣습니다.',
-  genre:[{t:'아이작의 번제', g:'로그라이크', d:'매 판 다른 지형과 아이템 — 무작위가 재플레이의 이유가 된다'},{t:'철권 · 스트리트파이터', g:'격투', d:'무작위가 거의 0. 실력만 남기려는 선택'},{t:'가챠 게임', g:'모바일', d:'확률 자체가 상품이 된 경우'},{t:'하스스톤', g:'카드', d:'드로우 운을 줄이려고 덱을 30장으로 제한한다'}],
-  unity:{what:'Random과 확률 테이블', code:'<span class="k">if</span> (Random.value &lt; critChance) dmg *= <span class="n">2</span>;\n<span class="c">// 0.1 → 0.3 으로 바꾸면 체감이 완전히 달라진다</span>', inspector:'Weapon의 <b>Crit Chance</b>, Spawner의 <b>Drop Rate</b>', when:'전투 밸런싱·드랍 테이블을 만들 때', mission:'크리 확률 0% / 20% / 50% — 운을 줄이는 가장 쉬운 방법은 "무작위 결과 중에서 고르게" 하는 것'}}
+  genre:[{t:'아이작의 번제',g:'로그라이크',d:'매 판 다른 지형과 아이템 — 무작위가 재플레이의 이유가 된다'},
+         {t:'철권 · 스트리트파이터',g:'격투',d:'무작위가 거의 0. 실력만 남기려는 선택'},
+         {t:'가챠 게임',g:'모바일',d:'확률 자체가 상품이 된 경우'},
+         {t:'하스스톤',g:'카드',d:'드로우 운을 줄이려고 덱을 30장으로 제한한다'}],
+  unity:{what:'Random과 확률 테이블',
+    code:'<span class="k">if</span> (Random.value &lt; critChance) dmg *= <span class="n">2</span>;\n<span class="c">// 0.1 → 0.3 으로 바꾸면 체감이 완전히 달라진다</span>',
+    inspector:'Weapon의 <b>Crit Chance</b>, Spawner의 <b>Drop Rate</b>',
+    when:'전투 밸런싱·드랍 테이블을 만들 때',
+    mission:'크리 확률 0% / 20% / 50% — 운을 줄이는 가장 쉬운 방법은 "무작위 결과 중에서 고르게" 하는 것'}}
 ];
 
-/* ================== D(행동) 예시 ================== */
-const D_FIX = ['남의 차례에 딴짓했다','고민 없이 그냥 냈다','규칙을 자꾸 되물었다','초반에 승부가 갈렸다',
-               '같은 사람이 계속 이겼다','게임이 안 끝났다','한 사람만 집중 공격받았다'];
+const D_FIX  = ['남의 차례에 딴짓했다','고민 없이 그냥 냈다','규칙을 자꾸 되물었다','초반에 승부가 갈렸다',
+                '같은 사람이 계속 이겼다','게임이 안 끝났다','한 사람만 집중 공격받았다'];
 const D_GOOD = ['특정 카드를 아끼게 됐다','남의 손패 장수를 세게 됐다','탄식이나 환호가 나왔다',
                 '끝까지 누가 이길지 몰랐다','일부러 특정 사람을 노렸다'];
 
-/* ================== 상태 ================== */
-let sel = {sym:null, lever:null, opt:null};
+/* ══════════ 유틸 ══════════ */
 const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function jong(ch){ const c = (ch||'').charCodeAt(0); return (c>=0xAC00 && c<=0xD7A3) ? (c-0xAC00)%28 : -1; }
+function tailChar(s){ return String(s||'').trim().replace(/[)"'’”.\s]+$/,'').slice(-1); }
+function ro(w){ const j = jong(tailChar(w)); return (j===0||j===8) ? '로' : (j<0 ? '로' : '으로'); }
+function eul(w){ const j = jong(tailChar(w)); return j>0 ? '을' : '를'; }
 
-/* ================== 진단 모드 ================== */
+let sel = {sym:null, lever:null, opt:null};
+
+/* ══════════ STEP 1 ══════════ */
 function renderSymptoms(){
-  $('symptoms').innerHTML = SYMPTOMS.map(s=>`
-    <button class="chip rounded-2xl px-4 py-3.5" data-sym="${s.id}">
-      <div class="flex items-start gap-2">
+  $('symptoms').innerHTML = SYMPTOMS.map(s => `
+    <button class="pick px-4 py-4" data-sym="${s.id}">
+      <div class="flex items-start gap-3">
         <div class="flex-1">
-          <div class="font-black">${s.t}</div>
-          <div class="text-xs text-slate-500 mt-0.5">${s.sub}</div>
+          <div class="font-bold text-lg leading-snug">“${esc(s.t)}”</div>
+          <div class="text-ink-600 mt-1">${esc(s.sub)}</div>
         </div>
-        <span class="tick text-dev-600 font-black">✓</span>
+        <span class="tick font-black text-xl leading-none mt-1">✓</span>
       </div>
     </button>`).join('');
-  document.querySelectorAll('[data-sym]').forEach(b=>b.onclick=()=>{
-    sel.sym = SYMPTOMS.find(s=>s.id===b.dataset.sym);
-    document.querySelectorAll('[data-sym]').forEach(x=>x.classList.toggle('on', x===b));
-    sel.lever = null; sel.opt = null;
-    $('sentence-box').classList.add('hidden');
-    $('step3').classList.remove('hidden');
+
+  document.querySelectorAll('[data-sym]').forEach(b => b.onclick = () => {
+    sel = {sym: SYMPTOMS.find(s => s.id === b.dataset.sym), lever:null, opt:null};
+    document.querySelectorAll('[data-sym]').forEach(x => x.classList.toggle('on', x === b));
+    $('step3').classList.add('hidden');
+    $('step2').classList.remove('hidden');
     renderRx();
+    setStep(2);
+    $('step2').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
+/* ══════════ STEP 2 ══════════ */
+function leverBlock(l, idx){
+  const head = `
+    <div class="flex items-start gap-3 flex-1 min-w-0">
+      <span class="text-2xl leading-none mt-0.5">${l.icon}</span>
+      <div class="flex-1 min-w-0">
+        <div class="font-bold text-key-700">${idx === 0 ? '가장 먼저 시도할 규칙' : '다른 방법 — 눌러서 펼치기'}</div>
+        <div class="text-lg sm:text-xl font-black leading-snug">${esc(l.name)} ${kindChip(l)}</div>
+      </div>
+    </div>`;
+
+  const body = `
+    <p class="text-ink-600 mt-3 mb-4">지금 우리 규칙 — ${esc(l.now)}</p>
+    <div class="space-y-2.5">
+      ${l.opts.map((o,i) => `
+        <button class="pick px-4 py-3.5" data-rx="${l.n}|${i}">
+          <div class="flex items-start gap-3">
+            <div class="flex-1">
+              <div class="font-bold text-base sm:text-lg leading-snug">${esc(o.r)}</div>
+              <div class="text-ink-600 mt-1">→ ${esc(o.a)}</div>
+            </div>
+            <span class="tick font-black text-xl leading-none mt-0.5">✓</span>
+          </div>
+        </button>`).join('')}
+    </div>
+    ${notes(l)}`;
+
+  if (idx === 0) return `<div class="card p-5 sm:p-6 mb-3">${head}${body}</div>`;
+  return `
+    <details class="card p-5 sm:p-6 mb-3">
+      <summary class="flex items-center gap-3">${head}<span class="chev text-ink-400 text-xl">▾</span></summary>
+      ${body}
+    </details>`;
+}
+
+function notes(l){
+  return (l.tip  ? `<p class="bg-good-50 border border-good-200 text-good-800 rounded-xl px-4 py-3 mt-3">💡 ${esc(l.tip)}</p>` : '')
+       + (l.warn ? `<p class="bg-warn-50 border border-warn-200 text-warn-800 rounded-xl px-4 py-3 mt-3">⚠️ ${esc(l.warn)}</p>` : '');
+}
+
+function renderRx(){
+  const ls = sel.sym.levers.map(n => LEVERS.find(l => l.n === n));
+  $('rx').innerHTML = ls.map(leverBlock).join('');
+  document.querySelectorAll('[data-rx]').forEach(b => b.onclick = () => {
+    const [n, i] = b.dataset.rx.split('|');
+    sel.lever = LEVERS.find(l => l.n === +n);
+    sel.opt   = sel.lever.opts[+i];
+    document.querySelectorAll('[data-rx]').forEach(x => x.classList.toggle('on', x === b));
+    $('step3').classList.remove('hidden');
+    buildLog(); setStep(3);
     $('step3').scrollIntoView({behavior:'smooth', block:'start'});
   });
 }
 
-function renderRx(){
-  const ls = sel.sym.levers.map(n=>LEVERS.find(l=>l.n===n));
-  $('rx').innerHTML = ls.map((l,idx)=>`
-    <div class="card rounded-3xl p-6 mb-4">
-      <div class="flex items-center gap-3 mb-1">
-        <span class="text-2xl">${l.icon}</span>
-        <div>
-          <div class="text-xs font-black text-dev-600">${idx===0?'가장 먼저 건드려볼 변수':'다른 방법'} · 변수 ${l.n}</div>
-          <h3 class="text-xl font-black flex items-center gap-2">${l.name} ${kchip(l)}</h3>
-        </div>
-      </div>
-      <p class="text-sm text-slate-500 mb-4">지금 우리 규칙 — ${l.now}</p>
-      <div class="space-y-2">
-        ${l.opts.map((o,i)=>`
-          <button class="chip rounded-xl px-4 py-3 w-full" data-rx="${l.n}|${i}">
-            <div class="flex items-start gap-2">
-              <div class="flex-1">
-                <div class="font-bold">${o.r}</div>
-                <div class="text-xs text-slate-500 mt-1">→ ${o.a}</div>
-              </div>
-              <span class="tick text-dev-600 font-black">✓</span>
-            </div>
-          </button>`).join('')}
-      </div>
-      ${l.tip?`<p class="text-sm text-lime-900 bg-lime-50 border border-lime-200 rounded-xl px-4 py-2.5 mt-3">💡 ${l.tip}</p>`:''}
-      ${l.warn?`<p class="text-sm text-flame-900 bg-flame-50 border border-flame-200 rounded-xl px-4 py-2.5 mt-3">⚠️ ${l.warn}</p>`:''}
-      ${extraBlocks(l)}
-    </div>`).join('');
-
-  document.querySelectorAll('[data-rx]').forEach(b=>b.onclick=()=>{
-    const [n,i] = b.dataset.rx.split('|');
-    sel.lever = LEVERS.find(l=>l.n===+n); sel.opt = sel.lever.opts[+i];
-    document.querySelectorAll('[data-rx]').forEach(x=>x.classList.toggle('on', x===b));
-    buildSentence();
-    $('sentence-box').scrollIntoView({behavior:'smooth', block:'center'});
-  });
-}
-
-function extraBlocks(l){
-  return `
-  <div class="mt-4 space-y-3">
-    <details class="bg-slate-50 rounded-2xl px-4 py-3">
-      <summary class="flex items-center gap-2 font-bold text-[15px]">🎮 다른 장르에서는 이 변수가 무엇인가 <span class="chev ml-auto text-slate-400">▾</span></summary>
-      <div class="mt-3 space-y-2.5">
-        ${l.genre.map(g=>`
-          <div class="flex gap-3 items-start">
-            <div class="shrink-0 w-28">
-              <div class="font-black text-[14px] text-slate-800">${g.t}</div>
-              <div class="text-[11px] font-bold text-dev-600">${g.g}</div>
-            </div>
-            <div class="flex-1 text-sm text-slate-600">${g.d}</div>
-          </div>`).join('')}
-      </div>
-    </details>
-    <details class="bg-slate-900 text-white rounded-2xl px-4 py-3">
-      <summary class="flex items-center gap-2 font-bold text-[15px]">🧩 Unity에서는 이 변수가 어디에 있나 <span class="chev ml-auto text-slate-500">▾</span></summary>
-      <div class="mt-3 space-y-3">
-        <p class="text-[15px] text-lime-300 font-bold">${l.unity.what}</p>
-        <pre>${l.unity.code}</pre>
-        <div class="grid sm:grid-cols-2 gap-2 text-sm">
-          <div class="bg-white/10 rounded-xl px-3 py-2.5"><div class="text-[11px] font-black text-slate-400 mb-0.5">INSPECTOR에서</div><div class="text-slate-200">${l.unity.inspector}</div></div>
-          <div class="bg-white/10 rounded-xl px-3 py-2.5"><div class="text-[11px] font-black text-slate-400 mb-0.5">언제 만나나</div><div class="text-slate-200">${l.unity.when}</div></div>
-        </div>
-        <div class="bg-lime-300 text-slate-900 rounded-xl px-3 py-2.5 text-sm">
-          <span class="font-black">해볼 것 · </span>${l.unity.mission}
-        </div>
-      </div>
-    </details>
-  </div>`;
-}
-
-function renderD(){
+/* ══════════ STEP 3 ══════════ */
+function renderTags(){
   const cur = $('dtext').value;
-  const mk = (t,good)=>`<button type="button" class="dchip${good?' good':''}${cur.includes(t)?' on':''}" data-d="${t}">${t}</button>`;
-  $('dfix').innerHTML  = D_FIX.map(t=>mk(t,false)).join('');
-  $('dgood').innerHTML = D_GOOD.map(t=>mk(t,true)).join('');
-  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{
-    const t=b.dataset.d;
-    let parts = $('dtext').value.split(',').map(x=>x.trim()).filter(Boolean);
-    if(parts.includes(t)) parts = parts.filter(x=>x!==t); else parts.push(t);
+  const mk = (t, good) => `<button type="button" class="tag${good ? ' good' : ''}${cur.includes(t) ? ' on' : ''}" data-d="${esc(t)}">${esc(t)}</button>`;
+  $('dfix').innerHTML  = D_FIX.map(t => mk(t, false)).join('');
+  $('dgood').innerHTML = D_GOOD.map(t => mk(t, true)).join('');
+  document.querySelectorAll('[data-d]').forEach(b => b.onclick = () => {
+    const t = b.dataset.d;
+    let parts = $('dtext').value.split(',').map(x => x.trim()).filter(Boolean);
+    parts = parts.includes(t) ? parts.filter(x => x !== t) : parts.concat(t);
     $('dtext').value = parts.join(', ');
-    buildSentence(); renderD();
+    buildLog(); renderTags();
   });
 }
 
-function sentenceText(){
+function logLines(){
   const d = ($('dtext').value || '').trim();
-  const hl = t => `<b class="bg-yellow-200 px-1.5 rounded">${t}</b>`;
-  let out = `우리 게임은 ${hl(sel.sym.sub)} 는 말을 들었다.<br>`;
-  if(d) out += `플레이 중에 ${hl(d)} 가 나타났기 때문이다.<br>`;
-  out += `그래서 ${hl('변수 ' + sel.lever.n + ' · ' + sel.lever.name)} 을(를) ${hl('"' + sel.opt.r + '"')} 로 바꾸면<br>`;
-  out += `${hl(sel.opt.a)} 라고 예상한다.`;
-  return out;
-}
-function buildSentence(){
-  if(!sel.lever) return;
-  $('sentence').innerHTML = sentenceText();
-  $('sentence-box').classList.remove('hidden');
+  return [
+    ['들은 말',      `“${sel.sym.t}” — ${sel.sym.sub}`],
+    ['실제로 본 것', d || '아직 안 적음'],
+    ['바꾼 규칙',    `${sel.lever.name}${eul(sel.lever.name)} “${sel.opt.r}”${ro(sel.opt.r)} 바꿨다`],
+    ['이렇게 될 것', sel.opt.a],
+    ['확인 방법',    '같은 규칙으로 두 판 돌려보고, 정말 그런지 적는다']
+  ];
 }
 
-$('dtext').addEventListener('input', ()=>{ buildSentence(); renderD(); });
-$('reset').onclick = ()=>{ sel={sym:null,lever:null,opt:null}; $('dtext').value=''; renderD();
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
-  $('step3').classList.add('hidden'); $('sentence-box').classList.add('hidden');
-  window.scrollTo({top:0,behavior:'smooth'}); };
-$('copy').onclick = async ()=>{
-  const txt = $('sentence').innerText;
-  try{ await navigator.clipboard.writeText(txt); $('copy').textContent='복사됨 ✓'; }
-  catch(e){ const r=document.createRange(); r.selectNode($('sentence'));
-    getSelection().removeAllRanges(); getSelection().addRange(r); $('copy').textContent='드래그해서 복사하세요'; }
-  setTimeout(()=>$('copy').textContent='문장 복사',1800);
-};
+function buildLog(){
+  if (!sel.lever) return;
+  $('log').innerHTML = logLines().map(([k, v]) =>
+    `<div class="logrow"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
+}
 
-/* ================== 카탈로그 모드 ================== */
-function renderCatalog(filterLevers){
-  const list = filterLevers ? LEVERS.filter(l=>filterLevers.includes(l.n)) : LEVERS;
-  $('catalog').innerHTML = list.map(l=>`
-    <details class="card rounded-3xl overflow-hidden">
-      <summary class="lever-btn px-6 py-5 flex items-center gap-4">
-        <span class="text-3xl">${l.icon}</span>
-        <div class="flex-1">
-          <div class="text-xs font-black text-slate-400">변수 ${l.n}</div>
-          <div class="text-xl font-black flex items-center gap-2">${l.name} ${kchip(l)}</div>
-          <div class="text-sm text-slate-500">${l.gist}</div>
+/* ══════════ 진행 표시 ══════════ */
+function setStep(n){
+  [1,2,3].forEach(i => {
+    const el = $('sd' + i);
+    el.classList.toggle('on', i === n);
+    el.classList.toggle('done', i < n);
+  });
+}
+
+/* ══════════ 규칙 10가지 ══════════ */
+function renderCatalog(only){
+  const list = only ? LEVERS.filter(l => only.includes(l.n)) : LEVERS;
+  $('catalog').innerHTML = list.map(l => `
+    <details class="card overflow-hidden">
+      <summary class="px-5 py-4 flex items-center gap-3 hover:bg-ink-50">
+        <span class="text-2xl leading-none">${l.icon}</span>
+        <div class="flex-1 min-w-0">
+          <div class="text-lg font-black leading-snug">${esc(l.name)} ${kindChip(l)}</div>
+          <div class="text-ink-600">${esc(l.gist)}</div>
         </div>
-        <span class="chev text-slate-400 text-xl">▾</span>
+        <span class="chev text-ink-400 text-xl">▾</span>
       </summary>
-      <div class="px-6 pb-6">
-        <p class="text-sm text-slate-500 mb-3">지금 우리 규칙 — ${l.now}</p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border-collapse">
-            <thead><tr class="bg-slate-900 text-white">
-              <th class="text-left px-4 py-2.5 rounded-tl-xl">이렇게 바꾼다</th>
-              <th class="text-left px-4 py-2.5 rounded-tr-xl">예상되는 느낌</th></tr></thead>
-            <tbody>${l.opts.map(o=>`<tr class="border-b border-slate-200">
-              <td class="px-4 py-2.5 font-bold">${o.r}</td>
-              <td class="px-4 py-2.5 text-slate-600">${o.a}</td></tr>`).join('')}</tbody>
-          </table>
-        </div>
-        ${l.tip?`<p class="text-sm text-lime-900 bg-lime-50 border border-lime-200 rounded-xl px-4 py-2.5 mt-3">💡 ${l.tip}</p>`:''}
-        ${l.warn?`<p class="text-sm text-flame-900 bg-flame-50 border border-flame-200 rounded-xl px-4 py-2.5 mt-3">⚠️ ${l.warn}</p>`:''}
-        ${extraBlocks(l)}
+      <div class="px-5 pb-5 border-t border-ink-200 pt-4">
+        <p class="text-ink-600 mb-3">지금 우리 규칙 — ${esc(l.now)}</p>
+        <ul class="space-y-2.5">
+          ${l.opts.map(o => `
+            <li class="border border-ink-200 rounded-xl px-4 py-3">
+              <div class="font-bold">${esc(o.r)}</div>
+              <div class="text-ink-600 mt-1">→ ${esc(o.a)}</div>
+            </li>`).join('')}
+        </ul>
+        ${notes(l)}
       </div>
     </details>`).join('');
 }
 
 function renderFilter(){
-  $('filter').innerHTML = `<button class="chip rounded-full px-4 py-2 text-sm font-bold on" data-f="all">전체</button>` +
-    SYMPTOMS.map(s=>`<button class="chip rounded-full px-4 py-2 text-sm font-bold" data-f="${s.id}">${s.t}</button>`).join('');
-  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{
-    document.querySelectorAll('[data-f]').forEach(x=>x.classList.toggle('on', x===b));
-    if(b.dataset.f==='all') renderCatalog(null);
-    else renderCatalog(SYMPTOMS.find(s=>s.id===b.dataset.f).levers);
+  $('filter').innerHTML =
+    `<button class="tag on" data-f="all">전체</button>` +
+    SYMPTOMS.map(s => `<button class="tag" data-f="${s.id}">“${esc(s.t)}”</button>`).join('');
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('[data-f]').forEach(x => x.classList.toggle('on', x === b));
+    renderCatalog(b.dataset.f === 'all' ? null : SYMPTOMS.find(s => s.id === b.dataset.f).levers);
   });
 }
 
-/* ================== 탭 ================== */
-$('tab-dx').onclick = ()=>{ $('view-dx').classList.remove('hidden'); $('view-cat').classList.add('hidden');
-  $('tab-dx').className='px-4 py-1.5 rounded-full text-sm font-bold bg-slate-900 text-white';
-  $('tab-cat').className='px-4 py-1.5 rounded-full text-sm font-bold text-slate-600'; };
-$('tab-cat').onclick = ()=>{ $('view-cat').classList.remove('hidden'); $('view-dx').classList.add('hidden');
-  $('tab-cat').className='px-4 py-1.5 rounded-full text-sm font-bold bg-slate-900 text-white';
-  $('tab-dx').className='px-4 py-1.5 rounded-full text-sm font-bold text-slate-600'; };
+/* ══════════ 더 알아보기 ══════════ */
+function renderMore(){
+  $('more').innerHTML = LEVERS.map(l => `
+    <details class="card overflow-hidden">
+      <summary class="px-5 py-4 flex items-center gap-3 hover:bg-ink-50">
+        <span class="text-2xl leading-none">${l.icon}</span>
+        <div class="flex-1 min-w-0">
+          <div class="text-lg font-black leading-snug">${esc(l.name)}</div>
+          <div class="text-ink-600">${esc(l.gist)}</div>
+        </div>
+        <span class="chev text-ink-400 text-xl">▾</span>
+      </summary>
+      <div class="px-5 pb-5 border-t border-ink-200 pt-4 space-y-5">
+        <div>
+          <h3 class="font-black mb-3">🎮 다른 게임에서는</h3>
+          <ul class="space-y-3">
+            ${l.genre.map(g => `
+              <li class="sm:flex sm:gap-4">
+                <div class="sm:w-40 shrink-0">
+                  <div class="font-bold">${esc(g.t)}</div>
+                  <div class="text-key-700 font-semibold text-sm">${esc(g.g)}</div>
+                </div>
+                <div class="text-ink-700">${esc(g.d)}</div>
+              </li>`).join('')}
+          </ul>
+        </div>
+        <div class="bg-ink-900 text-white rounded-2xl p-5 space-y-3">
+          <h3 class="font-black">🧩 Unity에서는 어디에 있나</h3>
+          <p class="text-lime-300 font-bold">${esc(l.unity.what)}</p>
+          <pre>${l.unity.code}</pre>
+          <div class="grid sm:grid-cols-2 gap-2">
+            <div class="bg-white/10 rounded-xl px-4 py-3">
+              <div class="text-sm font-bold text-ink-300 mb-1">Inspector에서</div>
+              <div class="text-ink-100">${l.unity.inspector}</div>
+            </div>
+            <div class="bg-white/10 rounded-xl px-4 py-3">
+              <div class="text-sm font-bold text-ink-300 mb-1">언제 만나나</div>
+              <div class="text-ink-100">${esc(l.unity.when)}</div>
+            </div>
+          </div>
+          <div class="bg-lime-300 text-ink-900 rounded-xl px-4 py-3">
+            <b>해볼 것 — </b>${esc(l.unity.mission)}
+          </div>
+        </div>
+      </div>
+    </details>`).join('');
+}
 
-renderSymptoms(); renderD(); renderFilter(); renderCatalog(null);
+/* ══════════ 탭 ══════════ */
+const TABS = [['tab-dx','view-dx'], ['tab-cat','view-cat'], ['tab-more','view-more']];
+TABS.forEach(([tb, vw]) => $(tb).onclick = () => {
+  TABS.forEach(([t, v]) => {
+    $(t).setAttribute('aria-selected', String(t === tb));
+    $(v).classList.toggle('hidden', v !== vw);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ══════════ 버튼 ══════════ */
+document.querySelectorAll('.back').forEach(b => b.onclick = () => {
+  const to = +b.dataset.back;
+  if (to === 1){
+    $('step2').classList.add('hidden'); $('step3').classList.add('hidden');
+    document.querySelectorAll('[data-sym]').forEach(x => x.classList.remove('on'));
+    sel = {sym:null, lever:null, opt:null};
+    setStep(1); $('step1').scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    $('step3').classList.add('hidden');
+    document.querySelectorAll('[data-rx]').forEach(x => x.classList.remove('on'));
+    sel.lever = null; sel.opt = null;
+    setStep(2); $('step2').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+});
+
+$('dtext').addEventListener('input', () => { buildLog(); renderTags(); });
+
+$('reset').onclick = () => {
+  sel = {sym:null, lever:null, opt:null};
+  $('dtext').value = ''; renderTags();
+  document.querySelectorAll('.pick').forEach(c => c.classList.remove('on'));
+  $('step2').classList.add('hidden'); $('step3').classList.add('hidden');
+  setStep(1); window.scrollTo({top:0, behavior:'smooth'});
+};
+
+$('print').onclick = () => window.print();
+
+$('copy').onclick = async () => {
+  const txt = logLines().map(([k, v]) => `[${k}] ${v}`).join('\n');
+  const done = m => { $('copy').textContent = m; setTimeout(() => $('copy').textContent = '기록 복사', 1800); };
+  try { await navigator.clipboard.writeText(txt); done('복사됨 ✓'); }
+  catch(e){
+    const r = document.createRange(); r.selectNode($('log'));
+    getSelection().removeAllRanges(); getSelection().addRange(r);
+    done('길게 눌러 복사하세요');
+  }
+};
+
+const SIZES = ['16px','18px','20px'];
+let sizeIdx = 0;
+$('fontbtn').onclick = () => {
+  sizeIdx = (sizeIdx + 1) % SIZES.length;
+  document.documentElement.style.fontSize = SIZES[sizeIdx];
+  $('fontbtn').textContent = ['A','A+','A++'][sizeIdx];
+};
+
+/* ══════════ 시작 ══════════ */
+renderSymptoms(); renderTags(); renderFilter(); renderCatalog(null); renderMore(); setStep(1);
 </script>
 </body>
 </html>
