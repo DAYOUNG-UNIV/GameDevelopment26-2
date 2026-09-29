@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 개발 실습 · 5주차 대면 Pitch &amp; Form</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
+  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+}}}}
+</script>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0}
+body{
+  font-family:"Pretendard",sans-serif;overflow:hidden;color:#1e293b;word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,.10), transparent 38%),
+    radial-gradient(circle at 88% 88%, rgba(249,115,22,.09), transparent 38%),
+    #f8fafc;
+}
+/* SLIDES */
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
+  display:flex;justify-content:center;align-items:center;align-items:safe center;
+  padding:4.5rem 2.5rem 5.5rem;overflow-y:auto;
+  transform:translateX(36px) scale(.99);transition:opacity .42s ease, transform .42s ease;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:10;transform:translateX(0) scale(1)}
+.slide.prev-slide{transform:translateX(-36px) scale(.99)}
+#progress-bar{transition:width .3s ease}
+/* CARDS */
+.glass-card{background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 18px 50px rgba(15,23,42,.08),0 3px 10px rgba(15,23,42,.04);backdrop-filter:blur(10px)}
+.soft-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.soft-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,23,42,.10);border-color:#a5b4fc}
+/* PART DIVIDER */
+.part-num{font-size:8rem;line-height:1;font-weight:900;
+  background:linear-gradient(135deg,#6366f1,#f97316);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* FLOW */
+.flow-line{position:relative}
+.flow-line::after{content:"→";position:absolute;right:-19px;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:800}
+.flow-line:last-child::after{display:none}
+/* TABLE */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem}
+.cmp-table th,.cmp-table td{padding:.7rem .8rem;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}
+.cmp-table thead th{background:#0f172a;color:#fff;font-weight:800;white-space:nowrap;position:sticky;top:0}
+.cmp-table thead th:first-child{border-top-left-radius:.75rem}
+.cmp-table thead th:last-child{border-top-right-radius:.75rem}
+.cmp-table tbody tr:hover td{background:#f8fafc}
+.cmp-table td:first-child{font-weight:800;color:#0f172a;white-space:nowrap}
+/* PLAYING CARD */
+.pcard{width:64px;height:92px;border-radius:.6rem;background:#fff;border:1px solid #cbd5e1;
+  box-shadow:0 6px 16px rgba(15,23,42,.10);display:flex;flex-direction:column;
+  justify-content:space-between;padding:.4rem .5rem;font-weight:900;font-size:1.05rem;line-height:1}
+.pcard.red{color:#e11d48}.pcard.black{color:#0f172a}
+.pcard .suit{align-self:flex-end;font-size:1.3rem}
+.pcard.sm{width:48px;height:70px;font-size:.85rem;padding:.3rem .35rem}
+.pcard.sm .suit{font-size:1rem}
+/* UNITY EDITOR MOCK */
+.ue{border:1px solid #334155;border-radius:.7rem;overflow:hidden;background:#1e293b;font-size:.62rem;color:#cbd5e1}
+.ue-bar{background:#0f172a;padding:.4rem .6rem;display:flex;gap:.5rem;align-items:center;border-bottom:1px solid #334155}
+.ue-body{display:grid;grid-template-columns:1.1fr 2.4fr 1.3fr;gap:1px;background:#334155;height:200px}
+.ue-col{background:#1e293b;display:flex;flex-direction:column;gap:1px}
+.ue-pane{background:#273449;flex:1;padding:.45rem;display:flex;flex-direction:column;gap:.25rem;min-height:0}
+.ue-pane .t{font-weight:800;color:#f1f5f9;font-size:.6rem;border-bottom:1px solid #3f4d63;padding-bottom:.2rem;margin-bottom:.15rem}
+.ue-pane.hl{background:#3b3157;outline:2px solid #a855f7;outline-offset:-2px}
+.ue-pane.hl .t{color:#e9d5ff}
+.ue-row{opacity:.75}
+/* KEYCAP */
+.kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
+  box-shadow:0 2px 0 #cbd5e1;font-size:.75rem;font-weight:700;color:#64748b}
+.big-number{font-variant-numeric:tabular-nums}
+.src-note{font-size:.68rem;color:#94a3b8}
+/* SCROLLBAR */
+.custom-scrollbar::-webkit-scrollbar{width:7px;height:7px}
+.custom-scrollbar::-webkit-scrollbar-track{background:#f1f5f9;border-radius:8px}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
+/* ===== 대면 워크숍 파트 ===== */
+/* 투사용 확대 */
+.slide.wk{font-size:19px}
+.slide.wk h2{letter-spacing:-.03em}
+.big-step{font-size:clamp(44px,7vw,88px);font-weight:900;letter-spacing:-.05em;line-height:1}
+.src-btn{background:#fff;color:var(--c);border:2px solid var(--c);text-decoration:none;
+  transition:background .12s ease,color .12s ease}
+.src-btn:hover{background:var(--c);color:#fff}
+.src-btn:focus-visible{outline:3px solid #0f172a;outline-offset:3px}
+.rx-btn{background:#a3e635;color:#0f172a;text-decoration:none;display:block;
+  box-shadow:0 4px 0 #65a30d;transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+.rx-btn:hover{background:#bef264}
+.rx-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #65a30d}
+.rx-btn:focus-visible{outline:3px solid #4f46e5;outline-offset:3px}
+.rule-card{background:#fff;border:2px solid #0f172a;border-radius:16px;padding:16px 20px;
+  font-size:clamp(17px,2vw,22px);font-weight:800;display:flex;gap:14px;align-items:center}
+.rule-card .no{width:34px;height:34px;border-radius:10px;background:#0f172a;color:#fff;
+  font-size:16px;display:grid;place-items:center;flex:none}
+/* 타이머 */
+#tmr{position:fixed;left:18px;bottom:18px;z-index:120;display:flex;align-items:center;gap:9px;
+  background:rgba(15,23,42,.94);color:#fff;border-radius:999px;padding:9px 13px;backdrop-filter:blur(8px);
+  font-weight:900;box-shadow:0 8px 26px rgba(15,23,42,.2)}
+#tmr .num{font-size:26px;font-variant-numeric:tabular-nums;min-width:86px;text-align:center;letter-spacing:-.02em}
+#tmr.warn .num{color:#fbbf24}
+#tmr.over .num{color:#f87171}
+#tmr button{background:rgba(255,255,255,.16);border:0;color:#fff;font-family:inherit;font-size:13px;
+  font-weight:800;border-radius:999px;padding:7px 13px;cursor:pointer}
+#tmr button.go{background:#a3e635;color:#1a2e05}
+#tmr .lbl{font-size:12px;opacity:.7;font-weight:700;max-width:190px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+#tmr.hide{display:none}
+/* MOBILE */
+@media (max-width:768px){
+  .slide{padding:4rem 1rem 5.5rem;align-items:flex-start}
+  .flow-line::after{display:none}
+  .part-num{font-size:5rem}
+  .ue-body{grid-template-columns:1fr;height:auto}
+}
+@media print{
+  body{overflow:visible;height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:auto;min-height:90vh;padding:2rem}
+  #progress-bar,.navbar-fixed{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[130]">
+  <div id="progress-bar" class="h-full bg-gradient-to-r from-dev-500 via-indigo-400 to-flame-500" style="width:0%;"></div>
+</div>
+<div id="part-label" class="navbar-fixed fixed top-5 left-6 z-[130] text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200 hidden md:block">
+  3주차 대면 워크숍 · Hand It Over
+</div>
+<div class="navbar-fixed fixed top-5 right-6 z-[130] flex items-center gap-2">
+  <div class="text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200">
+    <span id="current-slide">1</span><span class="mx-1 text-slate-300">/</span><span id="total-slides">1</span>
+  </div>
+</div>
+
+<div id="tmr" class="hide">
+  <span class="num" id="tnum">00:00</span>
+  <button class="go" id="tgo">시작</button>
+  <button id="trs">리셋</button>
+  <span class="lbl" id="tlbl"></span>
+</div>
+
+<main id="slides-container" class="relative w-full h-screen">
+
+<section class="slide wk active">
+  <div class="max-w-5xl w-full text-center relative">
+    <div class="text-flame-600 text-base font-black mb-4 tracking-widest">5주차 대면</div>
+    <h1 class="text-6xl md:text-8xl font-black mb-4 leading-none">Pitch &amp; Form</h1>
+    <p class="text-2xl text-slate-500 mb-8">기획 하나가 <b class="text-slate-700">팀이 되는 날</b></p>
+    <div class="flex justify-center items-center gap-3 mb-8">
+      <div class="soft-card rounded-2xl px-7 py-4"><div class="text-xl font-black text-dev-600">전원 30초</div><div class="text-sm text-slate-500">한 사람도 빠짐없이</div></div>
+      <div class="text-2xl font-black text-slate-300">→</div>
+      <div class="soft-card rounded-2xl px-7 py-4"><div class="text-xl font-black text-slate-700">투표 · 지원</div><div class="text-sm text-slate-500">고르고, 손 들고</div></div>
+      <div class="text-2xl font-black text-slate-300">→</div>
+      <div class="soft-card rounded-2xl px-7 py-4"><div class="text-xl font-black text-flame-600">팀</div><div class="text-sm text-slate-500">나갈 때는 팀으로</div></div>
+    </div>
+    <p class="text-lg text-slate-400">게임 개발 실습 · 명지전문대학 AI게임소프트웨어학과 · 2026-2 · 이다영</p>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">오늘의 미션</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-5">배우는 날이 아니라 <span class="text-flame-600">정하는 날</span>입니다</h2>
+    <div class="grid md:grid-cols-3 gap-5 mb-5">
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-3xl mb-2">🖼️</div>
+        <p class="text-lg font-black mb-1">전원이 보드에</p>
+        <p class="text-[15px] text-slate-600">낸 기획서를 <b>보드 양식에 옮겨</b> 올립니다. 발표를 안 해도 <b>기획으로 평가받습니다</b></p>
+      </div>
+      <div class="soft-card rounded-3xl p-6 border-2 border-dev-300">
+        <div class="text-3xl mb-2">🎤</div>
+        <p class="text-lg font-black mb-1">전원 30초 → 지원자 90초</p>
+        <p class="text-[15px] text-slate-600">먼저 <b>전원이 30초씩</b> 한 바퀴. 그다음 손 드는 건 "내 기획이 제일 좋다"가 아니라 <b>"이걸 한 학기 맡겠다"</b>는 뜻입니다</p>
+      </div>
+      <div class="soft-card rounded-3xl p-6 border-2 border-flame-300">
+        <div class="text-3xl mb-2">🤝</div>
+        <p class="text-lg font-black mb-1">나갈 때는 팀입니다</p>
+        <p class="text-[15px] text-slate-600">연락 채널까지 만들고 나갑니다. 다음 주는 <b>전면 온라인</b>입니다</p>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black">오늘 제출 <span class="text-slate-300 font-normal text-[16px] ml-2">보드에 옮긴 기획서 · 킥오프 시트(팀당 1장)</span></p>
+      <p class="text-slate-300 text-[15px] mt-1">기획서 v2 <b class="text-lime-300">PDF는 사이버캠퍼스에 따로</b> — 보드에 올린 것으로 과제 제출이 대체되지 않습니다</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-5xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">TODAY</div>
+    <h2 class="text-3xl font-black mb-1">오늘의 흐름</h2>
+    <p class="text-[16px] text-slate-500 mb-2">먼저 <b class="text-dev-600">올리고 말하고</b>, 그다음 <b class="text-slate-700">고르고</b>, 마지막에 <b class="text-flame-600">팀이 됩니다</b>. 위에서 아래로 진행합니다.</p>
+    <div class="space-y-0.5 mb-2">
+      <div class="bg-lime-50 border border-lime-200 rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#a3e635"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">시작 QuizN</div>
+        <div class="flex-1 text-[16px] text-slate-600">4주차 복습 — 동기 · 보상</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#4f46e5"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">보드에 옮기기</div>
+        <div class="flex-1 text-[16px] text-slate-600"><b class="text-dev-700">낸 과제를 양식에 붙여넣기</b></div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#4f46e5"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">한 바퀴 · 전원</div>
+        <div class="flex-1 text-[16px] text-slate-600"><b class="text-dev-700">1인 30초</b> — 번호 · 제목 · 한 줄</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#4f46e5"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">투표</div>
+        <div class="flex-1 text-[16px] text-slate-600">🤝🤝 🎮 🎯 · 네 개를 동시에</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#4f46e5"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">개표</div>
+        <div class="flex-1 text-[16px] text-slate-600">세 부문 1등 <span class="text-slate-300 mx-1">→</span> 🤝 전체 순위</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#ea580c"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">지원 받기</div>
+        <div class="flex-1 text-[16px] text-slate-600"><b class="text-flame-700">내 기획으로 팀을 이끌고 싶은 사람</b></div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#ea580c"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">지원자 피칭</div>
+        <div class="flex-1 text-[16px] text-slate-600">1인 90초 + 자유 발언</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#ea580c"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">팀 확정</div>
+        <div class="flex-1 text-[16px] text-slate-600">희망 제출 <span class="text-slate-300 mx-1">→</span> 조정 <span class="text-slate-300 mx-1">→</span> 공개</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#ea580c"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">앞으로</div>
+        <div class="flex-1 text-[16px] text-slate-600">종이 프로토 · 스코핑 · 버티컬 슬라이스</div>
+      </div>
+      <div class="soft-card rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#ea580c"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">킥오프</div>
+        <div class="flex-1 text-[16px] text-slate-600">채널 · 기획 정돈 · 역할 · 계획</div>
+      </div>
+      <div class="bg-lime-50 border border-lime-200 rounded-xl px-4 py-1 flex items-center gap-4">
+        <div class="w-1.5 h-6 rounded-full flex-none" style="background:#a3e635"></div>
+        <div class="shrink-0 w-36 font-black text-[16px]">마무리</div>
+        <div class="flex-1 text-[16px] text-slate-600">6주차 온라인 안내</div>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-xl px-5 py-2.5">
+      <p class="font-black text-[15px]">나갈 때는 팀이 되어 있습니다. <span class="text-slate-300 font-normal">인원이 많으면 <b class="text-lime-300">한 바퀴</b>가 가장 먼저 길어집니다</span></p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-4xl w-full text-center">
+    <div class="text-dev-600 text-base font-black mb-4">올리고, 말하고, 고릅니다</div>
+    <div class="part-num mb-4">01</div>
+    <h2 class="text-4xl md:text-6xl font-black mb-6">올리고, 고릅니다</h2>
+    <p class="text-xl text-slate-500">아직 팀 이야기는 하지 않습니다. <b class="text-slate-700">먼저 읽는 것</b>부터 합니다.</p>
+  </div>
+</section>
+<section class="slide wk" data-min="6" data-label="보드에 옮기기">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-baseline gap-5 mb-2">
+      <span class="big-step text-dev-600">1</span>
+      <div><div class="text-dev-600 text-base font-black">STEP 1</div>
+      <h2 class="text-4xl md:text-5xl font-black">보드에 옮깁니다</h2></div>
+    </div>
+    <p class="text-lg text-slate-500 mb-4">보드에 <b class="text-slate-700">빈 양식</b>이 번호와 함께 깔려 있습니다. 빈 칸 하나를 골라 <b class="text-slate-700">이름을 적고</b> 채우세요.</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-4">
+      <div class="soft-card rounded-3xl p-6 border-2 border-dev-300">
+        <div class="text-xs font-black text-dev-600 tracking-widest mb-3">과제를 낸 사람</div>
+        <ul class="space-y-2 text-[17px] text-slate-700">
+          <li>① 사이버캠퍼스에서 <b>내가 낸 기획서를 엽니다</b></li>
+          <li>② 양식 칸에 맞춰 <b>복사해서 붙여넣기</b> — 다시 타이핑해도 됩니다</li>
+          <li>③ <b class="text-dev-700">대표 이미지는 파일을 끌어다</b> 놓으세요</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-xs font-black text-slate-400 tracking-widest mb-3">안 낸 사람 · 파일을 못 여는 사람</div>
+        <p class="text-[17px] text-slate-700 mb-2"><b>지금 이 자리에서</b> 양식에 바로 씁니다.</p>
+        <p class="text-[16px] text-slate-600">제목 · 핵심 경험 한 줄 · 규칙 하나 — <b>세 줄이면 됩니다.</b> 이미지는 없어도 투표에 들어갑니다.</p>
+      </div>
+    </div>
+    <div class="soft-card rounded-2xl px-5 py-3 mb-3 flex items-center gap-4">
+      <div class="text-xs font-black text-slate-400 tracking-widest shrink-0">양식 칸</div>
+      <p class="text-[16px] text-slate-700">이름 <span class="text-slate-300 mx-1">·</span> 제목 <span class="text-slate-300 mx-1">·</span> 핵심 경험 한 줄 <span class="text-slate-300 mx-1">·</span> 핵심 규칙 3개 <span class="text-slate-300 mx-1">·</span> <b class="text-dev-700">대표 이미지</b></p>
+      <a class="rx-btn rounded-xl px-4 py-2 text-[15px] font-black shrink-0 ml-auto" href="https://www.figma.com/board/ZYBsZ5iqOH3ENdKItxr1eJ" target="_blank" rel="noopener">FigJam 보드 열기</a>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black mb-1">먼저 끝난 사람은 바로 <span class="text-lime-300">다른 기획을 읽기 시작</span>하세요.</p>
+      <p class="text-slate-300 text-[17px]">오늘은 읽기 · 투표 · 팀 배정까지 <b class="text-lime-300">이 보드 하나</b>에서 끝납니다. 링크를 열어 두세요.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-min="12" data-label="전원 한 바퀴 · 1인 30초">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-baseline gap-5 mb-2">
+      <span class="big-step text-dev-600">2</span>
+      <div><div class="text-dev-600 text-base font-black">STEP 2 · 1인 30초</div>
+      <h2 class="text-4xl md:text-5xl font-black">한 바퀴 돕니다 — <span class="text-dev-600">전원</span></h2></div>
+    </div>
+    <p class="text-[16px] text-slate-500 mb-4">보드 <b class="text-slate-700">번호 순서대로</b>. 자기 차례가 되면 화면에 자기 칸이 뜹니다. 일어나지 않아도 됩니다.</p>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="space-y-2.5">
+        <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4">
+          <div class="shrink-0 w-12 text-[15px] font-black text-slate-400 pt-1">①</div>
+          <p class="flex-1 text-[18px] leading-relaxed"><b class="text-dev-600">__</b>번, 「<b class="text-dev-600">__________</b>」입니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4">
+          <div class="shrink-0 w-12 text-[15px] font-black text-slate-400 pt-1">②</div>
+          <p class="flex-1 text-[18px] leading-relaxed">플레이어에게 <b class="text-dev-600">________________</b> 한 경험을 줍니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4">
+          <div class="shrink-0 w-12 text-[15px] font-black text-slate-400 pt-1">③</div>
+          <p class="flex-1 text-[18px] leading-relaxed">핵심 규칙 하나만 말하면 <b class="text-dev-600">____________</b> 입니다.</p>
+        </div>
+        <p class="text-[15px] text-slate-500 pl-1">세 줄이면 30초입니다. 더 말하고 싶은 사람은 <b class="text-slate-700">뒤에 따로 기회</b>가 있습니다.</p>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 border-2 border-flame-300">
+          <div class="text-xs font-black text-flame-600 tracking-widest mb-2">듣는 사람</div>
+          <p class="text-[17px] text-slate-700 mb-1"><b>아직 스티커는 붙이지 않습니다.</b></p>
+          <p class="text-[16px] text-slate-500">마음에 남는 <b class="text-slate-700">번호만</b> 손이나 메모에 적어 두세요. 붙이는 건 다음 순서입니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="text-xs font-black text-slate-400 tracking-widest mb-2">과제를 안 낸 사람도 합니다</div>
+          <p class="text-[17px] text-slate-700">방금 보드에 쓴 세 줄을 <b>그대로 읽으면</b> 됩니다. 이미지가 없어도 투표에 들어갑니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-3.5 mt-4">
+      <p class="text-[17px]"><b class="text-lime-300">30초에 못 끝내면 끊습니다.</b> 야박해서가 아니라, 전원이 한 번씩 말해야 투표가 공정해지기 때문입니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-min="7" data-label="투표">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-baseline gap-5 mb-2">
+      <span class="big-step text-dev-600">3</span>
+      <div><div class="text-dev-600 text-base font-black">STEP 3</div>
+      <h2 class="text-4xl md:text-5xl font-black">스티커 <span class="text-flame-600">네 개</span>를 붙입니다</h2></div>
+    </div>
+    <div class="soft-card rounded-2xl px-5 py-3 mb-3 border-2 border-dev-300 flex items-center gap-5">
+      <div class="text-xs font-black text-dev-600 tracking-widest shrink-0">먼저</div>
+      <p class="flex-1 text-[17px] text-slate-700">방금 전부 들었습니다. <b>보드를 다시 훑으며</b> 번호를 확인하세요 <span class="text-slate-300 mx-2">·</span> 그다음 <b class="text-dev-700">카운트다운 후 동시에</b> 붙입니다</p>
+    </div>
+    <div class="space-y-2.5 mb-3">
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-center gap-5 border-2" style="border-color:#fdba74">
+        <div class="shrink-0 text-4xl">🤝</div>
+        <div class="shrink-0 w-52"><div class="text-xl font-black">함께 만들고 싶다</div><div class="text-[14px] text-slate-500">이 부문으로 팀이 정해집니다</div></div>
+        <div class="flex-1 text-[16px] text-slate-600">서로 다른 <b class="text-flame-700">두 기획</b>에</div>
+        <div class="shrink-0 text-2xl font-black text-flame-600">2개</div>
+      </div>
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-center gap-5 border-2" style="border-color:#a5b4fc">
+        <div class="shrink-0 text-4xl">🎮</div>
+        <div class="shrink-0 w-52"><div class="text-xl font-black">해보고 싶다</div><div class="text-[14px] text-slate-500">플레이어로서 끌리는 것</div></div>
+        <div class="flex-1 text-[16px] text-slate-600">한 기획에</div>
+        <div class="shrink-0 text-2xl font-black text-dev-600">1개</div>
+      </div>
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-center gap-5 border-2" style="border-color:#d8b4fe">
+        <div class="shrink-0 text-4xl">🎯</div>
+        <div class="shrink-0 w-52"><div class="text-xl font-black">가장 선명하다</div><div class="text-[14px] text-slate-500">핵심 경험 한 줄이 또렷</div></div>
+        <div class="flex-1 text-[16px] text-slate-600">한 기획에</div>
+        <div class="shrink-0 text-2xl font-black" style="color:#9333ea">1개</div>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-[17px]"><b class="text-lime-300">색이 아니라 이모지와 글자로 구분합니다.</b> 자기 것에는 못 붙입니다 · 같은 기획에 같은 스티커를 두 개 붙일 수 없습니다 · <b class="text-lime-300">🎯는 이미지 말고 한 줄을 읽고</b> 붙이세요.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">개표</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-5">먼저 <span class="text-flame-600">세 부문 1등</span>부터</h2>
+    <div class="grid md:grid-cols-3 gap-5 mb-5">
+      <div class="soft-card rounded-2xl p-6 border-2" style="border-color:#fdba74">
+        <div class="text-3xl mb-1">🤝</div>
+        <div class="text-sm font-black mb-2 text-flame-700">함께 만들고 싶은 기획</div>
+        <p class="text-2xl font-black mb-1">1등</p>
+        <p class="text-[15px] text-slate-600">이 부문만 <b>전체 순위</b>로 봅니다 — 팀이 여기서 나옵니다</p></div>
+      <div class="soft-card rounded-2xl p-6 border-2" style="border-color:#a5b4fc">
+        <div class="text-3xl mb-1">🎮</div>
+        <div class="text-sm font-black mb-2 text-dev-700">해보고 싶은 기획</div>
+        <p class="text-2xl font-black mb-1">1등</p>
+        <p class="text-[15px] text-slate-600">플레이어를 가장 끈 기획</p></div>
+      <div class="soft-card rounded-2xl p-6 border-2" style="border-color:#d8b4fe">
+        <div class="text-3xl mb-1">🎯</div>
+        <div class="text-sm font-black mb-2" style="color:#7e22ce">가장 선명한 기획</div>
+        <p class="text-2xl font-black mb-1">1등</p>
+        <p class="text-[15px] text-slate-600">핵심 경험 한 줄이 제일 또렷한 기획</p></div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-5">
+      <p class="text-xl font-black mb-1">🤝가 많다고 더 좋은 기획이라는 뜻은 아닙니다.</p>
+      <p class="text-slate-300 text-[17px]"><b class="text-lime-300">"같이 만들어보고 싶다"</b>는 표입니다. <b class="text-lime-300">🎯 부문 1등이 오늘 가장 잘 쓴 기획</b>이고, 팀이 안 되더라도 그건 남습니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-min="3" data-label="지원 받기">
+  <div class="max-w-5xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">STEP 4 · 오늘의 분기점</div>
+    <h2 class="text-4xl md:text-6xl font-black mb-5">이 기획, <span class="text-flame-600">내가 맡겠습니다</span></h2>
+    <div class="bg-slate-900 text-white rounded-3xl p-7 mb-5">
+      <p class="text-2xl font-black mb-2">손을 드는 건 "내 기획이 제일 좋다"가 아닙니다.</p>
+      <p class="text-slate-300 text-lg"><b class="text-lime-300">"이걸 한 학기 동안 내가 끌고 가겠다"</b>는 뜻입니다.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="soft-card rounded-2xl p-6 border-2 border-lime-300">
+        <div class="text-xs font-black text-lime-700 tracking-widest mb-2">이런 사람은 손 드세요</div>
+        <p class="text-[17px] text-slate-700">🤝를 <b>적게 받았어도</b> 하고 싶으면 — 지원은 득표순이 아닙니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-2 border-slate-300">
+        <div class="text-xs font-black text-slate-500 tracking-widest mb-2">안 들어도 됩니다</div>
+        <p class="text-[17px] text-slate-700">🤝를 <b>많이 받았어도</b> 부담스러우면 — 기획과 팀장은 다른 일입니다</p>
+      </div>
+    </div>
+    <p class="text-[17px] text-slate-500 mt-4">혼자가 부담스러우면 <b class="text-slate-700">비슷한 기획 둘을 합쳐 같이 이끌어도</b> 됩니다.</p>
+  </div>
+</section>
+<section class="slide wk" data-min="12" data-label="지원자 피칭 · 1인 90초">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-baseline gap-5 mb-2">
+      <span class="big-step text-dev-600">5</span>
+      <div><div class="text-dev-600 text-base font-black">STEP 5 · 1인 90초</div>
+      <h2 class="text-4xl md:text-5xl font-black">이 문장을 채워서 말합니다</h2></div>
+    </div>
+    <p class="text-[16px] text-slate-500 mb-4">아까 30초로 한 번 말했습니다. 이번엔 <b class="text-slate-700">빈칸을 다 채워서</b> 90초.</p>
+    <div class="space-y-2.5 mb-4">
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4">
+        <div class="shrink-0 w-14 text-[15px] font-black text-slate-400 pt-1">30초</div>
+        <p class="flex-1 text-[18px] leading-relaxed">제 게임은 「<b class="text-dev-600">__________</b>」이고,<br>플레이어에게 <b class="text-dev-600">__________________</b> 한 경험을 줍니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4">
+        <div class="shrink-0 w-14 text-[15px] font-black text-slate-400 pt-1">30초</div>
+        <p class="flex-1 text-[18px] leading-relaxed">그걸 만드는 규칙은 <b class="text-dev-600">__________</b>, <b class="text-dev-600">__________</b>, <b class="text-dev-600">__________</b> 입니다.<br><span class="text-[15px] text-slate-500">가장 중요한 것부터 · 할 수 있는 것 / 없는 것으로</span></p>
+      </div>
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4">
+        <div class="shrink-0 w-14 text-[15px] font-black text-slate-400 pt-1">20초</div>
+        <p class="flex-1 text-[18px] leading-relaxed">플레이어가 계속하게 되는 이유는 <b class="text-dev-600">__________________</b> 입니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl px-5 py-3 flex items-start gap-4 border-2 border-flame-300">
+        <div class="shrink-0 w-14 text-[15px] font-black text-flame-600 pt-1">10초</div>
+        <p class="flex-1 text-[18px] leading-relaxed">같이 만든다면 <b class="text-flame-600">__________________</b> 부터 만들 것 같습니다.</p>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <div class="text-xs font-black text-lime-300 tracking-widest mb-2">그리고 — 하고 싶은 말이 있으면 자유롭게</div>
+      <p class="text-[18px] leading-relaxed">"<b class="text-lime-300">__________</b> 할 줄 아는 사람이 있으면 좋겠습니다."<br>
+      "<b class="text-lime-300">__________</b> 를 같이 해보고 싶은 사람 환영합니다."</p>
+      <p class="text-slate-300 text-[15px] mt-2">필요한 사람을 부르는 자리입니다. 궁금한 게 있으면 질문도 받으세요.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-4xl w-full text-center">
+    <div class="text-flame-600 text-base font-black mb-4">잠깐 — 여기서부터 팀입니다</div>
+    <div class="part-num mb-4">02</div>
+    <h2 class="text-4xl md:text-6xl font-black mb-6">팀이 됩니다</h2>
+    <p class="text-xl text-slate-500">고르는 건 끝났습니다. 이제 <b class="text-slate-700">함께 만들 준비</b>를 합니다.</p>
+  </div>
+</section>
+<section class="slide wk" data-min="10" data-label="팀 확정">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-baseline gap-5 mb-3">
+      <span class="big-step text-flame-600">6</span>
+      <div><div class="text-flame-600 text-base font-black">STEP 6</div>
+      <h2 class="text-4xl md:text-5xl font-black">어디로 갈지 정합니다</h2></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5 mb-5">
+      <div class="soft-card rounded-2xl p-6"><div class="text-sm font-black text-slate-400 mb-2">① 희망 제출</div>
+        <p class="text-[17px] text-slate-700">보드에서 <b>내 이름표</b>를 원하는 기획 프레임으로. <b>2·3지망</b>도 함께 적어 냅니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="text-sm font-black text-slate-400 mb-2">② 정원 조정</div>
+        <p class="text-[17px] text-slate-700">팀마다 <b>인원이 고르게</b>. 넘치면 2지망으로, 너무 적게 모인 기획은 해체</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="text-sm font-black text-slate-400 mb-2">③ 공개 · 이동</div>
+        <p class="text-[17px] text-slate-700">확정된 자리로 옮겨 앉습니다</p></div>
+    </div>
+    <div class="bg-flame-50 border-2 border-flame-300 rounded-2xl px-6 py-4 mb-3">
+      <p class="text-[17px] text-flame-900"><b>한 기획에 사람이 몰리면</b> 선착순이 아니라 <b>기획자가 같이 할 사람을 고릅니다.</b> 나머지는 2지망으로 갑니다.</p>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-[17px]">팀이 되지 않은 기획도 <b class="text-lime-300">죽은 게 아닙니다.</b> 그 규칙 하나가 다른 팀 게임에 들어갈 수 있습니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-dev-600 text-base font-black mb-2">앞으로 이렇게 갑니다 ① · 6주차에 할 것</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-2">Unity를 켜기 전에 <span class="text-dev-600">종이로 한 판</span></h2>
+    <p class="text-lg text-slate-500 mb-4">이미 해봤습니다. 2주차에 카드로 게임을 만들고 3주차에 규칙서를 넘긴 것 — <b class="text-slate-700">그게 종이 프로토타이핑입니다.</b></p>
+    <div class="grid md:grid-cols-2 gap-5 mb-4">
+      <div class="bg-lime-50 border-2 border-lime-300 rounded-3xl p-6">
+        <div class="text-xs font-black text-lime-700 tracking-widest mb-3">종이로 확인되는 것</div>
+        <ul class="space-y-1.5 text-[17px] text-slate-700">
+          <li>· 핵심 루프가 실제로 돌아가는가</li>
+          <li>· 승패 조건이 명확한가</li>
+          <li>· 선택에 <b>갈림길</b>이 있는가</li>
+          <li>· 한 판이 너무 길거나 짧지 않은가</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-xs font-black text-slate-400 tracking-widest mb-3">종이로 안 되는 것</div>
+        <ul class="space-y-1.5 text-[17px] text-slate-600">
+          <li>· <b class="text-slate-800">조작감</b> — 이건 Unity에서만</li>
+          <li>· 그래픽 · 사운드의 인상</li>
+          <li>· 프레임 · 최적화</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black mb-1">"3D 액션이라 종이로 못 해요"</p>
+      <p class="text-slate-300 text-[17px]">종이로 못 하는 건 <b class="text-lime-300">조작감뿐</b>입니다. Unity에서 규칙 하나 고치는 데 반나절, 종이로는 1분입니다. <b class="text-lime-300">6주차 팀 과제에 종이 프로토 한 판</b>이 들어갑니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">앞으로 이렇게 갑니다 ②</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-2">게임잼에서 이기는 팀의 <span class="text-flame-600">공통점</span></h2>
+    <p class="text-lg text-slate-500 mb-5">게임잼은 48시간이나 72시간 안에 게임 하나를 완성하는 행사입니다. 이기는 팀은 아이디어가 기발한 팀이 아니라 — <b class="text-slate-700">범위를 잘 잡은 팀</b>입니다.</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-5">
+      <div class="bg-flame-50 border-2 border-flame-300 rounded-3xl p-6">
+        <div class="text-xs font-black text-flame-700 tracking-widest mb-2">스코핑 · Scoping</div>
+        <p class="text-xl font-black mb-2">주어진 시간과 실력 안에서<br>끝낼 수 있는 범위 정하기</p>
+        <p class="text-[16px] text-slate-600">만들고 싶은 기능 <b>100가지를 다 담으려다</b> 아무것도 완성하지 못하고 끝납니다. 매 학기 가장 많이 보는 실패입니다.</p>
+      </div>
+      <div class="bg-lime-50 border-2 border-lime-300 rounded-3xl p-6">
+        <div class="text-xs font-black text-lime-700 tracking-widest mb-2">MVP · 최소 기능 제품</div>
+        <p class="text-xl font-black mb-2">핵심 재미를 <b>한 번이라도</b><br>경험할 수 있는 최소 버전</p>
+        <p class="text-[16px] text-slate-600">Minimum Viable Product. 첫 목표는 완성도가 아니라 <b>코어 게임 플레이가 한 바퀴 돌아가는 것</b>입니다.</p>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-5">
+      <p class="text-xl font-black mb-1">기능을 줄이는 게 아니라, <span class="text-lime-300">끝낼 수 있게 자르는</span> 겁니다.</p>
+      <p class="text-slate-300 text-[17px]">우리 수업의 첫 목표도 MVP입니다. 그리고 그 MVP를 보여주는 방법이 다음 장의 <b class="text-lime-300">버티컬 슬라이스</b>입니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">앞으로 이렇게 갑니다 ③ · 7~8주차 발표</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-1">버티컬 슬라이스 — <span class="text-flame-600">케이크 한 조각</span></h2>
+    <p class="text-[17px] text-slate-500 mb-3">여러 층으로 된 케이크를 <b class="text-slate-700">위에서 아래까지 한 번에 잘라</b> 맛보는 것. 크림만 먹거나 빵만 먹으면 전체 맛을 모릅니다.</p>
+    <div class="glass-card rounded-3xl p-4 mb-3">
+      <svg viewBox="0 0 900 236" class="w-full" role="img" aria-label="케이크 비유. 왼쪽은 UI 한 층만 잔뜩 만든 경우라 아직 한 판도 못 해보고, 오른쪽은 다섯 층을 모두 얇게 관통한 버티컬 슬라이스.">
+        <style>.cl{font-family:Pretendard,sans-serif;font-weight:800}</style>
+        <text x="40" y="18" fill="#94a3b8" class="cl" font-size="15">층마다 따로 — 아직 한 판도 못 해봅니다</text>
+        <text x="500" y="18" fill="#c2410c" class="cl" font-size="15">버티컬 슬라이스 — 얇아도 한 판이 돌아갑니다</text>
+        <rect x="40" y="34" width="350" height="28" rx="5" fill="#fee2e2" stroke="#fca5a5" stroke-width="2.5"/>
+        <text x="54" y="53" fill="#7f1d1d" class="cl" font-size="14">UI</text>
+        <text x="376" y="53" text-anchor="end" fill="#b91c1c" class="cl" font-size="13">← 이것만 잔뜩</text>
+        <rect x="40" y="66" width="350" height="28" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="54" y="85" fill="#cbd5e1" class="cl" font-size="14">적 · 장애물</text>
+        <rect x="40" y="98" width="350" height="28" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="54" y="117" fill="#cbd5e1" class="cl" font-size="14">캐릭터 조작</text>
+        <rect x="40" y="130" width="350" height="28" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="54" y="149" fill="#cbd5e1" class="cl" font-size="14">그래픽</text>
+        <rect x="40" y="162" width="350" height="28" rx="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="54" y="181" fill="#cbd5e1" class="cl" font-size="14">사운드</text>
+        <text x="445" y="122" text-anchor="middle" fill="#cbd5e1" class="cl" font-size="30">→</text>
+        <rect x="500" y="34" width="350" height="28" rx="5" fill="#fee2e2" stroke="#fca5a5" stroke-width="2.5"/>
+        <text x="514" y="53" fill="#7f1d1d" class="cl" font-size="14">UI</text>
+        <rect x="500" y="66" width="350" height="28" rx="5" fill="#ffedd5" stroke="#fdba74" stroke-width="2.5"/>
+        <text x="514" y="85" fill="#7c2d12" class="cl" font-size="14">적 · 장애물</text>
+        <rect x="500" y="98" width="350" height="28" rx="5" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="2.5"/>
+        <text x="514" y="117" fill="#312e81" class="cl" font-size="14">캐릭터 조작</text>
+        <rect x="500" y="130" width="350" height="28" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="2.5"/>
+        <text x="514" y="149" fill="#14532d" class="cl" font-size="14">그래픽</text>
+        <rect x="500" y="162" width="350" height="28" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2.5"/>
+        <text x="514" y="181" fill="#334155" class="cl" font-size="14">사운드</text>
+        <rect x="700" y="26" width="92" height="172" rx="8" fill="#ea580c" opacity="0.16"/>
+        <rect x="700" y="26" width="92" height="172" rx="8" fill="none" stroke="#ea580c" stroke-width="3" stroke-dasharray="8 5"/>
+        <text x="746" y="220" text-anchor="middle" fill="#9a3412" class="cl" font-size="14">모든 층이 조금씩</text>
+        <text x="215" y="220" text-anchor="middle" fill="#94a3b8" class="cl" font-size="14">한 층만 두껍게</text>
+      </svg>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black mb-1">게임의 핵심 요소를 <span class="text-lime-300">전부 조금씩</span> 담은 짧은 구간.</p>
+      <p class="text-slate-300 text-[17px]">그래픽 · 사운드 · 캐릭터 조작 · 적 · UI가 <b class="text-lime-300">다 있어야</b> 합니다. 대신 <b class="text-lime-300">아주 짧아도 됩니다</b> — 30초짜리 한 구간이면 충분합니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">앞으로 이렇게 갑니다 ④</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-1">여섯 층, 각각 <span class="text-flame-600">무엇이 있으면 되나</span></h2>
+    <p class="text-[17px] text-slate-500 mb-4">각 층에 <b class="text-slate-700">하나씩만</b> 있으면 됩니다. 적 한 종류 · 화면 한 개 · 소리 몇 개 — 그게 슬라이스입니다.</p>
+    <div class="space-y-2 mb-4">
+      <div class="soft-card rounded-xl px-5 py-2.5 flex items-center gap-4">
+        <div class="shrink-0 text-2xl">🏁</div>
+        <div class="shrink-0 w-44 font-black text-[17px]">목표 · 승리 조건</div>
+        <div class="flex-1 text-[16px] text-slate-600">무엇을 하면 이기는지 <b class="text-slate-800">한 문장</b> + 이겼을 때 무엇이 보이는지</div>
+      </div>
+      <div class="soft-card rounded-xl px-5 py-2.5 flex items-center gap-4">
+        <div class="shrink-0 text-2xl">🕹️</div>
+        <div class="shrink-0 w-44 font-black text-[17px]">캐릭터 조작</div>
+        <div class="flex-1 text-[16px] text-slate-600">플레이어가 할 수 있는 행동 <b class="text-slate-800">목록</b> + 그중 하나를 쓰는 장면</div>
+      </div>
+      <div class="soft-card rounded-xl px-5 py-2.5 flex items-center gap-4">
+        <div class="shrink-0 text-2xl">👾</div>
+        <div class="shrink-0 w-44 font-black text-[17px]">적 · 장애물</div>
+        <div class="flex-1 text-[16px] text-slate-600"><b class="text-slate-800">한 종류</b>면 됩니다. 대신 그게 어떻게 움직이고 무엇을 막는지</div>
+      </div>
+      <div class="soft-card rounded-xl px-5 py-2.5 flex items-center gap-4">
+        <div class="shrink-0 text-2xl">📊</div>
+        <div class="shrink-0 w-44 font-black text-[17px]">UI · 피드백</div>
+        <div class="flex-1 text-[16px] text-slate-600">체력 · 점수 · 남은 시간이 <b class="text-slate-800">어디에 보이는가</b> · 행동한 결과가 바로 보이는가</div>
+      </div>
+      <div class="soft-card rounded-xl px-5 py-2.5 flex items-center gap-4">
+        <div class="shrink-0 text-2xl">🎨</div>
+        <div class="shrink-0 w-44 font-black text-[17px]">그래픽</div>
+        <div class="flex-1 text-[16px] text-slate-600"><b class="text-slate-800">한 화면</b>이 어떻게 생겼는지 — 손그림도 됩니다</div>
+      </div>
+      <div class="soft-card rounded-xl px-5 py-2.5 flex items-center gap-4">
+        <div class="shrink-0 text-2xl">🔊</div>
+        <div class="shrink-0 w-44 font-black text-[17px]">사운드</div>
+        <div class="flex-1 text-[16px] text-slate-600">언제 무슨 소리가 나는지 — <b class="text-slate-800">목록 한 줄</b>이면 충분</div>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black mb-1">하나라도 비면 슬라이스가 아니라 <span class="text-lime-300">그냥 한 층</span>입니다.</p>
+      <p class="text-slate-300 text-[17px]">종이로 하든 슬라이드로 하든 Unity로 하든 <b class="text-lime-300">여섯 개는 똑같이 필요</b>합니다. 형태만 다를 뿐입니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">앞으로 이렇게 갑니다 ⑤</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">7~8주차에 이걸 냅니다</h2>
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div class="soft-card rounded-2xl p-5 border-2 border-lime-300">
+        <div class="text-2xl mb-1">📄</div>
+        <p class="font-black text-lg mb-1">종이로</p>
+        <p class="text-[15px] text-slate-600">카드 · 토큰 · 말로 한 판을 실제로 <b>시연</b>합니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5 border-2 border-dev-300">
+        <div class="text-2xl mb-1">🖥️</div>
+        <p class="font-black text-lg mb-1">슬라이드 · 피그마로</p>
+        <p class="text-[15px] text-slate-600">화면을 이어 붙이고 <b>버튼을 눌러</b> 넘어가게 만듭니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="text-2xl mb-1">🎮</div>
+        <p class="font-black text-lg mb-1">Unity로</p>
+        <p class="text-[15px] text-slate-600">되는 만큼만. <b>한 구간</b>이 돌아가면 충분합니다</p>
+      </div>
+    </div>
+    <div class="bg-flame-50 border-2 border-flame-300 rounded-2xl px-6 py-4 mb-3">
+      <p class="text-xl font-black text-flame-900 mb-1">규칙 하나 — 팀원 전원이 한 조각씩 맡습니다.</p>
+      <p class="text-[17px] text-slate-700">몬스터 이미지 · UI 화면 · 이동 조작 · 사운드 · 규칙서 … <b>무엇이든 하나.</b> 발표에서 <b>자기가 맡은 부분은 본인이 설명</b>합니다.</p>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-[17px]"><b class="text-lime-300">제출은 PDF 또는 PPTX.</b> 기획 단계에서는 AI를 써도 됩니다. 가장 흔한 실패는 <b class="text-lime-300">"세계관은 30장인데 화면이 한 장도 없는"</b> 발표입니다 — 그림 한 장이 설명 열 장보다 강합니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-min="17" data-label="킥오프 · 채널 → 기획 → 역할 → 계획">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-baseline gap-5 mb-3">
+      <span class="big-step text-flame-600">7</span>
+      <div><div class="text-flame-600 text-base font-black">STEP 7 · 킥오프</div>
+      <h2 class="text-4xl md:text-5xl font-black">지금 이 자리에서 <span class="text-flame-600">연락 채널</span>부터</h2></div>
+    </div>
+    <p class="text-lg text-slate-500 mb-4">"나중에 만드세요"는 없습니다. <b class="text-slate-700">다음 주는 전면 온라인</b>이라 채널이 없으면 한 주가 통째로 날아갑니다.</p>
+    <div class="soft-card rounded-3xl p-6 mb-4 border-2 border-flame-300">
+      <div class="text-xs font-black text-flame-600 tracking-widest mb-3">① 지금 휴대폰을 꺼내세요</div>
+      <ul class="space-y-2 text-[17px] text-slate-700">
+        <li>☐ 단톡방(또는 디스코드) 개설 · <b>방 이름</b>을 시트에 적기</li>
+        <li>☐ <b>팀원 전원 입장 확인</b> — 한 명이라도 빠지면 다시</li>
+        <li>☐ 파일 공유 위치 정하기 — 구글 드라이브 폴더 · 노션 등</li>
+        <li>☐ <b class="text-flame-700">6주차 온라인 토의 일시 정하기</b> — 월 · 일 · 시</li>
+      </ul>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black mb-1">마지막 줄이 핵심입니다.</p>
+      <p class="text-slate-300 text-[17px]">6주차는 대면 수업이 없습니다. <b class="text-lime-300">언제 모일지 지금 안 정하면</b> 다음 수업 전까지 아무 일도 일어나지 않습니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">킥오프 ②③④</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-4">팀의 것으로 만듭니다</h2>
+    <div class="grid md:grid-cols-3 gap-5 mb-5">
+      <div class="soft-card rounded-3xl p-6 border-2 border-dev-300">
+        <div class="text-xs font-black text-dev-600 tracking-widest mb-2">② 기획 정돈</div>
+        <ul class="space-y-1.5 text-[16px] text-slate-700">
+          <li>· 팀 이름</li>
+          <li>· 한 줄 목표 — 어떤 <b>경험</b>을 주나</li>
+          <li>· 핵심 규칙 세 개</li>
+          <li>· <b class="text-dev-700">핵심 루프 한 줄</b></li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-xs font-black text-slate-400 tracking-widest mb-2">③ 역할 분배</div>
+        <p class="text-[16px] text-slate-700 mb-2">기획 · 프로그래밍 · 아트 · 사운드<br>그리고 <b>팀장(연락·일정)</b></p>
+        <p class="text-[14px] text-slate-500">할 줄 아는 사람이 없어도 됩니다. <b>하고 싶은 것</b>으로 적으세요</p>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-xs font-black text-slate-400 tracking-widest mb-2">④ 6주차까지 할 일</div>
+        <p class="text-[16px] text-slate-700">이름 + 한 줄씩. <b>팀원 전원이</b> 하나씩 가져갑니다</p>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-5">
+      <p class="text-xl font-black mb-1">출발 기획을 그대로 베끼지 마세요.</p>
+      <p class="text-slate-300 text-[17px]">팀이 되면 기획이 바뀝니다. <b class="text-lime-300">팀원이 모두 합의한 문장</b>을 쓰세요. 그리고 <b class="text-lime-300">핵심 루프 한 줄</b>이 오늘 제일 중요한 칸입니다 — 7주차 발표 ①번이 여기서 자랍니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-6xl w-full">
+    <div class="text-lime-700 text-base font-black mb-2">다음 주 · 6주차</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-2">전면 온라인입니다</h2>
+    <p class="text-lg text-slate-500 mb-5">대면 수업이 없습니다. 영상을 보고, <b class="text-slate-700">팀끼리 90분 온라인 토의</b>를 합니다.</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-4">
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-xs font-black text-dev-600 tracking-widest mb-3">혼자 · 영상</div>
+        <p class="text-lg font-black mb-1">Unity 기초 게임 제작</p>
+        <p class="text-[16px] text-slate-600 mb-3"><b>Unity 기초를 활용한 게임 제작</b>을 영상을 따라 처음부터 끝까지 한 번 통과해 봅니다</p>
+        <p class="text-[15px] text-slate-500">따라 만든 <b class="text-slate-700">스크린샷 1장</b>을 개인 제출</p>
+      </div>
+      <div class="soft-card rounded-3xl p-6 border-2 border-flame-300">
+        <div class="text-xs font-black text-flame-600 tracking-widest mb-3">팀 · 온라인 토의 90분</div>
+        <p class="text-lg font-black mb-1">학습 · 제작 계획서</p>
+        <ul class="text-[16px] text-slate-600 space-y-1">
+          <li>· 기획 확정 · <b>종이 프로토 1회</b></li>
+          <li>· 핵심 루프에서 <b>할 일 뽑기</b></li>
+          <li>· <b class="text-flame-700">누가 무엇을 공부해서 언제 팀에 설명할지</b></li>
+          <li>· 7주차 / 8주차 / 중간 / 기말 마일스톤</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-slate-900 text-white rounded-2xl px-6 py-4">
+      <p class="text-lg font-black mb-1">혼자 다 공부하려 하지 마세요.</p>
+      <p class="text-slate-300 text-[17px]"><b class="text-lime-300">한 사람이 하나만 깊게 알아 와서 나머지에게 가르치는 것</b>이 팀입니다. 그래서 <b class="text-lime-300">설명할 날짜</b>를 반드시 정해야 합니다 — 날짜가 없으면 아무도 공부하지 않습니다.</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk">
+  <div class="max-w-5xl w-full">
+    <div class="text-flame-600 text-base font-black mb-2">제출</div>
+    <h2 class="text-4xl md:text-6xl font-black mb-6">가기 전에</h2>
+    <div class="grid md:grid-cols-2 gap-5 mb-6">
+      <div class="soft-card rounded-3xl p-7">
+        <div class="text-lg font-black mb-3">지금 제출</div>
+        <ul class="space-y-2 text-[17px] text-slate-700">
+          <li>· <b>킥오프 시트</b> — 팀당 1장 · 연락 채널까지 채운 것</li>
+          <li>· <b class="text-flame-700">기획서 v2 PDF는 사이버캠퍼스에 따로</b> — 보드는 대체가 아닙니다</li>
+          <li>· 보드 상태 (교수자가 저장)</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7 border-2 border-lime-300">
+        <div class="text-lg font-black mb-3">다음 주까지</div>
+        <ul class="space-y-2 text-[17px] text-slate-700">
+          <li>· Unity 영상 <b>진도율 100%</b> + 스크린샷 1장</li>
+          <li>· <b class="text-flame-700">팀 온라인 토의 90분</b> + 토의 기록</li>
+          <li>· 학습·제작 계획서 · <b>종이 프로토 사진</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-lime-50 border-2 border-lime-300 rounded-2xl px-6 py-4 mb-5">
+      <p class="text-[17px] text-slate-700"><b>보드는 학기 끝까지 열어 둡니다.</b> 팀이 되지 않은 기획도 거기 남아 있습니다.</p>
+    </div>
+    <p class="text-lg text-slate-400 text-center">게임 개발 실습 · 2026-2 · 5주차 Pitch &amp; Form</p>
+  </div>
+</section>
+
+
+
+
+</main>
+
+<div class="navbar-fixed fixed bottom-5 left-1/2 -translate-x-1/2 z-[130] flex items-center gap-3">
+  <button onclick="prevSlide()" aria-label="이전 슬라이드"
+    class="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:bg-slate-50 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur border border-slate-200 shadow-md rounded-full px-4 h-11 text-xs text-slate-400">
+    <span class="kbd">←</span><span class="kbd">→</span><span>이동</span>
+    <span class="text-slate-300">·</span>
+    <span class="kbd">T</span><span>타이머</span>
+  </div>
+  <button onclick="nextSlide()" aria-label="다음 슬라이드"
+    class="w-12 h-12 rounded-full bg-slate-900 text-white shadow-lg hover:bg-dev-700 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+const progressBar = document.getElementById("progress-bar");
+const currentSlideLabel = document.getElementById("current-slide");
+const totalSlidesLabel = document.getElementById("total-slides");
+let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
+totalSlidesLabel.textContent = slides.length;
+
+function updateSlide(){
+  slides.forEach((s,i)=>{
+    s.classList.remove("active","prev-slide");
+    if(i===currentSlide){ s.classList.add("active"); s.scrollTop=0; }
+    else if(i<currentSlide){ s.classList.add("prev-slide"); }
+  });
+  progressBar.style.width = `${((currentSlide+1)/slides.length)*100}%`;
+  currentSlideLabel.textContent = currentSlide+1;
+  if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
+}
+function nextSlide(){ if(currentSlide<slides.length-1){currentSlide++;updateSlide();} }
+function prevSlide(){ if(currentSlide>0){currentSlide--;updateSlide();} }
+
+document.addEventListener("keydown",(e)=>{
+  const k=e.key;
+  if(k==="ArrowRight"||k==="PageDown"||k===" "){e.preventDefault();nextSlide();}
+  else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
+  else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
+  else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
+  else if(k==="Home"){currentSlide=0;updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;updateSlide();}
+});
+window.addEventListener("wheel",(e)=>{
+  const inner=e.target.closest(".overflow-x-auto,.overflow-y-auto,.custom-scrollbar");
+  if(inner && inner.scrollHeight>inner.clientHeight+3){
+    const atTop=inner.scrollTop<=0, atBottom=Math.abs(inner.scrollHeight-inner.clientHeight-inner.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  const s=slides[currentSlide];
+  if(s&&s.scrollHeight>s.clientHeight+3){
+    const atTop=s.scrollTop<=0, atBottom=Math.abs(s.scrollHeight-s.clientHeight-s.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  if(isAnimating)return;
+  if(e.deltaY>0)nextSlide(); else if(e.deltaY<0)prevSlide();
+  isAnimating=true; setTimeout(()=>{isAnimating=false;},520);
+},{passive:true});
+window.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+window.addEventListener("touchend",(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx<0?nextSlide():prevSlide(); }
+},{passive:true});
+/* ===== 단계 타이머 ===== */
+const tmr=document.getElementById('tmr'), tnum=document.getElementById('tnum'),
+      tgo=document.getElementById('tgo'), trs=document.getElementById('trs'), tlbl=document.getElementById('tlbl');
+let tSec=0, tTotal=0, tInt=null;
+function fmt(s){const m=Math.floor(Math.abs(s)/60),x=Math.abs(s)%60;
+  return (s<0?'-':'')+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
+function tPaint(){
+  tnum.textContent=fmt(tSec);
+  tmr.classList.toggle('warn', tSec<=60 && tSec>0);
+  tmr.classList.toggle('over', tSec<=0);
+}
+function tStop(){ if(tInt){clearInterval(tInt);tInt=null;} tgo.textContent='시작'; tgo.classList.add('go'); }
+function tLoad(){
+  const s=slides[currentSlide], m=s.dataset.min;
+  tStop();
+  if(!m){ tmr.classList.add('hide'); return; }
+  tmr.classList.remove('hide');
+  tTotal=+m*60; tSec=tTotal;
+  tlbl.textContent=(s.dataset.label||'');
+  tPaint();
+}
+tgo.addEventListener('click',()=>{
+  if(tInt){ tStop(); return; }
+  tInt=setInterval(()=>{ tSec--; tPaint(); },1000);
+  tgo.textContent='\uc77c\uc2dc\uc815\uc9c0'; tgo.classList.remove('go');
+});
+trs.addEventListener('click',()=>{ tStop(); tSec=tTotal; tPaint(); });
+document.addEventListener('keydown',e=>{ if(e.key==='t'||e.key==='T') tgo.click(); });
+const _update=updateSlide;
+const partLabel=document.getElementById('part-label');
+updateSlide=function(){
+  _update(); tLoad();
+  const p=slides[currentSlide].dataset.part;
+  partLabel.textContent = '5주차 대면 · Pitch & Form';
+};
+
+(function(){
+  const n=parseInt((location.hash||"").replace("#",""),10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  updateSlide();
+})();
+</script>
+</body>
+</html>
