@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 개발 실습 · 7주차 대면 — 버티컬 슬라이스 안내</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
+  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+}}}}
+</script>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0}
+body{
+  font-family:"Pretendard",sans-serif;overflow:hidden;color:#1e293b;word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,.10), transparent 38%),
+    radial-gradient(circle at 88% 88%, rgba(249,115,22,.09), transparent 38%),
+    #f8fafc;
+}
+/* SLIDES */
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
+  display:flex;justify-content:center;align-items:center;align-items:safe center;
+  padding:4.5rem 2.5rem 5.5rem;overflow-y:auto;
+  transform:translateX(36px) scale(.99);transition:opacity .42s ease, transform .42s ease;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:10;transform:translateX(0) scale(1)}
+.slide.prev-slide{transform:translateX(-36px) scale(.99)}
+#progress-bar{transition:width .3s ease}
+/* CARDS */
+.glass-card{background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 18px 50px rgba(15,23,42,.08),0 3px 10px rgba(15,23,42,.04);backdrop-filter:blur(10px)}
+.soft-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.soft-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,23,42,.10);border-color:#a5b4fc}
+/* PART DIVIDER */
+.part-num{font-size:8rem;line-height:1;font-weight:900;
+  background:linear-gradient(135deg,#6366f1,#f97316);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* FLOW */
+.flow-line{position:relative}
+.flow-line::after{content:"→";position:absolute;right:-19px;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:800}
+.flow-line:last-child::after{display:none}
+/* TABLE */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem}
+.cmp-table th,.cmp-table td{padding:.7rem .8rem;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}
+.cmp-table thead th{background:#0f172a;color:#fff;font-weight:800;white-space:nowrap;position:sticky;top:0}
+.cmp-table thead th:first-child{border-top-left-radius:.75rem}
+.cmp-table thead th:last-child{border-top-right-radius:.75rem}
+.cmp-table tbody tr:hover td{background:#f8fafc}
+.cmp-table td:first-child{font-weight:800;color:#0f172a;white-space:nowrap}
+/* PLAYING CARD */
+.pcard{width:64px;height:92px;border-radius:.6rem;background:#fff;border:1px solid #cbd5e1;
+  box-shadow:0 6px 16px rgba(15,23,42,.10);display:flex;flex-direction:column;
+  justify-content:space-between;padding:.4rem .5rem;font-weight:900;font-size:1.05rem;line-height:1}
+.pcard.red{color:#e11d48}.pcard.black{color:#0f172a}
+.pcard .suit{align-self:flex-end;font-size:1.3rem}
+.pcard.sm{width:48px;height:70px;font-size:.85rem;padding:.3rem .35rem}
+.pcard.sm .suit{font-size:1rem}
+/* UNITY EDITOR MOCK */
+.ue{border:1px solid #334155;border-radius:.7rem;overflow:hidden;background:#1e293b;font-size:.62rem;color:#cbd5e1}
+.ue-bar{background:#0f172a;padding:.4rem .6rem;display:flex;gap:.5rem;align-items:center;border-bottom:1px solid #334155}
+.ue-body{display:grid;grid-template-columns:1.1fr 2.4fr 1.3fr;gap:1px;background:#334155;height:200px}
+.ue-col{background:#1e293b;display:flex;flex-direction:column;gap:1px}
+.ue-pane{background:#273449;flex:1;padding:.45rem;display:flex;flex-direction:column;gap:.25rem;min-height:0}
+.ue-pane .t{font-weight:800;color:#f1f5f9;font-size:.6rem;border-bottom:1px solid #3f4d63;padding-bottom:.2rem;margin-bottom:.15rem}
+.ue-pane.hl{background:#3b3157;outline:2px solid #a855f7;outline-offset:-2px}
+.ue-pane.hl .t{color:#e9d5ff}
+.ue-row{opacity:.75}
+/* KEYCAP */
+.kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
+  box-shadow:0 2px 0 #cbd5e1;font-size:.75rem;font-weight:700;color:#64748b}
+.big-number{font-variant-numeric:tabular-nums}
+.src-note{font-size:.68rem;color:#94a3b8}
+/* SCROLLBAR */
+.custom-scrollbar::-webkit-scrollbar{width:7px;height:7px}
+.custom-scrollbar::-webkit-scrollbar-track{background:#f1f5f9;border-radius:8px}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
+/* ===== 대면 워크숍 파트 ===== */
+/* 투사용 확대 */
+.slide.wk{font-size:19px}
+.slide.wk h2{letter-spacing:-.03em}
+.big-step{font-size:clamp(44px,7vw,88px);font-weight:900;letter-spacing:-.05em;line-height:1}
+.src-btn{background:#fff;color:var(--c);border:2px solid var(--c);text-decoration:none;
+  transition:background .12s ease,color .12s ease}
+.src-btn:hover{background:var(--c);color:#fff}
+.src-btn:focus-visible{outline:3px solid #0f172a;outline-offset:3px}
+.rx-btn{background:#a3e635;color:#0f172a;text-decoration:none;display:block;
+  box-shadow:0 4px 0 #65a30d;transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+.rx-btn:hover{background:#bef264}
+.rx-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #65a30d}
+.rx-btn:focus-visible{outline:3px solid #4f46e5;outline-offset:3px}
+.rule-card{background:#fff;border:2px solid #0f172a;border-radius:16px;padding:16px 20px;
+  font-size:clamp(17px,2vw,22px);font-weight:800;display:flex;gap:14px;align-items:center}
+.rule-card .no{width:34px;height:34px;border-radius:10px;background:#0f172a;color:#fff;
+  font-size:16px;display:grid;place-items:center;flex:none}
+.code{background:#0f172a;color:#e2e8f0;border-radius:18px;padding:1rem 1.2rem;
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace;font-size:12.5px;line-height:1.46;
+  white-space:pre;overflow-x:auto;box-shadow:0 10px 30px rgba(15,23,42,.18)}
+.code .kw{color:#c4b5fd}.code .ty{color:#7dd3fc}.code .fn{color:#a3e635}
+.code .st{color:#fdba74}.code .cm{color:#64748b}.code .nu{color:#fca5a5}
+.tagchip{display:inline-flex;align-items:center;gap:.4rem;font-size:12px;font-weight:900;
+  letter-spacing:.06em;border-radius:999px;padding:.28rem .7rem}
+/* Unity editor mimic */
+.uu{background:#383838;border:1px solid #232323;border-radius:7px;color:#c4c4c4;
+  font-family:"Pretendard",sans-serif;font-size:12.5px;line-height:1.45;overflow:hidden;
+  box-shadow:0 12px 34px rgba(15,23,42,.24)}
+.uu-bar{background:#3c3c3c;border-bottom:1px solid #232323;padding:6px 10px;
+  display:flex;align-items:center;gap:8px;font-weight:800;color:#d8d8d8;font-size:12px}
+.uu-body{padding:8px 10px 10px}
+.uu-comp{border:1px solid #2b2b2b;border-radius:4px;margin-bottom:6px;background:#3f3f3f}
+.uu-comp-h{display:flex;align-items:center;gap:8px;padding:6px 9px;background:#434343;
+  border-bottom:1px solid #2b2b2b;font-weight:800;color:#e0e0e0}
+.uu-comp-h .tri{color:#9a9a9a;font-size:9px;width:9px;flex:none}
+.uu-comp-h .ico{color:#9fb6c8;width:14px;text-align:center;flex:none}
+.uu-comp-b{padding:7px 9px 9px}
+.uu-row{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.uu-row:last-child{margin-bottom:0}
+.uu-lb{width:94px;flex:none;color:#b4b4b4}
+.uu-lb.w60{width:62px}
+.uu-f{background:#2a2a2a;border:1px solid #1f1f1f;border-radius:3px;padding:2px 7px;
+  color:#d8d8d8;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uu-f.obj{display:flex;align-items:center;gap:6px}
+.uu-f.obj i{color:#9fb6c8;font-size:10px}
+.uu-v{display:flex;gap:6px;flex:1;min-width:0}
+.uu-v .uu-f{flex:1}
+.uu-ax{color:#8d8d8d;margin-right:4px}
+.uu-chk{width:13px;height:13px;border:1px solid #6b6b6b;border-radius:2px;background:#2a2a2a;
+  display:grid;place-items:center;font-size:9px;color:#fff;flex:none}
+.uu-chk.on{background:#4a78a8;border-color:#4a78a8}
+.uu-tree{padding:7px 6px}
+.uu-it{display:flex;align-items:center;gap:7px;padding:3px 7px;border-radius:3px;color:#cfcfcf}
+.uu-it.sel{background:#2c5d87;color:#fff}
+.uu-it .tri{width:10px;color:#9a9a9a;font-size:9px;flex:none}
+.uu-it .ico{color:#9fb6c8;width:13px;text-align:center;font-size:11px;flex:none}
+.uu-hl{outline:2px solid #a3e635;outline-offset:1px;border-radius:4px}
+.uu-note{color:#8d8d8d;font-size:11.5px}
+.uu-btn{background:#4b4b4b;border:1px solid #2b2b2b;border-radius:3px;padding:3px 11px;
+  color:#e0e0e0;font-weight:800;font-size:11.5px;display:inline-block}
+.uu-seg{display:inline-flex;border:1px solid #2b2b2b;border-radius:3px;overflow:hidden}
+.uu-seg span{padding:3px 10px;background:#454545;color:#c4c4c4;font-weight:700;font-size:11.5px}
+.uu-seg span.on{background:#2c5d87;color:#fff}
+.uu-con{background:#2c2c2c;padding:6px 10px}
+.uu-log{display:flex;align-items:center;gap:8px;padding:3px 0;border-bottom:1px solid #333;color:#d0d0d0}
+.uu-log:last-child{border-bottom:0}
+.uu-log i{width:13px;text-align:center;flex:none}
+.uu-log.err{color:#ff8f7a}
+.uu-cap{font-size:12.5px;color:#64748b;margin-top:7px}
+/* 산출물 목업 */
+.mk{background:#fff;border:1px solid #e2e8f0;border-radius:13px;overflow:hidden;
+  box-shadow:0 10px 26px rgba(15,23,42,.10)}
+.mk svg{display:block;width:100%;height:auto}
+.mk-cap{font-size:12.5px;color:#94a3b8;margin-top:6px;text-align:center}
+.mk-tag{position:absolute;top:8px;left:8px;background:rgba(15,23,42,.82);color:#fff;
+  font-size:11px;font-weight:900;border-radius:999px;padding:3px 9px}
+.mk-wrap{position:relative}
+.sw{width:17px;height:17px;border-radius:5px;display:inline-block;border:1px solid rgba(15,23,42,.12)}
+.refbox{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;height:46px;
+  display:grid;place-items:center;color:#94a3b8;font-size:10.5px;font-weight:800;text-align:center;padding:3px}
+/* timer */
+#tmr{position:fixed;left:18px;bottom:18px;z-index:120;display:flex;align-items:center;gap:9px;
+  background:rgba(15,23,42,.94);color:#fff;border-radius:999px;padding:9px 13px;backdrop-filter:blur(8px);
+  font-weight:900;box-shadow:0 8px 26px rgba(15,23,42,.2)}
+#tmr .num{font-size:26px;font-variant-numeric:tabular-nums;min-width:86px;text-align:center;letter-spacing:-.02em}
+#tmr.warn .num{color:#fbbf24}
+#tmr.over .num{color:#f87171}
+#tmr button{background:rgba(255,255,255,.16);border:0;color:#fff;font-family:inherit;font-size:13px;
+  font-weight:800;border-radius:999px;padding:7px 13px;cursor:pointer}
+#tmr button.go{background:#a3e635;color:#1a2e05}
+#tmr .lbl{font-size:12px;opacity:.7;font-weight:700;max-width:190px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+#tmr.hide{display:none}
+/* MOBILE */
+@media (max-width:768px){
+  .slide{padding:4rem 1rem 5.5rem;align-items:flex-start}
+  .flow-line::after{display:none}
+  .part-num{font-size:5rem}
+  .ue-body{grid-template-columns:1fr;height:auto}
+}
+@media print{
+  body{overflow:visible;height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:auto;min-height:90vh;padding:2rem}
+  #progress-bar,.navbar-fixed{display:none!important}
+}
+</style>
+</head><body>
+
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[130]">
+  <div id="progress-bar" class="h-full bg-gradient-to-r from-dev-500 via-indigo-400 to-flame-500" style="width:0%;"></div>
+</div>
+<div id="part-label" class="navbar-fixed fixed top-5 left-6 z-[130] text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200 hidden md:block">
+  7주차 대면
+</div>
+<div class="navbar-fixed fixed top-5 right-6 z-[130] flex items-center gap-2">
+  <div class="text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200">
+    <span id="current-slide">1</span><span class="mx-1 text-slate-300">/</span><span id="total-slides">1</span>
+  </div>
+</div>
+
+<main id="slides-container" class="relative w-full h-screen">
+
+<!-- 1 COVER -->
+<section class="slide" data-part="0">
+  <div class="max-w-5xl w-full text-center">
+    <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-flame-600 bg-flame-50 border border-flame-200 rounded-full px-5 py-2">
+      7주차 · 대면
+    </div>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">한 조각을<br><span class="text-dev-600">끝까지</span> 만들어 옵니다</h1>
+    <p class="text-xl md:text-2xl text-slate-500 mb-10">다음 발표는 완성을 보는 자리가 아니라<br><b class="text-slate-700">방향이 맞는지 보는 자리</b>입니다.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">버티컬 슬라이스 안내</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">팀별 점검</span>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-7 text-center">오늘 순서</h2>
+    <div class="space-y-3">
+      <div class="rule-card"><span class="no">1</span><span>버티컬 슬라이스가 <b>무엇인지</b></span></div>
+      <div class="rule-card"><span class="no">2</span><span>발표에 <b>무엇을 가져오는지</b> · 어떻게 채점하는지</span></div>
+      <div class="rule-card"><span class="no">3</span><span><b>AI가 준 코드</b>를 다루는 법</span></div>
+      <div class="rule-card"><span class="no">4</span><span><b>여섯 층 담당별로</b> 무엇을 준비해 오는지 — 예시와 함께</span></div>
+      <div class="rule-card"><span class="no">5</span><span><b>팀별 토의</b> — 점검 시트를 채웁니다. 교수자가 팀을 돌며 피드백합니다</span></div>
+      <div class="rule-card"><span class="no">6</span><span><b>다음 주 중간 발표</b> 안내</span></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 mt-7 text-center">
+      <p class="text-[17px] text-slate-700">앞서 낸 <b class="text-dev-700">팀 계획서</b>와 <b class="text-dev-700">개인 양식</b>을 띄워 두고 들으세요</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">케이크를 세로로 자릅니다</h2>
+    <p class="text-lg text-slate-500 mb-6">완성된 게임의 <b class="text-slate-700">한 조각</b>을 만드는 것이지, 바닥만 넓게 까는 게 아닙니다.</p>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="tagchip bg-flame-100 text-flame-700 border border-flame-200 mb-4">이렇게 하면 안 됩니다</div>
+        <div class="space-y-1.5 mb-4">
+          <div class="bg-slate-200 rounded-lg px-4 py-2.5 text-[15px] font-bold text-slate-700">맵을 스무 개 만들었습니다</div>
+          <div class="bg-slate-100 rounded-lg px-4 py-2.5 text-[15px] text-slate-400">조작 — 아직</div>
+          <div class="bg-slate-100 rounded-lg px-4 py-2.5 text-[15px] text-slate-400">적 — 아직</div>
+          <div class="bg-slate-100 rounded-lg px-4 py-2.5 text-[15px] text-slate-400">UI · 소리 — 아직</div>
+        </div>
+        <p class="text-[16px] text-slate-600">한 층만 두껍습니다. <b>아직 아무도 플레이할 수 없습니다.</b></p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-dev-200">
+        <div class="tagchip bg-dev-50 text-dev-700 border border-dev-200 mb-4">이렇게 합니다</div>
+        <div class="space-y-1.5 mb-4">
+          <div class="bg-dev-50 border border-dev-200 rounded-lg px-4 py-2 text-[15px] font-bold text-dev-800">🏁 목표 — 상자 8개를 모은다</div>
+          <div class="bg-dev-50 border border-dev-200 rounded-lg px-4 py-2 text-[15px] font-bold text-dev-800">🕹️ 조작 — 굴러간다</div>
+          <div class="bg-dev-50 border border-dev-200 rounded-lg px-4 py-2 text-[15px] font-bold text-dev-800">👾 장애물 — 구멍 한 종류</div>
+          <div class="bg-dev-50 border border-dev-200 rounded-lg px-4 py-2 text-[15px] font-bold text-dev-800">📊 UI — 개수와 시간</div>
+          <div class="bg-dev-50 border border-dev-200 rounded-lg px-4 py-2 text-[15px] font-bold text-dev-800">🎨 그래픽 — 한 화면 손그림</div>
+          <div class="bg-dev-50 border border-dev-200 rounded-lg px-4 py-2 text-[15px] font-bold text-dev-800">🔊 사운드 — 효과음 세 개</div>
+        </div>
+        <p class="text-[16px] text-slate-600">맵은 하나뿐이지만 <b>끝까지 한 판이 돌아갑니다.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 25 여섯 층 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">여섯 층이 한 줄씩은 있어야 합니다</h2>
+    <p class="text-lg text-slate-500 mb-6">하나라도 비면 슬라이스가 아니라 <b class="text-slate-700">그냥 한 층</b>입니다.</p>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="text-2xl mb-1">🏁</div><div class="font-black mb-1">목표 · 승리 조건</div><p class="text-[15px] text-slate-600">무엇을 하면 이기는지 한 문장 + 이겼을 때 보이는 화면</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-2xl mb-1">🕹️</div><div class="font-black mb-1">캐릭터 조작</div><p class="text-[15px] text-slate-600">할 수 있는 행동 목록 + 그중 하나를 쓰는 장면</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-2xl mb-1">👾</div><div class="font-black mb-1">적 · 장애물</div><p class="text-[15px] text-slate-600">한 종류 + 그게 어떻게 움직이고 무엇을 막는지</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-2xl mb-1">📊</div><div class="font-black mb-1">UI · 피드백</div><p class="text-[15px] text-slate-600">체력 · 점수 · 시간이 어디에 보이나, 결과가 바로 보이나</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-2xl mb-1">🎨</div><div class="font-black mb-1">그래픽</div><p class="text-[15px] text-slate-600">한 화면이 어떻게 생겼는지 — 손그림도 됩니다</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-2xl mb-1">🔊</div><div class="font-black mb-1">사운드</div><p class="text-[15px] text-slate-600">언제 무슨 소리가 나는지 — 목록 한 줄이면 충분</p></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 mt-6">
+      <p class="text-[17px] text-slate-700">이 여섯 줄이 <b class="text-dev-700">1인 1파트를 나누는 단위</b>입니다. 이미 적어 낸 담당이 그대로 발표 담당이고, <b>층마다 무엇을 준비하는지는 잠시 뒤 하나씩</b> 보겠습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 26 세 가지 형태 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">형태는 셋 중 하나만 고릅니다</h2>
+    <p class="text-lg text-slate-500 mb-6"><b class="text-slate-700">플레이 가능한 빌드는 요구하지 않습니다.</b></p>
+    <div class="grid md:grid-cols-3 gap-4 mb-6">
+      <div class="soft-card rounded-2xl p-6">
+        <i class="fa-solid fa-file-lines text-3xl text-dev-500 mb-3"></i>
+        <div class="text-xl font-black mb-2">종이로</div>
+        <p class="text-[16px] text-slate-600">카드 · 말 · 주사위로 한 판. 3주차에 규칙서로 이미 해봤습니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <i class="fa-solid fa-display text-3xl text-dev-500 mb-3"></i>
+        <div class="text-xl font-black mb-2">슬라이드 · 피그마로</div>
+        <p class="text-[16px] text-slate-600">화면을 그리고 버튼으로 넘어가게. 아트 담당이 있는 팀에게 좋습니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <i class="fa-brands fa-unity text-3xl text-dev-500 mb-3"></i>
+        <div class="text-xl font-black mb-2">유니티로</div>
+        <p class="text-[16px] text-slate-600">씬 하나에 여섯 층을 얇게. 지난주 Roll a Ball 이 그 연습이었습니다.</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-6">
+      <p class="text-[17px] text-slate-700"><b class="text-flame-700">섞어도 됩니다.</b> 조작은 유니티로 보여주고 그래픽은 손그림, 사운드는 목록으로 — 이게 가장 현실적인 조합입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 27 종이 프로토 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">종이로 한 판 — 계속 돌려야 합니다</h2>
+    <p class="text-lg text-slate-500 mb-6">한 번으로 끝이 아닙니다. <b class="text-slate-700">숫자를 바꿀 때마다</b> 다시 돌립니다.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="font-black text-lg mb-3">종이로 알 수 있는 것</div>
+        <ul class="text-[16px] text-slate-600 space-y-1.5">
+          <li>· 적이 <b>몇 명</b> 나와야 적당한가</li>
+          <li>· 회복을 <b>언제</b> 할 수 있어야 하나</li>
+          <li>· 한 판이 <b>몇 분</b>이면 지루하지 않은가</li>
+          <li>· 무엇을 얻었을 때 <b>기분이 좋은가</b></li>
+          <li>· 규칙을 설명하는 데 <b>얼마나 걸리나</b></li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="font-black text-lg mb-3">기록할 것</div>
+        <ul class="text-[16px] text-slate-600 space-y-1.5">
+          <li>· 무엇을 돌려봤나</li>
+          <li>· 몇 판 했나 · 한 판에 몇 분</li>
+          <li>· <b>돌려보고 무엇이 바뀌었나</b></li>
+          <li>· 사진 — <b>없으면 인정되지 않습니다</b></li>
+        </ul>
+        <div class="glass-card rounded-xl p-4 mt-4">
+          <p class="text-[16px] text-slate-700">"바뀐 게 없음"도 <b class="text-dev-700">정직한 답</b>입니다. 다만 그걸 쓰려면 진짜로 돌려봐야 알 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 28 발표 규칙 -->
+<section class="slide" data-part="1">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-7">발표는 전원이 한 조각씩</h2>
+    <div class="space-y-3 mb-6">
+      <div class="rule-card"><span class="no">1</span><span>자기가 맡은 층은 <b>자기가 설명합니다</b> — 팀장이 몰아서 하지 않습니다</span></div>
+      <div class="rule-card"><span class="no">2</span><span>"했습니다" 가 아니라 <b>보여줍니다</b> — 화면 · 종이 · 영상 중 하나</span></div>
+      <div class="rule-card"><span class="no">3</span><span><b>안 된 것도 말합니다</b> — 무엇이 막혔고 다음에 뭘 할 것인지</span></div>
+    </div>
+    <div class="glass-card rounded-2xl p-6">
+      <p class="text-[18px] text-slate-700 mb-2"><b class="text-dev-700">안 된 것을 말하는 팀이 점수가 높습니다.</b></p>
+      <p class="text-[17px] text-slate-600">7주차는 완성을 보는 자리가 아니라 <b>방향이 맞는지 보는 자리</b>입니다. 막힌 걸 숨기면 중간고사 이후에 똑같이 막힙니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 29 AI 1 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">무엇으로 채점하나</h2>
+    <p class="text-lg text-slate-500 mb-6">완성도가 아니라 <b class="text-slate-700">여섯 층이 다 있는지</b>를 봅니다.</p>
+    <table class="cmp-table" style="font-size:.95rem">
+      <thead><tr><th>보는 것</th><th>무엇을 확인하나</th></tr></thead>
+      <tbody>
+        <tr><td>여섯 층</td><td>하나라도 비면 슬라이스가 아닙니다. <b>얇아도 괜찮지만 있어야</b> 합니다</td></tr>
+        <tr><td>한 판의 흐름</td><td>시작부터 끝까지 이어지나. 중간이 끊기면 아직 조각이 아닙니다</td></tr>
+        <tr><td>숫자</td><td>"적당히" 가 아니라 <b>2분 · 8개 · 세 번</b> 처럼 정해져 있나</td></tr>
+        <tr><td>근거</td><td>그 숫자를 <b>왜</b> 그렇게 정했나. 대부분 종이로 돌려봐야 나옵니다</td></tr>
+        <tr><td>전원 발표</td><td>자기 층은 자기가 설명하나</td></tr>
+        <tr><td>안 되는 것</td><td>막힌 것을 말하나. <b>감점이 아니라 가점</b>입니다</td></tr>
+      </tbody>
+    </table>
+    <div class="glass-card rounded-2xl p-5 mt-6">
+      <p class="text-[17px] text-slate-700"><b class="text-flame-700">플레이 가능한 빌드는 요구하지 않습니다.</b> 종이 · 손그림 · 목업 · 유니티 어느 쪽이든, 여섯 층이 같은 게임을 가리키면 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="3">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">AI가 준 코드가 안 돌아갈 때</h2>
+    <p class="text-lg text-slate-500 mb-6">여러분 대부분 이미 쓰고 있습니다. <b class="text-slate-700">쓰지 말라는 얘기가 아닙니다.</b></p>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-5xl font-black text-dev-200 mb-2">1</div>
+        <div class="text-xl font-black mb-2">맨 위 한 줄만 읽습니다</div>
+        <p class="text-[16px] text-slate-600">Console 의 빨간 줄 중 <b>첫 번째</b>. 나머지는 대개 그것 때문에 생긴 것입니다. <b>파일명(줄, 칸)</b> 을 누르면 그 자리로 갑니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-5xl font-black text-dev-200 mb-2">2</div>
+        <div class="text-xl font-black mb-2">어디에 붙는 코드인지 봅니다</div>
+        <p class="text-[16px] text-slate-600">AI 는 <b>어느 오브젝트에 붙이라고 말해주지 않습니다.</b> 플레이어에 붙을 코드인지, 매니저에 붙을 코드인지 먼저 정하세요.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-5xl font-black text-dev-200 mb-2">3</div>
+        <div class="text-xl font-black mb-2">한 줄씩 넣습니다</div>
+        <p class="text-[16px] text-slate-600">통째로 붙여넣고 안 되면 <b>어디가 문제인지 영영 모릅니다.</b> 반쯤 넣고 플레이, 또 반 넣고 플레이.</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 mt-6">
+      <p class="text-[17px] text-slate-700">3주차에 배운 <b class="text-dev-700">변인 통제</b> 와 같은 이야기입니다. 한 번에 하나만 바꿔야 무엇 때문인지 알 수 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 30 AI 2 -->
+<section class="slide" data-part="3">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-7">하지 않았으면 하는 것</h2>
+    <div class="space-y-4 mb-6">
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">안 되면 통째로 새 코드를 받는 것</div>
+        <p class="text-[16px] text-slate-600">받을 때마다 구조가 달라져서, 세 번째쯤이면 <b>무엇이 어디 있는지 아무도 모릅니다.</b> 고치는 쪽이 항상 빠릅니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">이해 못 한 코드를 팀에 넘기는 것</div>
+        <p class="text-[16px] text-slate-600">7주차 발표에서 <b>자기 조각은 자기가 설명합니다.</b> 설명 못 하는 코드는 아직 내 것이 아닙니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">기획을 통째로 맡기는 것</div>
+        <p class="text-[16px] text-slate-600">AI 는 <b>평균적으로 무난한 것</b>을 줍니다. 5주차에 여러분이 고른 기획은 평균이 아니어서 뽑혔습니다.</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">쓰는 걸 숨길 필요 없습니다. <b class="text-dev-700">어디에 어떻게 썼는지 발표에서 말해도 감점하지 않습니다.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 32 과제 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">층별로 하나씩 보겠습니다</h2>
+    <p class="text-lg text-slate-500 mb-5">여섯 장이 <b class="text-slate-700">전부 같은 구조</b>입니다. <b class="text-slate-700">자기 층이 나올 때만</b> 집중해서 보세요.</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">왼쪽</div>
+        <div class="text-lg font-black mb-1">가져올 것</div>
+        <p class="text-[15.5px] text-slate-600">다섯에서 여섯 줄. <b>이게 다입니다.</b> 더 해 와도 되지만 이보다 적으면 안 됩니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5 border-dev-200">
+        <div class="tagchip bg-dev-600 text-white mb-3">오른쪽</div>
+        <div class="text-lg font-black mb-1">산출물 예시</div>
+        <p class="text-[15.5px] text-slate-600">실제로 <b>이렇게 생긴 걸 한 장 만들어 오면</b> 됩니다. 손그림도 됩니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5 border-flame-200">
+        <div class="tagchip bg-flame-600 text-white mb-3">아래</div>
+        <div class="text-lg font-black mb-1">발표에서 할 일</div>
+        <p class="text-[15.5px] text-slate-600">그 자료를 띄우고 <b>무슨 말을 하면 되는지</b> 한 줄.</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="soft-card rounded-2xl p-5">
+        <div class="text-[13px] font-black text-slate-400 mb-2">말이 헷갈릴 때</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1">
+          <li>· <b>레퍼런스</b> — 참고하려고 모은 남의 그림이나 화면</li>
+          <li>· <b>스케치 · 목업</b> — 네모와 글자로 그린 화면 계획</li>
+          <li>· <b>종이 프로토</b> — 종이와 주사위로 돌려보는 시험판</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="text-[13px] font-black text-slate-400 mb-2">여섯 층 전부에 해당하는 한 가지</div>
+        <p class="text-[15.5px] text-slate-600 mb-2"><span class="text-flame-700 font-black">(X)</span> 집주인이 쫓아옵니다. 무섭게 생겼어요.</p>
+        <p class="text-[15.5px] text-slate-700"><span class="text-dev-700 font-black">(O)</span> 집주인이 마당 가운데를 왕복해서 <b>최단 경로가 막힙니다.</b> 돌아가면 <b>15초</b>가 더 걸려요.</p>
+        <p class="text-[14.5px] text-slate-500 mt-2">느낌이 아니라 <b>무엇이 어떻게 달라지는지</b>를 말하면 됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">🏁</span><h2 class="text-3xl md:text-4xl font-black">목표 · 승리 조건 담당</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4">이 사람이 <b class="text-slate-700">게임이 언제 끝나는지</b>를 정합니다.</p>
+    <div class="grid md:grid-cols-5 gap-4 items-start">
+      <div class="md:col-span-2 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">가져올 것</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>① <b>이기는 조건</b> 한 문장</li>
+          <li>② <b>지는 조건</b> — 없으면 왜 없는지</li>
+          <li>③ <b>한 판 길이</b>와 그렇게 정한 이유</li>
+          <li>④ <b>승리 · 패배 화면</b> 각 1장</li>
+          <li>⑤ "거의 이길 뻔" 하는 순간</li>
+        </ul>
+      </div>
+      <div class="md:col-span-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <div class="mk">
+              <svg viewBox="0 0 320 180" role="img" aria-label="승리 화면 목업">
+                <rect width="320" height="180" fill="#111a2e"/>
+                <rect x="0" y="130" width="320" height="50" fill="#1b2a4a"/>
+                <polygon points="236,46 296,46 296,130 236,130" fill="#2a3a5e"/>
+                <polygon points="248,60 284,60 284,130 248,130" fill="#F6C453" opacity=".9"/>
+                <polygon points="248,60 284,60 300,130 232,130" fill="#F6C453" opacity=".16"/>
+                <ellipse cx="150" cy="128" rx="16" ry="5" fill="#000" opacity=".35"/>
+                <path d="M138 128 q6-22 18-22 q12 0 18 22 z" fill="#0b1120"/>
+                <circle cx="146" cy="112" r="2.4" fill="#F6C453"/><circle cx="154" cy="112" r="2.4" fill="#F6C453"/>
+                <text x="26" y="52" fill="#fff" font-size="30" font-weight="800" font-family="Pretendard, sans-serif">8 / 8</text>
+                <text x="26" y="74" fill="#F6C453" font-size="15" font-weight="800" font-family="Pretendard, sans-serif">탈출 성공</text>
+                <text x="26" y="94" fill="#94a3b8" font-size="11" font-family="Pretendard, sans-serif">남은 시간 0:14</text>
+                <rect x="26" y="104" width="86" height="24" rx="12" fill="#F6C453"/>
+                <text x="46" y="120" fill="#1b2a4a" font-size="12" font-weight="800" font-family="Pretendard, sans-serif">다시 하기</text>
+              </svg>
+            </div>
+            <div class="mk-cap">승리 화면</div>
+          </div>
+          <div>
+            <div class="mk">
+              <svg viewBox="0 0 320 180" role="img" aria-label="패배 화면 목업">
+                <rect width="320" height="180" fill="#111a2e"/>
+                <rect x="0" y="130" width="320" height="50" fill="#1b2a4a"/>
+                <polygon points="300,20 320,10 320,170 288,170" fill="#F6C453" opacity=".10"/>
+                <polygon points="296,34 320,24 320,150 276,150" fill="#F6C453" opacity=".22"/>
+                <ellipse cx="150" cy="128" rx="16" ry="5" fill="#000" opacity=".35"/>
+                <path d="M138 128 q6-22 18-22 q12 0 18 22 z" fill="#0b1120"/>
+                <circle cx="146" cy="112" r="2.4" fill="#fff"/><circle cx="154" cy="112" r="2.4" fill="#fff"/>
+                <text x="26" y="56" fill="#fff" font-size="26" font-weight="800" font-family="Pretendard, sans-serif">들켰다</text>
+                <text x="26" y="78" fill="#fca5a5" font-size="14" font-weight="800" font-family="Pretendard, sans-serif">● ● ●  3 / 3</text>
+                <text x="26" y="96" fill="#94a3b8" font-size="11" font-family="Pretendard, sans-serif">생선 5마리까지 모았습니다</text>
+                <rect x="26" y="104" width="86" height="24" rx="12" fill="#475569"/>
+                <text x="46" y="120" fill="#fff" font-size="12" font-weight="800" font-family="Pretendard, sans-serif">다시 하기</text>
+              </svg>
+            </div>
+            <div class="mk-cap">패배 화면</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4 mt-4">
+      <p class="text-[16px] text-slate-700 mb-1"><b class="text-dev-700">예시</b> &nbsp; 이긴다 — 2분 안에 생선 8마리를 모아 담장 끝 창고에 닿는다 &nbsp;·&nbsp; 진다 — 세 번 들키면 끝 &nbsp;·&nbsp; 2분으로 정한 이유 — <b>종이로 4분은 지루했고 1분은 둘러볼 틈이 없었다</b></p>
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> 이기는 조건을 한 문장으로 말하고, 위 두 장을 띄우면 이 층은 끝납니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">🕹️</span><h2 class="text-3xl md:text-4xl font-black">캐릭터 조작 담당</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4">이 사람이 <b class="text-slate-700">플레이어가 할 수 있는 일</b>을 정합니다.</p>
+    <div class="grid md:grid-cols-5 gap-4 items-start">
+      <div class="md:col-span-2 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">가져올 것</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>① <b>행동 표</b> — 행동 / 조작 / 일어나는 일</li>
+          <li>② 가장 많이 누르는 행동</li>
+          <li>③ <b>조작의 느낌</b> + 그걸 만드는 숫자</li>
+          <li>④ 일부러 <b>못 하게 막은 것</b>과 이유</li>
+          <li>⑤ <b>10초 시연</b> 또는 조작 설명 그림</li>
+        </ul>
+      </div>
+      <div class="md:col-span-3">
+        <div class="mk">
+          <svg viewBox="0 0 560 262" role="img" aria-label="행동 표 목업">
+            <rect width="560" height="262" fill="#fdfdfe"/>
+            <g font-family="Pretendard, sans-serif">
+              <rect x="16" y="16" width="528" height="30" rx="6" fill="#0f172a"/>
+              <text x="32" y="36" font-size="12.5" font-weight="800" fill="#fff">행동</text>
+              <text x="132" y="36" font-size="12.5" font-weight="800" fill="#fff">조작</text>
+              <text x="262" y="36" font-size="12.5" font-weight="800" fill="#fff">일어나는 일</text>
+
+              <rect x="16" y="50" width="528" height="40" fill="#fff" stroke="#eef2f7"/>
+              <text x="32" y="75" font-size="13" font-weight="800" fill="#0f172a">걷기</text>
+              <rect x="132" y="61" width="21" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="139" y="74" font-size="10" fill="#64748b">←</text>
+              <rect x="157" y="61" width="21" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="164" y="74" font-size="10" fill="#64748b">↑</text>
+              <rect x="182" y="61" width="21" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="189" y="74" font-size="10" fill="#64748b">↓</text>
+              <rect x="207" y="61" width="21" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="214" y="74" font-size="10" fill="#64748b">→</text>
+              <text x="262" y="75" font-size="12.5" fill="#334155">조용히 이동한다 — 소리가 거의 안 난다</text>
+
+              <rect x="16" y="90" width="528" height="40" fill="#f8fafc" stroke="#eef2f7"/>
+              <text x="32" y="115" font-size="13" font-weight="800" fill="#0f172a">달리기</text>
+              <rect x="132" y="101" width="40" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="139" y="114" font-size="10" fill="#64748b">Shift</text>
+              <text x="178" y="114" font-size="11" fill="#94a3b8">+ 방향키</text>
+              <text x="262" y="115" font-size="12.5" fill="#334155">두 배 빠르지만 <tspan fill="#c2410c" font-weight="800">소리가 크다</tspan> — 집주인이 온다</text>
+
+              <rect x="16" y="130" width="528" height="40" fill="#fff" stroke="#eef2f7"/>
+              <text x="32" y="155" font-size="13" font-weight="800" fill="#0f172a">숨기</text>
+              <rect x="132" y="141" width="34" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="139" y="154" font-size="10" fill="#64748b">Ctrl</text>
+              <text x="172" y="154" font-size="11" fill="#94a3b8">꾹</text>
+              <text x="262" y="155" font-size="12.5" fill="#334155">안 들키지만 <tspan fill="#c2410c" font-weight="800">못 움직인다</tspan></text>
+
+              <rect x="16" y="170" width="528" height="40" fill="#f8fafc" stroke="#eef2f7"/>
+              <text x="32" y="195" font-size="13" font-weight="800" fill="#0f172a">집기</text>
+              <rect x="132" y="181" width="48" height="18" rx="4" fill="#fff" stroke="#cbd5e1"/><text x="139" y="194" font-size="10" fill="#64748b">Space</text>
+              <text x="262" y="195" font-size="12.5" fill="#334155">발밑 생선을 문다 — <tspan fill="#c2410c" font-weight="800">한 번에 한 마리만</tspan></text>
+
+              <text x="16" y="232" font-size="11.5" fill="#64748b">느낌 — 가볍지만 멈출 때 조금 미끄러진다 (speed 8 · Drag 2)</text>
+              <text x="16" y="252" font-size="11.5" fill="#64748b">막은 것 — 숨은 채로는 이동 금지. 다 숨어서 가면 긴장이 사라져서</text>
+            </g>
+          </svg>
+        </div>
+        <div class="mk-cap">행동 표 — 네 줄이면 충분합니다. 종이에 손으로 써도 됩니다</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4 mt-4">
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> 직접 눌러 보여주세요. 그리고 <b>왜 그 느낌으로 만들었는지</b> 한 줄 — 숫자를 바꿔 본 얘기가 있으면 더 좋습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">👾</span><h2 class="text-3xl md:text-4xl font-black">적 · 장애물 담당</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4">이 사람이 <b class="text-slate-700">플레이어를 막는 것</b>을 정합니다. 무섭게 만드는 게 아니라 <b class="text-slate-700">길을 막는</b> 일입니다.</p>
+    <div class="grid md:grid-cols-5 gap-4 items-start">
+      <div class="md:col-span-2 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">가져올 것</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>① <b>한 종류</b>의 이름과 생김새 한 줄</li>
+          <li>② <b>움직임 규칙</b> — 코드 말고 문장으로</li>
+          <li>③ 플레이어의 <b>무엇을 막는지</b></li>
+          <li>④ <b>배치도</b> 1장 — 몇 개가 어디에</li>
+          <li>⑤ 종이로 돌려보고 <b>바꾼 숫자</b></li>
+        </ul>
+        <div class="mt-3 pt-3 border-t border-slate-100">
+          <div class="text-[13px] font-black text-flame-700 mb-1">흔한 실수</div>
+          <p class="text-[14.5px] text-slate-500">적을 세 종류 벌여 놓고 하나도 못 끝냅니다. <b>한 종류만</b> 하세요.</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="mk">
+          <svg viewBox="0 0 560 300" role="img" aria-label="적 배치도 목업">
+            <rect width="560" height="300" fill="#fdfdfe"/>
+            <rect x="18" y="14" width="524" height="218" rx="10" fill="#f1f5f9" stroke="#cbd5e1"/>
+            <g font-family="Pretendard, sans-serif">
+              <rect x="18" y="14" width="524" height="26" fill="#e2e8f0"/>
+              <text x="30" y="32" font-size="11.5" font-weight="800" fill="#475569">담장 — 고양이만 올라갈 수 있다</text>
+              <rect x="70" y="60" width="404" height="150" rx="6" fill="#e8edf3" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+              <text x="82" y="78" font-size="11.5" font-weight="800" fill="#64748b">마당</text>
+
+              <path d="M34 224 L34 48 L300 42" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="6 4"/>
+              <circle cx="34" cy="226" r="8" fill="#0f172a"/>
+              <circle cx="31" cy="224" r="1.7" fill="#F6C453"/><circle cx="37" cy="224" r="1.7" fill="#F6C453"/>
+              <path d="M60 218 L470 170" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+
+              <line x1="130" y1="150" x2="416" y2="150" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/>
+              <polygon points="122,150 134,145 134,155" fill="#94a3b8"/>
+              <polygon points="424,150 412,145 412,155" fill="#94a3b8"/>
+              <text x="140" y="142" font-size="10.5" font-weight="800" fill="#64748b">순찰 — 왕복</text>
+
+              <polygon points="290,150 392,118 392,182" fill="#F6C453" opacity=".35"/>
+              <polygon points="290,150 392,118 392,182" fill="none" stroke="#eab308" stroke-dasharray="3 3"/>
+              <text x="318" y="112" font-size="10.5" font-weight="800" fill="#a16207">손전등 60°</text>
+              <circle cx="290" cy="150" r="13" fill="#475569"/>
+              <text x="284" y="155" font-size="12" fill="#fff" font-weight="800">집</text>
+              <text x="258" y="182" font-size="11" font-weight="800" fill="#334155">집주인 1명</text>
+
+              <g fill="#60a5fa">
+                <circle cx="104" cy="98" r="6"/><circle cx="176" cy="88" r="6"/><circle cx="248" cy="100" r="6"/>
+                <circle cx="330" cy="88" r="6"/><circle cx="402" cy="100" r="6"/><circle cx="446" cy="124" r="6"/>
+                <circle cx="158" cy="196" r="6"/>
+              </g>
+              <circle cx="92" cy="206" r="8" fill="#2563eb"/>
+              <text x="104" y="210" font-size="10.5" font-weight="800" fill="#1d4ed8">마지막 생선</text>
+
+              <rect x="492" y="136" width="30" height="50" rx="4" fill="#F6C453"/>
+              <text x="486" y="202" font-size="10.5" font-weight="800" fill="#a16207">창고</text>
+
+              <text x="18" y="256" font-size="12" font-weight="800" fill="#0f172a">두 가지 길</text>
+              <line x1="104" y1="252" x2="134" y2="252" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="6 4"/>
+              <text x="142" y="256" font-size="11.5" fill="#334155">담장 위로 — 안전하지만 느리다</text>
+              <line x1="330" y1="252" x2="360" y2="252" stroke="#dc2626" stroke-width="2.5"/>
+              <text x="368" y="256" font-size="11.5" fill="#334155">마당 가로지르기 — 빠르지만 걸린다</text>
+              <text x="18" y="282" font-size="11.5" fill="#64748b">종이로 4판 — 모두 져서 순찰 속도를 고양이의 절반으로, 손전등 각도 90° → 60°로 줄였다</text>
+            </g>
+          </svg>
+        </div>
+        <div class="mk-cap">배치도 — 이 한 장이 산출물입니다. 손으로 그려도 됩니다</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4 mt-4">
+      <p class="text-[16px] text-slate-700 mb-1"><b class="text-dev-700">움직임 규칙</b> &nbsp; 정해진 길을 왕복한다 → 소리가 나면 그쪽을 3초 비춘다 → 아무것도 없으면 다시 왕복 &nbsp;|&nbsp; <b class="text-dev-700">막는 것</b> &nbsp; 마당을 가로지르는 최단 경로. 돌아가면 15초가 더 걸린다</p>
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> 배치도를 띄우고 <b>빨간 길과 초록 길</b>을 짚으세요. "적이 여기를 막아서 플레이어가 고민하게 됩니다" 가 이 층의 전부입니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">📊</span><h2 class="text-3xl md:text-4xl font-black">UI · 피드백 담당</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4">이 사람이 <b class="text-slate-700">규칙을 눈에 보이게</b> 만듭니다. 규칙마다 <b class="text-slate-700">보여주는 자리</b>가 있어야 합니다.</p>
+    <div class="grid md:grid-cols-5 gap-4 items-start">
+      <div class="md:col-span-2 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">가져올 것</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>① 항상 보이는 것 — <b>무엇이 / 어디에 / 왜</b></li>
+          <li>② <b>사건 → 화면 반응</b> 표</li>
+          <li>③ 틀렸을 때 어떻게 아는지</li>
+          <li>④ 일부러 <b>안 띄운 것</b>과 이유</li>
+          <li>⑤ <b>화면 배치 스케치</b> 1장</li>
+        </ul>
+        <div class="mt-3 pt-3 border-t border-slate-100">
+          <div class="text-[13px] font-black text-flame-700 mb-1">흔한 실수</div>
+          <p class="text-[14.5px] text-slate-500">「왜 필요한가」를 못 적는 항목이 나옵니다. <b>그건 화면에 없어도 되는 것</b>입니다.</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="mk">
+          <svg viewBox="0 0 560 300" role="img" aria-label="화면 배치 스케치 목업">
+            <rect width="560" height="300" fill="#fdfdfe"/>
+            <rect x="20" y="18" width="520" height="226" rx="8" fill="#111a2e"/>
+            <rect x="20" y="18" width="520" height="226" rx="8" fill="none" stroke="#F6C453" stroke-width="5" opacity=".75"/>
+            <g font-family="Pretendard, sans-serif">
+              <rect x="36" y="34" width="112" height="34" rx="7" fill="#0b1120" stroke="#60a5fa" stroke-dasharray="4 3"/>
+              <text x="48" y="57" font-size="17" font-weight="800" fill="#fff">🐟 3 / 8</text>
+              <rect x="236" y="34" width="88" height="34" rx="7" fill="#0b1120" stroke="#60a5fa" stroke-dasharray="4 3"/>
+              <text x="256" y="57" font-size="17" font-weight="800" fill="#fff">01 : 24</text>
+              <rect x="412" y="34" width="112" height="34" rx="7" fill="#0b1120" stroke="#60a5fa" stroke-dasharray="4 3"/>
+              <circle cx="440" cy="51" r="7" fill="#f87171"/><circle cx="462" cy="51" r="7" fill="#f87171"/>
+              <circle cx="484" cy="51" r="7" fill="none" stroke="#64748b" stroke-width="2"/>
+              <text x="36" y="86" font-size="11" fill="#60a5fa">목표까지 얼마 남았나</text>
+              <text x="236" y="86" font-size="11" fill="#60a5fa">달릴지 걸을지 판단</text>
+              <text x="412" y="86" font-size="11" fill="#60a5fa">한 번 더 들키면 끝</text>
+
+              <path d="M250 196 q10-30 28-30 q18 0 28 30 z" fill="#0b1120"/>
+              <circle cx="266" cy="176" r="3.4" fill="#F6C453"/><circle cx="278" cy="176" r="3.4" fill="#F6C453"/>
+              <rect x="226" y="208" width="104" height="24" rx="12" fill="#1e293b"/>
+              <text x="252" y="225" font-size="13" font-weight="800" fill="#F6C453">+1  🐟</text>
+              <text x="340" y="225" font-size="11" fill="#94a3b8">먹으면 숫자가 커졌다 작아진다</text>
+              <text x="36" y="196" font-size="11" font-weight="800" fill="#fbbf24">테두리 노란 번쩍</text><text x="36" y="212" font-size="11" fill="#94a3b8">= 손전등에 걸렸다</text>
+            </g>
+            <g font-family="Pretendard, sans-serif">
+              <text x="20" y="268" font-size="12" font-weight="800" fill="#0f172a">일부러 안 띄운 것</text>
+              <text x="20" y="286" font-size="12" fill="#64748b">집주인 위치 · 미니맵 — 띄우면 화면만 보게 되고 직접 살필 이유가 사라져서</text>
+            </g>
+          </svg>
+        </div>
+        <div class="mk-cap">화면 배치 스케치 — 네모와 글자만으로 충분합니다</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4 mt-4">
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> <b>규칙 하나를 고르고</b> 그게 화면 어디에 보이는지 짚으세요. 예) "소리를 내면 들킨다 → 그래서 달리면 테두리가 번쩍입니다."</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">🎨</span><h2 class="text-3xl md:text-4xl font-black">그래픽 담당 — 화면 정하기</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4"><b class="text-slate-700">그림 실력을 보지 않습니다.</b> 한 화면이 어떻게 생겼는지 <b class="text-slate-700">정하는</b> 일입니다.</p>
+    <div class="grid md:grid-cols-5 gap-4 items-start">
+      <div class="md:col-span-2 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">가져올 것</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>① <b>분위기</b> 한 줄</li>
+          <li>② <b>레퍼런스 5장</b> + 「참고할 점」</li>
+          <li>③ <b>기본 색 3개</b> — 색상값과 쓰는 자리</li>
+          <li>④ <b>한 화면 그림</b> 1장 (손그림 가능)</li>
+          <li>⑤ 플레이어 · 적 · 배경의 <b>구분 방법</b></li>
+          <li>⑥ 에셋이면 출처, AI면 <b>프롬프트</b></li>
+        </ul>
+        <div class="mt-3 pt-3 border-t border-slate-100">
+          <div class="text-[13px] font-black text-flame-700 mb-1">흔한 실수</div>
+          <p class="text-[14.5px] text-slate-500">레퍼런스 주소만 모아 옵니다. <b>「무엇을 참고할지」</b> 한 줄이 없으면 안 모은 것과 같습니다.</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="mk">
+          <svg viewBox="0 0 560 220" role="img" aria-label="한 화면 그림 목업">
+            <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0b1327"/><stop offset="1" stop-color="#1B2A4A"/></linearGradient></defs>
+            <rect width="560" height="220" fill="url(#sky)"/>
+            <circle cx="486" cy="36" r="14" fill="#e2e8f0" opacity=".25"/>
+            <rect x="0" y="150" width="560" height="70" fill="#6B7280" opacity=".5"/>
+            <rect x="0" y="96" width="560" height="22" fill="#2a3a5e"/>
+            <g fill="#223252">
+              <rect x="30" y="118" width="70" height="36"/><rect x="118" y="118" width="54" height="36"/>
+              <rect x="190" y="118" width="86" height="36"/><rect x="294" y="118" width="62" height="36"/>
+              <rect x="374" y="118" width="96" height="36"/><rect x="488" y="118" width="54" height="36"/>
+            </g>
+            <rect x="214" y="30" width="5" height="68" fill="#475569"/>
+            <circle cx="216" cy="30" r="9" fill="#F6C453"/>
+            <polygon points="216,34 262,150 170,150" fill="#F6C453" opacity=".17"/>
+            <path d="M120 96 q11-28 24-28 q13 0 24 28 z" fill="#070d1a"/>
+            <path d="M126 72 l5-12 l7 10 z" fill="#070d1a"/><path d="M160 72 l-5-12 l-7 10 z" fill="#070d1a"/>
+            <circle cx="136" cy="80" r="3.6" fill="#F6C453"/><circle cx="150" cy="80" r="3.6" fill="#F6C453"/>
+            <path d="M168 94 q22-10 28-26" fill="none" stroke="#070d1a" stroke-width="5" stroke-linecap="round"/>
+            <g>
+              <path d="M396 182 q10-40 22-40 q12 0 22 40 z" fill="#0d1526"/>
+              <circle cx="418" cy="134" r="10" fill="#0d1526"/>
+              <polygon points="440,156 530,126 530,190" fill="#F6C453" opacity=".30"/>
+              <circle cx="442" cy="156" r="5" fill="#F6C453"/>
+            </g>
+            <g fill="#60a5fa"><circle cx="330" cy="172" r="5"/><circle cx="276" cy="186" r="5"/><circle cx="60" cy="178" r="5"/></g>
+            <g font-family="Pretendard, sans-serif">
+              <text x="16" y="24" font-size="12" font-weight="800" fill="#cbd5e1">늦은 밤 골목 · 가로등 하나</text>
+              <text x="16" y="206" font-size="11" fill="#cbd5e1">고양이는 눈만 노랗게 · 집주인은 유일하게 빛을 들고 다닌다</text>
+            </g>
+          </svg>
+        </div>
+        <div class="mk-cap">한 화면 그림 — 손그림이어도 이 정도 정보가 들어 있으면 됩니다</div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 mt-4">
+      <div class="soft-card rounded-2xl p-4">
+        <div class="text-[13px] font-black text-slate-400 mb-2">기본 색 3개</div>
+        <div class="flex flex-wrap gap-4 text-[14.5px]">
+          <span class="flex items-center gap-2"><span class="sw" style="background:#1B2A4A"></span><b>#1B2A4A</b> 배경 · 건물</span>
+          <span class="flex items-center gap-2"><span class="sw" style="background:#6B7280"></span><b>#6B7280</b> 바닥 · 담장</span>
+          <span class="flex items-center gap-2"><span class="sw" style="background:#F6C453"></span><b>#F6C453</b> 눈 · 불빛 · 생선</span>
+        </div>
+      </div>
+      <div class="soft-card rounded-2xl p-4">
+        <div class="text-[13px] font-black text-slate-400 mb-2">레퍼런스 5장 — 「참고할 점」까지 적습니다</div>
+        <div class="grid grid-cols-5 gap-2">
+          <div class="refbox">가로등<br>그림자</div><div class="refbox">실루엣<br>인식</div><div class="refbox">배경<br>단순화</div>
+          <div class="refbox">담장<br>높이</div><div class="refbox">빛<br>퍼짐</div>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4 mt-3">
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> 이 그림을 띄우고 <b>"플레이어는 눈만 노랗고, 적은 유일하게 빛을 들고 있습니다"</b> 처럼 구분 방법을 말하세요. 예쁜지를 보는 게 아닙니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">🎨</span><h2 class="text-3xl md:text-4xl font-black">그래픽 담당 — 실제로 만들 것</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4">화면을 정했으면 <b class="text-slate-700">쓸 수 있는 파일</b>이 하나는 나와야 합니다. 셋 중 <b class="text-slate-700">하나만</b> 골라도 됩니다.</p>
+    <div class="grid md:grid-cols-12 gap-4 items-start">
+      <div class="md:col-span-4 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">셋 중 하나</div>
+        <div class="space-y-3 text-[15.5px]">
+          <div>
+            <div class="font-black text-slate-800 mb-0.5">① 2D라면 — 스프라이트</div>
+            <p class="text-slate-600">캐릭터 <b>1종</b> · 배경 타일 <b>3장</b> · 아이콘 <b>2개</b></p>
+          </div>
+          <div>
+            <div class="font-black text-slate-800 mb-0.5">② 3D라면 — 모델 하나</div>
+            <p class="text-slate-600">핵심 오브젝트 <b>1개</b>만. 나머지는 <b>기본 도형</b></p>
+          </div>
+          <div>
+            <div class="font-black text-slate-800 mb-0.5">③ 에셋스토어 — 목록</div>
+            <p class="text-slate-600">이름 · 제작자 · <b>무료/유료</b> · 라이선스 · 쓸 곳</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-slate-100">
+          <div class="text-[13px] font-black text-flame-700 mb-1">섞어도 됩니다</div>
+          <p class="text-[14.5px] text-slate-500">배경은 에셋스토어, 캐릭터만 직접 — 가장 현실적인 조합입니다.</p>
+        </div>
+      </div>
+
+      <div class="md:col-span-4">
+        <div class="mk" style="padding:10px">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[12.5px] font-black text-slate-800">2D · 스프라이트</span>
+            <span class="text-[11px] text-slate-400">cat_walk.png</span>
+          </div>
+          <img src="data:image/png;base64,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" alt="걷기 4프레임 스프라이트 시트" style="width:100%;display:block;image-rendering:pixelated;border-radius:5px">
+          <div class="flex items-center gap-2 mt-2">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAABgCAYAAAC9rK9YAAADbUlEQVR42u3dzU7ibBgGYNAqfxbQE3DBZtazdGViMmc9yazmKNy5MuEDS+VPUb7tTPLUBEIpMNe1fCRYX8qdt94p1L99/7GuUZnbweAojjNdfobzvHEWzufNfjhvLV4O6u8aDoelPn+vnse/t3sTzi+y93/q/D8TAYAAAgQQgAACBBBAWZKH+zurUKHHp+eNHl+/aYfz9WhW6nEWtV1FDq3tqkq2TsN5VW3X6yhu365uRnZAgEswAAEECCAAAQSclqToB63mJJzPF91KDvS6lYXz8bz3T71gm7Zdy/kqnDdayUmuT76+Cudp/dW7vVZd22UHBLgEAxBAgAACBBDA3hVWIUVtV7e5COeTRbPUAy277bqexPfIjLujo36BT7XtKnJobdf5Z9zKfZxp5eyAAAEECCAAAQQIIIBSbVyRlN12la2Rxfe4jXtOhn1Imy/hPF/0T/Lv1XbZAQECCEAAAQIIEEAAFal/+/5jbRmqczsYWIRarTZN40+87OTl1pPD4dDi2wEBAghAAAECCEAAAacoebi/C3+Q9lvhPH+ZW7Udenx6tgi18tuuXWkvpuF81uyU+nt7aXzbZpav7IAABBAggAAEECCAACKFn4j4VP8vnPdr7XCe3TTCeW+0tMqcjLLbriK7arvePuL36eV5Ne9TOyDAJRgggAAEECCAAEpT2IL1x+2NnkjbRRlmretw3p6PLc4Wqmq77IAAl2AAAggQQIAAAti7xBLwp1nBvULtitoTbZcdEIAAAgQQgAACBBDAVpKfv35bhQrdDgYbPf48ScP5xyrfyfFU1XbNull8PJOek8QOCEAAAQIIQAABAghgc8nD/d1Onijrvofz3uTCKn/h8el5o8fvqu06NNqu7SyS+PvCmqvjuM3TDggQQIAAAhBAgAACKM3O/lWu7eKvE2vcCeer66nF+cL8M35Lts6Oo+1qNOJP1Fwul3ZAgEswAAEECCBAAAHs18l+L9i8H7ctrZeOV32XJ9Bl3M5ou7ZT1HYdi6K2yw4IcAkGIIAAAQQIIIC9O9kWrKjt6lzUw/n0fe1s2MLqLbEI2AEBAghAAAECCEAAAYcn+fnrt1Wo0O1gYBG+kC/a4Txtzg7qOBvZWzhf9i6PYp2n0zScdzqbfQ/dVT1+/Os6tQMCXIIBCCBAAAECCGC//gcEgrVe7kvRngAAAABJRU5ErkJggg==" alt="배경 타일 3종" style="height:36px;image-rendering:pixelated;border-radius:4px">
+            <span class="text-[11.5px] text-slate-500">타일 3장 · 아이콘 2개</span>
+          </div>
+        </div>
+        <div class="mk-cap">걷기 4프레임 · png · 배경 투명 · <b>한 칸 크기 통일</b></div>
+      </div>
+
+      <div class="md:col-span-4">
+        <div class="mk" style="padding:10px">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[12.5px] font-black text-slate-800">3D · 모델 하나</span>
+            <span class="text-[11px] text-slate-400">cat.fbx</span>
+          </div>
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAvgAAAHBCAMAAAArYT8pAAAAwFBMVEWZlYpzcnVvcnlvcnhvcnducnhrbHFqam5paW1oaGxnaW5nZ2tmZmplZmtjZ21jZm1jZmxjZmtiZmxlZWlkZGhnYlxjY2ZiYmZhYWRgYGNdXmFcXF9bW15ZWV1YWFtVWF9VWF5VWF1UWF5WVllVVVhTVVtSVFpUVFdTU1ZYUEBSUlVRUVRQUFNPT1JOTlFNTVBNTU5LTVJMTE9LS05KSkw/QUYqMkceK0weKkoeKkkeKkgdKk4dKEcjIyMWHzgUGy2qCgpnAABKdklEQVR42u2dCX/aONPAU8oakO28Ye36JoQngaQcaQk2OTYJ3/9bvRrJBnPYlk8MaLa/3W0Ckiz/NZoZjaSrLy5cLlCuTrHRq23Z/fv651y4xIG/PC3xvn5vi/f7sJAHrP3T4H9IO714+Tr0Q9wXWPB/uaQSCv5y/Pf5hGT++9cVu/z4/Xsyr+Vz/JlOJtNHF/h1sdhWvCzt/gGx5h6U4D5NJn+e/zxzYZG/4yUF/697WrIH/u849H/9ruEjLBbuX6KnvYXrzi3HsQfDQZwMl8PRIRn0+0PMPi7pLy6TC5P89cF/PnXw46cAd1Ej3n06gXl3Mp3Oh5ZjO0D2XbwMlsODgtkf9vuT+dylo2jB8U+W5xMF/yod+L/rgcLLy8tfF1s1RNEDstRYSWY+FnwKP8wWo8kQF43Ld/++cLbPEvxfJwf+Xyy+N7r07DuK/F0aiQN/I4MR6H3P+/v3mSv+swN/4Z4S+C/Pf2duEIUZYcOmP7jLIGzgD4f9O9sjASJ39pcTfmbg/z4V8LGen65DjxC26Q8YLZvM4GOb/865ozVyvc/BPwL02KYnYRtsdc8tTH1m5lOBT9nv9e05ie57zy/c4OfgVxe3eSEu7BzLgFg3uaBPCT5lf9C/my/m0IyFy2M9lwj+rwrDmVS9ElUL8PWdvnOXH/r04FP47wZ3o+lkTmYd94Wjf3EavyryFy5NHliA/5o6blM0+AR+8q87MhJdTv4u+DMyQZ+MzH9fpVX5lYg785bewHacIoHPB34gd/3BEuu3BRf6ojj4BYO/MIoxbIoGH5v8Ew4+B7808F2nFOpzgz8cDuYcfA5+eeDbHHwOflnyskf+r9+/Ofgc/HMHf0fl//6F9f0X/veviER9Dj4H/9zA//UrzLoH9P/6xcHn4J81+AcYD37+i4PPwT9H8H/9Ztl26Ot/Dj4H/zzAX/z9jc35KIW/j/9fDj4H/yzAX/g5V6DRfycp/d9/Ofgc/LMBf0M/HCRyWPfjX0B+cHX9WSL4Qw4+B39LIOtweUvO0dmB/refJXwW4Pfzgj877ddcCvjTxctJy2LZ7/+vv5wH9P/C/4FU+L8VN2NaHvj9hZcP/KHnzU78NRf4os4H/MHA9qb9/2HB0N963vzv37/V92dp4A+c5Sgf95PlhHN/huDfDezl9B6/4AfMfh9rt6P0Z5ngT/OBP1r+4cSfK/jBO+6dI/iTvOA/c+I5+Bx8Dj4Hn4PPwefgc/A5+Bx8Dj4Hn4PPwefgc/A5+Bx8Dj4Hn4N/TPDHHHwO/oWBj9Hoey4Hn4OfKM+z2fOTD/7k5c9Jy8vSwnDYQToLgD89RjPGnmvVF/zZib/lXPI89WVCr5A8D/D/eC6cVnls8P88u96oz8Gvkcx8mS7W1xSMnP7A9M4D/Gd36Qzu+kcH/+VpOXc4+DWBAstsjbvbNXQiZgPkbMD36gH+1OPg18YKADEFREVoBPKz2Ww2zlPjD0eQl3wM8Ccc/Nr4fd4/QPhamoH8/PmTg8/BP2PwiXo/KBx8Dv4ZmzoR1HPwOfjn7Nq6PQ4+B/8CwfcaHHwO/iWCL3DwOfiXCH6Tg8/B5+Bz8Dn4HHwO/gWBP7ko8J/ZwB+TxIbTlZkP/mADvjs9Qjv+jOsL/nA5PfG3nEomTM7tmYA/9wYjDn7U0ZnuBWH/PPOsaO7PCvw+Bn+4vOPgRyr82SWBP/XQJYCPn9OzBv0RBz8G/D8cfA4+B5+Dz8Hn4HPwzwb8JQefg3954A+HM+9lxsHn4F8a+KPecsHB5+BfHvh3HPyLBv+Zg8/Bv0DwJ57eaHLwOfiXB77BBP7T8+y0ZbIP/su0+mY8P9UY/FN/x2lkzAj+Iwefg8/B5+Bz8Dn4pwV+j4PPwb888IfeeicKB/+iwX/yrMsAf0qOKe5Plv0RB5+DP/3jXl8G+M+PROXPPQ4+Bx8sHSeO+3MC/4mDz8EPgT/g4HPwLxH8Hgefg8/BvyjwFxx8Dv4lgv/MwefgXx74A8+bcfAvFfwnb8gG/sNsetoy2wlnDof95ewozajx8SLTS5HJy6IVk41/3uCPllMO/oWCP3bHsQqfg8/BP1PwJxx8Dn5w7MSEg8/Bv0DwFxx8Dj4Hn4N/XuAvLQ4+B//iwL8beO56DxYHn4N//uBj8RbOwHK9Hgefg+9OLwb82YPn2QP7fMG3OPisMlks4rk/K/AfPfecwb8brbdVcvA5+BcDPlb48wEHn4N/eeB7HHwOPgefg18M+PfTyYnL9GEP/OO0orbgv4wnFyLjCwd/zMG/VPDdSwbf+3OEVmCDq18x+KNd4eAnhfHPGnys8h+rf6rp/XLUrwD8EOc9e1t6h0bARYE/8xK4P2/wp0cB/7Ea8B3LF9v0ltvimTb5hTUI0c/B5+CfAfijwfJrDfpqV/zffbmmY1v9EZ0d7raiOhx8Dv5Jgt8Lcf69EfqX9W++vr5WS2fU6/X7d5Y3vX9Yy5iDf3bgO5cB/vch2RoFdAB8OYOvvTlh5T6ds+a/LPAfPa8/cBbeGo8z1/jJ4G9p/9V38GdL7s+R/Zl7QeBPpvfe3MF8rPdgcfAPzAG7vz1L8KfeRYH/wMHn4BNxhxx8Dv7lgT/2Go2fHHwO/uWB32QHfzI+dZns2/gP1T/V5OHEwD/9F78nTxx8Dj4Hn4PPwefgc/A5+OTvx+ii8uXiwX/k4CeAf3uO3D9cOPiz5e2Fgb9KDf45cv/kOkncnzf4Q8+rfiI/MviJyTs7vz5D7sePnnDZ4N/Nj/BYNQf/+yLARxcO/sLj4HPwLwd8m4PPwb8o8JdzG07ID0x8Dj4H/xLAx968N+wPTc+94+Bz8C8I/OktZm5gc/A5+Ozg346fTl7GwBwGJAR+pseiu1Kftjoz2Kua3Ij7kwL/6fxkfH9x4N8XAv7jnwWW6c4e1Rf44eLPIwe//tzrSdtQOPiHSrkNHV4QkLIeAIkFcvA5+CcLfiQp9QF/UAj4Kw4+Bz+s8esPvsU1Pgf/8sAf9ZcFpeM/cvA5+CcEvlVQVrL3wMHn4J8Q+PZXMeDPOPjnCf49Bz8W/D/nB/7Tk3t96eC7njPh4F8Y+Peelcz9eYM/nHiLBw7+xYHvXDr4o57n9cYcfA7+pYHf9zJ4t1vg74HDwT8v8L3e0+PJC37mMWau780Ga/CzPNdzHPhPiY04KfDvH89NLhB8LMtBiJCs4N9z8E8afPtCwbfzgv94OeC/wMrt+KzAv/UGHPziwbfGVYP/v+Caw+Vic8dnryDwn2wHy2Os4xLa4jauPyUPk8U1B7948L0klV84+H3/Wk/Vm1iOL339K/VNQAeFXpv44PR6t1HSc0JyX3tM7t0RA/cc/HTg47/a40rBH9jzdd3xiB/Ovlz9xyCfn5/LSPncyu25feLgXyT4X07F4Fve6vP7c19WjALjhYH+mPI25H+ulg4Hn4NfFfivb6/78nFgMHzs//CDcZR8HyqPynsgH6/fHHwOfoXgf7xnl7cIeX/9/n79TCccfA7+yYAfJVh9f79x8Dn4HHwOPgefg3+y4N+6Uw4+B//iwL+fLRiwP0Pwhxz88sB/+649J/d/5iwKPwT+48MZyP2yj8FfTn3w71zvPksxceDbT/Hffbw9W/DfvpdJT398Ap4vE3xv3h84nrvO5fIyPVg+8EluNAefg1/lYz8uncGdtRyFtmBVDv5yyMHn4Ff82FMAv39M8B/uXe/uNMBfcfDPBvzJ8cF/uF0OTgD8t8/V5+c5gr/g4B8J/IeTAP/1c/X6yTU+B38L/FUe8O9PBfy38wP/fuw2UsbxOfih3oveicLB5+CfL/h/YsC37m9vOfgc/LMEP+Z8ka8X13Xvd4WDz8E/c/CXDSzujkzvOfgc/DPX+J5wddXYEcOdr2WBB8JwR+76O8LB5+CfGviC623L7ii4uroahQQGw3QSyJj+0GEeBxz8dK/uyUsJvvNwfw4y3gc//YPdzmLAb3avw4K6O+Ng0BCaYcHj4EoIjgixHML9eDNBzODPwHa2pD+oLfiPNQdgNuHglwO+0L0JS/dGCAsSBjsDwdR1/Qb50oX5AIt+/X9Eri3Hth1r5i6os7Cg1tLU2owBsz7gv35/WXUH32v8/HmZ4PerBR+jvy1I2JbFlhu8GELTBsEEMKDjoCH8Q4UU3r22vM035rUB/+Pz272tOyZe81LBtwD8YYXgx4+D7vYw+Hc+mWLZuMIg7nRETugbTe0rfyQE0vynMaoL+O/fX+ZT3QHwfl4m+PeuZw/6U29wNPDjB8L1znyAh+kA/vgy8u0jf3rwwDL6v/qA/+08cvDrKbfPWOX375b+ucKjO++ld1zwEwyjHbFMIr4lpEMEafldH/BtDn5dwf/jYfCHa/Adb1Ev8BMEbYeM8EAR5isOPrM8cPADW6do8Bv6TZXCwU/36jj4JYG/GqEuB7+28jJocPDLAP97tWxeMPiQmkqktgq/ycHn4BcN/udqHqwuPNUVfIGDz8FnB/8DJHSseITGXwYLDFc992URlue9Sze3JoVbDj4Hvybgv9HTRT6W8M9vkF9ElnHgb6XiheWfxWS2lulsgv82DcnsafeqodqAb5/H+lXvuQDwexcA/pu/13xJaCfQU4SXMSkLq00K0rWwWXwQ0D9Xu9Lfysvuj16e/2xJb1ucYkZCj4OfS+M/hK5W270n8HzAJ5bOB+H91xrYWI3/2VhnIm0nZ7umbYXkbndCuGo4Ruj3pm4s3C1TyX10tkcCB/8I4N/bL6t8Gn+9Mlt78JdpwP8W9MMpSDc7Jv9kNAnJ7G5vQrjaWbEWht72pradGaF3y8GvAHzHDds67OBvllwDuQ5+dibgdw+nXtzspCA5k/BenNF4G2rYxLY3JWzLP7u7O8e39wxOAge/AvA3b32dbR/8oB9cU/g9QvpeVs76m/+eGvifkfkae7nZW+ocbd2V61jz/U1sCQOh4WybRov59s6rRxgW97ZrNn5eKPgzr3+Hwe+XB76g/4ul+y9qURFu6P6qvr5cX4u5uUUz+NGH6QSbsJDgfxGPlH9pWScB/ueKfdF6Z0LYMWy6+pYY28NgvL+X88CYcGfBHjaQ+WQ8Hk8evOtLBR8PeqzyB96sPPAbLTqd/8+fx4de8LvYi2Q3Rcz9L076GxuZjoB/952CWoHfKsqvv44Rob8zH9z8EzKimkLj6oChdKVPcY8OvO7Fgu8A+P3Rsj/ywXcLBv/bX72cr5X55/K/NLK5KvwjKMq7bvrvtfXvWo4D/lUxGj+PO3+9s5lzZ3f/omuEpwsrPBAGxoWDP/V88J3lH6cQ8NcXIf8XYPDf+tL7/1LK+nvrG8uX/ktdzpvrNx6ET6oF//fnscHfcxi2/eamuuP2jvxNR/gP1/gTX+MPh3Pv8TYH+Oubv1/3sc0vm6ETeAXv6x8tacgcNSelgv8JzP/6HVL4H0cHP34c7Gxi+2dAd3OCjLwbDv7Iv/9tOc0GPsH9879q5NDkEayXfn+XCT7R9Rvur7z6gZ8YQVpbRf+4OgffB/9uOckI/ufHx/e+vq9ePlelg79l4tce/OhxgFyu8TcaPwP4vQVo+9e3t82tOb5QFisdB68cfOa1PqvR5ODnAP/+1laX36+hHF5f3gIX99Wn579l+Rr/m4PPCr6dHnxrZ0X4RIXG8bfAH/cylPNgbYH//kElGAGfqyDiE4R4ypPSrsDi4HPw98sxt8HfHgCf6yngczt38/uTg8/BP0fwd2aAz70BEEwFrxx8Dv4Zgr87AtZOQADJ95Y3fCrg//7lcfA5+Jm2sr4ReX33Mxo3K741B5/sPozfbf5de/B7Fw2+fUzw9wbC2h0O4kH+1FAP8D9+++IxHLNQc43/f92ZerngW65nDjH4dzUBfz8e5Msap+Nq/NCO2o+PBIXv1Rr8LpoMmbk/O/Bve4/evN+fLu26gL8TD3oLpoCdcND3e7Xgv39/bw4WWR8uEq/wW9e1tnTQaHTB4N+bHhj5nkdVfn3Aj4oH7Y6AVTXgf6zeU96H8rnSOfh1tnUAfGvu9WoK/s4AWNtA71HxoLLA/0wNfpeDX3fwncUG/Ekm8K2ywd8FceMGB5ytM+Q4+Bz8DOA/9LKZTN+fb+9HkbewvH5y8JnBH3Lw1+APPDcb+PbRwN894pKDzxjGH00zgG/e9s5CbrfBHw77y9ts5XDwTwv8a2PKfMbCJYA/5OBfBvho8MKu8Dn4HPyzAb8/5+Bz8Dn4HHwOPgefg8/B5+Bz8Dn4HHwOPgefg8/B5+DvnxJed/CdxaWDbw+cudfn4BcK/utqiOq9fuWyL1+dIfhA/sIZYPwDlc/BLwh8q97gm24Khc/B5+Azg+9w8Dn4HHwOft3E3AU/YzEcfA4+B5+Dz8E/OfBvOfiXAL7Bwd8Gf7q0OPi72L+mDuPXHnxrzsHfAn/Cwb8E8LtemjA+B5+Dz8Hn4HPwOfgcfA4+B5+Dz8Hn4HPwLxL8Nw5+7cGfWxz8EjR+v97hzIsH33K9/91BcjIHv0DwPz4/jTqDf90fZQPf6DlnIj19Oe/3J950sAE/QynGioO/nY4v1Ph0/C7ymhcPvuVN+wPTC7aiZAPfsdzvdw5+CPx5zcEXLh58E8C3PTcf+A5W+Rz8EPgTDv4pgG/lBt/m4HPwOfgcfA7+WYPf6/VsDj4H/9LAt3XVuu31OPgc/JMHf7o00oCvq7KsQiDf4eBvlm1xM6a1Bl/g4O+CP3Q9k/3here2aZqyLIuoNuC/w4LC25HA/6D3cS2H5nWdFf7MSsX9JYA/mLOAT3S8bduOgWQZIcuyW991AP8NLoH7hCsR31/hTqyPKsH/eP+gtzBafV2o8zFqWOEjDn4S+L3e7l97PQuLrSIsOsEffNxaaHwM6ecbuQGUXshMLkak94TmKfNtxWTfwL27XkvvInRd50vNMfjuDQc/CXzLMIl695k3QWQR63mzFx4TdQEf1D5W9q8+/ZjFEP0fZWn8V0L991JooZvrWp+ZycFnBL+ny7KuG/Ztz1F1LAoW2b7dmQdqBT5lFbO4orffkivQX3Mo/7fP7zgLB+5bX30vl1ZT6HZvTkA4+Czg397fGso/SO2qBoBPzk2r7QJWGP33zxW9+vZ7I/RW9JT0g8J/i9H1eGx53rwpXP/7783NmYOv9+wzEcdYjnbAN5zgd5B2ib1XRTcBekXFqt5xDpdj1Q18cHQpruTqZwo+mQGI7fOWDvz3CHf2DU8oo/kcNQX9NLQ9B38tt95gR+MHbMvYe1UtbNNbRKmDcY+QfHLgb+inf6f2D5g99Fr0LOB/vPshnFHfEgRs4pwM9Rz8jcof9geONx8E4GuWZUHEBpm2ZdGMhGACsC3bhN9AWMfZUv51B9+/rgGE/N/B0M8HI/h+BGflXUNv/HtS1AP3cyvNaVJnCn5P9IZg6/jg3y08Aev1hC/hT6h4AlizX0Mb/yD4OxFI3/RZ03/Y+d0B/+31nZhNyxZC19c3pwU9BX/BwQdZhsH3ndukaQI7xSKEe3Sr13N6lq6rJwg+NYBCoR/f+f3cpj8M/geN4HyOmoJweshz8Dfeq9NTvB3wdYfhq2AD3UKYR+2SMKd0kuAH9PtKnMo7cX43un8DPgnhLD2vKaB/TyWEw8HfZ96RQZQ9je+wfb+ndFUVyYYuIFW2Txf8kPO7E/p5DYH/gYcHnhjmXrcpnJpVz8HfKGzqvYJYyx0bv5lMvkO+b8DX7Z4DgR904uCH8CfLvdT5fSUPRRZu4QfzkS0IN6er6y8HfMds6cQqCYIylh+WES0/MOM41q7G13X8e/ItZ3eOIEk6+NdIXn/d/415FuAHoR+s5Oe61fX80M8KU7/sWhYS0Enr+ovS+DoJPto9rJYtQBYpO/rcOmTqYI2uW5uwjR/Gt5RNYhr5c2rhzFTng1yja0xJ63/g+P57fY2f/Kb7780ZyPVcP3vwe5BaJgjCtYlkRdY3QflI8Bee2iMZlzoiYRubRm10HbsDiO7OOsUFrNTgj1q+br/G3SfcnI90hdkgJfenBT5hVAWB2IuC/23egrFjx4I/nHhj+AgsXd32VDxH6OT7shKF/LmDf/Nv9wzsmzD4k3MFnx4URSI2oKqJnu85ZJug1UvQ+KOe62kOjdqoskozMgXVur2N93jPGPwzk1zga8TNO67Yh35AuNeRKCLFMAzdcAKXFFxRSzdgyRVM+NC3zG3w+x4E8i0oQjd0nWQmGPA92SHh+6jmcPA5+JWhb6//x6b/bxPvkyaWrX+49QXi4Rrh75rLwQ74TRmJUMS6APieaSDyRcs+zP7qnYPPwa8AerOlUjSxkHC8iHwy6UCIGis2GR4iHRmkIG+0A75q7xcRfBHJVvDNbfnmGp+DXw36uiwD8dgeEbGgGNwPTBVgC+k6TT5YYvCX87s1+Jod/UUIdKpgQ9k7XWCXc8MsB78E8EcnCz4NrOs6RNpEVbXZmd+UYIjUddUNDH7f9YYM4NNv6hAZVVXLCX/unoN/IlF8fdo9RfCp+0pCNj64qp4aeyjGudUVGDiCvuzfDa3llBF8MuwsXLkiB34yuL0mB/80BA1nabk/Nvg0FR7sGgK8RfMFsOIXYTU1VTEWGEeqTk0lDP6gv5wwg09Zd6iNZeJRAIfrWBz8EwH/rp7g2wc5JYLWmWFEx25+b5oqQlaC3rcDZ5bk6pD8Mof+DMB3UoJPFL9lwGZEBK6GccvBPxHwB/UE39zgS0134NzYJJYdsufJDzD6ZlSs0S+I5NrIu4EfJy34QbNMhKcaaDL+r+Fw8Dn4OfS9gnTT8S150zAMkxxYptgsUwXsBzTsHaMHVmEtXJAB4U7jUDmpwPfbZerB1lv/x7LKwefg57Ljuyq23k3wWxU4jVV3mEM22OkVZV01nVDsx6KZNlgii9kDX+lFPB4uT6ftElVnpzhu6nDwswu4q7rcRKqgYrxMx8+hTxPmVBVVpjtJIOxIRd8kLrCAL6jKXr0wiExaHmnXXrN6HPxTAX9aJ/CpbSPK5MA+/EfRe9nqwIYN0fBYLYOyZxg8+xpf18lMEzZvVJGmvNlRxXHwTyaqM88OvmoXDT6xmWWwxWEt1bYNnfiNWbxjJCOysGVYTDaSae/Z+JCWptJzdYJokmYYuhlTnsnBPxHuzZd0d9yWAj4JTcoksYzufw3/TkWGZaYqi0ZtTFqUTvbUZgFfIq6yaaEWWoc+E0vh4J8I+JabWuEXBT75Mih3M5RYdkhkPAeYdmJhthWUpe9/37LTgX/nehAUxQWa14R73TQZJg4A//Pjg4PPwfeBMOy9EDjJNPATyxJDlF3diuQuKExFEWXZJsK/j69lG/zhyPbctk5S+smYsxUEkaIkq8l0yIkc7/Vhn4N/XPBlxbTXzNO4CEm0YUwssw1ZVQ5UR/aRB4WpMXnIuix3FT2mKgy+FQa/570IXSVUom3J0Gw1trmm7S1X3ys4lr4m7OfdbM7Bz2fqmLDhDwAUaV6ZSnLKUmSV2bqqXuv2bsqOX5qRWBgeIKoii9Fq33S9/jAMvmvsBG6wr42rkkUjribR8Tzve/UdnMN06hpf4ODns/HJ4U0iIvcqmHaGREpcAjZm1ra+SS1vyFJjLAx/CjYdylHg3y5tDP5oA74WUYYSXqzdN6sUVXl+9sgxZG+nDf7rt3dzplIB+CS4QvPKdEG27FzusImhowfjXJsmU7RmrzUG7Ek8EApClmcN7kZeLPgUbXgexYqq3caGmaGAxbMC5t5e3z5OFfzVXOhy8NOCb1uQQqkHiWUmjdPr2bk3DX8IybkXC4w1tbbpZ9zo90t7cHe3TAR/s+JgRASbbNPqeCv//Mnvz6O6u/nAd88U/GvdS899EvjEfSVbQ4Cn7o6drKhGWqUPpgyURw+6xPoUYjT5lhCwxWMa2G+AE6LgehMYVgT8ASv4fim7wSLaVFFuev6R29/k6Hk4e/jjKOxz8CsAnx7WB56rTBLLDpnytiKnQJ9GbWCbk59fRk9RwGQpedC3nZ4pCDIuWUFBeD4D+Fi144ast37Rh4fcNctR1+BT9ump82+fHxz88wJ/HWMhQRYlxn21ra4imzYT87ZCC1R2x5Btqcq1mQl9wJMeMqVi7iFyY2YGnwSLIJYqwvCBPB7aVDy8w+Cv2cdGz8f7Bwf/bMC3TbTZCpgYssGGkIySg0BBiYejNtikUFAWV5lsNoQ7awFafZOLkw18yj5Ei0TZ0NerbHvgBwfOf6e7apCDX1/waV4Z7BYx2LWuacR5qDpJjfFLjD7kwzTFdH4uaSqUaocdcD/CmRl8C8ki0sFD3lhfB8AHlb/yb1v4YLhlkINfX/AFSGNRNnFFk1nwZ3UZ/yf0A4jaGHT3qsJYIg1OmvGfoxlBW+XutAROR1PNffBVK/4RIMykri+WwB9WyLCC/7UOg0//Q29aq8jd5eAfBL+bC/yWbWYXrH9V3fKj4WYoapOyGBVhS+Mw+uGSDSuhFKXHDr5fbnBOYUhEPLywxWPZ7eXqIPgbk5+EOd/KZp+DfxB8+zmXqWOZecRSRQ0zQqI2YNCnnDXWEMoiBIoOQA8BJihZTi4XGyzW0mICHxem0XIPzDXEoBKx06zEgr/l7pbKPgf/4PqV10idjR8CX8kDPglLCoKiQABQy8T8xlqRFdncFEBi7CTCpMg6c8kspg7JtyMbu/TIYvEvFEUXksAP1rcgo+21xDDn9/cnB38f/GYe8DNrfIAG8pEVYi+Ar2nmE9tQiY/qa3qE5wAsZprhZCSBD4Up6BpKTioX/5oFfPzDr7lHYz1lcf+RK0eNg1+kjU+jK2B7Uw9RNPJyD6gZeAxhVIkTC4HFtFMIBn/H1NmZ0MgOMQP8CYaCLYkNfE/Qxv8zl9jdJVcNlgH+5yfP1SkYfEFndkXXHAZnjm1+AomWppnTaoI8HkOA8WTsR27YwL/1+hvwh6M7b6pbQVEKDd4YzCVbIiP4za6gKtatA3r//fPtNU9K2yFnIR/4Hrnt7fq8bgEqwNSB/bAWE/PrqI1+8PNYSWdEn0QryR0ncI2DJSMxY0mWNvOswWDZ98F3vIkSGbwpDnyJBnK1dZjzk2S0faSHHkbN/hdzgP/6vlp6d7bT72KN0j0r+HOCr9iWrMbZKSROY6iqBrsCxRiTex3bTMu8Cba8SM/ws6ijixQ1C/oU/Dtvvj4o/KGp6qosoiwTSArw6XyzWru7n9+Y4NdU6GPewUMm+UA7e7+ygv/2it3i76noYZkPRwNy6eHZwH+dE3xQsbIRGfWzNDnYFZhoctuqrKTQq8SHDUrfLtw2REVJzyoFvz9c9ke+kf+EFND1dpYJJDX4y9VumJNV72Ndj3FfV/H5uqX4M4GPh9H36nvptnCvqJo49lx3Pp+7NwJc7XwO7Au5wTdt8wD5fjxRJAlrBpufaVmqrNqs1PulKwedWFtX5NTWiQ/+OAC/7z1qtgnbFeUKNH6g8jdhTkowA/hAvY/8m//t142rkAX8188VNnK8Nn5+qmEUxXDd2dB1vZGAsOI/cey76Mn5+TNvHB8CKXtLONjgDqI2abS4EuEC7BcfXzr+jK4ml3UI/NFG4z9rlh8tQlpqM2wP/IPkb8C/XR1MaYsP9Ly9Y4uEThGwVPX5Cf/2Z41XGiZKC/4H/rP6HruWqK6nOuhmrOw7D9OnF2z5/Av+LpYTBt8TGrnBx+QbaDdq42espTcRZHTYNw1KC4pPjqSbdEBazKaTOvWs4R2Aj8kfjSxvplGvwTJIFo6ZKhkpLfi91aFkTmzxv4PhsZ/L/AEBoM+3b7LNBX9oI/T/4fsY4re3VOC/ky8+OmQNJNSV9FQuQ9fM+9tbMPtHN3oXYhU3p2j5dJGLcoHvvzRYzdQN3QgOXjJyReQhIrlPWBAVSlW8ARMPG/q4eGGwdGxrvLwb9vt3/dF0OVVDReF2GXoK8DuM4Iu+je8c/PiKuruQ0bbt7r69Urhjl2VJRhA7+G9vUKSrmOpWrA5CZka4o0AVLDD8sLuYbLI7Nbsfa/y84EOgm0ZtgltKChAkq9sRH1UnF9dmWytT4tHHv6Pli8a95y0WQ8+cYV/OxS/2Xt8dRorOGjBiBl+KAn/zecIvmPxv64ANGDQJ1FMN7odImQx7KNLrQFdoaqDyLXi1B2xGrPwt0PzjwciCgM9JwZ8bfNUgcRVRvpYtXTatgsDHtJLCwJqhh0Wh7OlwlioqshqZVgNPgMsnRo3ZnuBX+eURWbRVY9/9RiRLp0jw/UXAOPC33F2S1fPhu7OvSekIb/99r96Zgpef1LZqkYe7htABflJD1bBrH/WMiqqKWEG40/l8KtCAT/cywBdUxU8DMw1LF+WCwMfWtC4rgD85u0w286XyWLiMfaVFrgSiFazLtzRRwrr+vq1IohqR6IzbgxhSLJhtfEGXcV1WAvg0r+eTZPW8fVDwqQvw39t7HPVY3hmil34UdbXanNqrqnILCUJC36uKaLtEPEtAJxLtzA/+ViKxrspF6XxTxQoELpHNlbUZglyV0Z4rgRA20faSLBVF0uP3tZB8uMQam6ymjq1p2LrQGcD3LA9S2iBeA2H2tQP8Fm3iw3owA/Z0QoHylM0jyLKuMSxbWwYcrDidTsA6XAgI1T/a0xVygr+blqwjpQDoSV8bBolHFmY9GXrIR1CCeGjmwvTgRPPDIiKllca51Q2kJoO/bGmSNuktIVD/vQrHfr4jsf9OBj+gfgt8sOx135lVGPwrVVPs+/se2IrWNdb6EPC5qWnAv4uerQzbUPajOmF9mUPpkxtQ/N22QWxTL8phxsWDc2rAv+FyOCO3OQZqeq95hg5XSUBcSkwX1dFtBvDhs5qGB5612nIA/NDPJ1X97zQmGXwiGnwS+V+Fi6LgG4YGXRTuOiNITY3rEk3XDNs2SZKDTs94rGWSQ1dw9aLBt1RFz2CJkGiliPbVKLouDH2LHB6VaLSmERGJodCrZWrwDHLhUZ01+B2SNIfrMFsHD3HA/36j8Z7wsIgMXn5vU0/BtwxNjLDkZLIsqcW6XAa58ECdYvjv7u4GtUxywOB3G02Q4sAHM0JNmWgGx3zDrpRDUSG40Sd/tr5F7FBchYb9WUXRC0MfHHBV8Uc89vM2bi8z+K0U4Eu4q67BT7ck71BhvoO6c6JPRBjn+3sXewL+vje0ZeQhUcQPqiV5Xtg904nmH88HfnZbt07gY1sH5Gc6+mPBx04R445EsqNJplsE4/I2ZTkX8+tKfE0FWT5GcehrIr1SUSb7Jzc/b7OB/+0vFrCA7zVVyPYjMaND4G/0fhL4r58r/7iT3W8LCdFaPOjUdXfG9yJ2eTsziPcsILutTpofOfP5CMv0J9DPDn88+KD0NRYPETKVFZrElqA9xKyeA6kEKTSXLaT+ZbEwc8eyFVjAEXYNAON+xZalJrKDvzbT4sD/XiWAD/vP11Gc3W93bBZlQkL4ZAZNWkRRRPPleQbKfyAQf7ce5AsIwB/NF3PXIKq/EPBNXU4yd+Qgi43NoFDT2U9JlVgQlVEK4R67suRKI2M38GEJX0zguxK7qSOuB28c+Aka/21j4uzPDiuV3cqjB+4mqxCsd+4fH+8h2klS4bEcW/XjyQdcb8Hq9+2J53rzBtH9xPjJAz6Jx0T6PjRAkC6uYqhCGqfZMPSESoyUJUaEieBq0iCeA2PJCK1gFQ9+Jyf47++f39tBnL1vKym7gHZ0UpRM1zTVcmwDNP+dSo9lP7LlA14Hob+LX51NFuth4m4Exk8zDnx6zN9hweSH/kYfnqbcGJmEjKXkT0G8DxQRYioRf9bM0JSgEn3n57BvRdPp8DbbjODTTtRYwpntoLFmJwP4NHgZ++HVSjIzvRqEu1IzgqjOoc8YGmrpEPABzW/1HQfVJMnhOpiCugC/g9u0oT8L+Iao+lD5jo4YnOFnZCTfFJVYTGFwQXYCIi4GU5EiSijzUC1+JeqBOmCqg9OkzNqB7yfjJHw4G/jw3DD7YZuGBLMPfUBd6y1NFYmCHY0mZs18Xmz8gOEzI7HGA1EfNvANUaRLf6JMT8vPAb0vuBjDjILeDII3KWqhrWP/Ag0KxVXiPy+EdYoHv2OZmcB/JzsTV4k1ZAafdo3/AuS9F417TVTNkH6SsEC8Zz5fTDD81/WIdhLjR0CC6c5fFrD1erRj+LCBb1qGLMoiIld75maeFqnLEtoriWQMw0GBiqylr8fUSOYN06vVIIqdWAnJ3EK6WDj4XhOiUenBf6VruwwfzgG+r31gHzQcxB7uI2wCKttdBp+UpHbP/fNngVWsTtLb6hHjx3INxv71dDwez55niy6lnx184jYLmlqApg+jr6KdWknwhiSQmxmnaUg5V5O/iz1ZTVVZKoHUFb1ZPPgCHOevmKnAX60+V8vbg3UXDf7aAVI1ceNlYXWhaObhD0qSqI2fHsDymQrXtdnPSCYgAePbGwx6U8g8HVD648AnKTeynwWm66JRGPQB+hp597QmiA8ofsQye5EGBOYgN+Lwb431AzHXgj/YKsXUISljeiqNv1p5P6oD35+C/VeD2ws7gcyYT2LPwO71bIj1G11d/7/jB3xChg85CMqyjCFunfuPcBB8/3FJqEpZ/1TfDX0UIYoC/DMGb1gFP6Jm7JtRuB4t/EDMb79TnnOLUJMdfPiiwAy+UtzsbOimLFCFYcSWCgE/EhIiW7pM2xJodlstjJ8uHCVHzpLTMftfO+CTgIqqBtFKM/xQSC5W6ROTXlAEEalmsbMJtmXUrbZjk0UFQyrLA6SL6rDF8ddRHauVDnx2jd/SFaMo09Qkm3V1Gu9hcb80TRfhGIfBcFSzJIeb/7u5uUY3zbDGDwIq4F4esjgsVZTN4qAnuTbwR9GtgicSzDkulj4CWKBQE9Kyug4pwIeKjbLCmek0vqBAkKAIlYKxF3W/KzEcMgnJJYUFDFOVRBP7uy/z+bzfrNde3q4uBOBbQUBFJrGOiFCjKsvFWI56qC5DZlrRSluHItOQBK0ox8TPDL4ECUVyueAza3wPd60qKzJdec/Vk7gDtbBFQHQjTT1JmtBFqT2B3DYsyI921mXnln9MONgBamJABXAyc1O/WxckryHDKF7ra7QmJd+rZwZfuIYlr3SmTkrwvYhP74Mvrj1Of2dB1qeX90I5xHBUyeG+SeXCRyWlY83GE7KaWpf0tjX4AizdMwVUVD8Sk9VNIhtkd+uC2GbR4NNgBBJMI+dszwr+vAXH9ZS4cgvgL1nBN0NOvUb3kmV5dvVwKIds08KCksPHpr8Of3t734MkB9D61+Bk1gJ8YuowR2LSk0TjRCQmfDgyAK6zbhTlitG6IAhBHN18BZeQsuCVD/5u5xsiyXBNpQVMQ5UNw4yNdRp+5mxCuAeSojQ4yoic3uYYli4cM9q5AT9Nd8iKltakx1MjybxJVC6GntfAgcq26oKCtRwFpwc/buPKim42rxL8zdI2ngLpOiTDhHloiTFmGldYFjjpipCuQizdGQz6R0tyWIPfMXV2wYNcMRg/SvNyQNtsnjtK4IJmJU1D9msjjtdeXVCwahoZS2VewOqQGjRz+bW7Z3AVwn61Wn25YtAYs10S+NrBDoLUO/D19eSXocngeLF2vCnhV0ziPSzfUZQ20fyTyVw/SrQzG/j4OUUGQImKITEVEdQvU7myJGpGVupNBfmVHShYlPEkUAX4ui7YS297l3g4cX7peT/UdQurBZ++FOgk4qnFvmFRTNVffsEQ70l+2zANd8SOSg+wcumJ5VXCnxF83HIJxQMKmh7rAEhrMwx2lA1dEVUjk66HvSRK5OvEc4HCrsHygW9qLWHmeuFDbtY5B0tXEzqhkVk1+IGKUGTf3z38CRHJGdQE9QAVtvmdpv22bp9nU1jqgkuKUP3Bh0PrYwA1NLLIp2qGkZY1A7ul6XscoguqqscrMbjGyKgAfHD0pLYyu12uwp/H2N/PrJaxNSEdA3yqKKjbJRsHuQcvLuvEGxTNoMBA84uSpPbu6YnlqHtTTXZbDvANvYM1xv5Ta+RIGhH78HrWvsOjRtMNRkVPY3WqpjEMMUAfpX6nrOBDONPYsG9Iomn6Z/8RWZi2JO3q0SOBH7wr0nnkVa0bDslzatZXt4MB7OZKejEwWSuqYtm2CZof99xN+fsZc4BPstjC5g7ZksM61BPRl1XdYFAtkDUrp6oOPPN06JudJeMCFn7RoVkH+kMTH1Zf4M6uvBZWhPv1Hg/88HQJyeAUfkNVmCMXTCqMTMUx8BuaQixQGCIaPbF8YvX7lm/2d+sIPrZKZIp+KuOOqWg4xtuIxV4ldqqW3paCAwhlPcUDmwLL+SIQztSJn7HVJE3EfbzsdCKepgbgwwglDpKsmphCsTDsA0Oe+nqHrV5D66CtHytq+xminaPRGJUX8Mmp8fEkBdlLKdz5FLTJohzlepEaRTgfz8jWbIg1sTfVkNjA70DwW0Ey7M4LhxDFVtuMamkdwKddCulnEhIMs0jwQ9E9mW5a3HMGd1QQqFBRalue6y7mc9cq56qKnODj96aTuDlzADdVf8noUNCUhotIKDpzhZBux46+ITKDT8NZGCA9xI9hRvduTcCnXgncMUAvJtMLhz+0nBOKaWnogEVL1to6Ynv6588zXFcBO6gKznDIq/FhihSQkiF4w2bvyHtBUzjCGHLC89YHphKrd8Bq6gRRHXL+AEJMhdcHfJ2GN2n2mVbC28TdotCNHuuXCkf1Rn9cAs0/fhhDwMckuxkLi/hkXsDyz0QWiU8ilgB9EGGA2KYRBHDo5aPZw0W7D6EkhY+gUjzSWunAJyoBvifrepKLXg/wSUdrmhEEyjT/ltei1RmNJPnkQHAk0UHQJEV1nB74vO41GZ2oiNzmDOCT4I0WBG9oIKAMBbF+I+TweugvmSqi4l6GQSIaqhbpSuiqRk5YE1ODTwuHY6nU+IW+mji3cjiCScM75EwtVSvegvWZwbaCqiXbq3RZQMXGzz1ofttyugWkt63Bb5uMjdbpgVJbSh5CMLpRGvsGRAnJ9t9Syodzo/ZaD2+EPKiW1sbfsx/iF4OOD74WafSReAwcLUVm26KFJvTT4pPfLFgWcFERZv9lMBr1c55YvtmIQrKrYwXzLcK5ukTV7/wOm2OiVoaARSXKoiDoe3UWJXjY4sfSd54VjpSBoUb+1mEDv60f7DVSfFTrjVZZ4DM/P0Qwo9850CmKSuHdT9fN/OJFlaV8OC2gI7YePNeDA6zybOZlBd8f/bIoSvrhdyiXQH7QLzJ4uaKhlSW6IYtI2nQ9+OxhWFnAX0WAT8gKDaJc4K9WVtHgw7jUaMskRT+seiSi7zS9SPax9gwVL/tGBIsmNKR2p6W5Ly9wSs7/mkjIwj4j+CSpQ5bJimxki2SxeKUgKrJMqtRlGZtTWnnsw2KYSv8fKIWFuc0vWTT+KhJ8eFuQIYfyg//146tg8MESo+9YnTxAdtVh2DQZwjHFvQEUGmQ0fifLaP0GEq0AXWuLrfvx+BGuZUcZrmdkAT9YdU4UjGZxJJJuULVQT2Otr2oliqJBYEOhyXXbPZ0EPmTiLG0rvnmQzVE38MmZ0PDsun47uWrMHp4sCGiqh9uv+mcp55bOwTdJ810YK6AzRce47fVodhs5M+qmy3g9Yyz4Kj1eJwVtYiHkkw4Q2TusKFtfo4lG2iFLvbd9YuXOX1arL80Qk9umkrMLawO+GHSnatnjxhWR7rBnWXaE2ePrQVHL9Rp0pCRYF4qqHnwN+/CrEmyE1f5AwEe3rGvW9LbD4MNUQg/QTmm366Ks5HRlScJP9KiHg6JKMXU0UjFB88A7VzVhFr5gLbiHxMf+oYVfFZMZAGfGKfLGldMNoSzw9YQHlnzsdUVyHB97Io5pOreOKIlRjyTTxB4jk9EPuZh64oik6T06Uw0qEQlC/aP+3dAUUHKSwz74YG+RHTrZJjUx+amivRZq6CkJNik2v4t3buGBfTUmYXfGOADKD+9ruQon2NNthMsv90c6v68DCRfkIXDFSrMU8FdLMZZM7JFJ5CF1td17Eq52pHFz83j/qHeiQhmaSDcaZkBfFtkIoX6lyDy8dLUjtcDkd8fTiZB0hs8O+CR4SETONpzhdErFyIQ9rVdKqpbEVPVCqSfxRnnjzOpwWtJ+DMbsCB1vub5qbeVvIxQE0UxdI8THaMVKuxzw8dwoRoZRDRkFVmnHem41rg5I85+GPX2AXSJ6hJrqQLBHSQmKLCrMSAQwsil+Enpsd1qOS+9n1OPuadkGPxS8yUGSmN4Qh7QzWZY0pooNRUYFhk7JM29PIoYmHYrB6KYhmN48uFwTa3vXElpGlgi3boAliWdzzSzExt+/IaWHTUIJJtADsxckkNJGq/qLfBB7X/E3puOZJamRZKY2DcRUgaGU4R4aIFLanc5kOp24nreI3M4YAp8EbxSlAJTUlOQDeqqiaexdAkuNhWh7CZ75gErTVQBz/wum2m71JnRD1XTsCJppZB9wYCurRkHg7/7AoR0KtzzvvA48zwQ+rWY6V4nSfX4ElRsV16POoMTqA2aKtykk3COmmira9n2PpLfp1zf76W1r8JtIUYuKmJCtg4zxGzAW1Sw15w8gqQdiLDu/PxC+0A1JMrDWdw2po2Sm3vcoIBWoyXooYHrwA7xBKa/7eK2WJN26HVwxyXA4tC0TMgb06NeIEl+jgpQcb0tTEDMrZEcLttLgUnC4lb1rkqOeN0kOaVIW0umzZP1NlGrmrtBlpKjZLTJF7TCMThLU1/c6FaJtKmPI4cBkooYBiIzqFAZ+KEZIUk195aT2LEbsqdUzsBynZ4hStCNPT0SNM+/z+2YoqZL9gA+e15/I6W39uxtyURGwXxr4aoItQi23vJ0gZ5uk4AhhVnMscyVRHbPz3HqrCvB9ZsB8g4RpbHMoPb1xlU5uujfWw70kRodlFN9JjOC+mB6MrSTiKx2hrYPmH40mDtnStT4mvKWrxQrJyD0kJGCIqK7PVwUeXbCile47pN9gVLJXQnyrIvpE81scLkwvSePb0l7tkHAD+0NxH7Tun9JiT/V+q3n/OLZaYuQTkoV+Yo9v/0Kit5sV041+JcTqZ/kGLJmprbYwJvGexQLr/WZZ4INJFsWRSAz0QuoQo8ZXNMWimA5jjeSYFdBcbAh3RGWnoKrA10QSwYSdykiw5j8zcU8jPQ15NlYlSYnEUiFJbeF3rEkdSSsSLlqJyKY/KYqQeoLhN16mM9fzrNLAJ87I7s/Ws1RxlcgoBXi49gwTDRhHuRUWrh0q31NG1YAPK4vkwTVV1OfNq3zSuBqOp46kgrsbMbWRrLzg1Whw83zhfEEtMs0viP+ghDZf0ZVWu3X7cDv7Kg18bO5sQanQM/5UteAukNmUvkxr17I/i5zP8pMOVl4N+EpgeyiS7uhXhUhjNvDIPZ9SxOzqBzpJ32tqSaLRU2aQEvOR7eohqCaKba9E8OGJyWgkPYBKe3Y4ZFmLs6xBL3Ry9z2kKytaBs2kKNEPXwb4sLrmSJtJUVlbah3D7hXEPYg5cGzLtiUx2o6h5riiaqWhv7YlEExAB2zoQ8POEMoFX9UlEe6iihuQRaAPZoQWgR3Nwymqe6WUrxCm47jqiwefLiqbSlC/FFSvKdq9aVwVKw1L1Xv3VlvsREymNJpA7jsrGX4/3EPyJLde2qGJtlUi+CSqKYmCIJU93IliEfe1MSQSimliOAx+CxyfrbF3gSh2UNw0kRZ8yBZaxX0YuP9emsEEB+k09H+1tmajqzJEENSnh8fD/is4ljShE4li/kheEnAdfyvjhn3sz6uVgk+TS3GtsClRLV3ISTZ7wcN0mDLaVSKro0vunksYdSnBF8Qf3gH2tw/j9x5++Gs3Glmc9uMqjw9XpcnPRuN+2mtLYlRUGzeIRmG0stmHyJUf7tHIyNcqBV8h0xsd4agK8rFukdBeBEktI5ogi0jWWLoA0o8TPpgWfENvCbr7tIN+eKeA+/hDMoJpcN1OsTdrXJUqjUbjz9NE3wpzKkjajkGSdUulZBxIuEembqV22MouCXzqaayh0/JFRDIEUGGNTFbKmlg1lWX9gM2lSwu+ruq60hLs3nS1dc9KkKTp2e22rvnOuOy/dEWy5iVjH0hvcgtJHRR/ZY/xIKkNlY0CqUgm+Y/lg69B/Abr3QODrBryiZalMaTSK6JgRw0M5hakB18l6ScdEa6NW62J9+9b6agdGq6HlYdACYjmrXBVmTSeegPLMkVJVFC8I1pCbHvP9RM7/m6u7aoKBH89vxy2AmIjjkXqYjihS9MqGmSKfGjekUX22TwT+H78WhLgmrmVvzFmhX/rrxVoirwJ5bStnl0h90SQZfUcG3XicgroeqJcbqCT0Ehc6+1wTyHg0+U7/6wpogwjZv4yn5A0gizIK7A4ryoVkA8GlSiFHhjMO3JEjMZcf1rwt/pQa/0wv5b0zpXvpUp/qYTXzDVRH6vo6gjSRaj32Gt32krknKn6x0lJa4iKV02a4r8fsK8kUaSvSVmDL4BJlFlkmjJEy4wQ0MWyUqLIfhsUSDkWVaUKoa9O3W6EmqZuLRX4y6a+Xb+uCD/mHrZ5vN4PLXiHZGMPlZZhNa6OJY2fwuRhrLU6Mf0HwThUFhkSUsNV0eRIUpcmFAC+f8hc8usWkVQagiR0GrSBZghUgz74uVKoJ5R0Qy4t+Nd7BeitH4I7+iHp60asQZPEae/qqNJoNKzZQ0cSpRj4FVH2F16LhkLar4oYJkjOq/GhFEmSVUZIyhnZsKlktxFSGR0Z8VQSfWspeiIz+IK6Twg264W2rgbYh9pw/3RVB2lMH8emokpSJP2qLEkEpWK5l6PqkuRmdvCpK6vIcjrFXLiFQ67TlQ+aPkplQt9aBvsqLfjawQcOrKvQnNqRrEnjqjZyPe4ZpqmKsW+SBDqVwpQjiu32DOCDuUQGaCazSynM/IYAdZxml5BYjcEjS6gDlUlqBeAr9KB2rNh3alMlsRPYep2OdV8j7OlBVZZjmGoyINCRkqrmxURGSpHgA/TETsrqPkpILAp7MXHwFVZZrJEv0lYQra9WAT6dO8GvCjlvQTOgSS3nVq8b90TvL/VkVUT8XXH76TK8l1i7KS34NCqUNnJRgglCDzClQZyETiw1wOOvUqubv8jpuiYz+ODAd1DHr410R1CxKD9dN2uI/VVj5BkSU68qCDG93+gipALBJ1ehBGHXHLCI+cmnWwhZmpFjcmLskLDaVdJagJnBBzwk0b9DVgmFk1TR9G6uaimu4Foiq0bxV4akrNwndTsz+MiHrQCKcoZcyFIE60S4FW8s2qOFuzz2DG0xzdPlAH9tZ5F893U71PZ4biwm9cN+MUUNzxTTTKf+42VSSWoh4PtrvgUykyN+krol5cQ2owuV2V2LfOCHo6kh8Ac/b2TXQ/Xifq6jZjrwg+ChlF7xJ/GVDD4NnBTvI4rpi6RN6ahZKS3S4JHi9RBZWWCK6ecGX4IQJg2FrMEfNRoNoWF5Xo0c3Jfrf5qC4JpiVi2DYtYB9l+Pmgd8mGkkVFI4XEWdlMGTfE2RUi+qRk+jTMYT2ypuTlNHDCL31N0giUMAfvNn4yemf/HSqAn78+t/BKHh9to5/To2D1PMDv46tUFWS3INIaOGPXKZvylyMV4uDbapLEOVBf084KtbjjvNG0KKRsHH0mxi9F1bqIHNM+82BAz+otfJ0fMUAzF58hY7DPrGBx8WlNfiu7JUwUplCQGD4WOKFLQlX3V+xKWIMtgKUX3PLPYzaVMWQt/dLZz2lLgGH6OP1X53OrLujqz35zfAPdH4Od+hD0PsO1BQ4vtRD4OPC+50kFS+oOQmknfZKag+bHp38rU33ffJOOkUB/7Xj817EskK526FkigKwzX4VOs3LKv3ND+qfU+4zw/++tFJJCvyLYlSBvD9ZTOpGkEJjSSNKbJCESExR2PFomsE8BnPiMKiKqHGSIeVhiI8hsAH9DH7Tf166g2Pg/3UBfu+SPChV2mg86C+Z9BN2+AT9xFJ1Uo0FXT9osoaYzs614iJ+a7aWq4OHBly4EZRU2qHsI+cZVpPW+AHar8p3HieUD33E1PwuS8S/LCW3gVfTAO+AgfAIFGqXg6r0bKop9R0JCU19nnfUKQeEtutr68DCn7niKjhj6Cj4sfgAfCJNEB6XtVhnrHREISywF8bBWJKvbYGvylWr+tDFoSy7cF0Yk24YjqLGX2lmHmQXmEZ4bIJPwbLqBND6C1z7o+gwUldEwU+Uf2NxtQdNSoM84zNDfflgB+Y/BAjJG6ckgp8tcTwDQNZu48hltscJcU4R2lGSVydnWj0VU2kOwgPH5Wz9H60tHUoLOHNxoFPjJ7mfGqbN0fgvizwN1FIZkM2IqpTuWxCSCSgVMVoEzss6Bc89URbkwrsIJwv9+6QBuznbUFT1loh8cniwPftfX3QG8waVdj3Ye5LAz94WcRSUE4JfFh3LyOGkzRDKslhHLHwSqOAVVVBdXbukF6tvhz9h6qmCEklgL9mvztYLMrm3tjivmzwiS/GNpfXBnzfwKm8UjETo/kdjIjXIQmqadIYDz0qZ2Vqgqgmh3K2wR/Ggw/oY1+3iYSFZ5eHve11f25zPx63Sjao0cY6PQnw/aBs9W4G2ccUNRDLHOVipAUmCoPVl499T1g3j3kYKsLjJAl839FtNBtdD12VY/P0etvqHoM/Kxv8TbfCUmXMdF0L8IlpRl5t5xi1w8VUB1pUeq2R+RpKR/jhYfS/5j82qiDFdKhgy5oB/CDK6XiLRgn7tfp73AuNacngb8/goEujXuTxwQ/HcMRjRFSVPdMDIbYkonzVxkzHiqph9L0fHS0q4hsn7duXFNwTxT+dD5BROvdlg6+IaDfY4yf2iDHgk0vkqhWf+g4xdegPILpTfTuI5RE0YatF5T59m7ySg79V1B+CGrQJFBd7g1rOPA34NKVBGA16wwJDnIMD3GPwR4JUXt9KaL+XwOhZrwqF+/eY4NPBuC0d1BaPIJ2gIQeaVG61kdUpipitSWnBD8I8qmnP3EaJ3GPwHwX8MO3SejMetXYtwI98m1WCt1vvMeruJFSauk0ZwA/YvxFG3kt+7G8846dwEPwnQYp59aVxv69BjgN+pxP37Og46HfQkSqGNJ5O5rdZFPh+8n6zKbheznsR1REuJQZ8+o6jnzmH5mLSt1DzEcBHnUTAjgAgsewRDYEdx+grTAdkBn+dy6Z7Qo5UNnXcEIQE8H09U2R3s3YVrViuGHxGtVotgNKmVYD/sSwtVNDUlxN8YvQM3KmgZuNej+Se2PjSjuFdmI5rpRskzSrBZx/jlZK/1f3HcjGkXc7RJtRULfh+iHM8urOcDNyPIrnH4E+EnUdC7YLYT1lKhaYOWU1IYxEdyco4lqVPp8N2qLeyqr784NOUBtSzRnNUHPdN84/UOWwEtCvmvjLwMzgzlfB3sFmd46HvL7TnmvGKAD8I83SvbTfN4Txx3AuN4UtTigx25OvztP1VBfiZn6pkpR8TW+ocy8ulzKNWntoLAt9n/6fQnHuM5xE2PCeGe6ExeBGkhIBLRQq/fPBz+S9l4pcwHNHxbP1OzmhHceCvdywKnsUQ5hHmcdgngu/D0qmC+5LB73Ta+fjplEVfJ9mcOZLSJyOuUwNTZzvAr7suEhq5uE8GP7CJUz97+t4qEfxOIXHaUhQva0y1evSDhkk5Oq948GmYZzgbqr0c3DOBn0nvZ+ipNfhNqVOoBCZOAQV1OoU3rc3SMGpzVCrwwv3Kaew3i5QBvn84z8AZjiJCnMIsiXsM/h+Bpd8Dpcnebekxk5plgA9otYsqrI0Kxz5N5ahK7NtF1F4K+EGYB+nG3Gtm0ffM4PvP3mZmP0snlQB+OxVZFSv9DEVVhf7hejKo/bLAX7Mv9Dxvh/smA/fpwF/bDaVwXzT4KYZp9Uo/a9vaRQ/kdG1rp509SwQ/CPP8bLjz0IbFhjdm4B6D/yyI6fVB0vMfHXyESrOJC7A4UI6JqHRbP76ClCO2bPAp/U3X0xs/KfduoymwgN93m2LhYGV7NYWBXyL1RaCXs3XHfrhU9VcCPqQ0mItp12xcNRY/WbAXmmhqtcQceB22BdvHBL9k7PMq/QJah1BpBg9T21I8QiXg+/b+YDCwR0zqXhD+sbwfUp73f6gLslrBRYBfaAynePKLQrakAA870KwNqAh8P8TZ8MwGI/imK+QLb++7kJnfSW7wqwx1Z6mq0OaVsaZQfG9XBj5V+6NeZeDv98GxwK94hSd1bcVHVo89khl6vErwfzYbE6da8LfMvszvIzv4FZj1OV2ZUhpYYJkZi0p8rLMHf4Nf9neREXziabQ7RxDm1byyhmVRKxU5ykl4tqrBt48BfqS3Wyb4R6Oe2XopdTYqAv28ZcR9vWrwe8cBP0C/qjh+RTGcHOZOu/QW5s7KyD902tExnkqd24YxFoQjgY9IP2TTIRvwxTaDEOqPLvGNqKaFqLT25y5HsKsEfzhqsIKvu81OOa8gfY+KacCvBfUJ2FXWxuwVoZIbUS34A3bwe4WCj3KpZHbwUX2wj8Su2jZmq6zgJh4orqbgN5H3IHRKVH6p3j4j+K1aUR+hN1uo+ja0Un6jhDYitNMIwakn+NdeWZZOBvaTwW/Rg2brJ1uNOlYjU9VaVht3yhUst6bgl6rw05GQBP6eOqmn0j9mK5lZLrWRm5fdkp5R4+e5g49yqphY8Oup6fee/tjNZKweVdSMlu5WGcY/Dvgo72uJAb/u1PttrEMzUWGjowD0WxoHP1lxR4GPTgH7+ozOpGZU1Uyo5xLAR7lfzEHwWydCPVH4rbo0JbIhrTaqsh3C+YOPUnXIQZp3wUd1jeFEPlBtmhvRjsrbJ6hnD34rAysoDvxax3DiYpn1Rb/6plVs6vSmlYOPsmrKw+Cfill/SImidj3RP0aXVgl+s9GdseaoNdFxwd8GZw3+T9Q6FUEn07ijtLRKU6fZMBesqTqC16nD+/HfSWet8TunjT2qXwPRcdpULfjGnB18oR56j7yXUwM/GiZUszaiYzXo3MEv5A0hdHIanwsHvwj2Ofjn5obUF/w69eypmDrolKjnpk4s+Hl6prBOPQnw2XsKoRqNUe7cRmr847+nEwA/XSehumB/IeHMrKbOsdGvPfipOwjVh3tu6sTZ+MdFv8OdWx7VybWAVbFzy8E/E0/41MHXXVbwm16d3mttwUcnhn7sxI3OFfyGMLtmPR1/6kR23RE0VT3Bz98VqEbYV2zPVgr+tcd8qk5cqg5T/6BSwP/RPi9TpW7mDjpP8JH7kxl8RcilG4rtwfaP2oF/ehZ6vVpcMfjsGl+qU8pCDcE/W0Ec/PqoEA4+j+pwjc+VbPnFIw5+8hNw8LlwjX/O4KNTXHLK3GjEwT8+E3UAv+RHRLUrFnHwjw7GGny2G1GqODHhGAf8VV1mmc9Mzs6sSH7euIwLt6jhaa2sdJTQXetTFn40f1QvuOuqqaboVjfr/OitRaMyaTLXpd83s3bUzzKY8DX+l8flbGRZx7pqR9gXBZ8Ll4sTDj6Xi5T/B+/6C3hWIgJYAAAAAElFTkSuQmCC" alt="저폴리 고양이 모델과 기본 도형 블록아웃" style="width:100%;display:block;border-radius:5px">
+        </div>
+        <div class="mk-cap">고양이만 모델링 · 담장 · 건물 · 상자는 <b>기본 도형</b></div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-12 gap-4 mt-3">
+      <div class="md:col-span-7 soft-card rounded-2xl p-4">
+        <div class="text-[13px] font-black text-slate-400 mb-2">③ 에셋스토어를 쓴다면 — 이 표가 산출물입니다</div>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="background:#0f172a;color:#fff"><th style="text-align:left;padding:4px 8px">에셋</th><th style="text-align:left;padding:4px 8px">제작자</th><th style="text-align:left;padding:4px 8px">조건</th><th style="text-align:left;padding:4px 8px">쓸 곳</th></tr>
+          <tr><td style="padding:4px 8px;border-bottom:1px solid #eef2f7">Simple Town Lite</td><td style="padding:4px 8px;border-bottom:1px solid #eef2f7;color:#94a3b8">Synty</td><td style="padding:4px 8px;border-bottom:1px solid #eef2f7;color:#16a34a;font-weight:800">무료</td><td style="padding:4px 8px;border-bottom:1px solid #eef2f7">건물</td></tr>
+          <tr><td style="padding:4px 8px;border-bottom:1px solid #eef2f7">Street Lamp Pack</td><td style="padding:4px 8px;border-bottom:1px solid #eef2f7;color:#94a3b8">AssetX</td><td style="padding:4px 8px;border-bottom:1px solid #eef2f7;color:#16a34a;font-weight:800">무료</td><td style="padding:4px 8px;border-bottom:1px solid #eef2f7">가로등</td></tr>
+          <tr><td style="padding:4px 8px">Cat Animations</td><td style="padding:4px 8px;color:#94a3b8">PawStudio</td><td style="padding:4px 8px;color:#c2410c;font-weight:800">유료</td><td style="padding:4px 8px">고양이</td></tr>
+        </table>
+      </div>
+      <div class="md:col-span-5 soft-card rounded-2xl p-4 border-flame-200">
+        <div class="text-[13px] font-black text-flame-700 mb-2">에셋을 쓸 때 확인할 것</div>
+        <ul class="text-[14.5px] text-slate-600 space-y-1">
+          <li>· <b>라이선스</b> — 과제 제출물에 써도 되나</li>
+          <li>· <b>용량</b> — 큰 패키지는 깃에 올리지 말고 각자 내려받기</li>
+          <li>· <b>색</b> — 우리가 정한 색 셋과 어울리나</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="glass-card rounded-2xl p-3.5 mt-3">
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> 만든 파일을 <b>유니티 화면에 올려놓고</b> 보여주세요. 폴더에 들어만 있어도 됩니다. 어디서 가져왔는지는 꼭 말하고요.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-1"><span class="text-3xl">🔊</span><h2 class="text-3xl md:text-4xl font-black">사운드 담당</h2></div>
+    <p class="text-[17px] text-slate-500 mb-4">눈으로 못 보는 것을 전달합니다. <b class="text-slate-700">가장 적게 일하고 가장 크게 바꿉니다.</b></p>
+    <div class="grid md:grid-cols-5 gap-4 items-start">
+      <div class="md:col-span-2 soft-card rounded-2xl p-5">
+        <div class="tagchip bg-slate-900 text-white mb-3">가져올 것</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>① <b>소리 목록</b> — 언제 / 무슨 소리 / 길이</li>
+          <li>② <b>배경음 후보 2개</b> + 출처 · 라이선스</li>
+          <li>③ <b>가장 중요한 효과음</b> 하나와 이유</li>
+          <li>④ <b>귀로만</b> 알 수 있는 것</li>
+          <li>⑤ 발표에서 <b>하나는 직접 들려주기</b></li>
+        </ul>
+        <div class="mt-3 pt-3 border-t border-slate-100">
+          <div class="text-[13px] font-black text-flame-700 mb-1">파일이 아직 없다면</div>
+          <p class="text-[14.5px] text-slate-500">후보 주소 3개와 <b>재생 타이밍 표</b>로 대신할 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="mk">
+          <svg viewBox="0 0 560 250" role="img" aria-label="소리 타이밍 표 목업">
+            <rect width="560" height="250" fill="#fdfdfe"/>
+            <g font-family="Pretendard, sans-serif">
+              <text x="18" y="26" font-size="13" font-weight="800" fill="#0f172a">한 판(2분) 동안 언제 무슨 소리가 나는가</text>
+              <line x1="118" y1="212" x2="538" y2="212" stroke="#cbd5e1" stroke-width="2"/>
+              <text x="112" y="230" font-size="11" fill="#94a3b8">0:00</text>
+              <text x="310" y="230" font-size="11" fill="#94a3b8">1:00</text>
+              <text x="516" y="230" font-size="11" fill="#94a3b8">2:00</text>
+
+              <text x="18" y="58" font-size="12" font-weight="800" fill="#475569">배경음</text>
+              <rect x="118" y="46" width="420" height="16" rx="8" fill="#a5b4fc"/>
+              <text x="128" y="58" font-size="10.5" fill="#1e1b4b" font-weight="800">night ambience · CC0</text>
+              <rect x="392" y="46" width="84" height="16" rx="8" fill="#e0e7ff"/>
+              <text x="400" y="58" font-size="9.5" fill="#4338ca" font-weight="800">숨을 때 소리 ↓</text>
+              <text x="118" y="72" font-size="10" fill="#94a3b8">벌레 소리만 깔려 있어 발소리가 잘 들린다</text>
+
+              <text x="18" y="94" font-size="12" font-weight="800" fill="#475569">발소리</text>
+              <g fill="#fdba74">
+                <rect x="140" y="82" width="36" height="14" rx="7"/><rect x="206" y="82" width="26" height="14" rx="7"/>
+                <rect x="286" y="82" width="44" height="14" rx="7"/><rect x="390" y="82" width="30" height="14" rx="7"/>
+                <rect x="470" y="82" width="52" height="14" rx="7"/>
+              </g>
+              <text x="118" y="110" font-size="10.5" fill="#94a3b8">달릴 때만 · 반복 — 이게 가장 중요한 소리입니다</text>
+
+              <text x="18" y="142" font-size="12" font-weight="800" fill="#475569">효과음</text>
+              <g>
+                <circle cx="168" cy="136" r="9" fill="#38bdf8"/><circle cx="300" cy="136" r="9" fill="#38bdf8"/><circle cx="432" cy="136" r="9" fill="#38bdf8"/>
+                <circle cx="356" cy="136" r="9" fill="#fbbf24"/>
+                <circle cx="508" cy="136" r="9" fill="#34d399"/>
+              </g>
+              <text x="118" y="162" font-size="10.5" fill="#94a3b8">
+                <tspan fill="#0284c7" font-weight="800">● 띵</tspan> 생선을 물었다 · 0.3초 &#160;
+                <tspan fill="#b45309" font-weight="800">● 삐</tspan> 손전등에 걸렸다 · 1초 &#160;
+                <tspan fill="#047857" font-weight="800">● 울음</tspan> 클리어 · 1.5초
+              </text>
+
+              <text x="18" y="190" font-size="12" font-weight="800" fill="#475569">귀로만</text>
+              <rect x="118" y="178" width="130" height="16" rx="8" fill="#fecaca"/>
+              <text x="126" y="190" font-size="10" fill="#991b1b" font-weight="800">다가오는 발소리 (점점 크게)</text>
+              <text x="256" y="190" font-size="10.5" fill="#94a3b8">화면 밖 집주인 — 눈으로는 알 수 없습니다</text>
+            </g>
+          </svg>
+        </div>
+        <div class="mk-cap">재생 타이밍 표 — 이렇게 한 장이면 소리 층은 설명됩니다</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4 mt-4">
+      <p class="text-[16px] text-slate-700 mb-1"><b class="text-dev-700">가장 중요한 효과음</b> &nbsp; 발소리 — <b>소리가 집주인을 부른다</b>는 게 핵심 규칙인데, 안 들리면 그 규칙이 안 보입니다</p>
+      <p class="text-[16px] text-flame-800"><b>발표에서는</b> 하나를 <b>반드시 들려주세요.</b> 말로 "띵 소리가 납니다" 하면 아무것도 전달되지 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4">
+  <div class="max-w-5xl w-full">
+    <div class="glass-card rounded-3xl p-8">
+      <div class="text-sm font-black tracking-widest text-flame-600 mb-2">지금 합니다</div>
+      <h2 class="text-4xl font-black mb-5">팀별 토의 — 점검 시트를 채웁니다</h2>
+      <div class="space-y-2 mb-5">
+        <div class="rule-card"><span class="no">1</span><span><b>한 줄 목표</b>를 소리 내어 읽고, 전원이 같은 문장을 말할 수 있는지 봅니다</span></div>
+        <div class="rule-card"><span class="no">2</span><span><b>여섯 층 현황</b>을 채웁니다 — 지금 되는 것 / 다음 주까지 할 것 / 보여줄 형태</span></div>
+        <div class="rule-card"><span class="no">3</span><span>각자 개인 양식의 <b>「막힌 것」</b> 을 한 바퀴 돌아가며 읽습니다</span></div>
+        <div class="rule-card"><span class="no">4</span><span><b>숫자를 확정</b>합니다 — 한 판 길이 · 목표 수량 · 실패 조건</span></div>
+        <div class="rule-card"><span class="no">5</span><span><b>발표 시나리오</b>를 적습니다 — 순서 · 이름 · 보여줄 것 · 첫 문장</span></div>
+        <div class="rule-card"><span class="no">6</span><span><b>데모 계획</b>과 안 될 때의 대비책까지</span></div>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <p class="text-[17px] text-slate-700"><b class="text-dev-700">교수자가 팀을 돌며 피드백합니다.</b> 「막힌 것」 칸을 펼쳐 두세요 — 그 자리에서 답을 드리겠습니다. 들은 내용은 시트 8번에 적어 두세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">자주 어긋나는 곳</h2>
+    <p class="text-lg text-slate-500 mb-6">점검할 때 이 네 가지부터 보세요.</p>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">한 줄 목표가 사람마다 다르다</div>
+        <p class="text-[16px] text-slate-600">각자 머릿속 게임이 다른 경우입니다. 팀 계획서의 <b>한 줄 목표를 소리 내어 읽고</b> 맞춰 보세요.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">적이 조작을 막지 않는다</div>
+        <p class="text-[16px] text-slate-600">적 담당과 조작 담당이 따로 만든 경우입니다. <b>적이 무엇을 막는지</b>가 조작 목록에 있어야 합니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">UI가 없는 규칙이 있다</div>
+        <p class="text-[16px] text-slate-600">시간 제한을 뒀는데 시간이 화면에 없는 식입니다. <b>규칙마다 보여주는 자리</b>가 있어야 합니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-flame-200">
+        <div class="text-xl font-black mb-1 text-flame-700">숫자가 아무 데도 없다</div>
+        <p class="text-[16px] text-slate-600">"적당히 어렵게" 로 적힌 팀입니다. <b>종이로 한 판 더</b> 돌리면 숫자가 나옵니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="5">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">다음 주 — 중간 발표</h2>
+    <p class="text-lg text-slate-500 mb-6">완성된 게임이 아니라 <b class="text-slate-700">한 조각이 끝까지 돌아가는 것</b>을 봅니다.</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-6">
+      <div class="soft-card rounded-2xl p-7">
+        <div class="tagchip bg-dev-600 text-white mb-4">발표 자료에 들어갈 것</div>
+        <ul class="text-[16px] text-slate-600 space-y-1.5">
+          <li>· 게임 제목 · <b>한 줄 목표</b></li>
+          <li>· 한 판의 흐름 — 시작 / 반복 / 이기면 / 지면</li>
+          <li>· <b>여섯 층</b> — 각 층마다 한 장씩</li>
+          <li>· 숫자와 <b>그 숫자의 근거</b></li>
+          <li>· 종이 프로토 결과 + 사진</li>
+          <li>· <b>되는 것 / 안 되는 것</b></li>
+          <li>· 역할과 기말까지의 일정</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-2xl p-7">
+        <div class="tagchip bg-flame-600 text-white mb-4">발표 방식</div>
+        <ul class="text-[16px] text-slate-600 space-y-1.5">
+          <li>· 팀 단위 · <b>전원이 자기 층을 직접</b> 설명</li>
+          <li>· 한 사람이 몰아서 하면 감점</li>
+          <li>· <b>플레이 가능한 빌드는 요구하지 않습니다</b></li>
+          <li>· 종이 · 손그림 · 슬라이드 · 유니티 — 섞어도 됩니다</li>
+          <li>· 자료는 <b>팀당 1건</b>, 누구든 한 명이 대표 제출</li>
+          <li>· 노트북과 종이 프로토 실물을 가져옵니다</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">오늘 채운 <b class="text-dev-700">점검 시트 5번 「발표 시나리오」</b> 를 그대로 따라가면 됩니다. 자세한 내용은 사이버캠퍼스 과제란에 올려 두었습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-part="4">
+  <div class="max-w-4xl w-full text-center">
+    <h2 class="text-5xl md:text-6xl font-black mb-6">나가기 전에</h2>
+    <div class="grid md:grid-cols-3 gap-4 mb-9">
+      <div class="soft-card rounded-2xl p-6"><div class="font-black mb-1">점검 시트 제출</div><p class="text-[16px] text-slate-600">팀당 1건 · 나가기 전에 사이버캠퍼스로</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="font-black mb-1">다음 회의</div><p class="text-[16px] text-slate-600">일시를 정하고 각자 할 일을 한 줄씩</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="font-black mb-1">백업</div><p class="text-[16px] text-slate-600">오늘 날짜로 한 번 떠 두기</p></div>
+    </div>
+    <p class="text-xl text-slate-500 mb-4">다음 주 발표는 <b class="text-slate-700">전원이 한 조각씩</b>. 오늘 적은 <b class="text-slate-700">발표 시나리오</b>대로 하면 됩니다.</p>
+    <p class="text-lg text-slate-400">발표 자료 제출은 사이버캠퍼스 과제란을 확인하세요</p>
+  </div>
+</section>
+
+</main>
+
+<div class="navbar-fixed fixed bottom-5 left-1/2 -translate-x-1/2 z-[130] flex items-center gap-3">
+  <button onclick="prevSlide()" aria-label="이전 슬라이드"
+    class="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:bg-slate-50 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur border border-slate-200 shadow-md rounded-full px-4 h-11 text-xs text-slate-400">
+    <span class="kbd">←</span><span class="kbd">→</span><span>이동</span>
+  </div>
+  <button onclick="nextSlide()" aria-label="다음 슬라이드"
+    class="w-12 h-12 rounded-full bg-slate-900 text-white shadow-lg hover:bg-dev-700 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+const progressBar = document.getElementById("progress-bar");
+const currentSlideLabel = document.getElementById("current-slide");
+const totalSlidesLabel = document.getElementById("total-slides");
+const partLabel = document.getElementById("part-label");
+const PART_NAMES = {"0":"7주차 대면","1":"버티컬 슬라이스","3":"AI와 함께 쓰기","2":"층별 준비물","4":"팀별 점검","5":"중간 발표 안내"};
+let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
+totalSlidesLabel.textContent = slides.length;
+
+function updateSlide(){
+  slides.forEach((s,i)=>{
+    s.classList.remove("active","prev-slide");
+    if(i===currentSlide){ s.classList.add("active"); s.scrollTop=0; }
+    else if(i<currentSlide){ s.classList.add("prev-slide"); }
+  });
+  progressBar.style.width = `${((currentSlide+1)/slides.length)*100}%`;
+  currentSlideLabel.textContent = currentSlide+1;
+  partLabel.textContent = PART_NAMES[slides[currentSlide].dataset.part] || "7주차 대면";
+  if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
+}
+function nextSlide(){ if(currentSlide<slides.length-1){currentSlide++;updateSlide();} }
+function prevSlide(){ if(currentSlide>0){currentSlide--;updateSlide();} }
+
+document.addEventListener("keydown",(e)=>{
+  const k=e.key;
+  if(k==="ArrowRight"||k==="PageDown"||k===" "){e.preventDefault();nextSlide();}
+  else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
+  else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
+  else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
+  else if(k==="Home"){currentSlide=0;updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;updateSlide();}
+});
+window.addEventListener("wheel",(e)=>{
+  const inner=e.target.closest(".overflow-x-auto,.overflow-y-auto,.custom-scrollbar");
+  if(inner && inner.scrollHeight>inner.clientHeight+3){
+    const atTop=inner.scrollTop<=0, atBottom=Math.abs(inner.scrollHeight-inner.clientHeight-inner.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  const s=slides[currentSlide];
+  if(s&&s.scrollHeight>s.clientHeight+3){
+    const atTop=s.scrollTop<=0, atBottom=Math.abs(s.scrollHeight-s.clientHeight-s.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  if(isAnimating)return;
+  if(e.deltaY>0)nextSlide(); else if(e.deltaY<0)prevSlide();
+  isAnimating=true; setTimeout(()=>{isAnimating=false;},520);
+},{passive:true});
+window.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+window.addEventListener("touchend",(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx<0?nextSlide():prevSlide(); }
+},{passive:true});
+
+(function(){
+  const n=parseInt((location.hash||"").replace("#",""),10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  updateSlide();
+})();
+</script>
+</body>
+</html>
