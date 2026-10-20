@@ -1,0 +1,511 @@
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 개발 실습 · 8주차 — 버티컬 슬라이스 중간발표</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
+  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+}}}}
+</script>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0}
+body{
+  font-family:"Pretendard",sans-serif;overflow:hidden;color:#1e293b;word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,.10), transparent 38%),
+    radial-gradient(circle at 88% 88%, rgba(249,115,22,.09), transparent 38%),
+    #f8fafc;
+}
+/* SLIDES */
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
+  display:flex;justify-content:center;align-items:center;align-items:safe center;
+  padding:4.5rem 2.5rem 5.5rem;overflow-y:auto;
+  transform:translateX(36px) scale(.99);transition:opacity .42s ease, transform .42s ease;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:10;transform:translateX(0) scale(1)}
+.slide.prev-slide{transform:translateX(-36px) scale(.99)}
+#progress-bar{transition:width .3s ease}
+/* CARDS */
+.glass-card{background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 18px 50px rgba(15,23,42,.08),0 3px 10px rgba(15,23,42,.04);backdrop-filter:blur(10px)}
+.soft-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.soft-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,23,42,.10);border-color:#a5b4fc}
+/* FLOW */
+.flow-line{position:relative}
+.flow-line::after{content:"→";position:absolute;right:-26px;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:800;font-size:1.3rem}
+.flow-line:last-child::after{display:none}
+/* TABLE */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem}
+.cmp-table th,.cmp-table td{padding:.9rem 1rem;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:middle}
+.cmp-table thead th{background:#0f172a;color:#fff;font-weight:800;white-space:nowrap}
+.cmp-table thead th:first-child{border-top-left-radius:.75rem}
+.cmp-table thead th:last-child{border-top-right-radius:.75rem}
+.cmp-table td:first-child{font-weight:700;color:#64748b;white-space:nowrap}
+/* KEYCAP */
+.kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
+  box-shadow:0 2px 0 #cbd5e1;font-size:.75rem;font-weight:700;color:#64748b}
+.tagchip{display:inline-flex;align-items:center;gap:.4rem;font-size:12px;font-weight:900;
+  letter-spacing:.06em;border-radius:999px;padding:.28rem .7rem}
+.no{width:36px;height:36px;border-radius:10px;background:#0f172a;color:#fff;
+  font-size:16px;font-weight:900;display:grid;place-items:center;flex:none}
+/* FigJam mocks */
+.stk{border-radius:4px;box-shadow:0 8px 18px rgba(15,23,42,.12);padding:16px 18px;font-weight:700;line-height:1.45}
+.st-green{background:#B3EFBD}.st-yellow{background:#FFE299}.st-violet{background:#D3BDFF}.st-orange{background:#FFD3A8}.st-red{background:#FFB8A8}
+.t1{background:#F5FBFF}.t2{background:#FFF7F0}.t3{background:#FFF0FA}.t4{background:#F1FEFD}
+.blank{display:inline-block;min-width:200px;border-bottom:4px solid #0f172a;margin:0 .4rem;height:1em;vertical-align:-4px}
+/* 투사용 확대 */
+@media (min-width:1600px) and (min-height:900px){html{font-size:19px}}
+@media (min-width:2200px) and (min-height:1200px){html{font-size:23px}}
+.slide.wk{font-size:19px}
+.slide.wk h2{letter-spacing:-.03em}
+@media (max-width:768px){
+  .slide{padding:4rem 1rem 5.5rem;align-items:flex-start}
+  .flow-line::after{display:none}
+}
+@media print{
+  body{overflow:visible;height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:auto;min-height:90vh;padding:2rem}
+  #progress-bar,.navbar-fixed{display:none!important}
+}
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.relative{position:relative}.bottom-5{bottom:1.25rem}.left-0{left:0px}.left-1\/2{left:50%}.left-6{left:1.5rem}.right-6{right:1.5rem}.top-0{top:0px}.top-5{top:1.25rem}.z-\[130\]{z-index:130}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-3{margin-top:0.75rem;margin-bottom:0.75rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mb-7{margin-bottom:1.75rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-1{margin-top:0.25rem}.mt-7{margin-top:1.75rem}.mt-auto{margin-top:auto}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-1\.5{height:0.375rem}.h-11{height:2.75rem}.h-12{height:3rem}.h-2\.5{height:0.625rem}.h-3\.5{height:0.875rem}.h-4{height:1rem}.h-7{height:1.75rem}.h-\[210px\]{height:210px}.h-\[64px\]{height:64px}.h-full{height:100%}.h-screen{height:100vh}.min-h-\[48px\]{min-height:48px}.w-12{width:3rem}.w-2\.5{width:0.625rem}.w-3\.5{width:0.875rem}.w-4{width:1rem}.w-7{width:1.75rem}.w-\[210px\]{width:210px}.w-\[220px\]{width:220px}.w-full{width:100%}.max-w-5xl{max-width:64rem}.max-w-6xl{max-width:72rem}.-translate-x-1\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.list-decimal{list-style-type:decimal}.grid-cols-\[\.7fr_1fr_1fr_1fr\]{grid-template-columns:.7fr 1fr 1fr 1fr}.grid-cols-\[1\.4fr_1fr\]{grid-template-columns:1.4fr 1fr}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1\.5{gap:0.375rem}.gap-12{gap:3rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.gap-7{gap:1.75rem}.gap-8{gap:2rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.self-start{align-self:flex-start}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.rounded-sm{border-radius:0.125rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-t-2{border-top-width:2px}.border-dashed{border-style:dashed}.border-dev-200{--tw-border-opacity:1;border-color:rgb(199 210 254 / var(--tw-border-opacity, 1))}.border-dev-300{--tw-border-opacity:1;border-color:rgb(165 180 252 / var(--tw-border-opacity, 1))}.border-flame-200{--tw-border-opacity:1;border-color:rgb(254 215 170 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.bg-dev-50{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.bg-dev-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-flame-600{--tw-bg-opacity:1;background-color:rgb(234 88 12 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-white\/85{background-color:rgb(255 255 255 / 0.85)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-dev-500{--tw-gradient-from:#6366f1 var(--tw-gradient-from-position);--tw-gradient-to:rgb(99 102 241 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-indigo-400{--tw-gradient-to:rgb(129 140 248 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #818cf8 var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-flame-500{--tw-gradient-to:#f97316 var(--tw-gradient-to-position)}.p-10{padding:2.5rem}.p-2\.5{padding:0.625rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-7{padding:1.75rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pl-6{padding-left:1.5rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-6xl{font-size:3.75rem;line-height:1}.text-\[11\.5px\]{font-size:11.5px}.text-\[12px\]{font-size:12px}.text-\[13px\]{font-size:13px}.text-\[14px\]{font-size:14px}.text-\[15px\]{font-size:15px}.text-\[16\.5px\]{font-size:16.5px}.text-\[16px\]{font-size:16px}.text-\[17px\]{font-size:17px}.text-\[18px\]{font-size:18px}.text-\[19px\]{font-size:19px}.text-\[26px\]{font-size:26px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-semibold{font-weight:600}.leading-\[1\.55\]{line-height:1.55}.leading-\[1\.9\]{line-height:1.9}.leading-tight{line-height:1.25}.tracking-widest{letter-spacing:0.1em}.text-dev-200{--tw-text-opacity:1;color:rgb(199 210 254 / var(--tw-text-opacity, 1))}.text-dev-400{--tw-text-opacity:1;color:rgb(129 140 248 / var(--tw-text-opacity, 1))}.text-dev-500{--tw-text-opacity:1;color:rgb(99 102 241 / var(--tw-text-opacity, 1))}.text-dev-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-dev-700{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.text-flame-500{--tw-text-opacity:1;color:rgb(249 115 22 / var(--tw-text-opacity, 1))}.text-flame-700{--tw-text-opacity:1;color:rgb(194 65 12 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-violet-500{--tw-text-opacity:1;color:rgb(139 92 246 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-80{opacity:0.8}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur{--tw-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-dev-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}@media (min-width: 768px){.md\:block{display:block}.md\:flex{display:flex}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}.md\:grid-cols-\[1\.25fr_1fr\]{grid-template-columns:1.25fr 1fr}.md\:grid-cols-\[340px_1fr\]{grid-template-columns:340px 1fr}.md\:p-12{padding:3rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-5xl{font-size:3rem;line-height:1}.md\:text-7xl{font-size:4.5rem;line-height:1}.md\:text-\[32px\]{font-size:32px}}</style></head><body>
+
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[130]">
+  <div id="progress-bar" class="h-full bg-gradient-to-r from-dev-500 via-indigo-400 to-flame-500" style="width: 100%;"></div>
+</div>
+<div id="part-label" class="navbar-fixed fixed top-5 left-6 z-[130] text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200 hidden md:block">5 · 한 줄 공유 · 팀 대표</div>
+<div class="navbar-fixed fixed top-5 right-6 z-[130] flex items-center gap-2">
+  <div class="text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200">
+    <span id="current-slide">12</span><span class="mx-1 text-slate-300">/</span><span id="total-slides">12</span>
+  </div>
+</div>
+
+<main id="slides-container" class="relative w-full h-screen">
+
+<!-- 1 COVER -->
+<section class="slide wk prev-slide" data-part="0">
+  <div class="max-w-5xl w-full text-center">
+    <svg class="mx-auto mb-6" width="190" height="200" viewBox="20 30 340 360" aria-hidden="true">
+      <ellipse cx="180" cy="372" rx="160" ry="16" fill="#0f172a" opacity=".08"></ellipse>
+      <polygon points="250,92 340,44 340,304 250,352" fill="#e2e8f0"></polygon>
+      <polygon points="40,92 250,92 340,44" fill="#ffffff"></polygon>
+      <rect x="40" y="92" width="210" height="40" fill="#FFB8A8"></rect>
+      <rect x="40" y="132" width="210" height="44" fill="#FFE299"></rect>
+      <rect x="40" y="176" width="210" height="44" fill="#B3EFBD"></rect>
+      <rect x="40" y="220" width="210" height="44" fill="#A8DAFF"></rect>
+      <rect x="40" y="264" width="210" height="44" fill="#D3BDFF"></rect>
+      <rect x="40" y="308" width="210" height="44" fill="#FFD3A8"></rect>
+      <g stroke="#0f172a" stroke-width="4" fill="none" stroke-linejoin="round">
+        <rect x="40" y="92" width="210" height="260"></rect>
+        <polyline points="250,92 340,44 340,304 250,352"></polyline>
+        <polyline points="40,92 340,44"></polyline>
+      </g>
+      <circle cx="215" cy="74" r="13" fill="#f97316" stroke="#0f172a" stroke-width="4"></circle>
+      <g font-family="Pretendard,sans-serif" font-weight="900" font-size="22" fill="#0f172a">
+        <text x="54" y="120">1</text><text x="54" y="162">2</text><text x="54" y="206">3</text>
+        <text x="54" y="250">4</text><text x="54" y="294">5</text><text x="54" y="338">6</text>
+      </g>
+    </svg>
+    <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-dev-600 bg-dev-50 border border-dev-200 rounded-full px-5 py-2">
+      게임 개발 실습 · 8주차
+    </div>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">버티컬 슬라이스 <span class="text-dev-600">중간발표</span></h1>
+    <p class="text-xl md:text-2xl text-slate-500">발표하고, <b class="text-slate-700">서로의 게임에 피드백</b>을 남깁니다</p>
+  </div>
+</section>
+
+<!-- 2 ORDER -->
+<section class="slide wk prev-slide" data-part="order">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">다섯 단계로 진행합니다</h2>
+    <p class="text-lg text-slate-500 mb-8 text-center">가운데 발표 단계는 <b class="text-slate-700">1조부터 4조까지 네 번</b> 돕니다</p>
+    <div class="grid md:grid-cols-5 gap-4">
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-6xl font-black text-dev-200 mb-3">1</div>
+        <div class="text-xl font-black mb-2">보드 들어가기</div>
+        <p class="text-[16px] text-slate-600 mb-5">링크로 들어가<br>이름을 입력합니다</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">모두</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-6xl font-black text-dev-200 mb-3">2</div>
+        <div class="text-xl font-black mb-2">우리 팀 칸 채우기</div>
+        <p class="text-[16px] text-slate-600 mb-5">여섯 층 · 담당,<br>층별 자료, 막힌 것을 채웁니다</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col border-dev-300" style="background:#eef2ff">
+        <div class="text-6xl font-black text-dev-400 mb-3">3</div>
+        <div class="text-xl font-black mb-2">발표 ×4</div>
+        <p class="text-[16px] text-slate-600 mb-5">발표 → 스티커 →<br>질문</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">발표 팀 · 듣는 팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-6xl font-black text-dev-200 mb-3">4</div>
+        <div class="text-xl font-black mb-2">피드백 읽고 정하기</div>
+        <p class="text-[16px] text-slate-600 mb-5">바꿀 것과<br>그대로 둘 것을 정합니다</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-6xl font-black text-dev-200 mb-3">5</div>
+        <div class="text-xl font-black mb-2">한 줄 공유</div>
+        <p class="text-[16px] text-slate-600 mb-5">팀마다 한 사람이<br>정한 것을 말합니다</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">팀 대표</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 JOIN -->
+<section class="slide wk prev-slide" data-part="join">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">피그잼 보드에 이름을 입력하고 들어옵니다</h2>
+    <p class="text-lg text-slate-500 mb-7">입력한 이름이 <b class="text-slate-700">내가 붙인 스티커에 그대로</b> 보입니다</p>
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="flex gap-5 justify-center">
+        <div class="flex flex-col items-center gap-3">
+          <div class="stk st-yellow w-[210px] h-[210px] text-[19px] flex flex-col justify-between">
+            <span>적 체력은 몇이고,<br>왜 그 숫자인가요?</span>
+            <span class="text-[14px] font-bold" style="color:#6B5A1E">김명지</span>
+          </div>
+          <div class="text-[15px] font-bold text-slate-500 text-center">이름이 붙으면<br>그대로</div>
+        </div>
+        <div class="flex flex-col items-center gap-3">
+          <div class="stk st-yellow w-[210px] h-[210px] text-[19px]">
+            적 체력은 몇이고,<br>왜 그 숫자인가요?<br><b class="text-flame-700">(김명지)</b>
+          </div>
+          <div class="text-[15px] font-bold text-slate-500 text-center">안 보이면<br>끝에 직접 적기</div>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">1</span><div><div class="text-xl font-black mb-1">안내받은 링크를 엽니다</div><p class="text-[16px] text-slate-600">우리 분반 보드 링크입니다</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">2</span><div><div class="text-xl font-black mb-1">이름을 입력합니다</div><p class="text-[16px] text-slate-600">실명으로 입력합니다. <b>스티커에 이름이 안 보이면 내용 끝에 이름을 직접 적습니다</b></p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">3</span><div><div class="text-xl font-black mb-1">우리 조 칸을 찾습니다</div><p class="text-[16px] text-slate-600">보드 위에서 아래로 1조, 2조, 3조, 4조 순서입니다</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 BOARD MAP -->
+<section class="slide wk prev-slide" data-part="join">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">보드는 이렇게 생겼습니다</h2>
+    <p class="text-lg text-slate-500 mb-7">조마다 한 줄씩, 왼쪽은 <b class="text-slate-700">발표 팀 자리</b>이고 오른쪽 세 칸은 <b class="text-slate-700">듣는 사람 자리</b>입니다</p>
+    <div class="grid md:grid-cols-[1.25fr_1fr] gap-7 items-start">
+      <div class="glass-card rounded-2xl p-4 space-y-2.5">
+        <div class="grid grid-cols-[1.4fr_1fr] gap-2.5">
+          <div class="rounded-lg bg-slate-50 border border-slate-200 px-3 py-2 text-[13px] font-bold text-slate-500">쓰는 법</div>
+          <div class="rounded-lg bg-slate-50 border border-slate-200 px-3 py-2 text-[13px] font-bold text-slate-500">예시 스티커</div>
+        </div>
+        <div class="t1 rounded-xl p-2.5 space-y-2">
+          <div class="text-[12px] font-black">1조</div>
+          <div class="rounded-md bg-white px-2 py-1 text-[11.5px] font-bold text-slate-600" style="border:2.5px solid #f97316">층별 자료 &nbsp;1 · 2 · 3 · 4 · 5 · 6</div>
+          <div class="grid grid-cols-[.7fr_1fr_1fr_1fr] gap-2 text-[12px] font-bold">
+            <div class="rounded-md bg-white px-2 py-2.5" style="outline:2.5px solid #f97316">팀 카드</div>
+            <div class="rounded-md bg-white px-2 py-2.5 flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-sm st-green inline-block"></i>좋았던 점</div>
+            <div class="rounded-md bg-white px-2 py-2.5 flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-sm st-yellow inline-block"></i>궁금한 점</div>
+            <div class="rounded-md bg-white px-2 py-2.5 flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-sm st-violet inline-block"></i>해 보면</div>
+          </div>
+        </div>
+        <div class="t2 rounded-xl p-2.5 space-y-2">
+          <div class="text-[12px] font-black">2조</div>
+          <div class="rounded-md bg-white px-2 py-1 text-[11.5px] font-bold text-slate-600 border border-dashed border-slate-300">층별 자료 &nbsp;1 · 2 · 3 · 4 · 5 · 6</div>
+          <div class="grid grid-cols-[.7fr_1fr_1fr_1fr] gap-2 text-[12px] font-bold">
+            <div class="rounded-md bg-white px-2 py-2.5">팀 카드</div>
+            <div class="rounded-md bg-white px-2 py-2.5 flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-sm st-green inline-block"></i>좋았던 점</div>
+            <div class="rounded-md bg-white px-2 py-2.5 flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-sm st-yellow inline-block"></i>궁금한 점</div>
+            <div class="rounded-md bg-white px-2 py-2.5 flex items-center gap-1.5"><i class="w-2.5 h-2.5 rounded-sm st-violet inline-block"></i>해 보면</div>
+          </div>
+        </div>
+        <div class="text-[13px] font-bold text-slate-400 px-1">3조 · 4조도 같은 모양으로 아래에 이어집니다</div>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 border-flame-200">
+          <div class="font-black mb-1 text-flame-700 flex items-center gap-2"><span class="inline-block w-4 h-4 rounded" style="border:3px solid #f97316"></span>층별 자료 · 팀 카드</div>
+          <p class="text-[16px] text-slate-600"><b>발표 팀만 씁니다.</b> 층별 자료는 담당자가 한 장씩, 팀 카드에는 여섯 층 · 담당, 막힌 것, 피드백 보고 정한 것</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black mb-1 text-dev-700 flex items-center gap-2"><span class="inline-block w-4 h-4 rounded st-green"></span>오른쪽 세 칸</div>
+          <p class="text-[16px] text-slate-600"><b>다른 팀이 씁니다.</b> 칸 제목 옆 색과 같은 색 스티커를 붙입니다</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black mb-1 text-dev-700 flex items-center gap-2"><span class="inline-block w-4 h-4 rounded st-red"></span>빨간 스티커</div>
+          <p class="text-[16px] text-slate-600">교수자 피드백입니다</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 FILL -->
+<section class="slide wk prev-slide" data-part="fill">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">발표 전에 우리 팀 칸을 채웁니다</h2>
+    <p class="text-lg text-slate-500 mb-6">듣는 사람이 <b class="text-slate-700">이 칸을 보며</b> 피드백을 씁니다</p>
+    <div class="grid md:grid-cols-[340px_1fr] gap-7 items-start">
+      <div class="glass-card rounded-2xl p-5 text-[15px]">
+        <div class="font-bold">팀명:</div>
+        <div class="font-bold mt-1">게임 제목:</div>
+        <div class="border-t-2 border-slate-100 my-3"></div>
+        <div class="font-black text-[17px]">여섯 층 · 담당</div>
+        <div class="text-[12px] text-slate-500 mb-1">적는 순서가 발표 순서입니다</div>
+        <ol class="list-decimal pl-6 font-semibold leading-[1.55]">
+          <li>층: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 담당:</li><li>층: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 담당:</li><li>층: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 담당:</li>
+          <li>층: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 담당:</li><li>층: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 담당:</li><li>층: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 담당:</li>
+        </ol>
+        <div class="border-t-2 border-slate-100 my-3"></div>
+        <div class="font-black text-[17px] mb-2">받고 싶은 피드백</div>
+        <div class="stk st-orange w-[220px] h-[64px] text-[15px] py-2.5">막힌 것:</div>
+      </div>
+      <div class="space-y-2.5">
+        <div class="soft-card rounded-2xl px-5 py-4 flex gap-4 items-start"><span class="no">1</span><div><div class="text-xl font-black mb-1">여섯 층 · 담당</div><p class="text-[16px] text-slate-600">팀 계획서 3번 담당표를 그대로 옮깁니다. <b>위에서부터 적은 순서대로 발표합니다</b></p></div></div>
+        <div class="soft-card rounded-2xl px-5 py-4 flex gap-4 items-start"><span class="no">2</span><div><div class="text-xl font-black mb-1">층별 자료</div><p class="text-[16px] text-slate-600">담당자가 자기 층 자료를 <b>위쪽 칸 번호에 맞춰 한 장씩</b> 붙입니다. 제출한 발표 자료의 캡처도 되고, 영상은 링크로 붙입니다</p></div></div>
+        <div class="soft-card rounded-2xl px-5 py-4 flex gap-4 items-start"><span class="no">3</span><div><div class="text-xl font-black mb-1">막힌 것</div><p class="text-[16px] text-slate-600">도움받고 싶은 것을 한두 가지 적습니다<br><b class="text-slate-800">예) 적 체력을 몇으로 해야 할지 모르겠다. 지금은 10</b></p></div></div>
+        <div class="soft-card rounded-2xl px-5 py-4 flex gap-4 items-start opacity-80"><span class="no" style="background:#94a3b8">4</span><div><div class="text-xl font-black mb-1">피드백 보고 정한 것</div><p class="text-[16px] text-slate-600">지금은 비워 둡니다. 발표가 모두 끝난 뒤에 씁니다</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 PRESENT -->
+<section class="slide wk prev-slide" data-part="present">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-7">발표는 이렇게 합니다</h2>
+    <div class="grid md:grid-cols-3 gap-4 mb-7">
+      <div class="soft-card rounded-2xl p-7">
+        <i class="fa-solid fa-people-group text-3xl text-dev-500 mb-4"></i>
+        <div class="text-2xl font-black mb-2">전원이 한 조각씩</div>
+        <p class="text-[17px] text-slate-600"><b>자기가 맡은 층은 자기가 설명합니다.</b> 팀 카드에 적은 순서대로 이어 갑니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7">
+        <i class="fa-solid fa-display text-3xl text-flame-500 mb-4"></i>
+        <div class="text-2xl font-black mb-2">말하지 말고 보여주기</div>
+        <p class="text-[17px] text-slate-600">"했습니다" 대신 <b>화면, 종이, 플레이로 보여 줍니다.</b> 종이 프로토타입도 됩니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7">
+        <i class="fa-solid fa-circle-exclamation text-3xl text-violet-500 mb-4"></i>
+        <div class="text-2xl font-black mb-2">안 된 것도 말하기</div>
+        <p class="text-[17px] text-slate-600">막힌 것을 말하면 <b>듣는 사람이 도울 수 있습니다.</b> 채점에서도 가점입니다</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-6 text-center">
+      <p class="text-[19px] text-slate-700">완성을 보는 자리가 아니라, <b class="text-dev-700">방향이 맞는지 보는 자리</b>입니다</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 CRITERIA -->
+<section class="slide wk prev-slide" data-part="crit">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-7 text-center">무엇으로 채점하나</h2>
+    <div class="space-y-3">
+      <div class="soft-card rounded-2xl p-6 flex gap-5 items-center"><span class="no">1</span><div><div class="text-2xl font-black mb-1">여섯 층이 다 있는가</div><p class="text-[17px] text-slate-600">완성도가 아니라, <b>여섯 층이 모두 같은 게임을 가리키며 들어 있는지</b>를 봅니다</p></div></div>
+      <div class="soft-card rounded-2xl p-6 flex gap-5 items-center"><span class="no">2</span><div><div class="text-2xl font-black mb-1">숫자와 그 숫자를 정한 근거</div><p class="text-[17px] text-slate-600">"적당히 어렵게"는 답이 아닙니다. <b>몇인지, 왜 그 숫자인지</b>를 봅니다</p></div></div>
+      <div class="soft-card rounded-2xl p-6 flex gap-5 items-center border-flame-200" style="background:#fff7ed"><span class="no" style="background:#ea580c">+</span><div><div class="text-2xl font-black mb-1 text-flame-700">안 되는 것을 말하면 가점</div><p class="text-[17px] text-slate-600">막힌 것을 숨기지 않고 말한 팀이 <b>더 많이 도움을 받습니다</b></p></div></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 mt-7 text-center">
+      <p class="text-[18px] text-slate-700"><b class="text-dev-700">듣는 사람도</b> 이 세 가지를 보며 스티커를 씁니다</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 THREE STICKIES -->
+<section class="slide wk prev-slide" data-part="listen">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">듣는 사람은 세 가지 스티커를 붙입니다</h2>
+    <p class="text-lg text-slate-500 mb-6">발표하는 팀의 칸에, <b class="text-slate-700">칸 제목 옆 색과 같은 색</b>으로</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-2"><span class="w-7 h-7 rounded-lg st-green"></span><span class="text-2xl font-black">좋았던 점</span></div>
+        <p class="text-[16px] text-slate-600 mb-4 min-h-[48px]">잘 보였던 층,<br>이해가 잘 된 숫자와 그 이유</p>
+        <div class="text-[12px] font-black tracking-widest text-slate-400 mb-2">이렇게 시작해 보기</div>
+        <div class="stk st-green text-[19px]">○층에서<br>~가 보였다</div>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-2"><span class="w-7 h-7 rounded-lg st-yellow"></span><span class="text-2xl font-black">궁금한 점</span></div>
+        <p class="text-[16px] text-slate-600 mb-4 min-h-[48px]">안 보였던 층,<br>근거가 궁금한 숫자</p>
+        <div class="text-[12px] font-black tracking-widest text-slate-400 mb-2">이렇게 시작해 보기</div>
+        <div class="stk st-yellow text-[19px]">~는 몇이고,<br>왜 그 숫자인가요?</div>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-2"><span class="w-7 h-7 rounded-lg st-violet"></span><span class="text-2xl font-black">해 보면</span></div>
+        <p class="text-[16px] text-slate-600 mb-4 min-h-[48px]">막힌 것을 풀 아이디어,<br>바꿔 볼 만한 숫자</p>
+        <div class="text-[12px] font-black tracking-widest text-slate-400 mb-2">이렇게 시작해 보기</div>
+        <div class="stk st-violet text-[19px]">~를 ~로<br>바꿔 보면</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <div class="flex flex-wrap items-center gap-2.5 mb-3">
+        <span class="tagchip bg-slate-900 text-white" style="font-size:14px">팀마다 한 장 이상</span>
+        <span class="tagchip bg-slate-100 text-slate-700 border border-slate-200" style="font-size:14px">스티커 하나에 한 가지</span>
+        <span class="tagchip bg-slate-100 text-slate-700 border border-slate-200" style="font-size:14px">만들기 <span class="kbd">S</span></span>
+        <span class="tagchip bg-slate-100 text-slate-700 border border-slate-200" style="font-size:14px"><span class="w-3.5 h-3.5 rounded st-red inline-block"></span>교수자</span>
+      </div>
+      <p class="text-[16.5px] text-slate-600">스티커에 이름이 안 보이면 <b class="text-dev-700">내용 끝에 (이름)을 직접 적습니다</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 GOOD FEEDBACK -->
+<section class="slide wk prev-slide" data-part="listen">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-2">이렇게 쓰면 도움이 됩니다</h2>
+    <p class="text-lg text-slate-500 mb-6"><b class="text-slate-700">층, 숫자, 제안</b> 중 하나가 들어가면 받는 팀이 바로 쓸 수 있습니다</p>
+    <table class="cmp-table" style="font-size:1.05rem">
+      <thead><tr><th style="width:30%">덜 도움 되는 말</th><th>도움 되는 말</th></tr></thead>
+      <tbody>
+        <tr><td>재밌어요</td><td><div class="stk st-green" style="box-shadow:none"><div class="text-[12px] font-black text-dev-700 mb-1">층 · 숫자</div>점프 높이를 세 번 바꿔 본 기록이 있어서 지금 값이 왜 나왔는지 알 수 있었어요</div></td></tr>
+        <tr><td>어려울 것 같아요</td><td><div class="stk st-yellow" style="box-shadow:none"><div class="text-[12px] font-black text-dev-700 mb-1">숫자</div>적이 2초마다 나오면 첫 판에 죽을 것 같은데, 왜 2초인가요?</div></td></tr>
+        <tr><td>그래픽이 아쉬워요</td><td><div class="stk st-violet" style="box-shadow:none"><div class="text-[12px] font-black text-dev-700 mb-1">층 · 제안</div>손그림이어도 적과 플레이어 색을 다르게 하면 구분이 쉬울 것 같아요</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 10 LOOP -->
+<section class="slide wk prev-slide" data-part="loop">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">한 팀이 발표할 때마다 이 순서로 돕니다</h2>
+    <p class="text-lg text-slate-500 mb-7"><b class="text-slate-700">스티커를 다 쓴 뒤에</b> 질문으로 넘어갑니다</p>
+    <div class="grid md:grid-cols-3 gap-12 mb-7">
+      <div class="soft-card rounded-2xl p-7 flow-line">
+        <span class="tagchip bg-dev-600 text-white mb-3">발표 팀</span>
+        <div class="text-2xl font-black mb-2">① 발표</div>
+        <p class="text-[17px] text-slate-600">팀 카드 순서대로 한 사람씩 <b>자기 층을 보여 줍니다.</b> 마지막에 막힌 것을 말합니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7 flow-line">
+        <span class="tagchip bg-flame-600 text-white mb-3">듣는 팀</span>
+        <div class="text-2xl font-black mb-2">② 스티커</div>
+        <p class="text-[17px] text-slate-600">발표한 팀의 칸에 스티커를 붙입니다. 막힌 것에는 <b>해 보면</b>으로 답합니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7 flow-line">
+        <span class="tagchip bg-dev-600 text-white mb-3">발표 팀</span>
+        <div class="text-2xl font-black mb-2">③ 질문에 답하기</div>
+        <p class="text-[17px] text-slate-600">노란 <b>궁금한 점</b> 스티커 중 한두 개를 골라 소리 내어 읽고 답합니다</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 flex flex-wrap items-center gap-3 justify-center text-[18px] font-black">
+      <span class="text-slate-500 font-bold mr-2">발표 순서</span>
+      <span class="t1 border border-slate-200 rounded-xl px-5 py-2">1조</span><span class="text-slate-400">→</span>
+      <span class="t2 border border-slate-200 rounded-xl px-5 py-2">2조</span><span class="text-slate-400">→</span>
+      <span class="t3 border border-slate-200 rounded-xl px-5 py-2">3조</span><span class="text-slate-400">→</span>
+      <span class="t4 border border-slate-200 rounded-xl px-5 py-2">4조</span>
+    </div>
+  </div>
+</section>
+
+<!-- 11 READ & DECIDE -->
+<section class="slide wk prev-slide" data-part="read">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">받은 스티커를 읽고, 무엇을 바꿀지 정합니다</h2>
+    <p class="text-lg text-slate-500 mb-7">결정은 팀 카드 맨 아래 <b class="text-slate-700">「피드백 보고 정한 것」</b>에 적습니다</p>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-7">
+        <div class="text-6xl font-black text-dev-200 mb-3">1</div>
+        <div class="text-2xl font-black mb-3">내 층 스티커는<br>내가 먼저 읽기</div>
+        <p class="text-[17px] text-slate-600">담당한 층을 말하는 스티커를 각자 먼저 읽고, 팀에게 짧게 전합니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7">
+        <div class="text-6xl font-black text-dev-200 mb-3">2</div>
+        <div class="text-2xl font-black mb-3">비슷한 것끼리<br>모으기</div>
+        <p class="text-[17px] text-slate-600">같은 이야기를 하는 스티커를 끌어다 가까이 붙입니다. <b>여러 사람이 말한 것이 보입니다</b></p>
+      </div>
+      <div class="soft-card rounded-2xl p-7 border-dev-300" style="background:#eef2ff">
+        <div class="text-6xl font-black text-dev-400 mb-3">3</div>
+        <div class="text-2xl font-black mb-3">바꿀 것 한두 가지,<br>그대로 둘 것 한 가지</div>
+        <p class="text-[17px] text-slate-600">결정에 쓴 스티커에는 도장 <span class="kbd">E</span> 을 찍어 둡니다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 SHARE -->
+<section class="slide wk active" data-part="share">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">팀마다 한 사람이 이 문장으로 말합니다</h2>
+    <p class="text-lg text-slate-500 mb-8 text-center">1조부터 차례로</p>
+    <div class="glass-card rounded-3xl p-10 md:p-12 text-[26px] md:text-[32px] font-bold leading-[1.9]">
+      우리 팀은<span class="blank"></span>을(를) 바꿉니다.<br>
+      <span class="blank" style="min-width:240px"></span>스티커를 보고 정했습니다.<br>
+      <span class="text-slate-500">그대로 둘 것은</span><span class="blank"></span><span class="text-slate-500">입니다.</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="navbar-fixed fixed bottom-5 left-1/2 -translate-x-1/2 z-[130] flex items-center gap-3">
+  <button onclick="prevSlide()" aria-label="이전 슬라이드" class="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:bg-slate-50 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur border border-slate-200 shadow-md rounded-full px-4 h-11 text-xs text-slate-400">
+    <span class="kbd">←</span><span class="kbd">→</span><span>이동</span>
+  </div>
+  <button onclick="nextSlide()" aria-label="다음 슬라이드" class="w-12 h-12 rounded-full bg-slate-900 text-white shadow-lg hover:bg-dev-700 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+const progressBar = document.getElementById("progress-bar");
+const currentSlideLabel = document.getElementById("current-slide");
+const totalSlidesLabel = document.getElementById("total-slides");
+const partLabel = document.getElementById("part-label");
+const PART_NAMES = {"0":"게임 개발 실습 · 8주차","order":"오늘 순서","join":"1 · 보드 들어가기","fill":"2 · 우리 팀 칸 채우기","present":"3 · 발표 · 발표 팀","crit":"3 · 발표 · 채점","listen":"3 · 발표 · 듣는 팀","loop":"3 · 발표","read":"4 · 피드백 읽고 정하기 · 팀","share":"5 · 한 줄 공유 · 팀 대표"};
+let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
+totalSlidesLabel.textContent = slides.length;
+
+function updateSlide(){
+  slides.forEach((s,i)=>{
+    s.classList.remove("active","prev-slide");
+    if(i===currentSlide){ s.classList.add("active"); s.scrollTop=0; }
+    else if(i<currentSlide){ s.classList.add("prev-slide"); }
+  });
+  progressBar.style.width = `${((currentSlide+1)/slides.length)*100}%`;
+  currentSlideLabel.textContent = currentSlide+1;
+  partLabel.textContent = PART_NAMES[slides[currentSlide].dataset.part] || "게임 개발 실습 · 8주차";
+  if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
+}
+function nextSlide(){ if(currentSlide<slides.length-1){currentSlide++;updateSlide();} }
+function prevSlide(){ if(currentSlide>0){currentSlide--;updateSlide();} }
+
+document.addEventListener("keydown",(e)=>{
+  const k=e.key;
+  if(k==="ArrowRight"||k==="PageDown"||k===" "){e.preventDefault();nextSlide();}
+  else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
+  else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
+  else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
+  else if(k==="Home"){currentSlide=0;updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;updateSlide();}
+});
+window.addEventListener("wheel",(e)=>{
+  const s=slides[currentSlide];
+  if(s&&s.scrollHeight>s.clientHeight+3){
+    const atTop=s.scrollTop<=0, atBottom=Math.abs(s.scrollHeight-s.clientHeight-s.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  if(isAnimating)return;
+  if(e.deltaY>0)nextSlide(); else if(e.deltaY<0)prevSlide();
+  isAnimating=true; setTimeout(()=>{isAnimating=false;},520);
+},{passive:true});
+window.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+window.addEventListener("touchend",(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx<0?nextSlide():prevSlide(); }
+},{passive:true});
+
+(function(){
+  const n=parseInt((location.hash||"").replace("#",""),10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  updateSlide();
+})();
+</script>
+
+
+</body></html>
