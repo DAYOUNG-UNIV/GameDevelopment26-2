@@ -107,6 +107,23 @@ body{
 .uu-log i{width:14px;text-align:center;flex:none;margin-top:3px}
 .uu-log.err{color:#ff8f7a}
 .uu-cap{font-size:13px;color:#64748b;margin-top:7px}
+.uu-sub{color:#9a9a9a;font-size:12px;font-weight:800;margin:9px 0 6px}
+.uu-sub:first-child{margin-top:0}
+.uu-tabs{display:flex;gap:3px;margin:9px 0 0}
+.uu-tabs span{padding:3px 11px;border:1px solid #2b2b2b;border-bottom:0;border-radius:3px 3px 0 0;background:#333;color:#9a9a9a}
+.uu-tabs span.on{background:#434343;color:#fff}
+.uu-sl{flex:1;display:flex;align-items:center;gap:8px;font-size:12px;color:#9a9a9a}
+.uu-sl .tr{flex:1;height:3px;background:#5a5a5a;border-radius:2px;position:relative}
+.uu-sl .tr::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#c8c8c8}
+.uu-it.drag{outline:2px solid #a3e635;outline-offset:-1px}
+/* Game 창 모사 */
+.gv{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;overflow:clip;container-type:inline-size;
+  background:linear-gradient(180deg,#334155 0%,#1e293b 64%,#475569 64%,#64748b 100%);
+  border:3px solid #2a2a2a;box-shadow:0 12px 30px rgba(15,23,42,.22)}
+.gv-ui{position:absolute;inset:0;transform-origin:50% 50%}
+.gv-ui > *{position:absolute;left:50%;transform:translate(-50%,-50%);white-space:nowrap}
+.gv-ui .t{top:30%;color:#fff;font-weight:900;font-size:9cqw;letter-spacing:.04em}
+.gv-ui .b{background:#f8fafc;color:#0f172a;font-weight:900;font-size:4.2cqw;width:30%;text-align:center;padding:1.3cqw 0;border-radius:1.2cqw}
 /* Windows mimic */
 .win{background:#fff;border:1px solid #d4d4d8;border-radius:10px;overflow:hidden;
   box-shadow:0 12px 34px rgba(15,23,42,.14);font-size:14.5px}
@@ -165,6 +182,8 @@ body{
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">씬 넘기기</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">결과 화면</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">다시 하기</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">나가는 길</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">창 · 화면 크기</span>
       <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">빌드</span>
     </div>
   </div>
@@ -182,13 +201,14 @@ body{
           <li>· 씬 세 개 — 시작 · 게임 · 결과</li>
           <li>· 버튼으로 씬 넘기기</li>
           <li>· 이기는 끝 · 지는 끝 정하기</li>
-          <li>· 다시 하기</li>
+          <li>· 다시 하기 · ESC 로 나가기</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-8">
         <div class="text-5xl font-black text-flame-600 mb-3">02</div>
         <div class="text-2xl font-black mb-4">빌드</div>
         <ul class="text-[18px] text-slate-600 space-y-2">
+          <li>· 창 모양 · 화면 크기 맞추기</li>
           <li>· 실행 파일 만들기</li>
           <li>· 폴더째 묶어서 넘기기</li>
           <li>· 다른 노트북에서 열기</li>
@@ -430,15 +450,33 @@ body{
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">버튼에 함수를 연결합니다</h2>
     <p class="text-xl text-slate-500 mb-7">코드에서 버튼을 찾지 않습니다. <b class="text-slate-700">버튼이 함수를 부르게</b> Inspector 에서 연결합니다.</p>
-    <div class="grid md:grid-cols-2 gap-7 items-start">
-      <div class="space-y-3.5">
+    <div class="grid md:grid-cols-12 gap-6 items-start">
+      <div class="md:col-span-5 space-y-3.5">
         <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">Title 씬에서 <b>GameObject → UI → Button - TextMeshPro</b>. Canvas 와 EventSystem 이 같이 생깁니다</p></div>
         <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">빈 오브젝트를 만들어 이름을 <b>SceneLoader</b> 로, 같은 이름의 스크립트를 붙입니다</p></div>
         <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">버튼을 고르고 Inspector 아래쪽 <b>On Click ()</b> 의 <b>+</b></p></div>
         <div class="step"><span class="no">4</span><p class="text-[17px] text-slate-700">Hierarchy 의 <b>SceneLoader 오브젝트</b>를 빈칸에 끌어다 놓습니다</p></div>
         <div class="step"><span class="no">5</span><p class="text-[17px] text-slate-700"><b>No Function → SceneLoader → LoadGame ()</b></p></div>
+        <div class="uu-cap">처음 TextMeshPro 를 쓰면 TMP Importer 창이 뜹니다 → Import TMP Essentials</div>
       </div>
-      <div>
+      <div class="md:col-span-7 grid gap-3 items-start" style="grid-template-columns:38% 1fr">
+        <div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+            <div class="uu-tree">
+              <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Title</b></div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-video"></i></span>Main Camera</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-sun"></i></span>Directional Light</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+              <div class="uu-it sel" style="padding-left:36px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Button</div>
+              <div class="uu-it" style="padding-left:52px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>Text (TMP)</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
+              <div class="uu-it drag" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>SceneLoader</div>
+            </div>
+          </div>
+          <div class="uu-cap">파란 줄이 지금 고른 버튼, 초록 테두리가 끌어다 놓을 오브젝트</div>
+        </div>
+        <div>
         <div class="uu">
           <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector</div>
           <div class="uu-body">
@@ -460,7 +498,8 @@ body{
             </div>
           </div>
         </div>
-        <div class="uu-cap">처음 TextMeshPro 를 쓰면 TMP Importer 창이 뜹니다 → Import TMP Essentials</div>
+        <div class="uu-cap">Button 을 고른 상태의 Inspector</div>
+        </div>
       </div>
     </div>
   </div>
@@ -557,10 +596,26 @@ body{
     <span class="kw">public static int</span> score;
 }</div>
         </div>
-        <div class="soft-card rounded-2xl p-5">
-          <p class="text-[16.5px] text-slate-600 mb-1.5">· 오브젝트에 <b>붙이지 않습니다</b>. 파일만 있으면 됩니다.</p>
-          <p class="text-[16.5px] text-slate-600 mb-1.5">· 점수가 없는 게임이면 <b>cleared 하나</b>만.</p>
+        <div class="soft-card rounded-2xl p-4">
+          <p class="text-[16.5px] text-slate-600 mb-1">· 오브젝트에 <b>붙이지 않습니다</b>. 파일만 있으면 됩니다.</p>
+          <p class="text-[16.5px] text-slate-600 mb-1">· 점수가 없는 게임이면 <b>cleared 하나</b>만.</p>
           <p class="text-[16.5px] text-slate-600">· 넘길 게 없으면 이 장은 필요 없습니다.</p>
+        </div>
+        <div>
+          <div class="code-cap">→ ResultUI 를 붙인 오브젝트의 Inspector</div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector</div>
+            <div class="uu-body">
+              <div class="uu-comp">
+                <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-file-code"></i></span>Result UI (Script)</div>
+                <div class="uu-comp-b">
+                  <div class="uu-row"><span class="uu-lb">Title Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ResultTitle (TextMeshProUGUI)</span></div>
+                  <div class="uu-row"><span class="uu-lb">Score Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ScoreText (TextMeshProUGUI)</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="uu-cap">Hierarchy 의 글자 오브젝트를 칸에 끌어다 놓습니다. 비어 있으면 NullReferenceException</div>
         </div>
       </div>
       <div>
@@ -575,14 +630,8 @@ body{
 
     <span class="kw">void</span> <span class="fn">Start</span>()
     {
-        <span class="kw">if</span> (<span class="ty">GameResult</span>.cleared)
-        {
-            titleText.text = <span class="st">"CLEAR!"</span>;
-        }
-        <span class="kw">else</span>
-        {
-            titleText.text = <span class="st">"GAME OVER"</span>;
-        }
+        <span class="kw">if</span> (<span class="ty">GameResult</span>.cleared) { titleText.text = <span class="st">"CLEAR!"</span>; }
+        <span class="kw">else</span> { titleText.text = <span class="st">"GAME OVER"</span>; }
         scoreText.text = <span class="st">"Score: "</span> + <span class="ty">GameResult</span>.score;
     }
 }</div>
@@ -640,7 +689,61 @@ body{
   </div>
 </section>
 
-<!-- 15 한 판 점검 -->
+<!-- 15 나가는 길 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">나가는 길도 만듭니다 — ESC</h2>
+    <p class="text-xl text-slate-500 mb-7">빌드는 처음 설정대로면 <b class="text-slate-700">전체 화면</b>으로 열립니다. 창 닫기 버튼이 안 보이니, 그만두는 길을 게임 안에 둡니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-2 space-y-4">
+        <div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+            <div class="uu-tree">
+              <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Game</b></div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-video"></i></span>Main Camera</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-sun"></i></span>Directional Light</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>Player</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-cube"></i></span>PickUps</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+              <div class="uu-it sel" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EscToTitle</div>
+            </div>
+          </div>
+          <div class="uu-cap">Game 씬에 빈 오브젝트를 하나 만들어 스크립트를 붙입니다</div>
+        </div>
+        <div class="soft-card rounded-2xl p-5 space-y-1.5">
+          <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Title</b>QUIT 버튼으로 끝내기</p>
+          <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Game</b><span class="kbd">Esc</span> 로 Title 에</p>
+          <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Result</b>RETRY · TITLE 버튼</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="code-cap">EscToTitle.cs</div>
+<div class="code"><span class="kw">using</span> UnityEngine;
+<span class="hl"><span class="kw">using</span> UnityEngine.InputSystem;</span>
+<span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="kw">public class</span> <span class="ty">EscToTitle</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">if</span> (<span class="hl"><span class="ty">Keyboard</span>.current.escapeKey.wasPressedThisFrame</span>)
+        {
+            <span class="ty">Time</span>.timeScale = <span class="nu">1f</span>;
+            <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Title"</span>);
+        }
+    }
+}</div>
+        <div class="uu-cap">입력 설정이 옛 방식(Input Manager)인 프로젝트는 if 안을 <span class="mono">Input.GetKeyDown(KeyCode.Escape)</span> 로 씁니다</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 mt-6">
+      <p class="text-[17px] text-slate-700">알파에는 나가는 길 하나면 됩니다. 일시 정지 · 소리 크기 같은 <b class="text-dev-700">설정 화면은 12주차</b>에 다룹니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 한 판 점검 -->
 <section class="slide" data-part="1">
   <div class="max-w-5xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">한 판 점검 — Title 에서 Play</h2>
@@ -651,23 +754,24 @@ body{
       <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">지면 Result 에 <b>GAME OVER</b> 가 보인다</p></div>
       <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700"><b>RETRY</b> 를 누르면 처음 상태로 돌아가고, 공이 움직인다</p></div>
       <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700"><b>TITLE</b> 을 누르면 시작 화면으로 돌아간다</p></div>
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">하는 중에 <span class="kbd">Esc</span> 를 누르면 시작 화면으로 돌아간다</p></div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">이 다섯 줄이 되면 <b class="text-dev-700">에디터 안에서는</b> 한 판이 끝까지 돕니다. 이제 에디터 밖으로 꺼냅니다.</p>
+      <p class="text-[18px] text-slate-700">이 여섯 줄이 되면 <b class="text-dev-700">에디터 안에서는</b> 한 판이 끝까지 돕니다. 이제 에디터 밖으로 꺼냅니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 16 파트 02 표지 -->
+<!-- 17 파트 02 표지 -->
 <section class="slide" data-part="2">
   <div class="max-w-4xl w-full text-center">
     <div class="part-num mb-4">02</div>
     <h2 class="text-5xl md:text-6xl font-black mb-5">빌드</h2>
-    <p class="text-xl text-slate-500">유니티가 없는 노트북에서도 돌아가는 실행 파일을 만듭니다</p>
+    <p class="text-xl text-slate-500">창 모양과 화면 크기를 맞추고,<br>유니티가 없는 노트북에서도 돌아가는 실행 파일을 만듭니다</p>
   </div>
 </section>
 
-<!-- 17 빌드란 -->
+<!-- 18 빌드란 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">프로젝트는 만드는 사람용, 빌드는 하는 사람용</h2>
@@ -698,7 +802,112 @@ body{
   </div>
 </section>
 
-<!-- 18 Build Profiles 에서 빌드 -->
+<!-- 19 창 모양 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">빌드 전에 하나 — 테스트용은 창으로</h2>
+    <p class="text-xl text-slate-500 mb-7">처음 설정은 전체 화면입니다. 테스트하는 사람은 한 판 하고 바로 <b class="text-slate-700">메모 · 설문</b>으로 넘어가야 해서 창이 편합니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-3">
+        <div class="uu">
+          <div class="uu-bar"><i class="fa-solid fa-gear"></i> Project Settings</div>
+          <div class="grid" style="grid-template-columns:30% 70%">
+            <div class="uu-tree" style="border-right:1px solid #232323">
+              <div class="uu-it">Audio</div>
+              <div class="uu-it">Editor</div>
+              <div class="uu-it">Graphics</div>
+              <div class="uu-it">Input System Package</div>
+              <div class="uu-it">Physics</div>
+              <div class="uu-it sel">Player</div>
+              <div class="uu-it">Quality</div>
+              <div class="uu-it">Tags and Layers</div>
+              <div class="uu-it">Time</div>
+            </div>
+            <div class="uu-body">
+              <div style="font-weight:800;color:#e6e6e6;margin-bottom:8px">Player</div>
+              <div class="uu-row"><span class="uu-lb" style="width:150px">Company Name</span><span class="uu-f">DefaultCompany</span></div>
+              <div class="uu-row"><span class="uu-lb" style="width:150px">Product Name</span><span class="uu-f">RollABall</span></div>
+              <div class="uu-tabs"><span class="on"><i class="fa-brands fa-windows"></i></span><span><i class="fa-brands fa-android"></i></span><span><i class="fa-solid fa-globe"></i></span></div>
+              <div class="uu-comp">
+                <div class="uu-comp-h"><span class="tri">▼</span>Resolution and Presentation</div>
+                <div class="uu-comp-b">
+                  <div class="uu-sub">Resolution</div>
+                  <div class="uu-row"><span class="uu-lb" style="width:150px">Fullscreen Mode</span><span class="uu-f uu-hl">Windowed ▾</span></div>
+                  <div class="uu-row"><span class="uu-lb" style="width:150px">Default Screen Width</span><span class="uu-f uu-hl">1280</span></div>
+                  <div class="uu-row"><span class="uu-lb" style="width:150px">Default Screen Height</span><span class="uu-f uu-hl">720</span></div>
+                  <div class="uu-sub">Standalone Player Options</div>
+                  <div class="uu-row"><span class="uu-lb" style="width:150px">Resizable Window</span><span class="uu-chk on">✓</span></div>
+                  <div class="uu-row"><span class="uu-lb" style="width:150px">Allow Fullscreen Switch</span><span class="uu-chk on">✓</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="uu-cap">Product Name 이 창 제목과 exe 이름이 됩니다</div>
+      </div>
+      <div class="md:col-span-2 space-y-4">
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700"><b>Edit → Project Settings → Player</b></p></div>
+        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">Windows 탭에서 <b>Resolution and Presentation</b> 을 펼칩니다</p></div>
+        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">Fullscreen Mode 를 <b>Windowed</b> 로, 너비 <b>1280</b> · 높이 <b>720</b></p></div>
+        <div class="glass-card rounded-2xl p-4">
+          <p class="text-[16px] text-slate-700">창 ↔ 전체 화면은 <span class="kbd">Alt</span> + <span class="kbd">Enter</span>. Allow Fullscreen Switch 가 켜져 있으면 됩니다.</p>
+        </div>
+        <p class="text-[15px] text-slate-500">설정을 바꿨는데도 전체 화면으로 열리면, 그 노트북이 지난번 실행 상태를 기억한 것일 수 있습니다. <span class="kbd">Alt</span> + <span class="kbd">Enter</span> 로 바꿉니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 화면 크기 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">노트북마다 화면 크기가 다릅니다</h2>
+    <p class="text-xl text-slate-500 mb-7">UI 를 큰 화면에 맞춰 두면, 작은 화면에서는 버튼이 밖으로 밀려납니다. <b class="text-slate-700">Canvas Scaler</b> 하나로 맞춥니다.</p>
+    <div class="grid md:grid-cols-12 gap-6 items-start">
+      <div class="md:col-span-7">
+        <p class="text-[15px] font-bold text-slate-500 mb-3">같은 1366 × 768 노트북에서</p>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <div class="gv"><div class="gv-ui" style="transform:scale(1.45)"><div class="t">ROLL A BALL</div><div class="b" style="top:64%">START</div><div class="b" style="top:84%">QUIT</div></div></div>
+            <p class="text-[15px] text-slate-700 mt-2.5"><i class="fa-solid fa-circle-xmark text-red-500"></i> <b class="mono text-[13.5px]">Constant Pixel Size</b><br>글자 · 버튼이 그대로 커서 QUIT 이 잘림</p>
+          </div>
+          <div>
+            <div class="gv"><div class="gv-ui"><div class="t">ROLL A BALL</div><div class="b" style="top:64%">START</div><div class="b" style="top:84%">QUIT</div></div></div>
+            <p class="text-[15px] text-slate-700 mt-2.5"><i class="fa-solid fa-circle-check text-dev-600"></i> <b class="mono text-[13.5px]">Scale With Screen Size</b><br>화면에 맞춰 같이 줄어듦</p>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">Hierarchy 에서 <b>Canvas</b> 를 고릅니다</p></div>
+          <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700"><b>Title · Game · Result</b> 의 Canvas 마다 한 번씩</p></div>
+          <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">Game 창 위쪽 해상도 메뉴를 바꿔 가며 확인합니다</p></div>
+        </div>
+      </div>
+      <div class="md:col-span-5">
+        <div class="uu">
+          <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector — Canvas</div>
+          <div class="uu-body">
+            <div class="uu-comp">
+              <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-expand"></i></span>Canvas Scaler</div>
+              <div class="uu-comp-b">
+                <div class="uu-row"><span class="uu-lb" style="width:128px">UI Scale Mode</span><span class="uu-f uu-hl">Scale With Screen Size ▾</span></div>
+                <div class="uu-row"><span class="uu-lb" style="width:128px">Reference Resolution</span><span class="uu-note">X</span><span class="uu-f uu-hl">1920</span><span class="uu-note">Y</span><span class="uu-f uu-hl">1080</span></div>
+                <div class="uu-row"><span class="uu-lb" style="width:128px">Screen Match Mode</span><span class="uu-f">Match Width Or Height ▾</span></div>
+                <div class="uu-row"><span class="uu-lb" style="width:128px">Match</span><span class="uu-sl"><span>Width</span><span class="tr"></span><span>Height</span></span><span class="uu-f" style="flex:0 0 40px">0.5</span></div>
+                <div class="uu-row"><span class="uu-lb" style="width:128px">Reference Pixels Per Unit</span><span class="uu-f">100</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="uu-cap">버전에 따라 처음부터 Scale With Screen Size 로 되어 있으면 Reference Resolution 만 맞춥니다</div>
+        <div class="glass-card rounded-2xl p-4 mt-4">
+          <p class="text-[16px] text-slate-700">기준을 1920 × 1080 으로 두고 만들면, 더 작은 화면에서는 <b class="text-dev-700">비율 그대로</b> 줄어듭니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 21 Build Profiles 에서 빌드 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">Build Profiles 에서 빌드합니다</h2>
@@ -741,7 +950,7 @@ body{
   </div>
 </section>
 
-<!-- 19 빌드 폴더는 한 묶음 -->
+<!-- 22 빌드 폴더는 한 묶음 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">빌드 폴더는 통째로 한 묶음입니다</h2>
@@ -776,7 +985,7 @@ body{
   </div>
 </section>
 
-<!-- 20 다른 노트북에서 -->
+<!-- 23 다른 노트북에서 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">다른 노트북에서 열 때</h2>
@@ -799,17 +1008,17 @@ body{
       </div>
       <div class="soft-card rounded-2xl p-6">
         <div class="step mb-3"><span class="no">3</span><div class="text-lg font-black">끝낼 때는</div></div>
-        <p class="text-[17px] text-slate-700 mb-3"><span class="kbd">Alt</span> + <span class="kbd">F4</span></p>
+        <p class="text-[17px] text-slate-700 mb-3"><span class="kbd">Esc</span> → Title 의 <b>QUIT</b>. 안 되면 <span class="kbd">Alt</span> + <span class="kbd">F4</span></p>
         <p class="text-[16px] text-slate-600">끝내기 버튼의 <span class="mono">Application.Quit()</span> 은 <b>빌드에서만</b> 동작합니다. 에디터에서 눌러 보면 아무 일도 없습니다.</p>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">전체 화면 · 창 크기 · 게임 이름 · 아이콘은 <b class="text-dev-700">13주차 빌드 마무리</b>에서 정합니다.</p>
+      <p class="text-[18px] text-slate-700">게임 이름 · 아이콘은 <b class="text-dev-700">13주차 빌드 마무리</b>에서 정합니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 21 자주 나는 문제 -->
+<!-- 24 자주 나는 문제 -->
 <section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-6">자주 나는 문제</h2>
@@ -821,6 +1030,8 @@ body{
           <tr><td>빌드하면 Game 부터 시작한다</td><td>Scene List 순서 — Title 을 맨 위로</td></tr>
           <tr><td>다시 하기 후 공이 안 움직인다</td><td><span class="mono">Time.timeScale = 1f;</span> 를 씬 넘기기 앞에</td></tr>
           <tr><td>버튼이 안 눌린다</td><td>Hierarchy 에 EventSystem 이 있는지</td></tr>
+          <tr><td>Result 에서 NullReferenceException</td><td>ResultUI 의 칸 두 개에 글자를 끌어다 놓았는지</td></tr>
+          <tr><td>작은 화면에서 버튼이 잘린다</td><td>Canvas Scaler — Scale With Screen Size, Canvas 마다</td></tr>
           <tr><td>Build 가 실패한다</td><td>Console 맨 위 한 줄. Play 에서 빨간 줄이 있으면 빌드도 안 됩니다</td></tr>
           <tr><td>다른 노트북에서 안 열린다</td><td>압축을 풀었는지 · exe 만 가져가지 않았는지 · 폴더 경로에 한글이 있는지</td></tr>
           <tr><td>Windows 를 고르면 설치 버튼만 보인다</td><td>Unity Hub 에서 Windows Build Support 모듈 추가 — 주로 Mac 에서 Windows 용으로 만들 때</td></tr>
@@ -833,7 +1044,7 @@ body{
   </div>
 </section>
 
-<!-- 22 정리 -->
+<!-- 25 정리 -->
 <section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-7 text-center">한 장으로 정리하면</h2>
@@ -847,16 +1058,18 @@ body{
           <li>· 버튼은 <b>public void</b> + On Click</li>
           <li>· 끝은 <b>EndGame 하나</b>로, 넘길 값은 static</li>
           <li>· 다시 하기 전에 <span class="mono">Time.timeScale = 1f;</span></li>
+          <li>· 나가는 길 — Game 에서 <span class="kbd">Esc</span> → Title</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-7">
         <div class="tagchip bg-flame-600 text-white mb-4">02 빌드</div>
         <ul class="text-[17px] text-slate-700 space-y-2">
+          <li>· Player — <b>Windowed 1280 × 720</b>, 전환은 <span class="kbd">Alt</span> + <span class="kbd">Enter</span></li>
+          <li>· Canvas Scaler — <b>Scale With Screen Size</b></li>
           <li>· File → Build Profiles → Windows → Build</li>
           <li>· Assets 밖의 <b>빈 폴더</b>에</li>
           <li>· <b>폴더째 압축</b>, 이름에 날짜</li>
           <li>· 다른 노트북에서는 <b>압축을 풀고</b> 실행</li>
-          <li>· 끝내기는 <span class="kbd">Alt</span> + <span class="kbd">F4</span> 또는 Quit 버튼</li>
         </ul>
       </div>
     </div>
