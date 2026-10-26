@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 개발 실습 · 9주차 — 남기고, 자르고, 정하기</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
+  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+}}}}
+</script>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0}
+body{
+  font-family:"Pretendard",sans-serif;overflow:hidden;color:#1e293b;word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,.10), transparent 38%),
+    radial-gradient(circle at 88% 88%, rgba(249,115,22,.09), transparent 38%),
+    #f8fafc;
+}
+/* SLIDES */
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
+  display:flex;justify-content:center;align-items:center;align-items:safe center;
+  padding:4.5rem 2.5rem 5.5rem;overflow-y:auto;
+  transform:translateX(36px) scale(.99);transition:opacity .42s ease, transform .42s ease;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:10;transform:translateX(0) scale(1)}
+.slide.prev-slide{transform:translateX(-36px) scale(.99)}
+#progress-bar{transition:width .3s ease}
+/* CARDS */
+.glass-card{background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 18px 50px rgba(15,23,42,.08),0 3px 10px rgba(15,23,42,.04);backdrop-filter:blur(10px)}
+.soft-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.soft-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,23,42,.10);border-color:#a5b4fc}
+/* FLOW */
+.flow-line{position:relative}
+.flow-line::after{content:"→";position:absolute;right:-26px;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:800;font-size:1.3rem}
+.flow-line:last-child::after{display:none}
+/* TABLE */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem}
+.cmp-table th,.cmp-table td{padding:.9rem 1rem;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:middle}
+.cmp-table thead th{background:#0f172a;color:#fff;font-weight:800;white-space:nowrap}
+.cmp-table thead th:first-child{border-top-left-radius:.75rem}
+.cmp-table thead th:last-child{border-top-right-radius:.75rem}
+.cmp-table td:first-child{font-weight:700;color:#64748b;white-space:nowrap}
+.cmp-table tbody tr{background:rgba(255,255,255,.85)}
+/* KEYCAP */
+.kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
+  box-shadow:0 2px 0 #cbd5e1;font-size:.75rem;font-weight:700;color:#64748b}
+.tagchip{display:inline-flex;align-items:center;gap:.4rem;font-size:12px;font-weight:900;
+  letter-spacing:.06em;border-radius:999px;padding:.28rem .7rem}
+.no{width:36px;height:36px;border-radius:10px;background:#0f172a;color:#fff;
+  font-size:16px;font-weight:900;display:grid;place-items:center;flex:none}
+.chk{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;font-size:13px;margin-top:2px}
+/* FigJam mocks */
+.stk{border-radius:4px;box-shadow:0 8px 18px rgba(15,23,42,.12);padding:16px 18px;font-weight:700;line-height:1.45}
+.st-green{background:#B3EFBD}.st-yellow{background:#FFE299}.st-violet{background:#D3BDFF}.st-orange{background:#FFD3A8}.st-red{background:#FFB8A8}.st-blue{background:#A8DAFF}
+.t1{background:#F5FBFF}.t2{background:#FFF7F0}.t3{background:#FFF0FA}.t4{background:#F1FEFD}
+.blank{display:inline-block;min-width:200px;border-bottom:4px solid #0f172a;margin:0 .4rem;height:1em;vertical-align:-4px}
+/* REPORT FORM */
+.doc{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:22px 26px;
+  box-shadow:0 18px 50px rgba(15,23,42,.08);font-size:16px;line-height:1.55}
+.doc-title{font-size:22px;font-weight:900;color:#0f172a}
+.doc-h{font-size:16.5px;font-weight:900;color:#4338ca;margin:12px 0 4px}
+.doc-h:first-child{margin-top:0}
+.doc-li{color:#475569;font-weight:600}
+.doc-li b{color:#0f172a;font-weight:700}
+.shot{display:flex;align-items:center;gap:8px;margin-top:6px;border:2px dashed #cbd5e1;border-radius:10px;
+  padding:10px 12px;color:#64748b;font-size:14px;font-weight:700;background:#f8fafc}
+/* PORTFOLIO MOCK */
+.browser{background:#fff;border:1px solid #cbd5e1;border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(15,23,42,.10)}
+.browser-bar{display:flex;align-items:center;gap:7px;padding:9px 14px;background:#f1f5f9;border-bottom:1px solid #e2e8f0}
+.browser-bar .dot{width:11px;height:11px;border-radius:50%}
+.browser-bar .title{margin-left:10px;font-size:13px;font-weight:800;color:#64748b}
+.vid{background:#0f172a;border-radius:12px;color:#cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:150px;font-size:14px;font-weight:700}
+.vid i{width:52px;height:52px;border-radius:50%;background:#f97316;color:#fff;display:grid;place-items:center;font-size:18px}
+.pf{border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;background:#f8fafc;font-size:14.5px;line-height:1.5;color:#475569}
+.pf-h{font-size:12px;font-weight:900;letter-spacing:.05em;color:#4f46e5;margin-bottom:4px}
+.dl-btn{display:inline-flex;align-items:center;gap:8px;background:#0f172a;color:#fff;border-radius:10px;padding:7px 14px;font-size:14px;font-weight:800}
+/* MAPPING */
+.map-row{display:grid;grid-template-columns:1fr 48px 1fr;align-items:center}
+.map-l{background:#fff;border:2px solid #0f172a;border-radius:14px;padding:11px 16px;font-weight:800}
+.map-r{background:#eef2ff;border:2px solid #a5b4fc;border-radius:14px;padding:11px 16px;font-weight:800;color:#3730a3}
+.map-a{text-align:center;color:#94a3b8;font-size:20px}
+/* FOLDER TREE */
+.tree{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;box-shadow:0 12px 34px rgba(15,23,42,.08);font-size:15.5px;font-weight:600;color:#334155}
+.tree .tr{display:flex;align-items:center;gap:9px;padding:4px 0}
+.tree .tr i{width:18px;text-align:center;flex:none}
+.tree .l1{padding-left:22px}.tree .l2{padding-left:44px}.tree .l3{padding-left:66px}
+.tree .fd{color:#f59e0b}
+/* FORM MOCK */
+.form{background:#fff;border:1px solid #e2e8f0;border-top:8px solid #4f46e5;border-radius:14px;padding:14px 18px;box-shadow:0 12px 34px rgba(15,23,42,.08)}
+.fq{padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:15px}
+.fq:last-child{border-bottom:0}
+.fq-t{font-weight:800;color:#0f172a}
+.fq-a{display:flex;align-items:center;gap:10px;margin-top:5px;color:#64748b;font-size:13.5px;font-weight:600;flex-wrap:wrap}
+.rd{width:16px;height:16px;border-radius:50%;border:2px solid #94a3b8;display:inline-block;flex:none}
+.line-in{flex:1;min-width:120px;border-bottom:2px solid #cbd5e1;height:14px}
+/* 투사용 확대 */
+@media (min-width:1600px) and (min-height:900px){html{font-size:19px}}
+@media (min-width:2200px) and (min-height:1200px){html{font-size:23px}}
+@media (min-width:1800px) and (min-height:1000px){.slide > div{zoom:1.2}}
+@media (min-width:1500px) and (max-width:1799px) and (min-height:840px){.slide > div{zoom:1.08}}
+@media (min-width:769px) and (max-height:800px){.slide > div{zoom:.93}}
+@media (min-width:769px) and (max-height:740px){.slide > div{zoom:.86}}
+.slide.wk{font-size:19px}
+.slide.wk h2{letter-spacing:-.03em}
+@media (max-width:768px){
+  .slide{padding:4rem 1rem 5.5rem;align-items:flex-start}
+  .flow-line::after{display:none}
+  .map-row{grid-template-columns:1fr 28px 1fr}
+}
+@media print{
+  body{overflow:visible;height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:auto;min-height:90vh;padding:2rem}
+  #progress-bar,.navbar-fixed{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[130]">
+  <div id="progress-bar" class="h-full bg-gradient-to-r from-dev-500 via-indigo-400 to-flame-500" style="width:0%"></div>
+</div>
+<div id="part-label" class="navbar-fixed fixed top-5 left-6 z-[130] text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200 hidden md:block">게임 개발 실습 · 9주차</div>
+<div class="navbar-fixed fixed top-5 right-6 z-[130] flex items-center gap-2">
+  <div class="text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200">
+    <span id="current-slide">1</span><span class="mx-1 text-slate-300">/</span><span id="total-slides">1</span>
+  </div>
+</div>
+
+<main id="slides-container" class="relative w-full h-screen">
+
+<!-- 1 COVER -->
+<section class="slide wk active" data-part="0">
+  <div class="max-w-5xl w-full text-center">
+    <svg class="mx-auto mb-8" width="520" height="150" viewBox="0 0 520 150" aria-hidden="true">
+      <line x1="30" y1="104" x2="462" y2="104" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round"></line>
+      <g fill="#fff" stroke="#cbd5e1" stroke-width="4">
+        <circle cx="102" cy="104" r="8"></circle><circle cx="246" cy="104" r="8"></circle><circle cx="390" cy="104" r="8"></circle>
+      </g>
+      <g stroke="#0f172a" stroke-width="4" stroke-linecap="round">
+        <line x1="174" y1="104" x2="174" y2="38"></line><line x1="318" y1="104" x2="318" y2="38"></line><line x1="462" y1="104" x2="462" y2="38"></line>
+      </g>
+      <g stroke="#0f172a" stroke-width="3" stroke-linejoin="round">
+        <polygon points="176,38 216,50 176,62" fill="#f97316"></polygon>
+        <polygon points="320,38 360,50 320,62" fill="#6366f1"></polygon>
+        <polygon points="464,38 504,50 464,62" fill="#B3EFBD"></polygon>
+      </g>
+      <circle cx="30" cy="104" r="14" fill="#6366f1" stroke="#0f172a" stroke-width="4"></circle>
+      <g font-family="Pretendard,sans-serif" font-weight="900" font-size="17" text-anchor="middle">
+        <text x="30" y="78" fill="#4f46e5">지금</text>
+        <text x="190" y="27" fill="#0f172a">알파</text>
+        <text x="334" y="27" fill="#0f172a">베타</text>
+        <text x="478" y="27" fill="#0f172a">완성</text>
+      </g>
+      <g font-family="Pretendard,sans-serif" font-weight="800" font-size="15" fill="#94a3b8" text-anchor="middle">
+        <text x="30" y="142" fill="#4f46e5">9</text><text x="102" y="142">10</text><text x="174" y="142">11</text><text x="246" y="142">12</text><text x="318" y="142">13</text><text x="390" y="142">14</text><text x="462" y="142">15</text>
+      </g>
+    </svg>
+    <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-dev-600 bg-dev-50 border border-dev-200 rounded-full px-5 py-2">
+      게임 개발 실습 · 9주차
+    </div>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">남기고, <span class="text-dev-600">자르고</span>, 정하기</h1>
+    <p class="text-xl md:text-2xl text-slate-500">매주 <b class="text-slate-700">기록을 남기고</b>, 알파까지 <b class="text-slate-700">범위를 자르고</b>,<br>확인할 것을 <b class="text-slate-700">한 문장으로</b> 정합니다</p>
+  </div>
+</section>
+
+<!-- 2 ORDER -->
+<section class="slide wk" data-part="order">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">여섯 단계로 진행합니다</h2>
+    <p class="text-lg text-slate-500 mb-8 text-center">앞의 셋은 <b class="text-slate-700">각자 듣고</b>, 뒤의 셋은 <b class="text-slate-700">팀으로</b> 합니다</p>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-5xl font-black text-dev-200 mb-2">1</div>
+        <div class="text-xl font-black mb-2">QuizN 복습</div>
+        <p class="text-[16px] text-slate-600 mb-4">7주차 영상 「팀으로 유니티 쓰기」를 14문항으로</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">모두</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-5xl font-black text-dev-200 mb-2">2</div>
+        <div class="text-xl font-black mb-2">개인 기여 보고서</div>
+        <p class="text-[16px] text-slate-600 mb-4">15주차까지 매주 한 장, 쓰는 법과 예시</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">개인</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col">
+        <div class="text-5xl font-black text-dev-200 mb-2">3</div>
+        <div class="text-xl font-black mb-2">AI 시대 포트폴리오</div>
+        <p class="text-[16px] text-slate-600 mb-4">보고서가 포트폴리오가 되는 길, 남겨 두는 법</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">개인</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col border-dev-300" style="background:#eef2ff">
+        <div class="text-5xl font-black text-dev-400 mb-2">4</div>
+        <div class="text-xl font-black mb-2">범위 자르기</div>
+        <p class="text-[16px] text-slate-600 mb-4">알파까지 꼭 · 있으면 좋음 · 뺄 것</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col border-dev-300" style="background:#eef2ff">
+        <div class="text-5xl font-black text-dev-400 mb-2">5</div>
+        <div class="text-xl font-black mb-2">알파 한 문장 · 설문</div>
+        <p class="text-[16px] text-slate-600 mb-4">확인할 것을 정하고, 물어볼 것을 만듭니다</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-6 flex flex-col border-dev-300" style="background:#eef2ff">
+        <div class="text-5xl font-black text-dev-400 mb-2">6</div>
+        <div class="text-xl font-black mb-2">한 줄 공유</div>
+        <p class="text-[16px] text-slate-600 mb-4">팀마다 한 사람이 알파 한 문장을 읽습니다</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">팀 대표</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 QUIZN -->
+<section class="slide wk" data-part="quiz">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">QuizN 으로 7주차 영상을 복습합니다</h2>
+    <p class="text-lg text-slate-500 mb-7">「팀으로 유니티 쓰기」 · <b class="text-slate-700">14문항</b> · OX · 선택 · 초성</p>
+    <div class="grid md:grid-cols-[1.25fr_1fr] gap-7 items-stretch">
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">1</span><div><div class="text-xl font-black mb-1">화면의 PIN 을 입력합니다</div><p class="text-[16px] text-slate-600">휴대폰으로 들어옵니다. 휴대폰이 안 되면 조 노트북에서 각자 이름으로</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">2</span><div><div class="text-xl font-black mb-1">이름은 실명으로</div><p class="text-[16px] text-slate-600">등수와 사탕을 이름으로 확인합니다</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">3</span><div><div class="text-xl font-black mb-1">문항마다 해설을 같이 봅니다</div><p class="text-[16px] text-slate-600">틀린 문항이 영상에서 다시 볼 곳입니다</p></div></div>
+      </div>
+      <div class="glass-card rounded-3xl p-8 flex flex-col items-center justify-center text-center">
+        <div class="text-7xl mb-4" aria-hidden="true">🍬</div>
+        <div class="text-2xl font-black mb-3">사탕은 두 가지로 받습니다</div>
+        <div class="flex flex-wrap gap-2.5 justify-center mb-4">
+          <span class="tagchip bg-slate-900 text-white" style="font-size:15px">점수가 높은 사람</span>
+          <span class="tagchip bg-flame-600 text-white" style="font-size:15px">무작위로 뽑은 등수</span>
+        </div>
+        <p class="text-[16px] text-slate-500">대면 수업은 매주 지난 영상 QuizN 으로 시작합니다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 REPORT INTRO -->
+<section class="slide wk" data-part="report">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">이번 주부터 「개인 기여 보고서」를 씁니다</h2>
+    <p class="text-lg text-slate-500 mb-7">팀 과제와 따로, <b class="text-slate-700">한 사람이 한 장씩</b> 냅니다</p>
+    <div class="grid md:grid-cols-[1fr_1.35fr] gap-7 items-stretch">
+      <div class="glass-card rounded-3xl p-8 flex flex-col justify-center">
+        <div class="text-[15px] font-black tracking-widest text-dev-600 mb-2">언제</div>
+        <div class="text-5xl font-black mb-2">9 → 15주차</div>
+        <div class="text-2xl font-black text-slate-500 mb-6">매주 한 장 · 모두 일곱 장</div>
+        <div class="border-t-2 border-slate-100 pt-5 text-[17px] text-slate-600">제출처와 마감 요일은 <b class="text-slate-800">공지로 안내</b>합니다</div>
+      </div>
+      <div class="space-y-4">
+        <div class="soft-card rounded-2xl p-6 flex gap-5 items-start">
+          <i class="fa-solid fa-user-check text-3xl text-dev-500 mt-1 w-9 text-center"></i>
+          <div><div class="text-2xl font-black mb-1">팀 안에서 내 몫이 보입니다</div>
+          <p class="text-[17px] text-slate-600">같은 팀이어도 한 일은 사람마다 다릅니다. 팀 결과물 안에서 <b>무엇이 내 것인지</b> 남깁니다</p></div>
+        </div>
+        <div class="soft-card rounded-2xl p-6 flex gap-5 items-start">
+          <i class="fa-solid fa-box-archive text-3xl text-flame-500 mt-1 w-9 text-center"></i>
+          <div><div class="text-2xl font-black mb-1">포트폴리오의 재료가 됩니다</div>
+          <p class="text-[17px] text-slate-600">15주차가 지나면 그때의 화면과 숫자는 다시 구할 수 없습니다. <b>매주 남긴 한 장이 그대로 재료</b>입니다</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 FORM -->
+<section class="slide wk" data-part="report">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">양식은 이것 하나입니다</h2>
+    <p class="text-lg text-slate-500 mb-6">「- 항목:」 뒤에 <b class="text-slate-700">바로 이어서</b> 씁니다</p>
+    <div class="doc">
+      <div class="flex flex-wrap items-baseline gap-x-8 gap-y-1 pb-3 mb-4 border-b-2 border-slate-100">
+        <div class="doc-title">개인 기여 보고서</div>
+        <div class="doc-li">- 이름:</div><div class="doc-li">- 팀:</div><div class="doc-li">- 주차:</div><div class="doc-li">- 맡은 층:</div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-7">
+        <div>
+          <div class="doc-h">이번 주 내가 한 일</div>
+          <div class="doc-li">-</div><div class="doc-li">-</div>
+          <div class="doc-h">결과물</div>
+          <div class="doc-li">- 파일 이름 또는 커밋 메시지:</div>
+          <div class="doc-li">- 화면 캡처: (한 장)</div>
+        </div>
+        <div>
+          <div class="doc-h">막힌 것과 푼 방법</div>
+          <div class="doc-li">- 막힌 것:</div><div class="doc-li">- 푼 방법:</div><div class="doc-li">- 함께 한 사람:</div>
+        </div>
+        <div>
+          <div class="doc-h">AI를 쓴 곳</div>
+          <div class="doc-li">- 무엇을 시켰나:</div><div class="doc-li">- 그대로 쓴 것 / 고친 것:</div>
+          <div class="doc-h">다음 주 할 일</div>
+          <div class="doc-li">-</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2.5 justify-center mt-6">
+      <span class="tagchip bg-slate-900 text-white" style="font-size:15px">칸 이름은 그대로</span>
+      <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px">쓸 것이 없는 칸은 「없음」</span>
+      <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px">캡처는 한 장</span>
+      <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px">숫자를 하나 이상</span>
+    </div>
+  </div>
+</section>
+
+<!-- 6 HOW TO 1 -->
+<section class="slide wk" data-part="report">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">칸마다 이렇게 씁니다 ①</h2>
+    <p class="text-lg text-slate-500 mb-6">읽는 사람이 <b class="text-slate-700">무엇을 · 얼마나 · 어떻게</b> 했는지 알 수 있게</p>
+    <table class="cmp-table" style="font-size:1.02rem">
+      <thead><tr><th style="width:19%">칸</th><th style="width:22%">이렇게 쓰면 모릅니다</th><th>이렇게 쓰면 보입니다</th></tr></thead>
+      <tbody>
+        <tr><td>이번 주 내가 한 일</td><td class="text-slate-500">그림 그림</td><td><b>플레이어가 걷는 그림 4장</b>을 그렸다. 크기는 64 × 64, 색은 4가지로 맞췄다</td></tr>
+        <tr><td>결과물</td><td class="text-slate-500">그림 파일</td><td><b>player_walk_1030.png</b> · 걷는 장면 캡처 한 장</td></tr>
+        <tr><td>막힌 것과 푼 방법</td><td class="text-slate-500">버그 고침</td><td>막힌 것: <b>RETRY 를 누르면 공이 안 움직인다</b><br>푼 방법: 9주차 영상을 다시 보고, 씬을 넘기기 전에 Time.timeScale 을 1 로 되돌렸다<br>함께 한 사람: UI 층 김○○</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 7 HOW TO 2 -->
+<section class="slide wk" data-part="report">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">칸마다 이렇게 씁니다 ②</h2>
+    <p class="text-lg text-slate-500 mb-6">AI를 쓴 것은 숨길 일이 아닙니다. <b class="text-slate-700">어디에 어떻게 썼는지</b>가 보이면 됩니다</p>
+    <table class="cmp-table" style="font-size:1.02rem">
+      <thead><tr><th style="width:19%">칸</th><th style="width:22%">이렇게 쓰면 모릅니다</th><th>이렇게 쓰면 보입니다</th></tr></thead>
+      <tbody>
+        <tr><td>AI를 쓴 곳</td><td class="text-slate-500">AI 사용</td><td>무엇을 시켰나: <b>적이 두 지점을 오가는 코드</b><br>그대로 쓴 것 / 고친 것: 이동 부분은 그대로. 끝 지점을 지나쳐 버려서 <b>거리가 0.1 보다 가까우면 돌아서게</b> 고쳤다</td></tr>
+        <tr><td>AI를 안 썼다면</td><td class="text-slate-500">(빈칸)</td><td><b>없음</b></td></tr>
+        <tr><td>다음 주 할 일</td><td class="text-slate-500">적 완성</td><td><b>적에 닿으면 Result 씬으로 넘어가게</b> 하기 — 알파 한 문장의 「게임 오버까지」 부분</td></tr>
+      </tbody>
+    </table>
+    <div class="glass-card rounded-2xl p-5 mt-6 text-center">
+      <p class="text-[18px] text-slate-700">다음 주 할 일은 <b class="text-dev-700">다음 주 보고서에서 그대로 돌아봅니다.</b> 했는지, 못 했다면 왜인지</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 FULL EXAMPLE -->
+<section class="slide wk" data-part="report">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">한 장을 다 채우면 이렇습니다</h2>
+    <p class="text-lg text-slate-500 mb-6">예시 · <b class="text-slate-700">적 · 장애물 담당</b>의 9주차</p>
+    <div class="doc" style="font-size:15.5px">
+      <div class="flex flex-wrap items-baseline gap-x-8 gap-y-1 pb-3 mb-4 border-b-2 border-slate-100">
+        <div class="doc-title">개인 기여 보고서</div>
+        <div class="doc-li">- 이름: <b>홍길동</b></div><div class="doc-li">- 팀: <b>예시팀</b></div><div class="doc-li">- 주차: <b>9</b></div><div class="doc-li">- 맡은 층: <b>👾 적 · 장애물</b></div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-7">
+        <div>
+          <div class="doc-h">이번 주 내가 한 일</div>
+          <div class="doc-li">- <b>적이 두 지점을 오가는 순찰 스크립트를 만들었다. 속도 4</b></div>
+          <div class="doc-li">- <b>적을 프리팹으로 만들어 Main 씬 담당에게 넘겼다</b></div>
+          <div class="doc-h">결과물</div>
+          <div class="doc-li">- 파일 이름 또는 커밋 메시지: <b>EnemyPatrol.cs · Enemy_1030.unitypackage</b></div>
+          <div class="doc-li">- 화면 캡처:</div>
+          <div class="shot"><i class="fa-regular fa-image text-lg"></i>적이 순찰하는 장면</div>
+        </div>
+        <div>
+          <div class="doc-h">막힌 것과 푼 방법</div>
+          <div class="doc-li">- 막힌 것: <b>적이 끝 지점에서 돌아서지 않고 계속 지나간다</b></div>
+          <div class="doc-li">- 푼 방법: <b>위치가 딱 같아지는 순간이 거의 없어서, 거리가 0.1 보다 가까우면 돌아서게 고쳤다</b></div>
+          <div class="doc-li">- 함께 한 사람: <b>조작 층 이○○</b></div>
+        </div>
+        <div>
+          <div class="doc-h">AI를 쓴 곳</div>
+          <div class="doc-li">- 무엇을 시켰나: <b>두 지점을 오가는 적 코드</b></div>
+          <div class="doc-li">- 그대로 쓴 것 / 고친 것: <b>이동은 그대로, 돌아서는 조건은 고쳤다</b></div>
+          <div class="doc-h">다음 주 할 일</div>
+          <div class="doc-li">- <b>적에 닿으면 Result 씬으로 넘어가게 하기</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 A vs B -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">면접에서 무엇을 보여 줄까요</h2>
+    <p class="text-lg text-slate-500 mb-7">같은 게임을 만든 두 사람이 이렇게 말합니다</p>
+    <div class="grid md:grid-cols-[1fr_1.6fr] gap-5 mb-6">
+      <div class="soft-card rounded-2xl p-7 flex flex-col">
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 self-start mb-4" style="font-size:14px">A</span>
+        <div class="text-2xl font-black mb-3">"이 게임 만들었습니다."</div>
+        <p class="text-[17px] text-slate-500 mt-auto"><i class="fa-solid fa-file-zipper mr-2"></i>빌드 파일 하나</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7 flex flex-col border-dev-300" style="background:#eef2ff">
+        <span class="tagchip bg-dev-600 text-white self-start mb-4" style="font-size:14px">B</span>
+        <div class="text-[21px] font-black leading-[1.55] mb-3">"테스트에서 다섯 명 중 세 명이 첫 점프에서 떨어져서, 점프 높이를 2에서 2.5로 바꿨습니다. AI가 준 점프 코드는 벽에 붙어도 점프가 돼서, 땅에 닿았을 때만 뛰게 직접 고쳤습니다."</div>
+        <div class="flex flex-wrap gap-2 mt-auto">
+          <span class="tagchip bg-white text-dev-700 border border-dev-200" style="font-size:13px">과정</span>
+          <span class="tagchip bg-white text-dev-700 border border-dev-200" style="font-size:13px">숫자</span>
+          <span class="tagchip bg-white text-dev-700 border border-dev-200" style="font-size:13px">내가 내린 판단</span>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-6 text-center">
+      <p class="text-[19px] text-slate-700">코드와 그림은 AI도 만들어 줍니다. 그래서 결과물만으로는 누가 무엇을 했는지 보이지 않습니다.<br>보여 줄 것은 <b class="text-dev-700">내가 판단하고 고친 과정</b>입니다</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 PORTFOLIO PAGE -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">프로젝트 하나는 이렇게 보여 줍니다</h2>
+    <p class="text-lg text-slate-500 mb-6">게임 회사 포트폴리오의 <b class="text-slate-700">프로젝트 한 쪽</b>입니다</p>
+    <div class="browser">
+      <div class="browser-bar"><span class="dot" style="background:#f87171"></span><span class="dot" style="background:#fbbf24"></span><span class="dot" style="background:#34d399"></span><span class="title">내 포트폴리오 · 코인 러너</span></div>
+      <div class="p-5 grid md:grid-cols-[1.05fr_1fr] gap-5">
+        <div class="vid"><i class="fa-solid fa-play"></i>짧은 플레이 영상 · 대표 화면</div>
+        <div class="flex flex-col">
+          <div class="pf-h">한 줄 소개</div>
+          <div class="text-2xl font-black mb-1">코인 러너</div>
+          <p class="text-[16px] text-slate-600 mb-3">적을 피해 코인 12개를 모으는 3D 게임 · 팀 4명</p>
+          <div class="pf-h">내 역할</div>
+          <p class="text-[16px] text-slate-700 mb-3"><b>👾 적 · 장애물</b> — 순찰하는 적 2종, 쫓아오는 적 1종</p>
+          <span class="dl-btn self-start mt-auto"><i class="fa-solid fa-download"></i>빌드 내려받기</span>
+        </div>
+      </div>
+      <div class="px-5 pb-5 grid md:grid-cols-3 gap-4">
+        <div class="pf"><div class="pf-h">문제 → 시도 → 결과</div>알파에서 다섯 명 중 세 명이 첫 적에게 바로 잡힘 → 적 속도를 4에서 3으로 낮춤 → 베타에서는 모두 첫 구간 통과</div>
+        <div class="pf"><div class="pf-h">AI를 쓴 곳</div>순찰 코드는 AI 초안에서 시작. 돌아서는 조건은 직접 고치고, 쫓아오는 거리는 테스트로 정함</div>
+        <div class="pf"><div class="pf-h">다시 만든다면</div>적 종류를 늘리기 전에 한 종류부터 테스트하겠다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 MAPPING -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-2">보고서 칸이 그대로 포트폴리오 칸이 됩니다</h2>
+    <p class="text-lg text-slate-500 mb-7">일곱 장이 모이면 <b class="text-slate-700">프로젝트 한 쪽을 쓸 재료</b>가 다 있습니다</p>
+    <div class="grid grid-cols-[1fr_48px_1fr] mb-3 text-[14px] font-black tracking-widest text-slate-400">
+      <div class="px-2">개인 기여 보고서</div><div></div><div class="px-2">포트폴리오</div>
+    </div>
+    <div class="space-y-3 text-[18px]">
+      <div class="map-row"><div class="map-l">이번 주 내가 한 일</div><div class="map-a"><i class="fa-solid fa-arrow-right"></i></div><div class="map-r">내 역할 · 만든 것 목록</div></div>
+      <div class="map-row"><div class="map-l">결과물 — 파일 · 커밋 · 캡처</div><div class="map-a"><i class="fa-solid fa-arrow-right"></i></div><div class="map-r">대표 화면 · 플레이 영상 · 빌드</div></div>
+      <div class="map-row"><div class="map-l">막힌 것과 푼 방법</div><div class="map-a"><i class="fa-solid fa-arrow-right"></i></div><div class="map-r">문제 → 시도 → 결과</div></div>
+      <div class="map-row"><div class="map-l">AI를 쓴 곳</div><div class="map-a"><i class="fa-solid fa-arrow-right"></i></div><div class="map-r">AI를 쓴 곳</div></div>
+      <div class="map-row"><div class="map-l">다음 주 할 일 — 계획과 실제</div><div class="map-a"><i class="fa-solid fa-arrow-right"></i></div><div class="map-r">다시 만든다면</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 AI DISCLOSURE -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">AI를 쓴 곳은 이렇게 밝힙니다</h2>
+    <p class="text-lg text-slate-500 mb-7">썼다는 사실보다 <b class="text-slate-700">무엇을 맡기고, 무엇을 내가 했는지</b>가 보여야 합니다</p>
+    <div class="grid md:grid-cols-[1.2fr_1fr] gap-6">
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">1</span><div><div class="text-xl font-black mb-1">무엇을 맡겼나</div><p class="text-[16px] text-slate-600">시킨 일 한 줄. 그림 · 소리 · 글이면 <b>프롬프트도 남깁니다</b></p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">2</span><div><div class="text-xl font-black mb-1">무엇으로 확인했나</div><p class="text-[16px] text-slate-600">Play 해 보기 · Console 확인 · 다른 사람에게 해 보게 하기</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">3</span><div><div class="text-xl font-black mb-1">무엇을 고쳤나</div><p class="text-[16px] text-slate-600">그대로 쓴 것과 고친 것을 나눠 적습니다</p></div></div>
+      </div>
+      <div class="glass-card rounded-2xl p-6 flex flex-col justify-center">
+        <div class="text-[14px] font-black tracking-widest text-slate-400 mb-3">7주차에 말한 하지 않을 것</div>
+        <div class="space-y-3 text-[17px] font-bold text-slate-700">
+          <div class="flex gap-3 items-start"><i class="fa-solid fa-xmark text-flame-600 mt-1"></i>안 되면 통째로 새 코드 받기</div>
+          <div class="flex gap-3 items-start"><i class="fa-solid fa-xmark text-flame-600 mt-1"></i>이해 못 한 코드를 팀에 넘기기</div>
+          <div class="flex gap-3 items-start"><i class="fa-solid fa-xmark text-flame-600 mt-1"></i>기획을 통째로 맡기기</div>
+        </div>
+        <div class="border-t-2 border-slate-100 mt-5 pt-4 text-[18px] text-slate-700">면접에서 <b class="text-dev-700">설명할 수 있는 것만</b> 내 것입니다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 PER LAYER -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">내 층에서는 이것을 모읍니다</h2>
+    <p class="text-lg text-slate-500 mb-6">버린 것도 자료입니다. <b class="text-slate-700">왜 버렸는지</b> 말할 수 있으면 됩니다</p>
+    <table class="cmp-table" style="font-size:1rem">
+      <thead><tr><th style="width:24%">층</th><th>매주 남길 것</th></tr></thead>
+      <tbody>
+        <tr><td>🏁 목표 · 승리 조건</td><td>승리 조건을 바꾼 기록과 이유 · 테스트에서 끝까지 간 사람 수</td></tr>
+        <tr><td>🕹️ 캐릭터 조작</td><td>속도 · 점프 높이 같은 숫자를 바꾸기 전과 후의 영상</td></tr>
+        <tr><td>👾 적 · 장애물</td><td>적이 움직이는 규칙 · 버그의 원인과 고친 방법</td></tr>
+        <tr><td>📊 UI · 피드백</td><td>화면 시안 두 개와 고른 이유 · 테스트에서 사람들이 못 본 UI</td></tr>
+        <tr><td>🎨 그래픽</td><td>스케치 → 시안 → 완성 · 버린 시안과 버린 이유</td></tr>
+        <tr><td>🔊 사운드</td><td>언제 무슨 소리가 나는지 목록 · 소리를 바꾼 이유 · 출처</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 14 ARCHIVE -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">매주 네 가지를 내 폴더 하나에 모읍니다</h2>
+    <p class="text-lg text-slate-500 mb-6">팀 공유 폴더와 따로, <b class="text-slate-700">내 드라이브</b>에 둡니다. 졸업한 뒤에도 내 것이어야 하니까요</p>
+    <div class="grid md:grid-cols-[1.15fr_1fr] gap-6 items-start">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="soft-card rounded-2xl p-5"><i class="fa-regular fa-file-lines text-2xl text-dev-500 mb-2"></i><div class="text-xl font-black mb-1">보고서</div><p class="text-[15.5px] text-slate-600">그 주의 「개인 기여 보고서」</p></div>
+        <div class="soft-card rounded-2xl p-5"><i class="fa-regular fa-image text-2xl text-dev-500 mb-2"></i><div class="text-xl font-black mb-1">캡처</div><p class="text-[15.5px] text-slate-600">한 장 이상. 바꾸기 전 모습도</p></div>
+        <div class="soft-card rounded-2xl p-5"><i class="fa-solid fa-film text-2xl text-flame-500 mb-2"></i><div class="text-xl font-black mb-1">영상</div><p class="text-[15.5px] text-slate-600">그 주의 빌드를 녹화. <b>버그가 있어도</b> 찍습니다</p></div>
+        <div class="soft-card rounded-2xl p-5"><i class="fa-solid fa-file-zipper text-2xl text-flame-500 mb-2"></i><div class="text-xl font-black mb-1">빌드</div><p class="text-[15.5px] text-slate-600">날짜를 붙인 zip. 덮어쓰지 않습니다</p></div>
+        <div class="col-span-2 flex flex-wrap gap-2 pt-1">
+          <span class="tagchip bg-slate-900 text-white" style="font-size:14px"><i class="fa-brands fa-windows"></i>녹화 <span class="kbd">Win</span>+<span class="kbd">Alt</span>+<span class="kbd">R</span></span>
+          <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:14px"><i class="fa-brands fa-apple"></i>녹화 <span class="kbd">Shift</span>+<span class="kbd">Cmd</span>+<span class="kbd">5</span></span>
+        </div>
+      </div>
+      <div>
+        <div class="tree">
+          <div class="tr"><i class="fa-solid fa-folder fd"></i>포트폴리오</div>
+          <div class="tr l1"><i class="fa-solid fa-folder fd"></i>예시팀_코인러너</div>
+          <div class="tr l2"><i class="fa-solid fa-folder-open fd"></i>09주차</div>
+          <div class="tr l3"><i class="fa-regular fa-file-lines text-dev-500"></i>개인기여보고서_09주차</div>
+          <div class="tr l3"><i class="fa-regular fa-image text-dev-500"></i>1030_적순찰.png</div>
+          <div class="tr l3"><i class="fa-solid fa-film text-flame-500"></i>1101_빌드녹화.mp4</div>
+          <div class="tr l3"><i class="fa-solid fa-file-zipper text-flame-500"></i>예시팀_코인러너_1101.zip</div>
+          <div class="tr l2"><i class="fa-solid fa-folder fd"></i>10주차</div>
+        </div>
+        <p class="text-[16px] text-slate-600 mt-4">주마다 찍은 영상을 이어 붙이면 <b class="text-slate-800">게임이 자라 온 과정</b>이 됩니다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 TEXT FIRST -->
+<section class="slide wk" data-part="folio">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">글로 남겨야 나중에 꺼내 쓸 수 있습니다</h2>
+    <p class="text-lg text-slate-500 mb-7">사진만 잔뜩 있으면 아무도 정리하지 못합니다</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-5">
+      <div class="soft-card rounded-2xl p-7">
+        <i class="fa-solid fa-wand-magic-sparkles text-3xl text-dev-500 mb-4"></i>
+        <div class="text-2xl font-black mb-2">15주차가 끝나면</div>
+        <p class="text-[17px] text-slate-600">일곱 장의 보고서를 AI에게 주고 <b>「이 기록으로 포트폴리오 초안을 써 줘」</b>라고 맡길 수 있습니다. 글로 남겨 둔 덕분입니다. 초안은 내가 고칩니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7">
+        <i class="fa-solid fa-camera-retro text-3xl text-flame-500 mb-4"></i>
+        <div class="text-2xl font-black mb-2">AI가 대신 만들 수 없는 것</div>
+        <p class="text-[17px] text-slate-600"><b>그때의 화면 · 그때의 숫자 · 그때 내린 판단.</b> 지나가면 다시 구할 수 없어서, 그 주에 남겨야 합니다</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <div class="text-[14px] font-black tracking-widest text-slate-400 mb-3">밖에 보여 주기 전에</div>
+      <div class="flex flex-wrap gap-2.5">
+        <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px"><i class="fa-solid fa-users"></i>팀원 이름과 역할을 같이 적기</span>
+        <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px"><i class="fa-solid fa-comment-dots"></i>팀 작업은 팀원에게 먼저 묻기</span>
+        <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px"><i class="fa-solid fa-link"></i>에셋 · 폰트 · 소리 출처 남기기</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 ALPHA BETA -->
+<section class="slide wk" data-part="scope">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">11주차 알파, 13주차 베타</h2>
+    <p class="text-lg text-slate-500 mb-7">두 번 모두 <b class="text-slate-700">다른 팀이 우리 게임을 직접</b> 합니다</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-5">
+      <div class="soft-card rounded-2xl p-7 border-flame-200" style="background:#fff7ed">
+        <div class="flex items-center gap-3 mb-4"><span class="tagchip bg-flame-600 text-white" style="font-size:14px">11주차</span><span class="text-3xl font-black">알파</span></div>
+        <div class="space-y-3 text-[17px] text-slate-700">
+          <div class="flex gap-3 items-start"><span class="chk bg-flame-600 text-white"><i class="fa-solid fa-check"></i></span>시작부터 끝(클리어나 게임 오버)까지 한 판이 돈다</div>
+          <div class="flex gap-3 items-start"><span class="chk bg-flame-600 text-white"><i class="fa-solid fa-check"></i></span>다시 시작이 된다</div>
+          <div class="flex gap-3 items-start"><span class="chk bg-flame-600 text-white"><i class="fa-solid fa-check"></i></span>빌드로 다른 노트북에서 실행된다</div>
+          <div class="flex gap-3 items-start text-slate-500"><span class="chk bg-white border border-flame-200 text-flame-600"><i class="fa-solid fa-paintbrush"></i></span>그림 · 소리는 임시여도 된다</div>
+        </div>
+      </div>
+      <div class="soft-card rounded-2xl p-7 border-dev-300" style="background:#eef2ff">
+        <div class="flex items-center gap-3 mb-4"><span class="tagchip bg-dev-600 text-white" style="font-size:14px">13주차</span><span class="text-3xl font-black">베타</span></div>
+        <div class="space-y-3 text-[17px] text-slate-700">
+          <div class="flex gap-3 items-start"><span class="chk bg-dev-600 text-white"><i class="fa-solid fa-check"></i></span>넣을 기능과 스테이지가 다 들어 있다</div>
+          <div class="flex gap-3 items-start"><span class="chk bg-dev-600 text-white"><i class="fa-solid fa-check"></i></span>실제 그림 · 소리가 들어 있다</div>
+          <div class="flex gap-3 items-start"><span class="chk bg-dev-600 text-white"><i class="fa-solid fa-check"></i></span>처음 하는 사람이 설명 없이 끝까지 할 수 있다</div>
+          <div class="flex gap-3 items-start"><span class="chk bg-dev-600 text-white"><i class="fa-solid fa-check"></i></span>멈추거나 진행이 막히는 버그가 없다</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2.5 justify-center">
+      <span class="tagchip bg-slate-900 text-white" style="font-size:15px">베타 뒤에는 새 기능을 넣지 않습니다</span>
+      <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px">한 판 돌리기와 빌드는 9주차 영상에</span>
+    </div>
+  </div>
+</section>
+
+<!-- 17 SCOPE CUT -->
+<section class="slide wk" data-part="scope">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">알파까지 범위를 자릅니다</h2>
+    <p class="text-lg text-slate-500 mb-6">기획한 것을 다 넣으면 11주차에 한 판이 돌지 않습니다</p>
+    <div class="grid md:grid-cols-[1fr_1.45fr] gap-6 items-start">
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">1</span><div><div class="text-[19px] font-black mb-1">8주차 팀 카드부터 다시 읽기</div><p class="text-[15.5px] text-slate-600">「바꿀 것 · 그대로 둘 것」을 소리 내어 읽습니다</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">2</span><div><div class="text-[19px] font-black mb-1">기획한 기능을 모두 꺼내기</div><p class="text-[15.5px] text-slate-600">스티커 하나에 기능 하나</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">3</span><div><div class="text-[19px] font-black mb-1">세 칸으로 나누기</div><p class="text-[15.5px] text-slate-600">「꼭」은 <b>세 가지까지</b>. 빠지면 한 판이 안 도는 것만</p></div></div>
+        <p class="text-[15px] text-slate-500 px-1 pt-1"><i class="fa-solid fa-note-sticky text-dev-500 mr-1.5"></i>분반 피그잼 보드의 <b class="text-slate-700">우리 팀 칸</b>에서 합니다. 링크는 따로 안내합니다</p>
+      </div>
+      <div class="glass-card rounded-2xl p-5">
+        <div class="text-[13px] font-black tracking-widest text-slate-400 mb-3">예시 · 코인 러너</div>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <div class="text-[17px] font-black mb-2 flex items-center gap-2"><span class="w-4 h-4 rounded st-green inline-block"></span>꼭</div>
+            <div class="space-y-2 text-[15px]">
+              <div class="stk st-green" style="padding:10px 12px">공 굴리기 조작</div>
+              <div class="stk st-green" style="padding:10px 12px">코인 12개 모으면 클리어</div>
+              <div class="stk st-green" style="padding:10px 12px">적에 닿으면 게임 오버</div>
+            </div>
+          </div>
+          <div>
+            <div class="text-[17px] font-black mb-2 flex items-center gap-2"><span class="w-4 h-4 rounded st-yellow inline-block"></span>있으면 좋음</div>
+            <div class="space-y-2 text-[15px]">
+              <div class="stk st-yellow" style="padding:10px 12px">점프</div>
+              <div class="stk st-yellow" style="padding:10px 12px">움직이는 벽</div>
+              <div class="stk st-yellow" style="padding:10px 12px">제한 시간</div>
+            </div>
+          </div>
+          <div>
+            <div class="text-[17px] font-black mb-2 flex items-center gap-2"><span class="w-4 h-4 rounded st-red inline-block"></span>뺄 것</div>
+            <div class="space-y-2 text-[15px]">
+              <div class="stk st-red" style="padding:10px 12px">스테이지 고르기</div>
+              <div class="stk st-red" style="padding:10px 12px">상점</div>
+              <div class="stk st-red" style="padding:10px 12px">랭킹</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 space-y-1 text-[15px] text-slate-600">
+          <p>「있으면 좋음」은 <b class="text-slate-800">「꼭」으로 한 판이 돈 다음에</b> 손댑니다</p>
+          <p>「뺄 것」을 베타에 넣을지는 <b class="text-slate-800">12주차에 알파 결과를 보고</b> 정합니다</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 ALPHA SENTENCE -->
+<section class="slide wk" data-part="sentence">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">알파에서 무엇을 확인할지 한 문장으로 정합니다</h2>
+    <p class="text-lg text-slate-500 mb-6">「알파 한 문장」 · 팀 전원이 같은 문장을 말할 수 있어야 합니다</p>
+    <div class="glass-card rounded-3xl p-8 text-[25px] md:text-[29px] font-bold leading-[1.9] mb-5 text-center">
+      11주차 알파에서 우리는<span class="blank"></span>까지 플레이하게 해서,<br><span class="blank" style="min-width:300px"></span>인지 확인한다.
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 mb-4">
+      <div class="soft-card rounded-2xl p-5 text-[16.5px] text-slate-700"><span class="tagchip bg-dev-50 text-dev-700 border border-dev-200 mb-2">예</span><br>우리는 <b>첫 스테이지 시작부터 보스 앞까지</b> 플레이하게 해서, <b>처음 하는 사람이 설명 없이 이중 점프를 쓰는지</b> 확인한다.</div>
+      <div class="soft-card rounded-2xl p-5 text-[16.5px] text-slate-700"><span class="tagchip bg-dev-50 text-dev-700 border border-dev-200 mb-2">예</span><br>우리는 <b>카드 세 장으로 한 판 끝까지</b> 플레이하게 해서, <b>한 판이 길게 느껴지지 않는지</b> 확인한다.</div>
+    </div>
+    <div class="flex flex-wrap gap-2.5 justify-center">
+      <span class="tagchip bg-slate-900 text-white" style="font-size:15px">앞 칸 · 어디서 시작해 어디까지</span>
+      <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px">뒤 칸 · 해 보는 사람을 보며 알고 싶은 것 하나</span>
+      <span class="tagchip bg-white text-slate-700 border border-slate-200" style="font-size:15px">「재미있는지」 대신 눈으로 볼 수 있는 것</span>
+    </div>
+  </div>
+</section>
+
+<!-- 19 SURVEY -->
+<section class="slide wk" data-part="survey">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">「알파 설문」은 다섯 개 안팎으로 만듭니다</h2>
+    <p class="text-lg text-slate-500 mb-6">알파에서 우리 게임을 해 본 사람이 <b class="text-slate-700">바로 답합니다</b></p>
+    <div class="grid md:grid-cols-[1fr_1.2fr] gap-6 items-start">
+      <div class="space-y-2.5">
+        <div class="soft-card rounded-2xl px-5 py-3.5 flex gap-4 items-center"><span class="no">1</span><div class="flex-1 text-[17px] font-black">한 문장에서 확인하려는 것</div><span class="tagchip bg-dev-600 text-white">1~5</span></div>
+        <div class="soft-card rounded-2xl px-5 py-3.5 flex gap-4 items-center"><span class="no">2</span><div class="flex-1 text-[17px] font-black">어디까지 해 봤는지</div><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">고르기</span></div>
+        <div class="soft-card rounded-2xl px-5 py-3.5 flex gap-4 items-center"><span class="no">3</span><div class="flex-1 text-[17px] font-black">막혔거나 헷갈린 곳</div><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">쓰기</span></div>
+        <div class="soft-card rounded-2xl px-5 py-3.5 flex gap-4 items-center"><span class="no">4</span><div class="flex-1 text-[17px] font-black">가장 기억에 남는 순간</div><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">쓰기</span></div>
+        <div class="soft-card rounded-2xl px-5 py-3.5 flex gap-4 items-center"><span class="no">5</span><div class="flex-1 text-[17px] font-black">하나만 바꾼다면</div><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">쓰기</span></div>
+        <div class="flex flex-wrap items-center gap-2 pt-2 text-[14px] font-bold text-slate-500">
+          <span class="tagchip bg-slate-900 text-white">9주차 설계</span><i class="fa-solid fa-arrow-right text-slate-300"></i>
+          <span class="tagchip bg-white border border-slate-200">10주차 구글 폼</span><i class="fa-solid fa-arrow-right text-slate-300"></i>
+          <span class="tagchip bg-white border border-slate-200">11주차 받기</span><i class="fa-solid fa-arrow-right text-slate-300"></i>
+          <span class="tagchip bg-white border border-slate-200">12주차 읽고 고치기</span>
+        </div>
+      </div>
+      <div class="form">
+        <div class="text-[13px] font-black tracking-widest text-slate-400 mb-1">예시 · 코인 러너 알파 설문</div>
+        <div class="fq"><div class="fq-t">1. 적을 피하면서 코인을 모으기가 얼마나 어려웠나요?</div><div class="fq-a">아주 쉬움 <span class="rd"></span><span class="rd"></span><span class="rd"></span><span class="rd"></span><span class="rd"></span> 아주 어려움</div></div>
+        <div class="fq"><div class="fq-t">2. 어디까지 해 봤나요?</div><div class="fq-a"><span class="rd"></span>클리어 전에 게임 오버 <span class="rd"></span>클리어 <span class="rd"></span>클리어하고 다시 하기까지</div></div>
+        <div class="fq"><div class="fq-t">3. 막히거나 헷갈린 곳이 있었다면 어디였나요?</div><div class="fq-a"><span class="line-in"></span></div></div>
+        <div class="fq"><div class="fq-t">4. 가장 기억에 남는 순간은 언제였나요?</div><div class="fq-a"><span class="line-in"></span></div></div>
+        <div class="fq"><div class="fq-t">5. 하나만 바꿀 수 있다면 무엇을 바꾸고 싶나요?</div><div class="fq-a"><span class="line-in"></span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 QUESTION FIX -->
+<section class="slide wk" data-part="survey">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">질문은 이렇게 고칩니다</h2>
+    <p class="text-lg text-slate-500 mb-6">8주차 스티커처럼 <b class="text-slate-700">숫자와 근거</b>가 돌아오는 질문이 좋은 질문입니다</p>
+    <table class="cmp-table" style="font-size:1.02rem">
+      <thead><tr><th style="width:27%">원칙</th><th style="width:29%">고치기 전</th><th>고친 뒤</th></tr></thead>
+      <tbody>
+        <tr><td>질문 하나에 하나만</td><td class="text-slate-500">조작이 쉽고 재미있었나요?</td><td><b>조작이 얼마나 쉬웠나요?</b> 1 ~ 5</td></tr>
+        <tr><td>확인하려는 것을 그대로</td><td class="text-slate-500">재미있었나요?</td><td><b>한 판의 길이는 어땠나요?</b> 1 너무 짧다 · 3 알맞다 · 5 너무 길다</td></tr>
+        <tr><td>답을 정해 주지 않기</td><td class="text-slate-500">너무 쉬웠죠?</td><td><b>얼마나 어려웠나요?</b> 1 아주 쉬움 ~ 5 아주 어려움</td></tr>
+        <tr><td>숫자로 답하는 질문 하나 이상</td><td class="text-slate-500">클리어하기 힘들었나요?</td><td><b>몇 번 만에 클리어했나요?</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 21 TEAM SECTION -->
+<section class="slide wk" data-part="board">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">우리 팀 칸을 끝까지 채웁니다</h2>
+    <p class="text-lg text-slate-500 mb-6">범위를 자르고 한 문장과 설문을 쓴 그 칸입니다. 이름은 <b class="text-slate-700">실명으로</b></p>
+    <div class="grid md:grid-cols-[1.45fr_1fr] gap-6 items-start">
+      <div class="t1 rounded-2xl border border-slate-200 p-4 space-y-3" style="box-shadow:0 12px 34px rgba(15,23,42,.08)">
+        <div class="text-[13px] font-black">1조 · 팀명</div>
+        <div class="stk bg-white" style="box-shadow:none;border:2.5px solid #4f46e5;padding:12px 14px"><div class="text-[12px] font-black text-dev-700 mb-1">알파 한 문장</div><span class="text-[14.5px] text-slate-400">11주차 알파에서 우리는 ___까지 플레이하게 해서, ___인지 확인한다.</span></div>
+        <div class="rounded-lg bg-white p-3 grid grid-cols-3 gap-3">
+          <div><div class="text-[12px] font-black mb-2 flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm st-green inline-block"></span>꼭 · 세 가지까지</div><div class="flex gap-1.5"><span class="stk st-green" style="padding:12px;box-shadow:none"></span><span class="stk st-green" style="padding:12px;box-shadow:none"></span><span class="stk st-green" style="padding:12px;box-shadow:none"></span></div></div>
+          <div><div class="text-[12px] font-black mb-2 flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm st-yellow inline-block"></span>있으면 좋음</div><div class="flex gap-1.5"><span class="stk st-yellow" style="padding:12px;box-shadow:none"></span><span class="stk st-yellow" style="padding:12px;box-shadow:none"></span></div></div>
+          <div><div class="text-[12px] font-black mb-2 flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm st-red inline-block"></span>뺄 것</div><div class="flex gap-1.5"><span class="stk st-red" style="padding:12px;box-shadow:none"></span><span class="stk st-red" style="padding:12px;box-shadow:none"></span></div></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-lg bg-white p-3"><div class="text-[12px] font-black mb-1.5">층별 담당이 알파까지 할 일</div>
+            <div class="grid grid-cols-2 gap-x-3 gap-y-1 text-[12.5px] font-bold text-slate-500"><span>🏁 목표</span><span>🕹️ 조작</span><span>👾 적</span><span>📊 UI</span><span>🎨 그래픽</span><span>🔊 사운드</span></div>
+          </div>
+          <div class="rounded-lg bg-white p-3"><div class="text-[12px] font-black mb-1.5">알파 설문 다섯 문항</div>
+            <div class="space-y-1 text-[12.5px] font-bold text-slate-400"><div>1.</div><div>2.</div><div>3. · 4. · 5.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">1</span><div><div class="text-xl font-black mb-1">각자 자기 줄</div><p class="text-[16px] text-slate-600">「층별 담당이 알파까지 할 일」은 <b>담당자가 직접</b> 한 줄씩</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">2</span><div><div class="text-xl font-black mb-1">빈칸 없는지 보기</div><p class="text-[16px] text-slate-600">알파 한 문장 · 세 칸 · 설문 다섯 문항</p></div></div>
+        <div class="soft-card rounded-2xl p-5 flex gap-4 items-start"><span class="no">3</span><div><div class="text-xl font-black mb-1">다 쓰면 소리 내어 읽기</div><p class="text-[16px] text-slate-600">전원이 같은 문장을 말할 수 있는지 확인합니다</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 SHARE -->
+<section class="slide wk" data-part="share">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">팀마다 한 사람이 이 문장으로 말합니다</h2>
+    <p class="text-lg text-slate-500 mb-8 text-center">1조부터 차례로</p>
+    <div class="glass-card rounded-3xl p-10 md:p-12 text-[26px] md:text-[31px] font-bold leading-[1.9] text-center">
+      11주차 알파에서 우리는<span class="blank"></span>까지 플레이하게 해서,<br>
+      <span class="blank" style="min-width:280px"></span>인지 확인합니다.<br>
+      <span class="text-slate-500">이번에는</span><span class="blank"></span><span class="text-slate-500">을(를) 뺍니다.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 23 NEXT -->
+<section class="slide wk" data-part="end">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-7 text-center">이번 주부터, 그리고 다음 두 주</h2>
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-7 border-dev-300" style="background:#eef2ff">
+        <span class="tagchip bg-dev-600 text-white mb-3">매주 · 개인</span>
+        <div class="text-2xl font-black mb-2">「개인 기여 보고서」</div>
+        <p class="text-[17px] text-slate-600">한 장씩 냅니다. 캡처 · 영상 · 빌드는 <b>내 폴더</b>에</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7">
+        <span class="tagchip bg-slate-900 text-white mb-3">10주차 · 팀</span>
+        <div class="text-2xl font-black mb-2">「알파 설문」을 구글 폼으로</div>
+        <p class="text-[17px] text-slate-600">오늘 만든 다섯 문항을 <b>팀 구글 폼</b>으로 옮깁니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-7 border-flame-200" style="background:#fff7ed">
+        <span class="tagchip bg-flame-600 text-white mb-3">11주차 · 팀</span>
+        <div class="text-2xl font-black mb-2">알파 상호 테스트</div>
+        <p class="text-[17px] text-slate-600">다른 팀이 우리 빌드를 <b>다른 노트북에서</b> 직접 합니다</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="glass-card rounded-2xl px-6 py-5">
+        <div class="text-[14px] font-black tracking-widest text-slate-400 mb-1">10주차 QuizN</div>
+        <p class="text-[18px] text-slate-700"><b class="text-dev-700">9주차 영상</b> 「한 판이 끝까지 돌게 + 빌드」에서 나옵니다</p>
+      </div>
+      <div class="glass-card rounded-2xl px-6 py-5">
+        <div class="text-[14px] font-black tracking-widest text-slate-400 mb-1">백업</div>
+        <p class="text-[18px] text-slate-700">날짜별 zip 백업은 매주, <b class="text-dev-700">테스트 전날 한 번 더</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="navbar-fixed fixed bottom-5 left-1/2 -translate-x-1/2 z-[130] flex items-center gap-3">
+  <button onclick="prevSlide()" aria-label="이전 슬라이드" class="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:bg-slate-50 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur border border-slate-200 shadow-md rounded-full px-4 h-11 text-xs text-slate-400">
+    <span class="kbd">←</span><span class="kbd">→</span><span>이동</span>
+  </div>
+  <button onclick="nextSlide()" aria-label="다음 슬라이드" class="w-12 h-12 rounded-full bg-slate-900 text-white shadow-lg hover:bg-dev-700 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+const progressBar = document.getElementById("progress-bar");
+const currentSlideLabel = document.getElementById("current-slide");
+const totalSlidesLabel = document.getElementById("total-slides");
+const partLabel = document.getElementById("part-label");
+const PART_NAMES = {"0":"게임 개발 실습 · 9주차","order":"오늘 순서","quiz":"1 · QuizN 복습","report":"2 · 개인 기여 보고서","folio":"3 · AI 시대 포트폴리오 · 아카이빙","scope":"4 · 알파 · 베타와 범위 자르기 · 팀","sentence":"5 · 알파 한 문장 · 팀","survey":"5 · 알파 설문 · 팀","board":"5 · 팀 칸 채우기 · 팀","share":"6 · 한 줄 공유 · 팀 대표","end":"다음 주까지"};
+let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
+totalSlidesLabel.textContent = slides.length;
+
+function updateSlide(){
+  slides.forEach((s,i)=>{
+    s.classList.remove("active","prev-slide");
+    if(i===currentSlide){ s.classList.add("active"); s.scrollTop=0; }
+    else if(i<currentSlide){ s.classList.add("prev-slide"); }
+  });
+  progressBar.style.width = `${((currentSlide+1)/slides.length)*100}%`;
+  currentSlideLabel.textContent = currentSlide+1;
+  partLabel.textContent = PART_NAMES[slides[currentSlide].dataset.part] || "게임 개발 실습 · 9주차";
+  if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
+}
+function nextSlide(){ if(currentSlide<slides.length-1){currentSlide++;updateSlide();} }
+function prevSlide(){ if(currentSlide>0){currentSlide--;updateSlide();} }
+
+document.addEventListener("keydown",(e)=>{
+  const k=e.key;
+  if(k==="ArrowRight"||k==="PageDown"||k===" "){e.preventDefault();nextSlide();}
+  else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
+  else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
+  else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
+  else if(k==="Home"){currentSlide=0;updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;updateSlide();}
+});
+window.addEventListener("wheel",(e)=>{
+  const s=slides[currentSlide];
+  if(s&&s.scrollHeight>s.clientHeight+3){
+    const atTop=s.scrollTop<=0, atBottom=Math.abs(s.scrollHeight-s.clientHeight-s.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  if(isAnimating)return;
+  if(e.deltaY>0)nextSlide(); else if(e.deltaY<0)prevSlide();
+  isAnimating=true; setTimeout(()=>{isAnimating=false;},520);
+},{passive:true});
+window.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+window.addEventListener("touchend",(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx<0?nextSlide():prevSlide(); }
+},{passive:true});
+
+(function(){
+  const n=parseInt((location.hash||"").replace("#",""),10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  updateSlide();
+})();
+</script>
+
+</body>
+</html>
