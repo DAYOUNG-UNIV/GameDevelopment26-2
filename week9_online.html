@@ -71,7 +71,7 @@ body{
   letter-spacing:.06em;border-radius:999px;padding:.28rem .7rem}
 /* Unity editor mimic */
 .uu{background:#383838;border:1px solid #232323;border-radius:7px;color:#c4c4c4;
-  font-family:"Pretendard",sans-serif;font-size:13.5px;line-height:1.45;overflow:hidden;
+  font-family:"Pretendard",sans-serif;font-size:13.5px;line-height:1.45;overflow:hidden;font-variant-ligatures:none;
   box-shadow:0 12px 34px rgba(15,23,42,.24)}
 .uu-bar{background:#3c3c3c;border-bottom:1px solid #232323;padding:7px 11px;
   display:flex;align-items:center;gap:8px;font-weight:800;color:#d8d8d8;font-size:13px}
@@ -146,6 +146,175 @@ body{
 .ss .btn{display:inline-block;border:1px solid rgba(255,255,255,.7);padding:5px 18px;border-radius:3px;font-weight:700}
 .kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
   box-shadow:0 2px 0 #cbd5e1;font-size:.8em;font-weight:700;color:#475569}
+/* 따라 하기 — 유니티 에디터 전체 모사 */
+.ed{position:relative;display:grid;grid-template-columns:21% minmax(0,1fr) 29%;grid-template-rows:24px 30px minmax(0,1fr) 168px 20px;gap:2px;
+  height:520px;background:#191919;border:1px solid #111;border-radius:8px;overflow:hidden;color:#c4c4c4;font-size:12.5px;line-height:1.4;
+  box-shadow:0 14px 40px rgba(15,23,42,.25);font-variant-ligatures:none}
+.ed-mb{grid-column:1/-1;display:flex;align-items:center;background:#202020;padding:0 4px;position:relative;z-index:30}
+.ed-mb > span{position:relative;padding:2px 9px;border-radius:3px;color:#cfcfcf}
+.ed-mb > span.on{background:#2c5d87;color:#fff}
+.ed-mb .uu-menus{position:absolute;left:0;top:calc(100% + 2px);z-index:31}
+.ed-tb{grid-column:1/-1;display:flex;align-items:center;justify-content:center;background:#191919;position:relative}
+.ed-tb .pb{width:32px;height:22px;display:grid;place-items:center;background:#383838;color:#d0d0d0;font-size:11px;margin-left:1px}
+.ed-tb .pb:first-child{border-radius:4px 0 0 4px}.ed-tb .pb:last-child{border-radius:0 4px 4px 0}
+.ed-tb .pb.on{background:#3e6e9e;color:#fff}
+.ed-tb .lt{position:absolute;left:8px;display:flex;gap:6px}.ed-tb .rt{position:absolute;right:8px;display:flex;gap:6px}
+.ed-tb .lt span,.ed-tb .rt span{background:#383838;border-radius:3px;padding:1px 8px;color:#bdbdbd;font-size:11.5px}
+.ed-p{background:#383838;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;position:relative}
+.ed-hi{grid-column:1;grid-row:3}.ed-vw{grid-column:2;grid-row:3}.ed-in{grid-column:3;grid-row:3/5}.ed-bt{grid-column:1/3;grid-row:4}
+.ed-st{grid-column:1/-1;grid-row:5;background:#202020;display:flex;align-items:center;padding:0 8px;font-size:11px;color:#9a9a9a;gap:8px;min-width:0}
+.ed-st .msg{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-st .msg.err{color:#ff8f7a}
+.ed-tabs{display:flex;align-items:flex-end;background:#282828;height:24px;flex:none;gap:1px;padding-left:2px}
+.ed-tabs > span{padding:3px 12px;color:#a8a8a8;background:#303030;border-radius:3px 3px 0 0;display:flex;gap:6px;align-items:center;font-weight:600}
+.ed-tabs > span.on{background:#383838;color:#ececec}
+.ed-tabs i{font-size:10.5px;color:#9a9a9a}
+.ed-sub{display:flex;align-items:center;gap:6px;padding:2px 6px;border-bottom:1px solid #232323;background:#3c3c3c;flex:none;font-size:11.5px;height:24px;white-space:nowrap}
+.ed-sub .uu-f{flex:0 0 auto;padding:0 7px;font-size:11.5px}
+.ed-body{flex:1;min-height:0;overflow:hidden;position:relative}
+.ed .uu-tree{padding:4px 3px}
+.ed .uu-it{padding:1px 6px;border-radius:2px;white-space:nowrap}
+.ed .uu-it .ico{font-size:10.5px}
+.ed-dots{margin-left:auto;color:#8d8d8d}
+.ed-edit{background:#1d1d1d;border:1px solid #4d8ad6;color:#fff;padding:0 4px;border-radius:2px}
+/* Project */
+.ed-pj{display:grid;grid-template-columns:24% 1fr;height:100%}
+.ed-pj .uu-tree{border-right:1px solid #232323;overflow:hidden}
+.ed-crumb{padding:3px 9px;border-bottom:1px solid #2e2e2e;color:#bdbdbd;font-size:11.5px}
+.ed-tiles{display:flex;flex-wrap:wrap;gap:4px;padding:8px 8px;align-content:flex-start}
+.ed-tile{width:76px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:3px 2px;border-radius:3px;font-size:11.5px;text-align:center}
+.ed-tile .ic{width:44px;height:44px;display:grid;place-items:center;font-size:24px;border-radius:4px}
+.ed-tile .lb{max-width:74px;padding:0 4px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-tile.sel .lb{background:#2c5d87;color:#fff}
+.ed-tile.sel .ic{background:rgba(44,93,135,.45)}
+.ic.scene{color:#e0e0e0}.ic.script{color:#a7d1f5}.ic.folder{color:#b9b9b9}
+/* Console */
+.ed-con{display:flex;flex-direction:column;height:100%}
+.ed-con .bar{display:flex;gap:6px;align-items:center;padding:2px 6px;background:#3c3c3c;border-bottom:1px solid #232323;font-size:11.5px}
+.ed-con .bar .uu-f{flex:0 0 auto;padding:0 7px}
+.ed-con .bar .cnt{margin-left:auto;display:flex;gap:10px;color:#bdbdbd}
+.ed-con .logs{flex:1;overflow:hidden;background:#2c2c2c}
+.ed-con .lg{display:flex;gap:8px;padding:4px 8px;border-bottom:1px solid #333;white-space:nowrap;overflow:hidden}
+.ed-con .lg.err{color:#ff8f7a}.ed-con .lg.sel{background:#2c5d87;color:#fff}
+.ed-con .det{height:52px;background:#262626;border-top:1px solid #1e1e1e;padding:4px 8px;font-family:"JetBrains Mono",Consolas,monospace;font-size:11px;color:#d0d0d0;white-space:pre-wrap;overflow:hidden}
+.ed-empty{color:#7d7d7d;padding:10px}
+/* Inspector */
+.ed-insp{padding:6px 7px;font-size:12px}
+.ed-insp .uu-comp{margin-bottom:4px}
+.ed-insp .uu-comp-h{padding:3px 7px;font-size:12px}
+.ed-insp .uu-comp-b{padding:5px 7px 6px}
+.ed-insp .uu-row{margin-bottom:4px;gap:6px}
+.ed-insp .uu-lb{width:86px;font-size:11.5px}
+.ed-insp .uu-f{padding:1px 6px;font-size:11.5px}
+.ed-goh{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.ed-goh .gi{width:22px;height:22px;display:grid;place-items:center;background:#2a2a2a;border-radius:3px;color:#9fb6c8}
+.ed-goh2{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:5px;align-items:center;margin-bottom:6px}
+.ed-xyz{flex:1;display:grid;grid-template-columns:auto 1fr auto 1fr auto 1fr;gap:3px;align-items:center;min-width:0}
+.ed-xyz > span:not(.uu-f){font-size:10.5px;color:#9a9a9a}
+.ed-rt{display:flex;gap:6px;align-items:flex-start}
+.ed-anc{width:38px;height:38px;flex:none;border:1px solid #555;border-radius:3px;display:grid;place-items:center;font-size:8.5px;color:#9a9a9a;text-align:center;line-height:1.1;position:relative}
+.ed-rtg{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:2px 4px;min-width:0}
+.ed-rtg > span:not(.uu-f){font-size:10.5px;color:#9a9a9a}
+.ed-al{display:flex;gap:1px}
+.ed-al span{width:22px;height:18px;display:grid;place-items:center;background:#2a2a2a;font-size:10px;color:#9a9a9a}
+.ed-al span.on{background:#4a6f96;color:#fff}
+.ed-ocl{color:#e0e0e0;font-weight:700;margin:6px 0 3px}
+.ed-ocb{border:1px solid #2b2b2b;border-radius:3px;background:#353535;padding:5px}
+.ed-ocb .uu-row:last-child{margin-bottom:0}
+.ed-oce{color:#8d8d8d;padding:2px}
+.ed-pm{text-align:right;margin-top:4px}
+.ed-pm .uu-btn{padding:0 9px;margin-left:2px}
+.ed-addc{text-align:center;margin-top:8px}
+.ed-addc .uu-btn{padding:3px 34px}
+.ed-search{position:absolute;left:12px;right:12px;background:#2b2b2b;border:1px solid #111;border-radius:4px;box-shadow:0 10px 26px rgba(0,0,0,.5);padding:6px;z-index:5}
+.ed-search .q{background:#1e1e1e;border:1px solid #4d8ad6;border-radius:3px;padding:2px 7px;color:#fff;margin-bottom:5px}
+/* Scene / Game */
+.ed-gv{position:absolute;inset:5px;display:flex;justify-content:center}
+.ed-grid{position:absolute;inset:0;background-color:#454545;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px}
+.ed-2d{padding:0 7px;border-radius:3px;background:#2a2a2a}
+.ed-2d.on{background:#3e6e9e;color:#fff}
+.scr{position:relative;height:100%;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;
+  background:linear-gradient(#6f8fb8,#a9b8c7 52%,#555 52%,#3d3d3d)}
+.scr.cv{background:transparent;outline:1px solid #e8e8e8}
+.ed-ui{position:absolute;inset:0;transform-origin:50% 50%}
+.ed-ui > div{position:absolute;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1}
+.ed-ui .t{color:#fff;font-weight:800}
+.ed-ui .tl{color:#fff;justify-content:flex-start;align-items:flex-start;font-weight:600}
+.ed-ui .b{background:#fff;color:#323232;border-radius:.5cqw;font-weight:600}
+.ed-ui .hud{left:2%;top:4%;transform:none;color:#fff;font-weight:700;font-size:3cqw}
+.scr.roll{background:linear-gradient(#5b7fae,#93a9c2 40%,#3d4450 40%)}
+.roll .pl{position:absolute;left:10%;right:10%;top:40%;height:85%;background:#8d939c;border:1.4cqw solid #c3c8cf;transform:perspective(60cqw) rotateX(58deg);transform-origin:50% 0}
+.roll .ball{position:absolute;left:47%;top:66%;width:7cqw;height:7cqw;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#cfd5dd 45%,#7b8592)}
+.roll .pu{position:absolute;width:2.6cqw;height:2.6cqw;background:#facc15;transform:rotate(45deg);box-shadow:0 0 0 .3cqw rgba(250,204,21,.35)}
+.roll .en{position:absolute;left:66%;top:52%;width:4.5cqw;height:4.5cqw;background:#dc2626}
+.roll .hud{position:absolute;left:2.5%;top:4%;color:#fff;font-weight:800;font-size:3.2cqw}
+/* 덮는 창 · 메뉴 · 코드 */
+.ed-ov{position:absolute;z-index:20}
+.ed .uu-menu{font-size:12.5px}
+.ed .uu-mi{padding:2px 12px;line-height:17px}
+.ed .uu-menus{align-items:flex-start}
+.ed-win{background:#383838;border:1px solid #0e0e0e;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden}
+.ed-wt{display:flex;align-items:center;gap:8px;background:#262626;padding:4px 10px;font-weight:700;color:#e0e0e0;font-size:12px;flex:none}
+.ed-wt .x{margin-left:auto;color:#9a9a9a;padding:0 4px;border-radius:2px}
+.ed-wb{flex:1;min-height:0;position:relative}
+.ed-code{background:#1f1f1f;border:1px solid #3a3a3a;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden;
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace;font-variant-ligatures:none}
+.ed-code .hd{display:flex;align-items:center;background:#181818;font-family:"Pretendard",sans-serif;font-size:12px;color:#9a9a9a;flex:none}
+.ed-code .hd .tab{background:#1f1f1f;color:#e6e6e6;padding:5px 14px;border-top:2px solid #4d8ad6;display:flex;gap:7px;align-items:center}
+.ed-code .hd .ap{margin-left:auto;padding:0 10px}
+.ed-code .bd{flex:1;min-height:0;overflow:hidden;padding:8px 0;font-size:15px;line-height:21px;color:#d4d4d4}
+.ed-code .bd.sm{font-size:13.5px;line-height:18.5px;padding:5px 0}
+.ed-code .cl{display:flex;white-space:pre}
+.ed-code .cl .ln{width:38px;flex:none;text-align:right;padding-right:14px;color:#6e7681}
+.ed-code .cl.add{background:rgba(163,230,53,.15)}
+.ed-code .cl.del{background:rgba(248,113,113,.2)}
+.ed-code .cl.foc{outline:2px solid #facc15;outline-offset:-2px}
+.ed-code .cl.gap .cx{color:#6e7681}
+.ed-code .kw{color:#c4b5fd}.ed-code .ty{color:#7dd3fc}.ed-code .st{color:#fdba74}.ed-code .cm{color:#6a9955}.ed-code .nu{color:#fca5a5}
+.ed-code .sq{text-decoration:underline wavy #f14c4c;text-underline-offset:3px}
+.ed-dlg{background:#383838;border:1px solid #0e0e0e;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);overflow:hidden}
+.ed-dlg .in{padding:12px 14px}
+.ed-bpl{display:grid;grid-template-columns:34% 66%;height:100%}
+.ed-bpl > .uu-tree{border-right:1px solid #232323}
+.ed-bar{height:8px;background:#232323;border-radius:4px;overflow:hidden}
+.ed-bar > span{display:block;height:100%;background:#4d8ad6}
+/* 바탕 화면 (Windows) */
+.ed.desk{display:block;background:linear-gradient(135deg,#0b3b8c 0%,#1d6fd6 55%,#5fb2f2 100%);color:#1f2937}
+.dk-task{position:absolute;left:0;right:0;bottom:0;height:34px;background:rgba(243,243,243,.92);display:flex;justify-content:center;align-items:center;gap:14px;color:#334155;font-size:16px}
+.dk-ico{position:absolute;width:76px;display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:11.5px;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.6);padding:4px;border-radius:4px}
+.dk-ico i{font-size:30px}
+.dk-ico.sel{background:rgba(255,255,255,.25)}
+.ed.desk .win{position:absolute;font-size:13px}
+.ed.desk .win-row.sel{background:#dbeafe}
+.dk-menu{position:absolute;background:#f9f9f9;border:1px solid #d4d4d8;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.25);padding:5px;font-size:12.5px;color:#1f2937;min-width:190px}
+.dk-menus .dk-menu{position:relative}
+.dk-menu .mi{padding:4px 12px;border-radius:4px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.dk-menu .mi .ar{margin-left:auto;color:#71717a;font-size:10px;padding-left:14px}
+.dk-menu .mi.on{background:#e0e7ff}
+.dk-menu .sep{height:1px;background:#e4e4e7;margin:4px 0}
+.dk-menus{position:absolute;display:flex;flex-wrap:nowrap;width:max-content;align-items:flex-start;gap:2px}
+.gw{position:absolute;background:#000;border:1px solid #444;border-radius:8px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.gw .tt{background:#f3f3f3;color:#1f2937;font-size:12px;padding:4px 10px;display:flex;align-items:center;gap:8px}
+.gw .tt .ctl{margin-left:auto;display:flex;gap:16px;color:#52525b}
+.gw .scr{height:auto;width:100%}
+.ed .drag{outline:2px dashed #a3e635!important;outline-offset:-1px}
+/* 누를 곳 */
+.tap{outline:2px solid #facc15!important;outline-offset:1px;border-radius:3px;position:relative;animation:edtap 1.1s ease-in-out infinite}
+.tap::after{content:"\f245";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;right:-7px;bottom:-13px;color:#fff;font-size:15px;
+  text-shadow:0 0 2px #000,0 0 3px #000;z-index:6;pointer-events:none;line-height:1}
+@keyframes edtap{0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,.55)}50%{box-shadow:0 0 0 5px rgba(250,204,21,0)}}
+.ed.playing .ed-hi,.ed.playing .ed-in,.ed.playing .ed-bt,.ed.playing .ed-tabs,.ed.playing .ed-sub{filter:brightness(.8)}
+/* 단계 자막 */
+.ed-cap{font-variant-ligatures:none;display:flex;align-items:center;gap:12px;margin-top:10px;background:#0f172a;color:#f8fafc;border-radius:12px;padding:8px 14px;font-size:17px;min-height:44px}
+.ed-cap .n{background:#4f46e5;border-radius:8px;padding:2px 9px;font-weight:900;font-size:14px;flex:none;white-space:nowrap}
+.ed-cap .t{flex:1;min-width:0}
+.ed-cap .note{color:#a5b4fc;font-size:13.5px;max-width:34%;text-align:right;flex:none}
+.ed-cap .kbd{font-size:.78em}
+.ed-cap b{color:#fde68a}
+@media (max-width:768px){ .ed{height:auto;min-height:420px;grid-template-columns:1fr;grid-template-rows:24px 30px 160px 200px 220px 160px 20px}
+  .ed-hi{grid-column:1;grid-row:3}.ed-vw{grid-column:1;grid-row:4}.ed-in{grid-column:1;grid-row:5}.ed-bt{grid-column:1;grid-row:6}.ed-st{grid-row:7}
+  .ed-cap{flex-wrap:wrap}.ed-cap .note{max-width:none;text-align:left} }
 /* 녹화 화면 크기에 맞춰 내용 확대 · 축소 */
 @media (min-width:1800px) and (min-height:1000px){ .slide > div{zoom:1.25} }
 @media (min-width:1500px) and (max-width:1799px) and (min-height:840px){ .slide > div{zoom:1.08} }
@@ -358,6 +527,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · 씬 세 개 만들기 -->
+<section class="slide" data-part="1" data-sim="scenes">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>씬 세 개 만들기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 7 씬 목록 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
@@ -399,6 +577,15 @@ body{
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 씬 목록에 넣기 -->
+<section class="slide" data-part="1" data-sim="scenelist">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>씬 목록에 넣기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
   </div>
 </section>
 
@@ -452,6 +639,15 @@ body{
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · SceneLoader 만들기 -->
+<section class="slide" data-part="1" data-sim="script">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>SceneLoader 만들기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
   </div>
 </section>
 
@@ -517,6 +713,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · 시작 화면과 START 버튼 -->
+<section class="slide" data-part="1" data-sim="button">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>시작 화면과 START 버튼</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 10 일부러 틀려 보기 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
@@ -543,6 +748,15 @@ body{
     <div class="glass-card rounded-2xl p-5">
       <p class="text-[18px] text-slate-700"><b class="text-dev-700">couldn't be loaded</b> 가 보이면 이 두 곳만 보면 됩니다. Console 은 언제나 <b>맨 위 한 줄</b>부터.</p>
     </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 일부러 틀려 보기 -->
+<section class="slide" data-part="1" data-sim="typo">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>일부러 틀려 보기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
   </div>
 </section>
 
@@ -623,6 +837,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · EndGame 넣기 -->
+<section class="slide" data-part="1" data-sim="endgame">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>EndGame 넣기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 13 결과 넘기기 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
@@ -693,6 +916,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · 결과 넘기기 -->
+<section class="slide" data-part="1" data-sim="result">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>결과 넘기기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 14 다시 하기 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
@@ -752,6 +984,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · RETRY · TITLE · QUIT 버튼 -->
+<section class="slide" data-part="1" data-sim="retry">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>RETRY · TITLE · QUIT 버튼</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 15 Esc 로 Title -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
@@ -806,6 +1047,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · Esc 로 Title -->
+<section class="slide" data-part="1" data-sim="esc">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>Esc 로 Title</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 16 한 판 점검 -->
 <section class="slide" data-part="1">
   <div class="max-w-5xl w-full">
@@ -822,6 +1072,15 @@ body{
     <div class="glass-card rounded-2xl p-5">
       <p class="text-[18px] text-slate-700">이 여섯 줄이 되면 <b class="text-dev-700">에디터 안에서는</b> 한 판이 끝까지 돕니다. 이제 빌드해서 에디터 없이 실행해 봅니다.</p>
     </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 한 판 점검 -->
+<section class="slide" data-part="1" data-sim="check">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>한 판 점검</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
   </div>
 </section>
 
@@ -921,6 +1180,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · 창으로 열리게 -->
+<section class="slide" data-part="2" data-sim="player">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>창으로 열리게</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 20 화면 크기 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
@@ -983,6 +1251,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · Canvas Scaler -->
+<section class="slide" data-part="2" data-sim="scaler">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>Canvas Scaler</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 21 Build Profiles 에서 빌드 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
@@ -1026,6 +1303,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · 빌드 -->
+<section class="slide" data-part="2" data-sim="build">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>빌드</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 22 빌드 폴더는 통째로 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
@@ -1065,6 +1351,15 @@ body{
   </div>
 </section>
 
+<!-- 따라 하기 · 빌드 폴더 확인과 압축 -->
+<section class="slide" data-part="2" data-sim="folder">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>빌드 폴더 확인과 압축</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 23 다른 노트북에서 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
@@ -1095,6 +1390,15 @@ body{
     <div class="glass-card rounded-2xl p-5">
       <p class="text-[18px] text-slate-700">게임 이름 · 아이콘은 <b class="text-dev-700">13주차 빌드 마무리</b>에서 정합니다.</p>
     </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 다른 노트북에서 열기 -->
+<section class="slide" data-part="2" data-sim="other">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>다른 노트북에서 열기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
   </div>
 </section>
 
@@ -1176,6 +1480,508 @@ body{
 </div>
 
 <script>
+/* ===== 따라 하기: 유니티 에디터 모사 ===== */
+const fa = (n, c) => `<i class="fa-solid fa-${n}"${c ? ` style="color:${c}"` : ""}></i>`;
+const K = k => k ? ` data-k="${k}"` : "";
+
+/* --- 메뉴 --- */
+const MI_H = 21, MSEP_H = 9;
+function menuCols(cols){
+  let off = 0, html = "";
+  cols.forEach(col => {
+    html += `<div class="uu-menu" style="margin-top:${off}px">` + col.map(it => {
+      if (it === "-") return `<div class="uu-msep"></div>`;
+      const on = it[0] === "*", sub = it.endsWith(">");
+      const lb = it.replace(/^\*/, "").replace(/>$/, "");
+      return `<div class="uu-mi${on ? " on" : ""}">${lb}${sub ? `<span class="ar">▶</span>` : ""}</div>`;
+    }).join("") + `</div>`;
+    let h = 0; for (const it of col){ if (it[0] === "*") break; h += it === "-" ? MSEP_H : MI_H; }
+    off += h;
+  });
+  return html;
+}
+function ctx(pos, cols, rtl){ return `<div class="uu-menus ed-ov" style="${pos};${rtl ? "flex-direction:row-reverse;" : ""}">${menuCols(cols)}</div>`; }
+
+/* --- 인스펙터 조각 --- */
+const f = (v, k, st) => `<span class="uu-f"${K(k)}${st ? ` style="${st}"` : ""}>${v}</span>`;
+const row = (lb, v) => `<div class="uu-row"><span class="uu-lb">${lb}</span>${v}</div>`;
+function comp(title, icon, body){
+  return `<div class="uu-comp"><div class="uu-comp-h"><span class="tri">${body == null ? "▶" : "▼"}</span><span class="ico">${fa(icon)}</span>${title}<span class="ed-dots">⋮</span></div>${body == null ? "" : `<div class="uu-comp-b">${body}</div>`}</div>`;
+}
+function goHead(name, layer){
+  return `<div class="ed-goh"><span class="gi">${fa("cube")}</span><span class="uu-chk on">✓</span>${f(name, "i:name", "flex:1")}<span class="uu-note">Static</span></div>`
+    + `<div class="ed-goh2"><span class="uu-note">Tag</span>${f("Untagged ▾")}<span class="uu-note">Layer</span>${f((layer || "Default") + " ▾")}</div>`;
+}
+const xyz = (a, b, c) => `<span class="ed-xyz"><span>X</span>${f(a)}<span>Y</span>${f(b)}<span>Z</span>${f(c)}</span>`;
+const xform = () => comp("Transform", "up-down-left-right", row("Position", xyz(0, 0, 0)) + row("Rotation", xyz(0, 0, 0)) + row("Scale", xyz(1, 1, 1)));
+function rectT(x, y, w, h){
+  return comp("Rect Transform", "vector-square", `<div class="ed-rt"><span class="ed-anc">center<br>middle</span><div class="ed-rtg">`
+    + `<span>Pos X</span><span>Pos Y</span><span>Pos Z</span>${f(x, "i:px")}${f(y, "i:py")}${f(0)}`
+    + `<span>Width</span><span>Height</span><span></span>${f(w, "i:w")}${f(h, "i:h")}<span></span></div></div>`);
+}
+function alignB(a){
+  return `<span class="ed-al"${K("i:align")}>` + ["left", "center", "right"].map(x => `<span class="${x === a ? "on" : ""}">${fa("align-" + x)}</span>`).join("") + `</span>`;
+}
+function tmpC(text, size, align){
+  return comp("TextMeshPro - Text (UI)", "font",
+    row("Text Input", f(text, "i:text", "height:34px;white-space:normal"))
+    + row("Font Asset", f("LiberationSans SDF ⊙")) + row("Font Size", f(size, "i:size")) + row("Alignment", alignB(align || "left")));
+}
+const imageC = () => comp("Image", "image", null);
+function buttonC(oc){
+  let list;
+  if (!oc) list = `<div class="ed-oce">List is Empty</div>`;
+  else list = `<div class="uu-row">${f("Runtime Only ▾", "", "flex:0 0 92px")}${f(oc.fn ? `SceneLoader.${oc.fn} ▾` : "No Function ▾", "i:fn")}</div>`
+    + `<div class="uu-row"><span class="uu-f obj"${K("i:obj")} style="flex:0 0 92px">${oc.obj ? fa("cube") + oc.obj : "None (Object)"}</span></div>`;
+  return comp("Button", "hand-pointer", row("Interactable", `<span class="uu-chk on">✓</span>`) + row("Transition", f("Color Tint ▾"))
+    + `<div class="ed-ocl">On Click ()</div><div class="ed-ocb">${list}</div><div class="ed-pm"><span class="uu-btn"${K("i:plus")}>+</span><span class="uu-btn">−</span></div>`);
+}
+function scriptC(title, fields){
+  return comp(title + " (Script)", "file-code", row("Script", `<span class="uu-f obj" style="opacity:.75">${fa("file-code")}${title.replace(/ /g, "")}</span>`)
+    + (fields || []).map(([lb, v, k]) => row(lb, `<span class="uu-f obj"${K(k)}>${v ? fa("font") + v + " (TextMeshProUGUI)" : "None (TMP_Text)"}</span>`)).join(""));
+}
+const addComp = k => `<div class="ed-addc"><span class="uu-btn"${K(k || "i:add")}>Add Component</span></div>`;
+function scalerC(scale){
+  const b = scale
+    ? row("UI Scale Mode", f("Scale With Screen Size ▾", "i:mode")) + row("Reference Resolution", `<span class="ed-xyz" style="grid-template-columns:auto 1fr auto 1fr"${K("i:ref")}><span>X</span>${f(1920)}<span>Y</span>${f(1080)}</span>`)
+      + row("Screen Match Mode", f("Match Width Or Height ▾")) + row("Match", `<span class="uu-sl"${K("i:match")}><span>Width</span><span class="tr"></span><span>Height</span></span>${f("0.5", "", "flex:0 0 34px")}`)
+    : row("UI Scale Mode", f("Constant Pixel Size ▾", "i:mode")) + row("Scale Factor", f(1)) + row("Reference Pixels Per Unit", f(100));
+  return comp("Canvas Scaler", "expand", b);
+}
+const canvasInsp = scale => goHead("Canvas", "UI") + comp("Rect Transform", "vector-square", `<div class="uu-note">Some values driven by Canvas.</div>`)
+  + comp("Canvas", "table-cells", null) + `<div${K("i:scaler")}>${scalerC(scale)}</div>` + comp("Graphic Raycaster", "arrow-pointer", null);
+
+/* --- 게임 화면 (Full HD 기준 좌표) --- */
+function U(items, o){
+  o = o || {};
+  return `<div class="scr${o.cv ? " cv" : ""}"${K(o.k || "gv")}><div class="ed-ui"${o.scale ? ` style="transform:scale(${o.scale})"` : ""}>` + items.map(([kd, t, y, w, h, sz, k]) => {
+    const st = `top:${50 - y / 10.8}%;width:${w / 19.2}cqw;height:${h / 19.2}cqw;font-size:${sz / 19.2}cqw;`;
+    return `<div class="${kd}"${K(k)} style="${st}">${t}</div>`;
+  }).join("") + `</div></div>`;
+}
+const TITLE_T = ["t", "ROLL A BALL", 200, 1200, 160, 120];
+const START_B = ["b", "START", -150, 400, 100, 48, "u:start"];
+const QUIT_B = ["b", "QUIT", -400, 400, 100, 48, "u:quit"];
+const titleUI = (o, quit) => U([TITLE_T, START_B].concat(quit === false ? [] : [QUIT_B]), o);
+const resultUI = (title, score, o) => U([["t", title, 200, 1200, 160, 120], ["t", score, 40, 800, 80, 60],
+  ["b", "RETRY", -150, 400, 100, 48, "u:retry"], ["b", "TITLE", -300, 400, 100, 48, "u:title"]], o);
+const emptyScr = () => `<div class="scr"${K("gv")}></div>`;
+function roll(count, o){
+  o = o || {};
+  const pu = [[30, 60], [24, 74], [40, 52], [58, 58], [70, 72], [34, 88]].slice(0, o.pu == null ? 6 : o.pu)
+    .map(([l, t]) => `<span class="pu" style="left:${l}%;top:${t}%"></span>`).join("");
+  return `<div class="scr roll"${K("gv")}><div class="pl"></div>${pu}<span class="en"${K("u:enemy")}></span><span class="ball"></span>${count == null ? "" : `<span class="hud">Count: ${count}</span>`}</div>`;
+}
+const sv3d = inner => `<div class="ed-grid"></div><div class="ed-gv" style="opacity:.92">${inner || ""}</div>`;
+const sv2d = ui => `<div class="ed-grid"></div><div class="ed-gv" style="inset:14px">${ui}</div>`;
+
+/* --- 코드 편집기 --- */
+const C_KW = "using|public|private|static|class|void|bool|int|float|if|else|new|true|false|return";
+function hlc(t){
+  t = t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return t.replace(new RegExp(`(//.*$)|("[^"]*")|\\b(${C_KW})\\b|\\b(\\d+(?:\\.\\d+)?f?)\\b|\\b([A-Z][A-Za-z_]*)\\b`, "g"),
+    (m, cm, st, kw, nu, ty) => cm ? `<span class="cm">${cm}</span>` : st ? `<span class="st">${st}</span>` : kw ? `<span class="kw">${kw}</span>` : nu ? `<span class="nu">${nu}</span>` : `<span class="ty">${ty}</span>`);
+}
+function code(file, lines, pos){
+  let n = 1;
+  const body = lines.map(L => {
+    if (L[0] === "@"){ n = +L.slice(1); return ""; }
+    if (L === "…") return `<div class="cl gap"><span class="ln"></span><span class="cx">    …</span></div>`;
+    let cls = "", t = L;
+    if ("+->".includes(L[0])){ cls = { "+": " add", "-": " del", ">": " foc" }[L[0]]; t = L.slice(1); }
+    const cx = t.split("~").map((s, i) => i % 2 ? `<span class="sq">${hlc(s)}</span>` : hlc(s)).join("");
+    return `<div class="cl${cls}"><span class="ln">${n++}</span><span class="cx">${cx}</span></div>`;
+  }).join("");
+  return `<div class="ed-ov ed-code" style="${pos || "left:10%;right:3%;top:36px;bottom:24px"}"><div class="hd"><span class="tab">${fa("file-code", "#a7d1f5")} ${file}</span><span class="ap">코드 편집기</span></div><div class="bd${lines.length > 18 ? " sm" : ""}">${body}</div></div>`;
+}
+
+/* --- 창 --- */
+const win = (title, body, pos, k) => `<div class="ed-ov ed-win"${K(k)} style="${pos}"><div class="ed-wt">${title}<span class="x"${K("w:x")}>✕</span></div><div class="ed-wb">${body}</div></div>`;
+const BP_POS = "left:23%;top:58px;width:60%;height:270px";
+function bp(view, list, o){
+  o = o || {};
+  const left = `<div class="uu-tree">`
+    + `<div class="uu-it${view === "scenes" ? " sel" : ""}"${K("bp:list")}><span class="ico">${fa("list")}</span>Scene List</div>`
+    + `<div class="uu-note" style="padding:6px 7px 2px">Platforms</div>`
+    + `<div class="uu-it${view === "win" ? " sel" : ""}"${K("bp:win")}><span class="ico"><i class="fa-brands fa-windows"></i></span>Windows<span style="margin-left:auto;font-size:10.5px;opacity:.8">Active</span></div>`
+    + [["apple", "macOS"], ["linux", "Linux"], ["android", "Android"]].map(([i, n]) => `<div class="uu-it"><span class="ico"><i class="fa-brands fa-${i}"></i></span>${n}</div>`).join("")
+    + `<div class="uu-it"><span class="ico">${fa("globe")}</span>Web</div></div>`;
+  let right;
+  if (view === "scenes"){
+    right = `<div style="font-weight:800;color:#e6e6e6;margin-bottom:6px">Scene List</div><div class="uu-comp" style="padding:5px 8px;min-height:74px"${K("bp:rows")}>`
+      + (() => { let n = 0; return (list || []).map(([p, on, k]) => `<div class="uu-row"${K(k)}><span class="uu-chk${on ? " on" : ""}"${K(k ? k + "c" : "")}>${on ? "✓" : ""}</span><span style="flex:1">${p}</span><span class="uu-note">${on ? n++ : ""}</span></div>`).join(""); })()
+      + `</div><div style="text-align:right;margin-top:6px"><span class="uu-btn">Add Open Scenes</span></div>`;
+  } else {
+    right = `<div style="display:flex;flex-direction:column;height:100%"><div style="font-weight:800;color:#e6e6e6;margin-bottom:8px"><i class="fa-brands fa-windows" style="color:#9fb6c8"></i> Windows</div>`
+      + row("Scene List", f("Title · Game · Result")) + row("Architecture", f("Intel 64-bit")) + row("Development Build", `<span class="uu-chk"></span>`)
+      + `<div style="margin-top:auto;text-align:right"><span class="uu-btn">Build And Run</span> <span class="uu-btn"${K("bp:build")} style="background:#2c5d87;color:#fff">Build</span></div></div>`;
+  }
+  return win("Build Profiles", `<div class="ed-bpl"><div>${left}</div><div class="uu-body" style="padding:8px 10px">${right}</div></div>`, BP_POS);
+}
+
+/* --- 바탕 화면 --- */
+const winRows = rows => rows.map(([ic, name, kind, k, sel]) => `<div class="win-row${sel ? " sel" : ""}"${K(k)}><span class="ico">${ic}</span>${name}<span class="kind">${kind}</span></div>`).join("");
+const explorer = (path, rows, pos) => `<div class="win"${K("x:win")} style="${pos}"><div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> ${path}</div>${winRows(rows)}</div>`;
+const IC_DIR = `<i class="fa-solid fa-folder text-amber-500"></i>`, IC_EXE = `<i class="fa-solid fa-gamepad text-dev-600"></i>`,
+  IC_DLL = `<i class="fa-solid fa-gear text-slate-400"></i>`, IC_ZIP = `<i class="fa-solid fa-file-zipper text-amber-600"></i>`;
+const BUILD_ROWS = [[IC_DIR, "<b>RollABall_Data</b>", "파일 폴더", "x:data"], [IC_DIR, "MonoBleedingEdge", "파일 폴더"],
+  [IC_EXE, "<b>RollABall.exe</b>", "응용 프로그램", "x:exe"], [IC_DLL, "UnityPlayer.dll", "응용 프로그램 확장"], [IC_DLL, "UnityCrashHandler64.exe", "응용 프로그램"]];
+const gameWin = (inner, pos) => `<div class="gw" style="${pos}"><div class="tt">${fa("gamepad")} RollABall<span class="ctl"><span>—</span><span>☐</span><span>✕</span></span></div>${inner}</div>`;
+const dkMenu = (pos, cols) => `<div class="dk-menus" style="${pos}">` + cols.map((c, i) => `<div class="dk-menu"${i ? ` style="margin-top:${c.off || 0}px"` : ""}>` + c.items.map(it => it === "-" ? `<div class="sep"></div>`
+  : `<div class="mi${it[0] === "*" ? " on" : ""}">${it.replace(/^\*/, "").replace(/>$/, "")}${it.endsWith(">") ? `<span class="ar">▶</span>` : ""}</div>`).join("") + `</div>`).join("") + `</div>`;
+
+/* --- 렌더 --- */
+const SIM_BASE = { scene: "Title", hier: ["Main Camera", "Directional Light"], hsel: null, hedit: null,
+  proj: { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Title", "scene"]] }, psel: [], pedit: null,
+  insp: "", view: "scene", sv: sv3d(), gv: emptyScr(), res: "Full HD (1920x1080)", two: false,
+  bottom: "project", logs: [], logSel: -1, playing: false, busy: false, mb: null, mbm: null, desk: false };
+const SIM_TRANSIENT = { ov: "", tap: [], hl: [], drag: [], pedit: null, hedit: null, note: "", mb: null, mbm: null, logSel: -1 };
+const PTREE = ["Materials", "Prefabs", "Scenes", "Scripts", "Settings"];
+const TILE_IC = { scene: `<i class="fa-brands fa-unity"></i>`, script: fa("file-code"), folder: fa("folder"), zip: fa("file-zipper") };
+
+function hierHTML(s){
+  let h = `<div class="uu-it"${K("h:" + s.scene)}><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>${s.scene}</b><span class="ed-dots">⋮</span></div>`;
+  s.hier.forEach(r => {
+    const m = r.match(/^( *)(.*?)( [▸▾])?$/), d = m[1].length / 2 + 1, name = m[2];
+    const tri = m[3] ? (m[3].trim() === "▾" ? "▼" : "▶") : "";
+    const ico = /Camera/.test(name) ? "video" : /Light/.test(name) ? "sun" : "cube";
+    h += `<div class="uu-it${s.hsel === name ? " sel" : ""}"${K("h:" + name)} style="padding-left:${6 + d * 13}px"><span class="tri">${tri}</span><span class="ico">${fa(ico)}</span>${s.hedit === name ? `<span class="ed-edit">${name}</span>` : name}</div>`;
+  });
+  return h;
+}
+function projHTML(s){
+  const p = s.proj;
+  const tree = `<div class="uu-tree"><div class="uu-it${p.path === "Assets" ? " sel" : ""}"${K("pt:Assets")}><span class="tri">▼</span><span class="ico">${fa("folder")}</span>Assets</div>`
+    + PTREE.map(n => `<div class="uu-it${p.path === n ? " sel" : ""}"${K("pt:" + n)} style="padding-left:20px"><span class="tri"></span><span class="ico">${fa(p.path === n ? "folder-open" : "folder")}</span>${n}</div>`).join("")
+    + `<div class="uu-it"><span class="tri">▶</span><span class="ico">${fa("folder")}</span>Packages</div></div>`;
+  const tiles = p.items.map(([n, t]) => `<div class="ed-tile${s.psel.includes(n) ? " sel" : ""}"${K("p:" + n)}><span class="ic ${t}">${TILE_IC[t]}</span><span class="lb">${s.pedit === n ? `<span class="ed-edit">${n}</span>` : n}</span></div>`).join("");
+  return `<div class="ed-pj">${tree}<div><div class="ed-crumb">Assets${p.path === "Assets" ? "" : " › " + p.path}</div><div class="ed-tiles"${K("p:area")}>${tiles}</div></div></div>`;
+}
+function conHTML(s){
+  const e = s.logs.filter(l => l[0] === "err").length;
+  const rows = s.logs.map((l, i) => `<div class="lg ${l[0]}${s.logSel === i ? " sel" : ""}"${K("c:" + i)}>${fa(l[0] === "err" ? "circle-exclamation" : "circle-info")}<span>${l[1]}</span></div>`).join("");
+  const det = s.logSel >= 0 ? s.logs[s.logSel][2] || s.logs[s.logSel][1] : "";
+  return `<div class="ed-con"><div class="bar"><span class="uu-f">Clear ▾</span><span class="uu-f">Collapse</span><span class="uu-f">Error Pause</span><span class="cnt"><span>${fa("circle-info")} 0</span><span>${fa("triangle-exclamation")} 0</span><span style="${e ? "color:#ff8f7a" : ""}">${fa("circle-exclamation")} ${e}</span></span></div><div class="logs">${rows}</div><div class="det">${det}</div></div>`;
+}
+function viewHTML(s){
+  const tabs = `<div class="ed-tabs"><span class="${s.view === "scene" ? "on" : ""}">${fa("hashtag")} Scene</span><span class="${s.view === "game" ? "on" : ""}"${K("tab:game")}>${fa("gamepad")} Game</span></div>`;
+  if (s.view === "scene")
+    return tabs + `<div class="ed-sub"><span class="uu-f">Center ▾</span><span class="uu-f">Local ▾</span><span style="margin-left:auto" class="ed-2d${s.two ? " on" : ""}"${K("sv:2d")}>2D</span>${fa("lightbulb")}${fa("volume-high")}${fa("eye")}</div><div class="ed-body">${s.sv}</div>`;
+  return tabs + `<div class="ed-sub"><span class="uu-f">Display 1 ▾</span><span class="uu-f"${K("g:res")}>${s.res} ▾</span><span class="uu-note">Scale ─●─ 1x</span><span class="uu-f" style="margin-left:auto">Play Focused ▾</span></div><div class="ed-body"><div class="ed-gv">${s.gv}</div></div>`;
+}
+function renderEdHTML(s){
+  if (s.desk) return `${s.dk || ""}${s.ov}<div class="dk-task"><i class="fa-brands fa-windows" style="color:#2563eb"></i>${fa("magnifying-glass")}${fa("folder", "#d97706")}<i class="fa-brands fa-chrome"></i></div>`;
+  const MB = ["File", "Edit", "Assets", "GameObject", "Component", "Services", "Window", "Help"];
+  const mb = `<div class="ed-mb">` + MB.map(m => `<span class="${s.mb === m ? "on" : ""}"${K("mb:" + m)}>${m}${s.mb === m && s.mbm ? `<div class="uu-menus">${menuCols(s.mbm)}</div>` : ""}</span>`).join("") + `</div>`;
+  const tb = `<div class="ed-tb"><div class="lt"><span>${fa("circle-user")} ▾</span><span>${fa("cloud")}</span></div><span class="pb${s.playing ? " on" : ""}"${K("tb:play")}>${fa("play")}</span><span class="pb">${fa("pause")}</span><span class="pb">${fa("forward-step")}</span><div class="rt"><span>Layers ▾</span><span>Layout ▾</span></div></div>`;
+  const hi = `<div class="ed-p ed-hi"><div class="ed-tabs"><span class="on">${fa("list")} Hierarchy</span></div><div class="ed-sub">${fa("plus")} ▾<span class="uu-f" style="flex:1">${fa("magnifying-glass")} </span></div><div class="ed-body"${K("h:area")}><div class="uu-tree">${hierHTML(s)}</div></div></div>`;
+  const vw = `<div class="ed-p ed-vw">${viewHTML(s)}</div>`;
+  const ins = `<div class="ed-p ed-in"><div class="ed-tabs"><span class="on">${fa("circle-info")} Inspector</span></div><div class="ed-body"><div class="ed-insp">${s.insp}</div>${s.inspOv || ""}</div></div>`;
+  const bt = `<div class="ed-p ed-bt"><div class="ed-tabs"><span class="${s.bottom === "project" ? "on" : ""}">${fa("folder")} Project</span><span class="${s.bottom === "console" ? "on" : ""}"${K("tab:console")}>${fa("terminal")} Console</span></div><div class="ed-body">${s.bottom === "project" ? projHTML(s) : conHTML(s)}</div></div>`;
+  const last = s.logs.length ? s.logs[s.logs.length - 1] : null;
+  const st = `<div class="ed-st"><span class="msg${last && last[0] === "err" ? " err" : ""}">${last ? last[1] : ""}</span><span${K("st:spin")}>${s.busy ? fa("spinner fa-spin") : fa("circle-check", "#6b7280")}</span></div>`;
+  return mb + tb + hi + vw + ins + bt + st + s.ov;
+}
+function simStates(def){
+  if (def._st) return def._st;
+  let cur = Object.assign({}, SIM_BASE, { inspOv: "" }, def.base || {});
+  def._st = def.steps.map(st => (cur = Object.assign({}, cur, SIM_TRANSIENT, { inspOv: "" }, st)));
+  return def._st;
+}
+function renderSim(sl){
+  const def = SIMS[sl.dataset.sim], states = simStates(def), i = sl._step || 0, s = states[i];
+  const ed = sl.querySelector(".ed");
+  ed.className = "ed" + (s.playing ? " playing" : "") + (s.desk ? " desk" : "");
+  ed.innerHTML = renderEdHTML(s);
+  const mark = (keys, cls) => (keys || []).forEach(k => ed.querySelectorAll(`[data-k="${k}"]`).forEach(el => el.classList.add(cls)));
+  mark(s.tap, "tap"); mark(s.hl, "uu-hl"); mark(s.drag, "drag");
+  sl.querySelector(".ed-cap").innerHTML = `<span class="n">${i + 1} / ${states.length}</span><span class="t">${s.cap}</span>${s.note ? `<span class="note">${s.note}</span>` : ""}`;
+}
+function simCount(sl){ return simStates(SIMS[sl.dataset.sim]).length; }
+
+/* --- 자주 쓰는 상태 --- */
+const ROLL_H = ["Main Camera", "Directional Light", "Ground", "Player", "Walls ▸", "PickUps ▸", "Enemy", "Canvas ▸", "EventSystem"];
+const TITLE_H = ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "EventSystem", "SceneLoader"];
+const TITLE_H2 = ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "  QuitButton ▸", "EventSystem", "SceneLoader"];
+const RESULT_H = ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  RetryButton ▸", "  TitleButton ▸", "EventSystem", "ResultUI", "SceneLoader"];
+const SCRIPTS = n => ({ path: "Scripts", items: [["CameraController", "script"], ["PlayerController", "script"], ["Rotator", "script"]].concat(n.map(x => [x, "script"])) });
+const SCENES = { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Title", "scene"]] };
+const PROJ_CTX = (hi) => ctx("left:24%;top:118px", [["*Create>", "Show in Explorer", "Open", "Delete", "Rename", "Copy Path", "-", "Import New Asset...", "Import Package>", "Export Package...", "-", "Refresh"],
+  ["Folder", "-", (hi === "script" ? "*" : "") + "MonoBehaviour Script", "Scripting>", "Shader>", "-", (hi === "scene" ? "*" : "") + "Scene", "Prefab", "-", "Material"]]);
+const FILE_M = ["New Scene", "Open Scene", "Open Recent Scene>", "-", "Save", "Save As...", "-", "New Project...", "Open Project...", "Save Project", "-", "*Build Profiles", "Build And Run", "-", "Exit"];
+const GO_M = (hi) => [["Create Empty", "Create Empty Child", "3D Object>", "2D Object>", "Effects>", "Light>", "Audio>", "Video>", "*UI>", "UI Toolkit>", "Camera"],
+  ["Image", (hi === "text" ? "*" : "") + "Text - TextMeshPro", "Raw Image", "Panel", "Toggle", "Slider", "Scrollbar", "Scroll View", (hi === "button" ? "*" : "") + "Button - TextMeshPro", "Dropdown - TextMeshPro", "Input Field - TextMeshPro", "Canvas", "Event System", "Legacy>"]];
+const HIER_CTX = ctx("left:3%;top:150px", [["Copy", "Paste", "-", "Rename", "Duplicate", "Delete", "-", "*Create Empty", "3D Object>", "Effects>", "Light>", "Audio>", "Video>", "UI>", "UI Toolkit>", "Camera"]]);
+const searchOv = (q, res) => `<div class="ed-search" style="top:178px"><div class="q">${q}</div><div class="uu-it sel"${K("i:res")}><span class="ico">${fa("file-code")}</span>${res}</div></div>`;
+const dlg = (title, body, pos) => `<div class="ed-ov ed-dlg" style="${pos}"><div class="ed-wt">${title}<span class="x">✕</span></div><div class="in">${body}</div></div>`;
+const btnInsp = (name, y, oc) => goHead(name, "UI") + rectT(0, y, 400, 100) + comp("Canvas Renderer", "paintbrush", null) + imageC() + buttonC(oc);
+const textInsp = (name, x, y, w, h, text, size, al) => goHead(name, "UI") + rectT(x, y, w, h) + comp("Canvas Renderer", "paintbrush", null) + tmpC(text, size, al);
+const emptyInsp = (name, script, fields) => goHead(name) + xform() + (script ? scriptC(script, fields) : "") + addComp();
+
+/* --- 코드 --- */
+const SL_TEMPLATE = ["using UnityEngine;", "", "public class SceneLoader : MonoBehaviour", "{",
+  "-    // Start is called once before the first execution of Update after the MonoBehaviour is created", "-    void Start()", "-    {", "-", "-    }", "-",
+  "-    // Update is called once per frame", "-    void Update()", "-    {", "-", "-    }", "}"];
+const SL_LOAD = (q, mark) => ["using UnityEngine;", (mark === "using" ? "+" : "") + "using UnityEngine.SceneManagement;", "", "public class SceneLoader : MonoBehaviour", "{",
+  "    public void LoadGame()", "    {", (mark === "name" ? "+" : "") + `        SceneManager.LoadScene("${q}");`, "    }", "}"];
+const SL_FULL = ["using UnityEngine;", "using UnityEngine.SceneManagement;", "", "public class SceneLoader : MonoBehaviour", "{",
+  "    public void LoadGame()", "    {", "+        Time.timeScale = 1f;   // 멈춘 시간을 먼저 되돌린다", '        SceneManager.LoadScene("Game");', "    }", "",
+  "+    public void LoadTitle()", "+    {", "+        Time.timeScale = 1f;", '+        SceneManager.LoadScene("Title");', "+    }", "",
+  "+    public void Quit()", "+    {", "+        Application.Quit();   // 빌드에서만 동작", "+    }", "}"];
+const RESULTUI_CODE = ["using UnityEngine;", "using TMPro;", "", "public class ResultUI : MonoBehaviour", "{",
+  "    public TMP_Text titleText;", "    public TMP_Text scoreText;", "", "    void Start()", "    {",
+  '        if (GameResult.cleared) { titleText.text = "CLEAR!"; }', '        else { titleText.text = "GAME OVER"; }',
+  '        scoreText.text = "Score: " + GameResult.score;', "    }", "}"];
+const ESC_CODE = ["using UnityEngine;", "using UnityEngine.InputSystem;", "using UnityEngine.SceneManagement;", "", "public class EscToTitle : MonoBehaviour", "{",
+  "    void Update()", "    {", "        if (Keyboard.current.escapeKey.wasPressedThisFrame)", "        {",
+  "            Time.timeScale = 1f;", '            SceneManager.LoadScene("Title");', "        }", "    }", "}"];
+
+/* --- Project Settings --- */
+function ps(o){
+  const L = ["Adaptive Performance", "Audio", "Editor", "Graphics", "Input System Package", "Package Manager", "Physics", "Physics 2D", "Player", "Quality", "Scene Template", "Script Execution Order", "Tags and Layers", "Time", "UI Toolkit", "Version Control"];
+  const lrow = (lb, v) => `<div class="uu-row"><span class="uu-lb" style="width:170px">${lb}</span>${v}</div>`;
+  const chk = (on, k) => `<span class="uu-chk${on ? " on" : ""}"${K(k)}>${on ? "✓" : ""}</span>`;
+  const rp = o.exp
+    ? `<div class="uu-sub">Resolution</div>` + lrow("Fullscreen Mode", f(o.win ? "Windowed ▾" : "Fullscreen Window ▾", "ps:fm"))
+      + (o.win ? lrow("Default Screen Width", f(1280, "ps:w")) + lrow("Default Screen Height", f(720, "ps:h")) : "")
+      + `<div class="uu-sub">Standalone Player Options</div>` + lrow("Resizable Window", chk(o.rs, "ps:rs")) + lrow("Allow Fullscreen Switch", chk(true, "ps:afs"))
+    : null;
+  const right = `<div style="font-weight:800;color:#e6e6e6;margin-bottom:6px">Player</div>`
+    + lrow("Company Name", f("DefaultCompany")) + lrow("Product Name", f("RollABall", "ps:prod"))
+    + `<div class="uu-tabs" style="margin:6px 0 0"><span class="on"><i class="fa-brands fa-windows"></i></span><span><i class="fa-brands fa-android"></i></span><span>${fa("globe")}</span></div>`
+    + comp("Icon", "image", null) + `<div${K("ps:rp")}>${comp("Resolution and Presentation", "display", rp)}</div>` + comp("Splash Image", "image", null) + comp("Other Settings", "gear", null);
+  return win("Project Settings", `<div style="display:grid;grid-template-columns:24% 76%;height:100%"><div class="uu-tree" style="border-right:1px solid #232323">`
+    + L.map(n => `<div class="uu-it${n === "Player" ? " sel" : ""}"${K("ps:" + n)}>${n}</div>`).join("")
+    + `</div><div class="uu-body ed-insp" style="padding:8px 12px">${right}</div></div>`, "left:6%;top:30px;width:88%;height:452px");
+}
+
+/* --- 빌드 폴더 고르기 · 진행 --- */
+const pick = (path, rows, k) => `<div class="ed-ov win" style="left:18%;top:46px;width:62%"><div class="win-bar">${fa("folder-open", "#f59e0b")} 빌드할 폴더 선택 — ${path}<span style="margin-left:auto;font-weight:600"${K("pk:new")}>${fa("folder-plus")} 새 폴더</span></div>`
+  + (rows.length ? winRows(rows) : `<div class="win-row" style="color:#a1a1aa">이 폴더는 비어 있습니다.</div>`)
+  + `<div class="win-row" style="justify-content:flex-end;gap:8px;background:#fafafa"><span style="margin-right:auto;color:#52525b">폴더: ${k}</span><span class="ss btn"${K("pk:ok")} style="background:#2563eb;color:#fff;border:0;padding:3px 14px;border-radius:4px;box-shadow:none;font-size:13px">폴더 선택</span><span style="border:1px solid #d4d4d8;padding:3px 14px;border-radius:4px">취소</span></div></div>`;
+const PROJ_ROWS = (extra) => [[IC_DIR, "Assets", "파일 폴더"]].concat(extra || []).concat([[IC_DIR, "Library", "파일 폴더"], [IC_DIR, "Logs", "파일 폴더"], [IC_DIR, "Packages", "파일 폴더"], [IC_DIR, "ProjectSettings", "파일 폴더"], [IC_DIR, "UserSettings", "파일 폴더"]]);
+
+/* --- 바탕 화면 조각 --- */
+const SS = (more) => `<div class="ed-ov ss" style="left:24%;top:70px;width:52%">`
+  + `<div class="font-black text-[17px] mb-2">Windows의 PC 보호</div><p class="opacity-90 mb-3 text-[13px]">Microsoft Defender SmartScreen에서 인식할 수 없는 앱의 시작을 차단했습니다.</p>`
+  + (more ? `<p class="text-[13px] mb-1">앱: RollABall.exe</p><p class="text-[13px] mb-3">게시자: 알 수 없는 게시자</p>` : `<p class="underline font-bold mb-3"${K("ss:more")} style="display:inline-block">추가 정보</p>`)
+  + `<div class="text-right">${more ? `<span class="btn"${K("ss:run")} style="background:rgba(255,255,255,.15);margin-right:6px">실행</span>` : ""}<span class="btn">실행 안 함</span></div></div>`;
+const ZIP_ICON = (sel) => `<div class="dk-ico${sel ? " sel" : ""}"${K("d:zip")} style="left:14px;top:12px"><i class="fa-solid fa-file-zipper" style="color:#fcd34d"></i><span>팀명_게임명_1027.zip</span></div>`;
+const DIR_ICON = `<div class="dk-ico" style="left:14px;top:96px"><i class="fa-solid fa-folder" style="color:#fcd34d"></i><span>팀명_게임명_1027</span></div>`;
+
+const SIMS = {
+/* 6 뒤 — 씬 세 개 만들기 */
+scenes: { base: { scene: "MiniGame", hier: ROLL_H, sv: sv3d(roll(null)), proj: { path: "Assets", items: [["Materials", "folder"], ["Prefabs", "folder"], ["Scenes", "folder"], ["Scripts", "folder"], ["Settings", "folder"]] } },
+  steps: [
+  { cap: "Project 창에서 Assets → <b>Scenes</b> 폴더를 엽니다", tap: ["pt:Scenes"], note: "지금은 씬이 MiniGame 하나뿐입니다" },
+  { cap: "<b>MiniGame</b> 을 한 번 클릭 → <span class=\"kbd\">F2</span>", proj: { path: "Scenes", items: [["MiniGame", "scene"]] }, psel: ["MiniGame"], tap: ["p:MiniGame"] },
+  { cap: "<b>Game</b> 을 입력하고 <span class=\"kbd\">Enter</span>", proj: { path: "Scenes", items: [["Game", "scene"]] }, pedit: "Game", note: "이름은 Project 창 안에서만 바꿉니다" },
+  { cap: "Scenes 폴더 빈 곳을 우클릭 → <b>Create → Scene</b>", scene: "Game", psel: [], ov: PROJ_CTX("scene"), note: "버전에 따라 Scene 아래에 한 단계가 더 있습니다" },
+  { cap: "이름 칸이 열린 채로 <b>Title</b> 을 입력하고 <span class=\"kbd\">Enter</span>", proj: { path: "Scenes", items: [["Game", "scene"], ["Title", "scene"]] }, pedit: "Title" },
+  { cap: "같은 방법으로 <b>Result</b>", proj: SCENES, pedit: "Result" },
+  { cap: "<b>Title</b> 을 더블클릭해 엽니다", psel: ["Title"], tap: ["p:Title"] },
+  { cap: "새 씬에는 카메라와 조명 정도만 있습니다", scene: "Title", hier: ["Main Camera", "Directional Light"], sv: sv3d(), hl: ["h:Main Camera", "h:Directional Light"], note: "여기에 시작 화면을 만듭니다" },
+]},
+/* 7 뒤 — 씬 목록 */
+scenelist: { base: { proj: SCENES },
+  steps: [
+  { cap: "맨 위 메뉴 <b>File → Build Profiles</b>", mb: "File", mbm: [FILE_M], note: "예전 버전은 File → Build Settings" },
+  { cap: "왼쪽 위 <b>Scene List</b> 를 누릅니다", ov: bp("scenes", [["Scenes/Game", true]]), tap: ["bp:list"], note: "6주차에 빌드해 봤다면 Game 이 하나 들어 있습니다" },
+  { cap: "Project 창에서 <b>Result</b> 와 <b>Title</b> 을 <span class=\"kbd\">Ctrl</span> 로 함께 골라 목록으로 끌어다 놓습니다", ov: bp("scenes", [["Scenes/Game", true]]), psel: ["Result", "Title"], tap: ["p:Result", "p:Title"], hl: ["bp:rows"] },
+  { cap: "<b>Title</b> 을 끌어 맨 위로 올립니다", ov: bp("scenes", [["Scenes/Game", true], ["Scenes/Result", true], ["Scenes/Title", true, "bp:t"]]), psel: [], tap: ["bp:t"] },
+  { cap: "체크 세 개, <b>Title 0 · Game 1 · Result 2</b> 이면 창을 닫습니다", ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", true], ["Scenes/Result", true]]), hl: ["bp:rows"], tap: ["w:x"], note: "창을 닫아도 그대로 남습니다" },
+]},
+/* 8 뒤 — SceneLoader */
+script: { base: { proj: SCRIPTS([]) },
+  steps: [
+  { cap: "Scripts 폴더 빈 곳을 우클릭 → <b>Create → MonoBehaviour Script</b>", ov: PROJ_CTX("script"), note: "버전에 따라 C# Script" },
+  { cap: "이름 칸이 열린 채로 <b>SceneLoader</b> 를 입력하고 <span class=\"kbd\">Enter</span>", proj: SCRIPTS(["SceneLoader"]), pedit: "SceneLoader", note: "파일 이름과 class 이름이 같아야 합니다" },
+  { cap: "<b>SceneLoader</b> 를 더블클릭하면 코드 편집기가 열립니다", psel: ["SceneLoader"], tap: ["p:SceneLoader"] },
+  { cap: "처음 들어 있는 <b>Start</b> 와 <b>Update</b> 를 지웁니다", ov: code("SceneLoader.cs", SL_TEMPLATE), note: "빨간 줄이 지울 곳입니다" },
+  { cap: "<b>LoadGame</b> 함수를 입력합니다. <b>SceneManager</b> 에 빨간 밑줄이 생깁니다", ov: code("SceneLoader.cs", ["using UnityEngine;", "", "public class SceneLoader : MonoBehaviour", "{",
+      "+    public void LoadGame()", "+    {", '+        ~SceneManager~.LoadScene("Game");', "+    }", "}"]) },
+  { cap: "맨 위에 <b>using UnityEngine.SceneManagement;</b> → 밑줄이 사라집니다 → <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>", ov: code("SceneLoader.cs", SL_LOAD("Game", "using")) },
+  { cap: "유니티로 돌아옵니다. 오른쪽 아래 도는 표시가 멈추고 Console 이 비어 있으면 됩니다", bottom: "console", tap: ["st:spin"] },
+]},
+/* 9 뒤 — 시작 화면과 버튼 */
+button: { base: {},
+  steps: [
+  { cap: "맨 위 메뉴 <b>GameObject → UI → Text - TextMeshPro</b>", mb: "GameObject", mbm: GO_M("text"), note: "버전에 따라 UI (Canvas)" },
+  { cap: "TMP Importer 창이 뜨면 <b>Import TMP Essentials</b> → 창을 닫습니다", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  Text (TMP)", "EventSystem"],
+    ov: dlg("TMP Importer", `<div style="font-weight:800;color:#e6e6e6;margin-bottom:4px">TMP Essentials</div><div class="uu-note" style="margin-bottom:10px">처음 한 번, TextMesh Pro 에 필요한 파일을 프로젝트에 넣습니다.</div><div style="text-align:center;margin-bottom:14px"><span class="uu-btn"${K("d:ess")}>Import TMP Essentials</span></div><div style="font-weight:800;color:#e6e6e6;margin-bottom:4px">TMP Examples &amp; Extras</div><div style="text-align:center"><span class="uu-btn">Import TMP Examples &amp; Extras</span></div>`, "left:30%;top:110px;width:40%"),
+    tap: ["d:ess"], note: "처음 한 번만 뜹니다" },
+  { cap: "Hierarchy 에 <b>Canvas · Text (TMP) · EventSystem</b> 이 생겼습니다", hsel: "Text (TMP)", hl: ["h:Canvas", "h:Text (TMP)", "h:EventSystem"],
+    insp: textInsp("Text (TMP)", 0, 0, 200, 50, "New Text", 36, "left"), note: "Canvas 는 UI 를 모아 그리고, EventSystem 은 클릭을 받습니다" },
+  { cap: "Scene 창 위쪽 <b>2D</b> 를 켜고, Hierarchy 에서 <b>Canvas</b> 를 더블클릭", tap: ["sv:2d", "h:Canvas"] },
+  { cap: "이름을 <b>TitleText</b> 로 바꾸고, Text Input 에 <b>ROLL A BALL</b>", two: true, hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "EventSystem"], hsel: "TitleText",
+    sv: sv2d(U([["tl", "ROLL A BALL", 0, 200, 50, 36]], { cv: true })), insp: textInsp("TitleText", 0, 0, 200, 50, "ROLL A BALL", 36, "left"), hl: ["i:name", "i:text"] },
+  { cap: "Font Size <b>120</b> · 가운데 정렬 · Width <b>1200</b> · Height <b>160</b> · Pos Y <b>200</b>", sv: sv2d(U([TITLE_T], { cv: true })),
+    insp: textInsp("TitleText", 0, 200, 1200, 160, "ROLL A BALL", 120, "center"), hl: ["i:size", "i:align", "i:w", "i:h", "i:py"], note: "숫자는 Game 창 Full HD 기준입니다" },
+  { cap: "맨 위 메뉴 <b>GameObject → UI → Button - TextMeshPro</b>", mb: "GameObject", mbm: GO_M("button") },
+  { cap: "이름을 <b>StartButton</b> 으로 · Width <b>400</b> · Height <b>100</b> · Pos Y <b>-150</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "EventSystem"], hsel: "StartButton",
+    sv: sv2d(U([TITLE_T, ["b", "Button", -150, 400, 100, 24]], { cv: true })), insp: btnInsp("StartButton", -150), hl: ["i:name", "i:w", "i:h", "i:py"] },
+  { cap: "StartButton 왼쪽 삼각형을 펼쳐 안쪽 <b>Text (TMP)</b> → 글자 <b>START</b> · Font Size <b>48</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▾", "    Text (TMP)", "EventSystem"], hsel: "Text (TMP)",
+    sv: sv2d(U([TITLE_T, ["b", "START", -150, 400, 100, 48]], { cv: true })), insp: textInsp("Text (TMP)", 0, 0, 0, 0, "START", 48, "center"), hl: ["i:text", "i:size"], note: "한글은 네모로 나옵니다. 지금은 영어로" },
+  { cap: "Hierarchy 빈 곳을 우클릭 → <b>Create Empty</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "EventSystem"], hsel: null, insp: "", ov: HIER_CTX },
+  { cap: "이름을 <b>SceneLoader</b> 로 → Inspector 맨 아래 <b>Add Component</b> → SceneLoader 를 찾아 붙입니다", hier: TITLE_H, hsel: "SceneLoader", hedit: "SceneLoader",
+    insp: emptyInsp("SceneLoader"), inspOv: searchOv("SceneLoader", "Scene Loader"), tap: ["i:res"] },
+  { cap: "<b>StartButton</b> 을 고르고, Inspector 아래쪽 On Click () 의 <b>+</b>", hsel: "StartButton", insp: btnInsp("StartButton", -150), tap: ["h:StartButton", "i:plus"] },
+  { cap: "Hierarchy 의 <b>SceneLoader 오브젝트</b>를 <b>None (Object)</b> 칸으로 끌어다 놓습니다", insp: btnInsp("StartButton", -150, {}), drag: ["h:SceneLoader"], tap: ["i:obj"], note: "Project 창의 스크립트 파일이 아닙니다" },
+  { cap: "<b>No Function → SceneLoader → LoadGame ()</b>", insp: btnInsp("StartButton", -150, { obj: "SceneLoader" }), tap: ["i:fn"],
+    ov: ctx("right:2%;top:262px", [["No Function", "-", "GameObject>", "Transform>", "*SceneLoader>"], ["bool enabled", "string name", "string tag", "-", "*LoadGame ()", "CancelInvoke ()"]], true) },
+  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span> 로 저장 → <b>Play</b> → <b>START</b>", insp: btnInsp("StartButton", -150, { obj: "SceneLoader", fn: "LoadGame" }), hl: ["i:obj", "i:fn"],
+    playing: true, view: "game", gv: titleUI({}, false), tap: ["u:start"] },
+  { cap: "Game 으로 넘어갔으면 <b>Play</b> 를 다시 눌러 끕니다", scene: "Game", hier: ROLL_H, hsel: null, insp: "", gv: roll(0), tap: ["tb:play"] },
+]},
+/* 10 뒤 — 일부러 틀려 보기 */
+typo: { base: { hier: TITLE_H, view: "game", gv: titleUI({}, false) },
+  steps: [
+  { cap: "SceneLoader 코드의 \"Game\" 을 <b>\"Gmae\"</b> 로 바꾸고 저장", ov: code("SceneLoader.cs", SL_LOAD("Gmae", "name")), note: "따옴표 안은 틀려도 빨간 밑줄이 없습니다" },
+  { cap: "유니티로 돌아와 <b>Play → START</b>", playing: true, tap: ["u:start"] },
+  { cap: "Console 의 빨간 줄을 눌러 전문을 봅니다 → Play 를 끕니다", bottom: "console", logs: [["err", "Scene 'Gmae' couldn't be loaded because it has not been added to the …", "Scene 'Gmae' couldn't be loaded because it has not been added to the …\n원인 ① 이름 오타"]], logSel: 0, tap: ["c:0", "tb:play"] },
+  { cap: "\"Game\" 으로 고쳐 저장 → <b>File → Build Profiles → Scene List</b> 에서 <b>Game</b> 의 체크를 끕니다", playing: false, logs: [],
+    ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", false, "bp:g"], ["Scenes/Result", true]]), tap: ["bp:gc"] },
+  { cap: "<b>Play → START</b> → 같은 에러가 납니다", playing: true, logs: [["err", "Scene 'Game' couldn't be loaded because it has not been added to the …", "Scene 'Game' couldn't be loaded because it has not been added to the …\n원인 ② 목록에 없음"]], logSel: 0, hl: ["c:0"] },
+  { cap: "Play 를 끄고 <b>Game</b> 의 체크를 다시 켭니다", playing: false, logs: [], ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", true, "bp:g"], ["Scenes/Result", true]]), tap: ["bp:gc"] },
+  { cap: "<b>Play → START</b> → Game 으로 넘어가면 됩니다", playing: true, scene: "Game", hier: ROLL_H, gv: roll(0), bottom: "console", note: "couldn't be loaded 는 이름과 Scene List 두 곳" },
+]},
+/* 12 뒤 — 끝 정하기 */
+endgame: { base: { hier: TITLE_H, proj: SCRIPTS(["SceneLoader"]) },
+  steps: [
+  { cap: "Project 창 Scripts 에서 <b>PlayerController</b> 를 더블클릭", psel: ["PlayerController"], tap: ["p:PlayerController"] },
+  { cap: "맨 위 using 줄들 아래에 <b>using UnityEngine.SceneManagement;</b>", ov: code("PlayerController.cs", ["using UnityEngine;", "using UnityEngine.InputSystem;", "+using UnityEngine.SceneManagement;", "using TMPro;", "", "public class PlayerController : MonoBehaviour", "{", "    public float speed = 0;", "    public TextMeshProUGUI countText;", "    public GameObject winTextObject;", "…"]) },
+  { cap: "클래스 맨 아래에 <b>EndGame</b> 함수. 지금은 LoadScene 한 줄만", ov: code("PlayerController.cs", ["…", "@58", "    void OnCollisionEnter(Collision collision)", "    {", "        …", "    }", "",
+      "+    void EndGame(bool cleared)", "+    {", '+        SceneManager.LoadScene("Result");', "+    }", "}"]), note: "결과를 적는 두 줄은 다음 장에서" },
+  { cap: "SetCountText 안 — You Win 을 띄우던 줄을 지우고 <b>EndGame(true);</b>", ov: code("PlayerController.cs", ["…", "@33", "    void SetCountText()", "    {", '        countText.text = "Count: " + count.ToString();', "        if (count >= 12)", "        {",
+      "-            winTextObject.SetActive(true);", '-            Destroy(GameObject.FindGameObjectWithTag("Enemy"));', "+            EndGame(true);", "        }", "    }", "…"]), note: "6주차 코드와 달라도 You Win 을 띄우던 줄을 바꿉니다" },
+  { cap: "OnCollisionEnter 안 — You Lose 를 띄우던 줄을 지우고 <b>EndGame(false);</b>", ov: code("PlayerController.cs", ["…", "@58", "    void OnCollisionEnter(Collision collision)", "    {", '        if (collision.gameObject.CompareTag("Enemy"))', "        {",
+      "-            Destroy(gameObject);", "-            winTextObject.gameObject.SetActive(true);", '-            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";', "+            EndGame(false);", "        }", "    }", "…"]) },
+  { cap: "FixedUpdate 아래에 <b>Update</b> — y 가 -10 보다 낮으면 <b>EndGame(false);</b>", ov: code("PlayerController.cs", ["…", "@40", "    void FixedUpdate()", "    {", "        Vector3 movement = new Vector3(movementX, 0.0f, movementY);", "        rb.AddForce(movement * speed);", "    }", "",
+      "+    void Update()", "+    {", "+        if (transform.position.y < -10f)", "+        {", "+            EndGame(false);", "+        }", "+    }", "…"]), note: "바닥 아래로 떨어졌을 때" },
+  { cap: "Start 의 <b>winTextObject.SetActive(false);</b> 는 그대로 두고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>", ov: code("PlayerController.cs", ["…", "@18", "    void Start()", "    {", "        rb = GetComponent<Rigidbody>();", "        count = 0;", "        SetCountText();", ">        winTextObject.SetActive(false);", "    }", "…"]), note: "빼면 시작부터 글자가 떠 있습니다" },
+  { cap: "유니티로 돌아와 <b>Play → START</b> → 적에 부딪힙니다", playing: true, view: "game", scene: "Game", hier: ROLL_H, gv: roll(2), tap: ["u:enemy"] },
+  { cap: "Result 씬이 빈 화면으로 열립니다 → <b>Play</b> 를 끕니다", scene: "Result", hier: ["Main Camera", "Directional Light"], gv: emptyScr(), tap: ["tb:play"], note: "아직 아무 오브젝트도 넣지 않았습니다" },
+]},
+/* 13 뒤 — 결과 넘기기 */
+result: { base: { hier: TITLE_H, proj: SCRIPTS(["SceneLoader"]) },
+  steps: [
+  { cap: "Scripts 에 새 스크립트 <b>GameResult</b> → 안을 모두 지우고 다섯 줄 → 저장", proj: SCRIPTS(["GameResult", "SceneLoader"]), ov: code("GameResult.cs", ["+public static class GameResult", "+{", "+    public static bool cleared;", "+    public static int score;", "+}"]), note: "오브젝트에 붙이지 않습니다" },
+  { cap: "PlayerController 의 EndGame 에 <b>GameResult 두 줄</b> → 저장", ov: code("PlayerController.cs", ["…", "@73", "    void EndGame(bool cleared)", "    {", "+        GameResult.cleared = cleared;", "+        GameResult.score = count;", '        SceneManager.LoadScene("Result");', "    }", "}"]) },
+  { cap: "새 스크립트 <b>ResultUI</b> → 코드 입력 → 저장", proj: SCRIPTS(["GameResult", "ResultUI", "SceneLoader"]), ov: code("ResultUI.cs", RESULTUI_CODE) },
+  { cap: "Project 창 Scenes 에서 <b>Result</b> 를 더블클릭. 저장하겠냐고 물으면 <b>Save</b>", proj: SCENES, psel: ["Result"], tap: ["p:Result", "d:save"],
+    ov: dlg("Scene(s) Have Been Modified", `<div style="margin-bottom:12px">Do you want to save the changes you made in the scenes:<br>Assets/Scenes/Title.unity</div><div style="text-align:right"><span class="uu-btn"${K("d:save")} style="background:#2c5d87;color:#fff">Save</span> <span class="uu-btn">Don't Save</span> <span class="uu-btn">Cancel</span></div>`, "left:28%;top:120px;width:44%") },
+  { cap: "UI → Text - TextMeshPro 로 <b>ResultTitle</b> · 글자 RESULT · 크기 · 위치는 TitleText 와 같게", scene: "Result", psel: [],
+    hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "EventSystem"], hsel: "ResultTitle", two: true,
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120]], { cv: true })), insp: textInsp("ResultTitle", 0, 200, 1200, 160, "RESULT", 120, "center"), hl: ["i:name", "i:text", "i:size", "i:align", "i:w", "i:h", "i:py"], note: "Legacy 의 Text 로 만들면 칸에 들어가지 않습니다" },
+  { cap: "한 번 더 <b>ScoreText</b> · 글자 Score · Font Size <b>60</b> · Width 800 · Height 80 · Pos Y <b>40</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "EventSystem"], hsel: "ScoreText",
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60]], { cv: true })), insp: textInsp("ScoreText", 0, 40, 800, 80, "Score", 60, "center"), hl: ["i:name", "i:text", "i:size", "i:align", "i:w", "i:h", "i:py"] },
+  { cap: "Create Empty → 이름 <b>ResultUI</b> → Add Component → <b>ResultUI</b>. 빈칸 두 개가 생깁니다", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "EventSystem", "ResultUI"], hsel: "ResultUI",
+    insp: emptyInsp("ResultUI", "Result UI", [["Title Text", null, "i:t1"], ["Score Text", null, "i:t2"]]), hl: ["i:t1", "i:t2"] },
+  { cap: "칸을 채우기 전에 저장 → <b>Play</b> → Console 에 <b>NullReferenceException</b> → Play 를 끕니다", playing: true, view: "game", gv: U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60]]), bottom: "console",
+    logs: [["err", "NullReferenceException: Object reference not set to an instance of an object", "NullReferenceException: Object reference not set to an instance of an object\nResultUI.Start () (at Assets/Scripts/ResultUI.cs:12)"]], logSel: 0, tap: ["c:0"], note: "비어 있는 칸을 읽으려 했다는 뜻입니다" },
+  { cap: "Hierarchy 의 <b>ResultTitle</b> 을 Title Text 칸에, <b>ScoreText</b> 를 Score Text 칸에 끌어다 놓습니다", playing: false, logs: [], view: "scene",
+    insp: emptyInsp("ResultUI", "Result UI", [["Title Text", "ResultTitle", "i:t1"], ["Score Text", "ScoreText", "i:t2"]]), drag: ["h:ResultTitle", "h:ScoreText"], hl: ["i:t1", "i:t2"] },
+  { cap: "<b>Play</b> → GAME OVER 와 Score 가 보입니다 → Play 를 끕니다", playing: true, view: "game", gv: U([["t", "GAME OVER", 200, 1200, 160, 120], ["t", "Score: 0", 40, 800, 80, 60]]), note: "Result 씬만 바로 Play 해도 칸 연결을 볼 수 있습니다" },
+  { cap: "저장 → <b>Title</b> 씬을 열고 Play → START → 코인 몇 개 → 적에 부딪힙니다", gv: U([["t", "GAME OVER", 200, 1200, 160, 120], ["t", "Score: 3", 40, 800, 80, 60]]), note: "모은 개수가 그대로 넘어옵니다" },
+]},
+/* 14 뒤 — 다시 하기 */
+retry: { base: { scene: "Result", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "EventSystem", "ResultUI"], proj: SCRIPTS(["GameResult", "ResultUI", "SceneLoader"]), two: true,
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60]], { cv: true })) },
+  steps: [
+  { cap: "SceneLoader 를 열어 완성합니다 — <b>timeScale</b> 줄, <b>LoadTitle</b>, <b>Quit</b> → 저장", ov: code("SceneLoader.cs", SL_FULL, "left:10%;right:3%;top:30px;bottom:22px") },
+  { cap: "Result 씬 · GameObject → UI → Button - TextMeshPro → 이름 <b>RetryButton</b> · 글자 <b>RETRY</b> · Width 400 · Height 100 · Pos Y -150", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  RetryButton ▸", "EventSystem", "ResultUI"], hsel: "RetryButton",
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60], ["b", "RETRY", -150, 400, 100, 48]], { cv: true })), insp: btnInsp("RetryButton", -150), hl: ["i:name", "i:w", "i:h", "i:py"] },
+  { cap: "RetryButton 을 고르고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">D</span> → 이름 <b>TitleButton</b> · 글자 <b>TITLE</b> · Pos Y <b>-300</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  RetryButton ▸", "  TitleButton ▸", "EventSystem", "ResultUI"], hsel: "TitleButton",
+    sv: sv2d(resultUI("RESULT", "Score", { cv: true })), insp: btnInsp("TitleButton", -300), hl: ["i:name", "i:py"] },
+  { cap: "Hierarchy 빈 곳 우클릭 → Create Empty → 이름 <b>SceneLoader</b> → Add Component → <b>SceneLoader</b>", hier: RESULT_H, hsel: "SceneLoader", insp: emptyInsp("SceneLoader", "Scene Loader"), hl: ["h:SceneLoader"], note: "Title 씬의 SceneLoader 는 여기로 끌어올 수 없습니다" },
+  { cap: "<b>RetryButton</b> · On Click + → SceneLoader 오브젝트 → <b>LoadGame</b>", hsel: "RetryButton", insp: btnInsp("RetryButton", -150, { obj: "SceneLoader", fn: "LoadGame" }), hl: ["i:obj", "i:fn"], drag: ["h:SceneLoader"] },
+  { cap: "<b>TitleButton</b> · 같은 방법으로 <b>LoadTitle</b> → 저장", hsel: "TitleButton", insp: btnInsp("TitleButton", -300, { obj: "SceneLoader", fn: "LoadTitle" }), hl: ["i:obj", "i:fn"], drag: ["h:SceneLoader"] },
+  { cap: "Title 씬 · StartButton 을 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">D</span> → 이름 <b>QuitButton</b> · 글자 <b>QUIT</b> · Pos Y <b>-400</b> · 함수만 <b>Quit</b> 으로 → 저장", scene: "Title", hier: TITLE_H2, hsel: "QuitButton",
+    sv: sv2d(titleUI({ cv: true })), insp: btnInsp("QuitButton", -400, { obj: "SceneLoader", fn: "Quit" }), hl: ["i:name", "i:py", "i:fn"], note: "복제하면 연결도 같이 복제됩니다" },
+  { cap: "<b>Play → START</b> → 적에 부딪힘 → <b>RETRY</b>", playing: true, view: "game", scene: "Result", hier: RESULT_H, hsel: null, insp: "", gv: resultUI("GAME OVER", "Score: 1"), tap: ["u:retry"] },
+  { cap: "처음 상태로 돌아가고 공이 움직입니다 → 다시 적에 부딪힙니다", scene: "Game", hier: ROLL_H, gv: roll(0), tap: ["u:enemy"] },
+  { cap: "<b>TITLE</b> 을 누르면 시작 화면으로", scene: "Result", hier: RESULT_H, gv: resultUI("GAME OVER", "Score: 0"), tap: ["u:title"] },
+  { cap: "Title 에서 <b>QUIT</b> → 아무 일도 없습니다 → Play 를 끕니다", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["u:quit"], note: "Quit 은 빌드에서만 동작합니다" },
+]},
+/* 15 뒤 — Esc */
+esc: { base: { proj: SCRIPTS(["GameResult", "ResultUI", "SceneLoader"]), hier: TITLE_H2 },
+  steps: [
+  { cap: "Scripts 에 새 스크립트 <b>EscToTitle</b> → 코드 입력 → 저장", proj: SCRIPTS(["EscToTitle", "GameResult", "ResultUI", "SceneLoader"]), ov: code("EscToTitle.cs", ESC_CODE), note: "Input Manager 프로젝트는 Input.GetKeyDown(KeyCode.Escape)" },
+  { cap: "<b>Game</b> 씬 · Create Empty → 이름 <b>EscToTitle</b> → Add Component → <b>EscToTitle</b> → 저장", scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), hsel: "EscToTitle", sv: sv3d(roll(null)),
+    insp: emptyInsp("EscToTitle", "Esc To Title"), hl: ["h:EscToTitle"] },
+  { cap: "<b>Title</b> 씬을 열고 <b>Play → START</b> → Game 창을 한 번 클릭 → <span class=\"kbd\">Esc</span>", playing: true, view: "game", hsel: null, insp: "", gv: roll(1), tap: ["gv"], note: "에디터에서는 Game 창을 클릭해야 키가 들어갑니다" },
+  { cap: "Title 로 돌아왔습니다 → Play 를 끕니다", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["tb:play"] },
+]},
+/* 16 뒤 — 한 판 점검 */
+check: { base: { scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), sv: sv3d(roll(null)), proj: SCENES },
+  steps: [
+  { cap: "Project 창에서 <b>Title</b> 을 더블클릭해 열고 <b>Play</b>", psel: ["Title"], tap: ["p:Title", "tb:play"], note: "Game 씬에서 Play 하면 Title 을 건너뜁니다" },
+  { cap: "① <b>START</b> 를 누르면 Game 으로", playing: true, view: "game", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["u:start"] },
+  { cap: "② 다 모으면 Result 에 <b>CLEAR!</b> 와 점수", scene: "Result", hier: RESULT_H, gv: resultUI("CLEAR!", "Score: 12"), hl: ["gv"] },
+  { cap: "④ <b>RETRY</b> 를 누르면", gv: resultUI("CLEAR!", "Score: 12"), tap: ["u:retry"] },
+  { cap: "처음 상태로 돌아가고 공이 움직입니다. ③ 이번에는 적에 부딪힙니다", scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), gv: roll(0), tap: ["u:enemy"], note: "코인도 다시 다 놓여 있습니다" },
+  { cap: "<b>GAME OVER</b>. ⑤ <b>TITLE</b> 을 누르면", scene: "Result", hier: RESULT_H, gv: resultUI("GAME OVER", "Score: 0"), tap: ["u:title"] },
+  { cap: "⑥ 시작 화면에서 <b>START</b>", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["u:start"] },
+  { cap: "Game 창을 한 번 클릭 → <span class=\"kbd\">Esc</span>", scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), gv: roll(1), tap: ["gv"] },
+  { cap: "시작 화면으로 돌아오면 여섯 줄 끝 → Play 를 끕니다", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["tb:play"] },
+]},
+/* 19 뒤 — 창 모양 */
+player: { base: { hier: TITLE_H2, proj: SCENES },
+  steps: [
+  { cap: "맨 위 메뉴 <b>Edit → Project Settings</b>", mb: "Edit", mbm: [["Undo", "Redo", "-", "Select All", "Deselect All", "-", "Cut", "Copy", "Paste", "Duplicate", "Delete", "-", "Play", "Pause", "-", "*Project Settings...", "Preferences...", "Shortcuts..."]] },
+  { cap: "왼쪽 목록에서 <b>Player</b>. 위쪽 <b>Product Name</b> 이 창 제목과 exe 이름이 됩니다", ov: ps({}), tap: ["ps:Player", "ps:prod"] },
+  { cap: "Windows 탭에서 <b>Resolution and Presentation</b> 을 펼칩니다", ov: ps({}), tap: ["ps:rp"] },
+  { cap: "Fullscreen Mode 를 <b>Windowed</b> 로 → 생긴 칸에 너비 <b>1280</b> · 높이 <b>720</b>", ov: ps({ exp: true, win: true }), hl: ["ps:fm", "ps:w", "ps:h"], note: "웬만한 노트북 화면에 다 들어가는 크기" },
+  { cap: "<b>Resizable Window</b> 를 켜고, <b>Allow Fullscreen Switch</b> 가 켜져 있는지 봅니다", ov: ps({ exp: true, win: true, rs: true }), hl: ["ps:rs", "ps:afs"], note: "창 ↔ 전체 화면은 Alt + Enter" },
+  { cap: "창을 닫습니다. 바꾸는 순간 저장됩니다", ov: ps({ exp: true, win: true, rs: true }), tap: ["w:x"] },
+]},
+/* 20 뒤 — 화면 크기 */
+scaler: { base: { hier: TITLE_H2, view: "game", gv: titleUI(), proj: SCENES },
+  steps: [
+  { cap: "Game 창 위쪽 해상도 메뉴(지금은 Full HD)를 엽니다", tap: ["g:res"], ov: ctx("left:30%;top:104px", [["Free Aspect", "16:9 Aspect", "Full HD (1920x1080)", "-", "*+"]]), note: "맨 아래 + 로 목록에 없는 크기를 넣습니다" },
+  { cap: "<b>+</b> → Label 1366x768 · Type Fixed Resolution · Width <b>1366</b> · Height <b>768</b> → OK",
+    ov: dlg("Add", `<div class="ed-insp" style="padding:0">${row("Label", f("1366x768"))}${row("Type", f("Fixed Resolution ▾"))}${row("Width & Height", f(1366, "r:w") + f(768, "r:h"))}</div><div style="text-align:right;margin-top:8px"><span class="uu-btn"${K("r:ok")}>OK</span> <span class="uu-btn">Cancel</span></div>`, "left:30%;top:110px;width:34%"), hl: ["r:w", "r:h"], tap: ["r:ok"] },
+  { cap: "<b>1366x768</b> 을 고르면 QUIT 이 아래로 잘립니다", res: "1366x768", gv: titleUI({ scale: 1.4 }), hl: ["g:res"], tap: ["u:quit"] },
+  { cap: "Hierarchy 에서 <b>Canvas</b> → Inspector 의 <b>Canvas Scaler</b>", hsel: "Canvas", insp: canvasInsp(false), tap: ["h:Canvas", "i:mode"] },
+  { cap: "UI Scale Mode → <b>Scale With Screen Size</b> · Reference Resolution <b>1920 × 1080</b> · Match <b>0.5</b>", insp: canvasInsp(true), hl: ["i:mode", "i:ref", "i:match"] },
+  { cap: "QUIT 이 화면 안으로 들어옵니다. Full HD 와 1366x768 을 오가며 봅니다", gv: titleUI(), hl: ["gv"] },
+  { cap: "저장 → <b>Result</b> · <b>Game</b> 씬의 Canvas 도 같은 값으로 바꾸고 저장", scene: "Result", hier: RESULT_H, gv: resultUI("RESULT", "Score"), insp: canvasInsp(true), hl: ["i:mode", "i:ref", "i:match"], note: "처음부터 Scale With Screen Size 면 Reference Resolution 만" },
+]},
+/* 21 뒤 — 빌드 */
+build: { base: { hier: TITLE_H2, proj: SCENES },
+  steps: [
+  { cap: "맨 위 메뉴 <b>File → Build Profiles</b>", mb: "File", mbm: [FILE_M] },
+  { cap: "왼쪽 Platforms 에서 <b>Windows</b>. 이름 옆에 Active 가 있으면 그대로", ov: bp("win"), tap: ["bp:win"], note: "다른 플랫폼은 Switch Platform 이 필요하고 오래 걸립니다" },
+  { cap: "<b>Scene List</b> 를 한 번 더 — <b>Title 0 · Game 1 · Result 2</b> → 다시 Windows", ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", true], ["Scenes/Result", true]]), hl: ["bp:rows"], tap: ["bp:win"] },
+  { cap: "오른쪽 아래 <b>Build</b>", ov: bp("win"), tap: ["bp:build"], note: "Build And Run 은 끝나면 바로 실행까지" },
+  { cap: "프로젝트 폴더(Assets 가 보이는 곳)에서 <b>새 폴더</b> → 이름 <b>Builds</b>", ov: pick("RollABall", PROJ_ROWS([[IC_DIR, "<b>Builds</b>", "파일 폴더", "pk:builds", true]]), "Builds"), tap: ["pk:new"], hl: ["pk:builds"], note: "Assets 안에는 만들지 않습니다" },
+  { cap: "Builds 안에 새 폴더 <b>1027</b> → 들어가서 <b>폴더 선택</b>", ov: pick("RollABall › Builds › 1027", [], "1027"), tap: ["pk:ok"], note: "날짜로 폴더를 하나씩" },
+  { cap: "진행 막대가 끝나면 빌드 폴더가 열립니다", busy: true, ov: dlg("Build Player", `<div style="margin-bottom:8px">Building scene 1: Game</div><div class="ed-bar"><span style="width:62%"></span></div><div style="text-align:right;margin-top:10px"><span class="uu-btn">Cancel</span></div>`, "left:30%;top:150px;width:40%"), note: "첫 빌드는 오래 걸립니다" },
+]},
+/* 22 뒤 — 빌드 폴더 */
+folder: { base: { desk: true },
+  steps: [
+  { cap: "<b>1027</b> 폴더 안 — <b>RollABall_Data</b> 와 <b>RollABall.exe</b> 가 같이 있어야 돕니다", ov: explorer("Builds › 1027", BUILD_ROWS, "left:5%;top:30px;width:56%"), hl: ["x:data", "x:exe"], note: "DoNotShip 이 붙은 폴더는 빼도 됩니다" },
+  { cap: "<b>RollABall.exe</b> 를 더블클릭 → 1280 × 720 창으로 열립니다", ov: explorer("Builds › 1027", BUILD_ROWS, "left:5%;top:30px;width:56%") + gameWin(titleUI(), "left:36%;top:46px;width:56%") },
+  { cap: "<span class=\"kbd\">Alt</span> + <span class=\"kbd\">Enter</span> 로 전체 화면 ↔ 창", ov: `<div class="gw" style="inset:0;z-index:40;border-radius:0;display:flex;justify-content:center;background:#000"><div style="height:100%;aspect-ratio:16/9">${titleUI()}</div></div>` },
+  { cap: "START → 적에 부딪힘 → RETRY → <span class=\"kbd\">Esc</span> → <b>QUIT</b> 이면 창이 닫힙니다", ov: explorer("Builds › 1027", BUILD_ROWS, "left:5%;top:30px;width:56%") + gameWin(titleUI(), "left:36%;top:46px;width:56%"), tap: ["u:quit"], note: "에디터에서는 아무 일도 없던 QUIT" },
+  { cap: "한 단계 위 <b>Builds</b> 에서 1027 폴더를 우클릭 → <b>압축 대상 → ZIP 파일</b>", ov: explorer("Builds", [[IC_DIR, "1027", "파일 폴더", "x:1027", true]], "left:5%;top:30px;width:56%") + dkMenu("left:28%;top:84px", [{ items: ["열기", "새 창에서 열기", "-", "*압축 대상>", "경로로 복사", "속성"] }, { off: 84, items: ["*ZIP 파일", "7z 파일", "TAR 파일"] }]), note: "Windows 버전에 따라 메뉴 이름이 조금 다릅니다" },
+  { cap: "이름을 <b>팀명_게임명_1027</b> 로 → 팀 공유 폴더에 올립니다", ov: explorer("Builds", [[IC_DIR, "1027", "파일 폴더"], [IC_ZIP, `<span class="ed-edit" style="background:#fff;color:#111">팀명_게임명_1027.zip</span>`, "압축(ZIP) 폴더", "x:zip", true]], "left:5%;top:30px;width:56%"), hl: ["x:zip"], note: "깃 저장소에는 올리지 않습니다" },
+]},
+/* 23 뒤 — 다른 노트북 */
+other: { base: { desk: true },
+  steps: [
+  { cap: "다른 노트북에서 압축 파일을 받아 바탕 화면에 둡니다", dk: ZIP_ICON(false), hl: ["d:zip"] },
+  { cap: "압축 파일을 더블클릭해 안으로 들어가 <b>RollABall.exe</b> 를 바로 더블클릭하면", dk: ZIP_ICON(false), ov: explorer("팀명_게임명_1027.zip › 1027", BUILD_ROWS, "left:16%;top:30px;width:56%"), tap: ["x:exe"] },
+  { cap: "이 창이 뜹니다 → 닫습니다", dk: ZIP_ICON(false), ov: explorer("팀명_게임명_1027.zip › 1027", BUILD_ROWS, "left:16%;top:30px;width:56%")
+      + `<div class="ed-ov win" style="left:26%;top:150px;width:48%"><div class="win-bar">RollABall</div><div class="win-row" style="font-size:13px"><span class="ico">${fa("circle-xmark", "#ef4444")}</span><span class="mono">There should be 'RollABall_Data' folder next to the executable</span></div><div class="win-row" style="justify-content:flex-end"><span${K("e:ok")} style="border:1px solid #d4d4d8;padding:2px 16px;border-radius:4px">확인</span></div></div>`, tap: ["e:ok"], note: "압축 안에서는 exe 만 꺼내 실행해서 그렇습니다" },
+  { cap: "압축 파일을 우클릭 → <b>모두 압축 풀기</b> → 풀린 폴더의 <b>RollABall.exe</b>", dk: ZIP_ICON(true), ov: dkMenu("left:96px;top:30px", [{ items: ["열기", "*모두 압축 풀기...", "-", "공유", "복사", "이름 바꾸기", "삭제", "속성"] }]) },
+  { cap: "<b>Windows의 PC 보호</b> 창이 뜨면 <b>추가 정보</b>", dk: ZIP_ICON(false) + DIR_ICON, ov: SS(false), tap: ["ss:more"], note: "우리가 만든 파일이라 서명이 없어서 뜹니다" },
+  { cap: "<b>실행</b>", dk: ZIP_ICON(false) + DIR_ICON, ov: SS(true), tap: ["ss:run"] },
+  { cap: "끝낼 때는 <span class=\"kbd\">Esc</span> → Title 의 <b>QUIT</b>. 안 되면 <span class=\"kbd\">Alt</span> + <span class=\"kbd\">F4</span>", dk: ZIP_ICON(false) + DIR_ICON, ov: gameWin(titleUI(), "left:20%;top:30px;width:60%"), tap: ["u:quit"] },
+]},
+};
+
 const slides = document.querySelectorAll(".slide");
 const progressBar = document.getElementById("progress-bar");
 const currentSlideLabel = document.getElementById("current-slide");
@@ -1196,8 +2002,17 @@ function updateSlide(){
   partLabel.textContent = PART_NAMES[slides[currentSlide].dataset.part] || "9주차 온라인";
   if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
 }
-function nextSlide(){ if(currentSlide<slides.length-1){currentSlide++;updateSlide();} }
-function prevSlide(){ if(currentSlide>0){currentSlide--;updateSlide();} }
+function enterSlide(dir){ const s=slides[currentSlide]; if(s.dataset.sim){ s._step = dir<0 ? simCount(s)-1 : 0; renderSim(s); } }
+function nextSlide(){
+  const s=slides[currentSlide];
+  if(s.dataset.sim && s._step<simCount(s)-1){ s._step++; renderSim(s); return; }
+  if(currentSlide<slides.length-1){currentSlide++;enterSlide(1);updateSlide();}
+}
+function prevSlide(){
+  const s=slides[currentSlide];
+  if(s.dataset.sim && s._step>0){ s._step--; renderSim(s); return; }
+  if(currentSlide>0){currentSlide--;enterSlide(-1);updateSlide();}
+}
 
 document.addEventListener("keydown",(e)=>{
   const k=e.key;
@@ -1205,8 +2020,8 @@ document.addEventListener("keydown",(e)=>{
   else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
   else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
   else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
-  else if(k==="Home"){currentSlide=0;updateSlide();}
-  else if(k==="End"){currentSlide=slides.length-1;updateSlide();}
+  else if(k==="Home"){currentSlide=0;enterSlide(1);updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;enterSlide(1);updateSlide();}
 });
 window.addEventListener("wheel",(e)=>{
   const inner=e.target.closest(".overflow-x-auto,.overflow-y-auto,.custom-scrollbar,.code");
@@ -1232,6 +2047,7 @@ window.addEventListener("touchend",(e)=>{
 (function(){
   const n=parseInt((location.hash||"").replace("#",""),10);
   if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  slides.forEach(s=>{ if(s.dataset.sim){ s._step=0; renderSim(s); } });
   updateSlide();
 })();
 </script>
