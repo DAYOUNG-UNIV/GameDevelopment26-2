@@ -190,7 +190,7 @@ body{
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">씬 넘기기</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">결과 화면</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">다시 하기</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">나가는 길</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">Esc 로 나가기</span>
       <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">창 · 화면 크기</span>
       <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">빌드</span>
     </div>
@@ -230,16 +230,16 @@ body{
   </div>
 </section>
 
-<!-- 3 Play 버튼은 내 노트북에만 -->
+<!-- 3 다른 팀은 에디터 없이 -->
 <section class="slide" data-part="0">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">Play 버튼은 내 노트북에만 있습니다</h2>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">다른 팀은 에디터 없이 우리 게임을 합니다</h2>
     <p class="text-xl text-slate-500 mb-8">11주차부터는 다른 팀이 우리 게임을 직접 합니다. <b class="text-slate-700">에디터 없이도</b> 한 판이 돌아야 합니다.</p>
     <div class="grid md:grid-cols-4 gap-4 mb-7">
-      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3">🚪</div><div class="text-xl font-black mb-2">들어가는 문</div><p class="text-[16px] text-slate-600">시작 화면에서 버튼을 눌러 게임으로 들어갑니다</p></div>
-      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3">🏁</div><div class="text-xl font-black mb-2">끝</div><p class="text-[16px] text-slate-600">이기거나 지면 결과가 보입니다</p></div>
-      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3">🔁</div><div class="text-xl font-black mb-2">다시</div><p class="text-[16px] text-slate-600">처음 상태로 다시 할 수 있습니다</p></div>
-      <div class="soft-card rounded-2xl p-6 border-flame-200"><div class="text-4xl mb-3">💻</div><div class="text-xl font-black mb-2">남의 노트북</div><p class="text-[16px] text-slate-600">유니티가 없는 곳에서도 실행됩니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3 text-dev-600"><i class="fa-solid fa-play"></i></div><div class="text-xl font-black mb-2">시작 화면</div><p class="text-[16px] text-slate-600">버튼을 눌러 게임 씬으로 넘어갑니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3 text-dev-600"><i class="fa-solid fa-flag-checkered"></i></div><div class="text-xl font-black mb-2">결과 화면</div><p class="text-[16px] text-slate-600">이기거나 지면 결과가 보입니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3 text-dev-600"><i class="fa-solid fa-rotate-right"></i></div><div class="text-xl font-black mb-2">다시 하기</div><p class="text-[16px] text-slate-600">처음 상태로 다시 할 수 있습니다</p></div>
+      <div class="soft-card rounded-2xl p-6 border-flame-200"><div class="text-4xl mb-3 text-flame-600"><i class="fa-solid fa-box-open"></i></div><div class="text-xl font-black mb-2">실행 파일</div><p class="text-[16px] text-slate-600">유니티가 없는 곳에서도 실행됩니다</p></div>
     </div>
     <div class="glass-card rounded-2xl p-5">
       <p class="text-[18px] text-slate-700">앞의 셋은 <b class="text-dev-700">파트 01</b>, 마지막 하나는 <b class="text-flame-700">파트 02</b>에서 다룹니다.</p>
@@ -260,7 +260,7 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">한 판은 씬 세 개로 돕니다</h2>
-    <p class="text-xl text-slate-500 mb-6">씬은 <b class="text-slate-700">무대 하나</b>입니다. 무대를 바꾸면 그 위의 것이 통째로 바뀝니다.</p>
+    <p class="text-xl text-slate-500 mb-6">씬을 바꾸면 그 씬에 있던 오브젝트가 <b class="text-slate-700">모두 사라지고</b>, 새 씬의 오브젝트로 바뀝니다.</p>
     <div class="soft-card rounded-3xl p-4 mb-6">
       <svg viewBox="0 0 1000 300" role="img" aria-label="Title에서 Game, Game에서 Result로 넘어가고 Result에서 Game이나 Title로 돌아가는 흐름도" class="w-full h-auto">
         <defs>
@@ -342,7 +342,7 @@ body{
         <div class="uu-cap">Scenes 폴더 빈 곳을 우클릭 → Create → Scene. 버전에 따라 Scene 아래에 한 단계가 더 있습니다</div>
       </div>
       <div class="md:col-span-3 space-y-4">
-        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">MiniGame 씬을 고르고 <span class="kbd">F2</span> → <b>Game</b>. 이름은 Project 창 안에서만 바꿉니다. 파일 탐색기에서 바꾸면 유니티가 짝꿍 파일을 잃어버립니다</p></div>
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">MiniGame 씬을 고르고 <span class="kbd">F2</span> → <b>Game</b>. 이름은 Project 창 안에서만 바꿉니다. 파일 탐색기에서 바꾸면 .meta 파일이 같이 바뀌지 않아 연결이 끊깁니다</p></div>
         <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">Scenes 폴더에서 <b>Create → Scene</b>. 이름 칸이 열려 있을 때 바로 <b>Title</b></p></div>
         <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">같은 방법으로 <b>Result</b></p></div>
         <div class="soft-card rounded-2xl p-5">
@@ -697,7 +697,7 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">다시 하기 — 시간부터 되돌립니다</h2>
-    <p class="text-xl text-slate-500 mb-7">6주차 복습 퀴즈 14번, <b class="text-slate-700">다시 시작했더니 공이 얼어붙은</b> 그 문제입니다.</p>
+    <p class="text-xl text-slate-500 mb-7">6주차 복습 퀴즈 14번, <b class="text-slate-700">다시 시작했더니 공이 멈춰서 안 움직이던</b> 그 문제입니다.</p>
     <div class="grid md:grid-cols-5 gap-6 items-start">
       <div class="md:col-span-2 space-y-4">
         <div class="soft-card rounded-2xl p-5">
@@ -752,11 +752,11 @@ body{
   </div>
 </section>
 
-<!-- 15 나가는 길 -->
+<!-- 15 Esc 로 Title -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">나가는 길도 만듭니다 — ESC</h2>
-    <p class="text-xl text-slate-500 mb-7">빌드는 처음 설정대로면 <b class="text-slate-700">전체 화면</b>으로 열립니다. 창 닫기 버튼이 안 보이니, 그만두는 길을 게임 안에 둡니다.</p>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Esc 를 누르면 Title 로 돌아가게 합니다</h2>
+    <p class="text-xl text-slate-500 mb-7">빌드는 처음 설정대로면 <b class="text-slate-700">전체 화면</b>으로 열립니다. 창 닫기 버튼이 안 보이니, 게임 안에 끝내는 방법을 하나 둡니다.</p>
     <div class="grid md:grid-cols-5 gap-6 items-start">
       <div class="md:col-span-2 space-y-4">
         <div>
@@ -801,7 +801,7 @@ body{
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 mt-6">
-      <p class="text-[17px] text-slate-700">알파에는 나가는 길 하나면 됩니다. 일시 정지 · 소리 크기 같은 <b class="text-dev-700">설정 화면은 12주차</b>에 다룹니다.</p>
+      <p class="text-[17px] text-slate-700">알파에는 Esc 하나면 됩니다. 일시 정지 · 소리 크기 같은 <b class="text-dev-700">설정 화면은 12주차</b>에 다룹니다.</p>
     </div>
   </div>
 </section>
@@ -820,7 +820,7 @@ body{
       <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">하는 중에 <span class="kbd">Esc</span> 를 누르면 시작 화면으로 돌아간다</p></div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">이 여섯 줄이 되면 <b class="text-dev-700">에디터 안에서는</b> 한 판이 끝까지 돕니다. 이제 에디터 밖으로 꺼냅니다.</p>
+      <p class="text-[18px] text-slate-700">이 여섯 줄이 되면 <b class="text-dev-700">에디터 안에서는</b> 한 판이 끝까지 돕니다. 이제 빌드해서 에디터 없이 실행해 봅니다.</p>
     </div>
   </div>
 </section>
@@ -925,7 +925,7 @@ body{
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">노트북마다 화면 크기가 다릅니다</h2>
-    <p class="text-xl text-slate-500 mb-6">UI 를 큰 화면에 맞춰 두면, 작은 화면에서는 버튼이 밖으로 밀려납니다. <b class="text-slate-700">Canvas Scaler</b> 하나로 맞춥니다.</p>
+    <p class="text-xl text-slate-500 mb-6">UI 를 큰 화면에 맞춰 두면, 작은 화면에서는 버튼이 화면 밖으로 잘립니다. <b class="text-slate-700">Canvas Scaler</b> 하나로 맞춥니다.</p>
     <div class="grid md:grid-cols-12 gap-6 items-start">
       <div class="md:col-span-7">
         <p class="text-[15px] font-bold text-slate-500 mb-2">같은 1366 × 768 노트북에서</p>
@@ -1026,11 +1026,11 @@ body{
   </div>
 </section>
 
-<!-- 22 빌드 폴더는 한 묶음 -->
+<!-- 22 빌드 폴더는 통째로 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">빌드 폴더는 통째로 한 묶음입니다</h2>
-    <p class="text-xl text-slate-500 mb-7"><b class="text-slate-700">exe 하나만 보내면 실행되지 않습니다.</b> 옆의 _Data 폴더가 게임의 몸통입니다.</p>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">빌드 폴더는 통째로 보냅니다</h2>
+    <p class="text-xl text-slate-500 mb-7"><b class="text-slate-700">exe 하나만 보내면 실행되지 않습니다.</b> 게임 데이터는 옆의 _Data 폴더에 들어 있습니다.</p>
     <div class="grid md:grid-cols-2 gap-7 items-start">
       <div>
         <div class="win">
@@ -1058,7 +1058,7 @@ body{
         </div>
         <div class="soft-card rounded-2xl p-5">
           <div class="font-black text-lg mb-1">덮어쓰지 않습니다</div>
-          <p class="text-[16.5px] text-slate-600">날짜가 다른 빌드는 다른 폴더에. 어제 빌드가 잘 됐다면 그게 비상용입니다.</p>
+          <p class="text-[16.5px] text-slate-600">날짜가 다른 빌드는 다른 폴더에. 새 빌드에 문제가 생기면 어제 빌드를 그대로 쓸 수 있습니다.</p>
         </div>
       </div>
     </div>
@@ -1138,7 +1138,7 @@ body{
           <li>· 버튼은 <b>public void</b> + On Click</li>
           <li>· 끝은 <b>EndGame 하나</b>로, 넘길 값은 static</li>
           <li>· 다시 하기 전에 <span class="mono">Time.timeScale = 1f;</span></li>
-          <li>· 나가는 길 — Game 에서 <span class="kbd">Esc</span> → Title</li>
+          <li>· Esc 로 나가기 — Game 에서 <span class="kbd">Esc</span> → Title</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-7">
@@ -1154,7 +1154,7 @@ body{
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 text-center">
-      <p class="text-[19px] text-slate-700">에디터 밖에서 한 판이 돌면, 이제 <b class="text-dev-700">다른 사람이 해 볼 수 있습니다.</b></p>
+      <p class="text-[19px] text-slate-700">에디터 없이 한 판이 돌면, 이제 <b class="text-dev-700">다른 사람이 해 볼 수 있습니다.</b></p>
     </div>
   </div>
 </section>
