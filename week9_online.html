@@ -116,6 +116,14 @@ body{
 .uu-sl .tr{flex:1;height:3px;background:#5a5a5a;border-radius:2px;position:relative}
 .uu-sl .tr::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#c8c8c8}
 .uu-it.drag{outline:2px solid #a3e635;outline-offset:-1px}
+.uu-menus{display:flex;align-items:flex-start;gap:2px}
+.uu-menu{background:#2b2b2b;border:1px solid #191919;border-radius:4px;padding:4px 0;
+  font-size:13px;box-shadow:0 8px 22px rgba(15,23,42,.3)}
+.uu-mi{display:flex;align-items:center;gap:8px;padding:3px 12px;color:#d2d2d2;white-space:nowrap}
+.uu-mi .ar{margin-left:auto;padding-left:16px;color:#8d8d8d;font-size:9px}
+.uu-mi.on{background:#2c5d87;color:#fff}
+.uu-mi.on .ar{color:#fff}
+.uu-msep{height:1px;background:#3d3d3d;margin:4px 0}
 /* Game 창 모사 */
 .gv{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;overflow:clip;container-type:inline-size;
   background:linear-gradient(180deg,#334155 0%,#1e293b 64%,#475569 64%,#64748b 100%);
@@ -315,16 +323,31 @@ body{
             <div class="uu-it" style="padding-left:24px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-folder"></i></span>Prefabs</div>
           </div>
         </div>
-        <div class="uu-cap">Roll a Ball의 MiniGame 씬은 이름만 Game으로 바꿉니다</div>
+        <div class="uu-menus mt-3">
+          <div class="uu-menu">
+            <div class="uu-mi on">Create<span class="ar">▶</span></div>
+            <div class="uu-mi">Show in Explorer</div>
+            <div class="uu-mi">Open</div>
+            <div class="uu-mi">Delete</div>
+            <div class="uu-mi">Rename</div>
+          </div>
+          <div class="uu-menu">
+            <div class="uu-mi">Folder</div>
+            <div class="uu-msep"></div>
+            <div class="uu-mi">MonoBehaviour Script</div>
+            <div class="uu-mi on">Scene</div>
+            <div class="uu-mi">Material</div>
+          </div>
+        </div>
+        <div class="uu-cap">Scenes 폴더 빈 곳을 우클릭 → Create → Scene. 버전에 따라 Scene 아래에 한 단계가 더 있습니다</div>
       </div>
       <div class="md:col-span-3 space-y-4">
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">MiniGame 씬을 고르고 <span class="kbd">F2</span> → <b>Game</b>. 이름은 Project 창 안에서만 바꿉니다. 파일 탐색기에서 바꾸면 유니티가 짝꿍 파일을 잃어버립니다</p></div>
+        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">Scenes 폴더에서 <b>Create → Scene</b>. 이름 칸이 열려 있을 때 바로 <b>Title</b></p></div>
+        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">같은 방법으로 <b>Result</b></p></div>
         <div class="soft-card rounded-2xl p-5">
           <div class="font-black text-lg mb-1">이름은 영문 · 공백 없이</div>
           <p class="text-[16.5px] text-slate-600"><b class="mono text-slate-800">Title</b> · <b class="mono text-slate-800">Game</b> · <b class="mono text-slate-800">Result</b>. 코드에 적는 이름과 글자 하나까지 같아야 합니다.</p>
-        </div>
-        <div class="soft-card rounded-2xl p-5">
-          <div class="font-black text-lg mb-1">이름 바꾸기는 Project 창에서</div>
-          <p class="text-[16.5px] text-slate-600">씬을 고르고 <span class="kbd">F2</span>. 파일 탐색기에서 바꾸면 유니티가 짝꿍 파일을 잃어버립니다.</p>
         </div>
         <div class="soft-card rounded-2xl p-5">
           <div class="font-black text-lg mb-1">한 씬은 한 사람만</div>
@@ -386,6 +409,22 @@ body{
     <p class="text-xl text-slate-500 mb-7">씬을 넘기는 일만 하는 스크립트를 하나 만듭니다. 버튼마다 이 스크립트를 부릅니다.</p>
     <div class="grid md:grid-cols-2 gap-6 items-start">
       <div>
+        <div class="flex gap-4 items-start mb-5">
+          <div class="uu-menus flex-none">
+            <div class="uu-menu">
+              <div class="uu-mi on">Create<span class="ar">▶</span></div>
+              <div class="uu-mi">Show in Explorer</div>
+              <div class="uu-mi">Open</div>
+            </div>
+            <div class="uu-menu">
+              <div class="uu-mi">Folder</div>
+              <div class="uu-msep"></div>
+              <div class="uu-mi on">MonoBehaviour Script</div>
+              <div class="uu-mi">Scene</div>
+            </div>
+          </div>
+          <p class="text-[15px] text-slate-600 leading-snug">Scripts 폴더 우클릭 → Create. 버전에 따라 <b>C# Script</b> 입니다.<br>이름은 만들 때 바로 <b class="mono text-slate-800">SceneLoader</b>. 파일 이름과 class 이름이 같아야 합니다.</p>
+        </div>
         <div class="code-cap">SceneLoader.cs</div>
 <div class="code"><span class="kw">using</span> UnityEngine;
 <span class="hl"><span class="kw">using</span> UnityEngine.SceneManagement;</span>
@@ -416,47 +455,19 @@ body{
   </div>
 </section>
 
-<!-- 9 일부러 틀려 보기 -->
-<section class="slide" data-part="1">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">일부러 틀려 보겠습니다</h2>
-    <p class="text-xl text-slate-500 mb-7">"Game" 을 "Gmae" 로 잘못 적고 버튼을 누르면 Console 에 이렇게 뜹니다.</p>
-    <div class="uu mb-7">
-      <div class="uu-bar"><i class="fa-solid fa-terminal"></i> Console</div>
-      <div class="uu-con">
-        <div class="uu-log err"><i class="fa-solid fa-circle-exclamation"></i><span class="mono" style="font-size:14px">Scene 'Gmae' couldn't be loaded because it has not been added to the …</span></div>
-      </div>
-    </div>
-    <div class="grid md:grid-cols-2 gap-5 mb-6">
-      <div class="soft-card rounded-2xl p-6">
-        <div class="tagchip bg-slate-900 text-white mb-3">원인 ①</div>
-        <div class="text-xl font-black mb-2">이름 오타</div>
-        <p class="text-[16.5px] text-slate-600">코드의 <span class="mono">"Gmae"</span> 와 씬 이름 <span class="mono">Game</span> 이 다릅니다.</p>
-      </div>
-      <div class="soft-card rounded-2xl p-6">
-        <div class="tagchip bg-slate-900 text-white mb-3">원인 ②</div>
-        <div class="text-xl font-black mb-2">목록에 없음</div>
-        <p class="text-[16.5px] text-slate-600">Build Profiles 의 Scene List 에 그 씬이 빠져 있습니다.</p>
-      </div>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700"><b class="text-dev-700">couldn't be loaded</b> 가 보이면 이 두 곳만 보면 됩니다. Console 은 언제나 <b>맨 위 한 줄</b>부터.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 10 버튼에 연결 -->
+<!-- 9 버튼에 연결 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">버튼에 함수를 연결합니다</h2>
     <p class="text-xl text-slate-500 mb-7">코드에서 버튼을 찾지 않습니다. <b class="text-slate-700">버튼이 함수를 부르게</b> Inspector 에서 연결합니다.</p>
     <div class="grid md:grid-cols-12 gap-6 items-start">
       <div class="md:col-span-5 space-y-3.5">
-        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">Title 씬에서 <b>GameObject → UI → Button - TextMeshPro</b>. Canvas 와 EventSystem 이 같이 생깁니다</p></div>
-        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">빈 오브젝트를 만들어 이름을 <b>SceneLoader</b> 로, 같은 이름의 스크립트를 붙입니다</p></div>
-        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">버튼을 고르고 Inspector 아래쪽 <b>On Click ()</b> 의 <b>+</b></p></div>
-        <div class="step"><span class="no">4</span><p class="text-[17px] text-slate-700">Hierarchy 의 <b>SceneLoader 오브젝트</b>를 빈칸에 끌어다 놓습니다</p></div>
-        <div class="step"><span class="no">5</span><p class="text-[17px] text-slate-700"><b>No Function → SceneLoader → LoadGame ()</b></p></div>
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">Title 씬에서 <b>GameObject → UI</b> 의 <b>Text - TextMeshPro</b> 로 게임 이름, <b>Button - TextMeshPro</b> 로 버튼</p></div>
+        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">버튼을 펼쳐 안쪽 <b>Text (TMP)</b> 의 글자를 <b>START</b> 로</p></div>
+        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">빈 오브젝트 <b>SceneLoader</b> 를 만들고 Add Component 로 같은 이름의 스크립트를 붙입니다</p></div>
+        <div class="step"><span class="no">4</span><p class="text-[17px] text-slate-700">버튼을 고르고 Inspector 아래쪽 <b>On Click ()</b> 의 <b>+</b></p></div>
+        <div class="step"><span class="no">5</span><p class="text-[17px] text-slate-700">Hierarchy 의 <b>SceneLoader 오브젝트</b>를 빈칸에 끌어다 놓습니다</p></div>
+        <div class="step"><span class="no">6</span><p class="text-[17px] text-slate-700"><b>No Function → SceneLoader → LoadGame ()</b></p></div>
         <div class="uu-cap">처음 TextMeshPro 를 쓰면 TMP Importer 창이 뜹니다 → Import TMP Essentials</div>
       </div>
       <div class="md:col-span-7 grid gap-3 items-start" style="grid-template-columns:38% 1fr">
@@ -468,7 +479,8 @@ body{
               <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-video"></i></span>Main Camera</div>
               <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-sun"></i></span>Directional Light</div>
               <div class="uu-it" style="padding-left:20px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
-              <div class="uu-it sel" style="padding-left:36px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Button</div>
+              <div class="uu-it" style="padding-left:36px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>TitleText</div>
+              <div class="uu-it sel" style="padding-left:36px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>StartButton</div>
               <div class="uu-it" style="padding-left:52px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>Text (TMP)</div>
               <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
               <div class="uu-it drag" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>SceneLoader</div>
@@ -498,9 +510,38 @@ body{
             </div>
           </div>
         </div>
-        <div class="uu-cap">Button 을 고른 상태의 Inspector</div>
+        <div class="uu-cap">StartButton 을 고른 상태의 Inspector</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 일부러 틀려 보기 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">일부러 틀려 보겠습니다</h2>
+    <p class="text-xl text-slate-500 mb-7">"Game" 을 "Gmae" 로 잘못 적고 버튼을 누르면 Console 에 이렇게 뜹니다.</p>
+    <div class="uu mb-7">
+      <div class="uu-bar"><i class="fa-solid fa-terminal"></i> Console</div>
+      <div class="uu-con">
+        <div class="uu-log err"><i class="fa-solid fa-circle-exclamation"></i><span class="mono" style="font-size:14px">Scene 'Gmae' couldn't be loaded because it has not been added to the …</span></div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5 mb-6">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="tagchip bg-slate-900 text-white mb-3">원인 ①</div>
+        <div class="text-xl font-black mb-2">이름 오타</div>
+        <p class="text-[16.5px] text-slate-600">코드의 <span class="mono">"Gmae"</span> 와 씬 이름 <span class="mono">Game</span> 이 다릅니다.</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="tagchip bg-slate-900 text-white mb-3">원인 ②</div>
+        <div class="text-xl font-black mb-2">목록에 없음</div>
+        <p class="text-[16.5px] text-slate-600">Build Profiles 의 Scene List 에 그 씬이 빠져 있습니다.</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700"><b class="text-dev-700">couldn't be loaded</b> 가 보이면 이 두 곳만 보면 됩니다. Console 은 언제나 <b>맨 위 한 줄</b>부터.</p>
     </div>
   </div>
 </section>
@@ -576,6 +617,7 @@ body{
 {
     <span class="kw">if</span> (transform.position.y < <span class="nu">-10f</span>) { <span class="fn">EndGame</span>(<span class="kw">false</span>); }
 }</div>
+        <div class="uu-cap">원래 You Win · You Lose 글자를 띄우던 줄을 지우고 그 자리에 EndGame. Start 의 <span class="mono">winTextObject.SetActive(false)</span> 는 그대로 둡니다</div>
       </div>
     </div>
   </div>
@@ -589,33 +631,44 @@ body{
     <div class="grid md:grid-cols-2 gap-6 items-start">
       <div class="space-y-4">
         <div>
-          <div class="code-cap">GameResult.cs</div>
+          <div class="code-cap">GameResult.cs — 오브젝트에 붙이지 않습니다</div>
 <div class="code"><span class="kw">public static class</span> <span class="ty">GameResult</span>
 {
     <span class="kw">public static bool</span> cleared;
     <span class="kw">public static int</span> score;
 }</div>
+          <div class="uu-cap">점수가 없는 게임이면 cleared 하나만. 넘길 게 없으면 이 장은 필요 없습니다</div>
         </div>
-        <div class="soft-card rounded-2xl p-4">
-          <p class="text-[16.5px] text-slate-600 mb-1">· 오브젝트에 <b>붙이지 않습니다</b>. 파일만 있으면 됩니다.</p>
-          <p class="text-[16.5px] text-slate-600 mb-1">· 점수가 없는 게임이면 <b>cleared 하나</b>만.</p>
-          <p class="text-[16.5px] text-slate-600">· 넘길 게 없으면 이 장은 필요 없습니다.</p>
-        </div>
-        <div>
-          <div class="code-cap">→ ResultUI 를 붙인 오브젝트의 Inspector</div>
-          <div class="uu">
-            <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector</div>
-            <div class="uu-body">
-              <div class="uu-comp">
-                <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-file-code"></i></span>Result UI (Script)</div>
-                <div class="uu-comp-b">
-                  <div class="uu-row"><span class="uu-lb">Title Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ResultTitle (TextMeshProUGUI)</span></div>
-                  <div class="uu-row"><span class="uu-lb">Score Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ScoreText (TextMeshProUGUI)</span></div>
+        <div class="grid gap-3 items-start" style="grid-template-columns:40% 1fr">
+          <div>
+            <div class="uu">
+              <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+              <div class="uu-tree">
+                <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Result</b></div>
+                <div class="uu-it" style="padding-left:20px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+                <div class="uu-it drag" style="padding-left:36px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-font"></i></span>ResultTitle</div>
+                <div class="uu-it drag" style="padding-left:36px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-font"></i></span>ScoreText</div>
+                <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
+                <div class="uu-it sel" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>ResultUI</div>
+              </div>
+            </div>
+            <div class="uu-cap">글자는 UI → Text - TextMeshPro 로 두 개</div>
+          </div>
+          <div>
+            <div class="uu">
+              <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector — ResultUI</div>
+              <div class="uu-body">
+                <div class="uu-comp">
+                  <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-file-code"></i></span>Result UI (Script)</div>
+                  <div class="uu-comp-b">
+                    <div class="uu-row"><span class="uu-lb" style="width:74px">Title Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ResultTitle (TextMeshProUGUI)</span></div>
+                    <div class="uu-row"><span class="uu-lb" style="width:74px">Score Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ScoreText (TextMeshProUGUI)</span></div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="uu-cap">초록 테두리 글자를 칸에 끌어다 놓습니다. 비어 있으면 NullReferenceException</div>
           </div>
-          <div class="uu-cap">Hierarchy 의 글자 오브젝트를 칸에 끌어다 놓습니다. 비어 있으면 NullReferenceException</div>
         </div>
       </div>
       <div>
@@ -649,15 +702,25 @@ body{
       <div class="md:col-span-2 space-y-4">
         <div class="soft-card rounded-2xl p-5">
           <p class="text-[16.5px] text-slate-700 mb-2">끝날 때 <b class="mono">Time.timeScale = 0</b> 으로 멈춰 두었다면, 그 값은 <b>씬을 다시 불러와도 그대로</b>입니다.</p>
-          <p class="text-[16.5px] text-slate-600">씬에 걸린 값이 아니라 게임 전체에 걸린 값이라서요.</p>
+          <p class="text-[15.5px] text-slate-600">timeScale 을 쓰지 않았다면 이 줄은 있어도 아무 해가 없습니다.</p>
         </div>
         <div class="soft-card rounded-2xl p-5">
           <div class="font-black mb-2">버튼 연결</div>
           <p class="text-[16px] text-slate-600 mb-1">Title — <b>START</b> → LoadGame · <b>QUIT</b> → Quit</p>
           <p class="text-[16px] text-slate-600">Result — <b>RETRY</b> → LoadGame · <b>TITLE</b> → LoadTitle</p>
         </div>
-        <div class="glass-card rounded-2xl p-4">
-          <p class="text-[15.5px] text-slate-700">timeScale 을 쓰지 않았다면 이 줄은 있어도 아무 해가 없습니다.</p>
+        <div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+            <div class="uu-tree">
+              <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Result</b></div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>ResultUI</div>
+              <div class="uu-it drag" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>SceneLoader</div>
+            </div>
+          </div>
+          <div class="uu-cap">Result 씬에도 SceneLoader 를 따로 만듭니다. Title 씬의 오브젝트는 여기로 끌어다 놓을 수 없습니다</div>
         </div>
       </div>
       <div class="md:col-span-3">
@@ -709,7 +772,7 @@ body{
               <div class="uu-it sel" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EscToTitle</div>
             </div>
           </div>
-          <div class="uu-cap">Game 씬에 빈 오브젝트를 하나 만들어 스크립트를 붙입니다</div>
+          <div class="uu-cap">Game 씬에 빈 오브젝트를 하나 만들어 스크립트를 붙입니다. 에디터에서는 Game 창을 한 번 클릭해야 Esc 가 들어갑니다</div>
         </div>
         <div class="soft-card rounded-2xl p-5 space-y-1.5">
           <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Title</b>QUIT 버튼으로 끝내기</p>
@@ -747,7 +810,7 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-5xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">한 판 점검 — Title 에서 Play</h2>
-    <p class="text-xl text-slate-500 mb-7">Game 씬을 연 채 Play 를 누르면 Title 을 건너뜁니다. 점검할 때는 <b class="text-slate-700">Title 씬을 열고</b> 누르세요.</p>
+    <p class="text-xl text-slate-500 mb-7">Game 씬을 연 채 Play 를 누르면 Title 을 건너뜁니다. Project 창에서 <b class="text-slate-700">Title 을 더블클릭해 열고</b> 누르세요.</p>
     <div class="soft-card rounded-3xl p-7 mb-6 space-y-4">
       <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700"><b>START</b> 를 누르면 Game 으로 넘어간다</p></div>
       <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">다 모으면 Result 에 <b>CLEAR!</b> 와 점수가 보인다</p></div>
@@ -862,11 +925,11 @@ body{
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">노트북마다 화면 크기가 다릅니다</h2>
-    <p class="text-xl text-slate-500 mb-7">UI 를 큰 화면에 맞춰 두면, 작은 화면에서는 버튼이 밖으로 밀려납니다. <b class="text-slate-700">Canvas Scaler</b> 하나로 맞춥니다.</p>
+    <p class="text-xl text-slate-500 mb-6">UI 를 큰 화면에 맞춰 두면, 작은 화면에서는 버튼이 밖으로 밀려납니다. <b class="text-slate-700">Canvas Scaler</b> 하나로 맞춥니다.</p>
     <div class="grid md:grid-cols-12 gap-6 items-start">
       <div class="md:col-span-7">
-        <p class="text-[15px] font-bold text-slate-500 mb-3">같은 1366 × 768 노트북에서</p>
-        <div class="grid grid-cols-2 gap-4 mb-5">
+        <p class="text-[15px] font-bold text-slate-500 mb-2">같은 1366 × 768 노트북에서</p>
+        <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
             <div class="gv"><div class="gv-ui" style="transform:scale(1.45)"><div class="t">ROLL A BALL</div><div class="b" style="top:64%">START</div><div class="b" style="top:84%">QUIT</div></div></div>
             <p class="text-[15px] text-slate-700 mt-2.5"><i class="fa-solid fa-circle-xmark text-red-500"></i> <b class="mono text-[13.5px]">Constant Pixel Size</b><br>글자 · 버튼이 그대로 커서 QUIT 이 잘림</p>
@@ -879,7 +942,7 @@ body{
         <div class="space-y-3">
           <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">Hierarchy 에서 <b>Canvas</b> 를 고릅니다</p></div>
           <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700"><b>Title · Game · Result</b> 의 Canvas 마다 한 번씩</p></div>
-          <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">Game 창 위쪽 해상도 메뉴를 바꿔 가며 확인합니다</p></div>
+          <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">Game 창 해상도 메뉴에서 <b>Full HD</b> 와 <b>1366x768</b> 을 오가며 확인합니다</p></div>
         </div>
       </div>
       <div class="md:col-span-5">
@@ -893,15 +956,28 @@ body{
                 <div class="uu-row"><span class="uu-lb" style="width:128px">Reference Resolution</span><span class="uu-note">X</span><span class="uu-f uu-hl">1920</span><span class="uu-note">Y</span><span class="uu-f uu-hl">1080</span></div>
                 <div class="uu-row"><span class="uu-lb" style="width:128px">Screen Match Mode</span><span class="uu-f">Match Width Or Height ▾</span></div>
                 <div class="uu-row"><span class="uu-lb" style="width:128px">Match</span><span class="uu-sl"><span>Width</span><span class="tr"></span><span>Height</span></span><span class="uu-f" style="flex:0 0 40px">0.5</span></div>
-                <div class="uu-row"><span class="uu-lb" style="width:128px">Reference Pixels Per Unit</span><span class="uu-f">100</span></div>
               </div>
             </div>
           </div>
         </div>
         <div class="uu-cap">버전에 따라 처음부터 Scale With Screen Size 로 되어 있으면 Reference Resolution 만 맞춥니다</div>
-        <div class="glass-card rounded-2xl p-4 mt-4">
-          <p class="text-[16px] text-slate-700">기준을 1920 × 1080 으로 두고 만들면, 더 작은 화면에서는 <b class="text-dev-700">비율 그대로</b> 줄어듭니다.</p>
+        <div class="uu mt-4">
+          <div class="uu-bar"><i class="fa-solid fa-gamepad"></i> Game</div>
+          <div class="uu-body" style="display:flex;gap:6px;align-items:flex-start">
+            <span class="uu-f" style="flex:0 0 auto">Display 1 ▾</span>
+            <div style="flex:1;min-width:0">
+              <span class="uu-f uu-hl" style="display:block">1366x768 ▾</span>
+              <div class="uu-menu" style="margin-top:5px">
+                <div class="uu-mi">Free Aspect</div>
+                <div class="uu-mi">Full HD (1920x1080)</div>
+                <div class="uu-mi on">1366x768</div>
+                <div class="uu-msep"></div>
+                <div class="uu-mi">+</div>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="uu-cap">Game 창 위쪽 해상도 메뉴. 맨 아래 + 로 1366 × 768 을 추가합니다</div>
       </div>
     </div>
   </div>
@@ -969,8 +1045,12 @@ body{
       </div>
       <div class="space-y-4">
         <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">압축 전에 한 판</div>
+          <p class="text-[16.5px] text-slate-600">exe 를 더블클릭해 <b>1280 × 720 창</b>으로 열리는지, <b>QUIT</b> 으로 꺼지는지 봅니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
           <div class="font-black text-lg mb-1">폴더째 압축합니다</div>
-          <p class="text-[16.5px] text-slate-600">이름에 팀 · 게임 · 날짜 — <span class="mono text-slate-800">팀명_게임명_1027.zip</span></p>
+          <p class="text-[16.5px] text-slate-600">폴더를 우클릭해 ZIP 으로. 이름에 팀 · 게임 · 날짜 — <span class="mono text-slate-800 whitespace-nowrap">팀명_게임명_1027.zip</span></p>
         </div>
         <div class="soft-card rounded-2xl p-5">
           <div class="font-black text-lg mb-1">팀 공유 폴더에 올립니다</div>
