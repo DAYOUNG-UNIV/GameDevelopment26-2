@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 개발 실습 · 10주차 온라인 ② — AI 와 팀으로 만들기</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
+  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+}}}}
+</script>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0}
+body{
+  font-family:"Pretendard",sans-serif;overflow:hidden;color:#1e293b;word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,.10), transparent 38%),
+    radial-gradient(circle at 88% 88%, rgba(249,115,22,.09), transparent 38%),
+    #f8fafc;
+}
+/* SLIDES */
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
+  display:flex;justify-content:center;align-items:center;align-items:safe center;
+  padding:4.5rem 2.5rem 5.5rem;overflow-y:auto;
+  transform:translateX(36px) scale(.99);transition:opacity .42s ease, transform .42s ease;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:10;transform:translateX(0) scale(1)}
+.slide.prev-slide{transform:translateX(-36px) scale(.99)}
+#progress-bar{transition:width .3s ease}
+/* CARDS */
+.glass-card{background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 18px 50px rgba(15,23,42,.08),0 3px 10px rgba(15,23,42,.04);backdrop-filter:blur(10px)}
+.soft-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+/* PART DIVIDER */
+.part-num{font-size:8rem;line-height:1;font-weight:900;
+  background:linear-gradient(135deg,#6366f1,#f97316);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* TABLE */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:16px}
+.cmp-table th,.cmp-table td{padding:.75rem .95rem;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}
+.cmp-table thead th{background:#0f172a;color:#fff;font-weight:800;white-space:nowrap}
+.cmp-table thead th:first-child{border-top-left-radius:.75rem}
+.cmp-table thead th:last-child{border-top-right-radius:.75rem}
+.cmp-table td:first-child{font-weight:800;color:#0f172a}
+/* LIST */
+.rule-card{background:#fff;border:2px solid #0f172a;border-radius:16px;padding:14px 18px;
+  font-size:clamp(16px,1.7vw,20px);font-weight:800;display:flex;gap:14px;align-items:center}
+.rule-card .no{width:34px;height:34px;border-radius:10px;background:#0f172a;color:#fff;
+  font-size:16px;display:grid;place-items:center;flex:none}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .no{width:30px;height:30px;border-radius:9px;background:#4f46e5;color:#fff;font-weight:900;
+  font-size:15px;display:grid;place-items:center;flex:none;margin-top:1px}
+.chk{width:26px;height:26px;border-radius:8px;border:2px solid #4f46e5;color:#4f46e5;
+  display:grid;place-items:center;flex:none;font-size:13px}
+/* CODE */
+.code{background:#0f172a;color:#e2e8f0;border-radius:18px;padding:1rem 1.2rem;
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace;font-size:14px;line-height:1.5;
+  white-space:pre;overflow-x:auto;box-shadow:0 10px 30px rgba(15,23,42,.18)}
+.code .kw{color:#c4b5fd}.code .ty{color:#7dd3fc}.code .fn{color:#a3e635}
+.code .st{color:#fdba74}.code .cm{color:#64748b}.code .nu{color:#fca5a5}
+.code .hl{background:rgba(163,230,53,.14);border-radius:4px;box-shadow:0 0 0 3px rgba(163,230,53,.14)}
+.code-cap{font-size:13px;font-weight:800;color:#64748b;margin:0 0 6px 4px;font-family:"JetBrains Mono",Consolas,monospace}
+.mono{font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace}
+.code,.mono,.code-cap{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.tagchip{display:inline-flex;align-items:center;gap:.4rem;font-size:12px;font-weight:900;
+  letter-spacing:.06em;border-radius:999px;padding:.28rem .7rem}
+/* Unity editor mimic */
+.uu{background:#383838;border:1px solid #232323;border-radius:7px;color:#c4c4c4;
+  font-family:"Pretendard",sans-serif;font-size:13.5px;line-height:1.45;overflow:hidden;font-variant-ligatures:none;
+  box-shadow:0 12px 34px rgba(15,23,42,.24)}
+.uu-bar{background:#3c3c3c;border-bottom:1px solid #232323;padding:7px 11px;
+  display:flex;align-items:center;gap:8px;font-weight:800;color:#d8d8d8;font-size:13px}
+.uu-body{padding:9px 11px 11px}
+.uu-comp{border:1px solid #2b2b2b;border-radius:4px;margin-bottom:6px;background:#3f3f3f}
+.uu-comp-h{display:flex;align-items:center;gap:8px;padding:6px 9px;background:#434343;
+  border-bottom:1px solid #2b2b2b;font-weight:800;color:#e0e0e0}
+.uu-comp-h .tri{color:#9a9a9a;font-size:9px;width:9px;flex:none}
+.uu-comp-h .ico{color:#9fb6c8;width:14px;text-align:center;flex:none}
+.uu-comp-b{padding:8px 9px 9px}
+.uu-row{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.uu-row:last-child{margin-bottom:0}
+.uu-lb{width:94px;flex:none;color:#b4b4b4}
+.uu-f{background:#2a2a2a;border:1px solid #1f1f1f;border-radius:3px;padding:3px 8px;
+  color:#d8d8d8;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uu-f.obj{display:flex;align-items:center;gap:6px}
+.uu-f.obj i{color:#9fb6c8;font-size:10px}
+.uu-chk{width:14px;height:14px;border:1px solid #6b6b6b;border-radius:2px;background:#2a2a2a;
+  display:grid;place-items:center;font-size:9px;color:#fff;flex:none}
+.uu-chk.on{background:#4a78a8;border-color:#4a78a8}
+.uu-tree{padding:7px 6px}
+.uu-it{display:flex;align-items:center;gap:7px;padding:4px 7px;border-radius:3px;color:#cfcfcf}
+.uu-it.sel{background:#2c5d87;color:#fff}
+.uu-it .tri{width:10px;color:#9a9a9a;font-size:9px;flex:none}
+.uu-it .ico{color:#9fb6c8;width:14px;text-align:center;font-size:11px;flex:none}
+.uu-hl{outline:2px solid #a3e635;outline-offset:1px;border-radius:4px}
+.uu-note{color:#8d8d8d;font-size:12px}
+.uu-btn{background:#4b4b4b;border:1px solid #2b2b2b;border-radius:3px;padding:3px 11px;
+  color:#e0e0e0;font-weight:800;font-size:12px;display:inline-block}
+.uu-con{background:#2c2c2c;padding:7px 11px}
+.uu-log{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #333;color:#d0d0d0}
+.uu-log:last-child{border-bottom:0}
+.uu-log i{width:14px;text-align:center;flex:none;margin-top:3px}
+.uu-log.err{color:#ff8f7a}
+.uu-cap{font-size:13px;color:#64748b;margin-top:7px}
+.uu-sub{color:#9a9a9a;font-size:12px;font-weight:800;margin:9px 0 6px}
+.uu-sub:first-child{margin-top:0}
+.uu-tabs{display:flex;gap:3px;margin:9px 0 0}
+.uu-tabs span{padding:3px 11px;border:1px solid #2b2b2b;border-bottom:0;border-radius:3px 3px 0 0;background:#333;color:#9a9a9a}
+.uu-tabs span.on{background:#434343;color:#fff}
+.uu-sl{flex:1;display:flex;align-items:center;gap:8px;font-size:12px;color:#9a9a9a}
+.uu-sl .tr{flex:1;height:3px;background:#5a5a5a;border-radius:2px;position:relative}
+.uu-sl .tr::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#c8c8c8}
+.uu-it.drag{outline:2px solid #a3e635;outline-offset:-1px}
+.uu-menus{display:flex;align-items:flex-start;gap:2px}
+.uu-menu{background:#2b2b2b;border:1px solid #191919;border-radius:4px;padding:4px 0;
+  font-size:13px;box-shadow:0 8px 22px rgba(15,23,42,.3)}
+.uu-mi{display:flex;align-items:center;gap:8px;padding:3px 12px;color:#d2d2d2;white-space:nowrap}
+.uu-mi .ar{margin-left:auto;padding-left:16px;color:#8d8d8d;font-size:9px}
+.uu-mi.on{background:#2c5d87;color:#fff}
+.uu-mi.on .ar{color:#fff}
+.uu-msep{height:1px;background:#3d3d3d;margin:4px 0}
+/* Game 창 모사 */
+.gv{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;overflow:clip;container-type:inline-size;
+  background:linear-gradient(180deg,#334155 0%,#1e293b 64%,#475569 64%,#64748b 100%);
+  border:3px solid #2a2a2a;box-shadow:0 12px 30px rgba(15,23,42,.22)}
+.gv-ui{position:absolute;inset:0;transform-origin:50% 50%}
+.gv-ui > *{position:absolute;left:50%;transform:translate(-50%,-50%);white-space:nowrap}
+.gv-ui .t{top:30%;color:#fff;font-weight:900;font-size:9cqw;letter-spacing:.04em}
+.gv-ui .b{background:#f8fafc;color:#0f172a;font-weight:900;font-size:4.2cqw;width:30%;text-align:center;padding:1.3cqw 0;border-radius:1.2cqw}
+/* Windows mimic */
+.win{background:#fff;border:1px solid #d4d4d8;border-radius:10px;overflow:hidden;
+  box-shadow:0 12px 34px rgba(15,23,42,.14);font-size:14.5px}
+.win-bar{background:#f4f4f5;border-bottom:1px solid #e4e4e7;padding:7px 12px;font-weight:800;
+  color:#3f3f46;font-size:13px;display:flex;align-items:center;gap:8px}
+.win-row{display:flex;align-items:center;gap:10px;padding:7px 14px;border-bottom:1px solid #f4f4f5;color:#27272a}
+.win-row:last-child{border-bottom:0}
+.win-row .ico{width:18px;text-align:center;flex:none}
+.win-row .kind{margin-left:auto;font-size:12px;color:#a1a1aa}
+.ss{background:#1e4d8c;color:#fff;border-radius:10px;padding:18px 20px;
+  box-shadow:0 12px 34px rgba(15,23,42,.2);font-size:14px}
+.ss .btn{display:inline-block;border:1px solid rgba(255,255,255,.7);padding:5px 18px;border-radius:3px;font-weight:700}
+.kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
+  box-shadow:0 2px 0 #cbd5e1;font-size:.8em;font-weight:700;color:#475569}
+/* 따라 하기 — 유니티 에디터 전체 모사 */
+.ed{position:relative;display:grid;grid-template-columns:21% minmax(0,1fr) 29%;grid-template-rows:24px 30px minmax(0,1fr) 168px 20px;gap:2px;
+  height:520px;background:#191919;border:1px solid #111;border-radius:8px;overflow:hidden;color:#c4c4c4;font-size:12.5px;line-height:1.4;
+  box-shadow:0 14px 40px rgba(15,23,42,.25);font-variant-ligatures:none}
+.ed-mb{grid-column:1/-1;display:flex;align-items:center;background:#202020;padding:0 4px;position:relative;z-index:30}
+.ed-mb > span{position:relative;padding:2px 9px;border-radius:3px;color:#cfcfcf}
+.ed-mb > span.on{background:#2c5d87;color:#fff}
+.ed-mb .uu-menus{position:absolute;left:0;top:calc(100% + 2px);z-index:31}
+.ed-tb{grid-column:1/-1;display:flex;align-items:center;justify-content:center;background:#191919;position:relative}
+.ed-tb .pb{width:32px;height:22px;display:grid;place-items:center;background:#383838;color:#d0d0d0;font-size:11px;margin-left:1px}
+.ed-tb .pb:first-child{border-radius:4px 0 0 4px}.ed-tb .pb:last-child{border-radius:0 4px 4px 0}
+.ed-tb .pb.on{background:#3e6e9e;color:#fff}
+.ed-tb .lt{position:absolute;left:8px;display:flex;gap:6px}.ed-tb .rt{position:absolute;right:8px;display:flex;gap:6px}
+.ed-tb .lt span,.ed-tb .rt span{background:#383838;border-radius:3px;padding:1px 8px;color:#bdbdbd;font-size:11.5px}
+.ed-p{background:#383838;display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;position:relative}
+.ed-hi{grid-column:1;grid-row:3}.ed-vw{grid-column:2;grid-row:3}.ed-in{grid-column:3;grid-row:3/5}.ed-bt{grid-column:1/3;grid-row:4}
+.ed-st{grid-column:1/-1;grid-row:5;background:#202020;display:flex;align-items:center;padding:0 8px;font-size:11px;color:#9a9a9a;gap:8px;min-width:0}
+.ed-st .msg{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-st .msg.err{color:#ff8f7a}
+.ed-tabs{display:flex;align-items:flex-end;background:#282828;height:24px;flex:none;gap:1px;padding-left:2px}
+.ed-tabs > span{padding:3px 12px;color:#a8a8a8;background:#303030;border-radius:3px 3px 0 0;display:flex;gap:6px;align-items:center;font-weight:600}
+.ed-tabs > span.on{background:#383838;color:#ececec}
+.ed-tabs i{font-size:10.5px;color:#9a9a9a}
+.ed-sub{display:flex;align-items:center;gap:6px;padding:2px 6px;border-bottom:1px solid #232323;background:#3c3c3c;flex:none;font-size:11.5px;height:24px;white-space:nowrap}
+.ed-sub .uu-f{flex:0 0 auto;padding:0 7px;font-size:11.5px}
+.ed-body{flex:1;min-height:0;overflow:hidden;position:relative}
+.ed .uu-tree{padding:4px 3px}
+.ed .uu-it{padding:1px 6px;border-radius:2px;white-space:nowrap}
+.ed .uu-it .ico{font-size:10.5px}
+.ed-dots{margin-left:auto;color:#8d8d8d}
+.ed-edit{background:#1d1d1d;border:1px solid #4d8ad6;color:#fff;padding:0 4px;border-radius:2px}
+/* Project */
+.ed-pj{display:grid;grid-template-columns:24% 1fr;height:100%}
+.ed-pj .uu-tree{border-right:1px solid #232323;overflow:hidden}
+.ed-crumb{padding:3px 9px;border-bottom:1px solid #2e2e2e;color:#bdbdbd;font-size:11.5px}
+.ed-tiles{display:flex;flex-wrap:wrap;gap:4px;padding:8px 8px;align-content:flex-start}
+.ed-tile{width:76px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:3px 2px;border-radius:3px;font-size:11.5px;text-align:center}
+.ed-tile .ic{width:44px;height:44px;display:grid;place-items:center;font-size:24px;border-radius:4px}
+.ed-tile .lb{max-width:74px;padding:0 4px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-tile.sel .lb{background:#2c5d87;color:#fff}
+.ed-tile.sel .ic{background:rgba(44,93,135,.45)}
+.ic.scene{color:#e0e0e0}.ic.script{color:#a7d1f5}.ic.folder{color:#b9b9b9}
+/* Console */
+.ed-con{display:flex;flex-direction:column;height:100%}
+.ed-con .bar{display:flex;gap:6px;align-items:center;padding:2px 6px;background:#3c3c3c;border-bottom:1px solid #232323;font-size:11.5px}
+.ed-con .bar .uu-f{flex:0 0 auto;padding:0 7px}
+.ed-con .bar .cnt{margin-left:auto;display:flex;gap:10px;color:#bdbdbd}
+.ed-con .logs{flex:1;overflow:hidden;background:#2c2c2c}
+.ed-con .lg{display:flex;gap:8px;padding:4px 8px;border-bottom:1px solid #333;white-space:nowrap;overflow:hidden}
+.ed-con .lg.err{color:#ff8f7a}.ed-con .lg.sel{background:#2c5d87;color:#fff}
+.ed-con .det{height:52px;background:#262626;border-top:1px solid #1e1e1e;padding:4px 8px;font-family:"JetBrains Mono",Consolas,monospace;font-size:11px;color:#d0d0d0;white-space:pre-wrap;overflow:hidden}
+.ed-empty{color:#7d7d7d;padding:10px}
+/* Inspector */
+.ed-insp{padding:6px 7px;font-size:12px}
+.ed-insp .uu-comp{margin-bottom:4px}
+.ed-insp .uu-comp-h{padding:3px 7px;font-size:12px}
+.ed-insp .uu-comp-b{padding:5px 7px 6px}
+.ed-insp .uu-row{margin-bottom:4px;gap:6px}
+.ed-insp .uu-lb{width:86px;font-size:11.5px}
+.ed-insp .uu-f{padding:1px 6px;font-size:11.5px}
+.ed-goh{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.ed-goh .gi{width:22px;height:22px;display:grid;place-items:center;background:#2a2a2a;border-radius:3px;color:#9fb6c8}
+.ed-goh2{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:5px;align-items:center;margin-bottom:6px}
+.ed-xyz{flex:1;display:grid;grid-template-columns:auto 1fr auto 1fr auto 1fr;gap:3px;align-items:center;min-width:0}
+.ed-xyz > span:not(.uu-f){font-size:10.5px;color:#9a9a9a}
+.ed-rt{display:flex;gap:6px;align-items:flex-start}
+.ed-anc{width:38px;height:38px;flex:none;border:1px solid #555;border-radius:3px;display:grid;place-items:center;font-size:8.5px;color:#9a9a9a;text-align:center;line-height:1.1;position:relative}
+.ed-rtg{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:2px 4px;min-width:0}
+.ed-rtg > span:not(.uu-f){font-size:10.5px;color:#9a9a9a}
+.ed-al{display:flex;gap:1px}
+.ed-al span{width:22px;height:18px;display:grid;place-items:center;background:#2a2a2a;font-size:10px;color:#9a9a9a}
+.ed-al span.on{background:#4a6f96;color:#fff}
+.ed-ocl{color:#e0e0e0;font-weight:700;margin:6px 0 3px}
+.ed-ocb{border:1px solid #2b2b2b;border-radius:3px;background:#353535;padding:5px}
+.ed-ocb .uu-row:last-child{margin-bottom:0}
+.ed-oce{color:#8d8d8d;padding:2px}
+.ed-pm{text-align:right;margin-top:4px}
+.ed-pm .uu-btn{padding:0 9px;margin-left:2px}
+.ed-addc{text-align:center;margin-top:8px}
+.ed-addc .uu-btn{padding:3px 34px}
+.ed-search{position:absolute;left:12px;right:12px;background:#2b2b2b;border:1px solid #111;border-radius:4px;box-shadow:0 10px 26px rgba(0,0,0,.5);padding:6px;z-index:5}
+.ed-search .q{background:#1e1e1e;border:1px solid #4d8ad6;border-radius:3px;padding:2px 7px;color:#fff;margin-bottom:5px}
+/* Scene / Game */
+.ed-gv{position:absolute;inset:5px;display:flex;justify-content:center}
+.ed-grid{position:absolute;inset:0;background-color:#454545;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px}
+.ed-2d{padding:0 7px;border-radius:3px;background:#2a2a2a}
+.ed-2d.on{background:#3e6e9e;color:#fff}
+.scr{position:relative;height:100%;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;
+  background:linear-gradient(#6f8fb8,#a9b8c7 52%,#555 52%,#3d3d3d)}
+.scr.cv{background:transparent;outline:1px solid #e8e8e8}
+.ed-ui{position:absolute;inset:0;transform-origin:50% 50%}
+.ed-ui > div{position:absolute;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1}
+.ed-ui .t{color:#fff;font-weight:800}
+.ed-ui .tl{color:#fff;justify-content:flex-start;align-items:flex-start;font-weight:600}
+.ed-ui .b{background:#fff;color:#323232;border-radius:.5cqw;font-weight:600}
+.ed-ui .hud{left:2%;top:4%;transform:none;color:#fff;font-weight:700;font-size:3cqw}
+.scr.roll{background:linear-gradient(#5b7fae,#93a9c2 40%,#3d4450 40%)}
+.roll .pl{position:absolute;left:10%;right:10%;top:40%;height:85%;background:#8d939c;border:1.4cqw solid #c3c8cf;transform:perspective(60cqw) rotateX(58deg);transform-origin:50% 0}
+.roll .ball{position:absolute;left:47%;top:66%;width:7cqw;height:7cqw;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#cfd5dd 45%,#7b8592)}
+.roll .pu{position:absolute;width:2.6cqw;height:2.6cqw;background:#facc15;transform:rotate(45deg);box-shadow:0 0 0 .3cqw rgba(250,204,21,.35)}
+.roll .en{position:absolute;left:66%;top:52%;width:4.5cqw;height:4.5cqw;background:#dc2626}
+.roll .hud{position:absolute;left:2.5%;top:4%;color:#fff;font-weight:800;font-size:3.2cqw}
+/* 덮는 창 · 메뉴 · 코드 */
+.ed-ov{position:absolute;z-index:20}
+.ed .uu-menu{font-size:12.5px}
+.ed .uu-mi{padding:2px 12px;line-height:17px}
+.ed .uu-menus{align-items:flex-start}
+.ed-win{background:#383838;border:1px solid #0e0e0e;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden}
+.ed-wt{display:flex;align-items:center;gap:8px;background:#262626;padding:4px 10px;font-weight:700;color:#e0e0e0;font-size:12px;flex:none}
+.ed-wt .x{margin-left:auto;color:#9a9a9a;padding:0 4px;border-radius:2px}
+.ed-wb{flex:1;min-height:0;position:relative}
+.ed-code{background:#1f1f1f;border:1px solid #3a3a3a;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden;
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace;font-variant-ligatures:none}
+.ed-code .hd{display:flex;align-items:center;background:#181818;font-family:"Pretendard",sans-serif;font-size:12px;color:#9a9a9a;flex:none}
+.ed-code .hd .tab{background:#1f1f1f;color:#e6e6e6;padding:5px 14px;border-top:2px solid #4d8ad6;display:flex;gap:7px;align-items:center}
+.ed-code .hd .ap{margin-left:auto;padding:0 10px}
+.ed-code .bd{flex:1;min-height:0;overflow:hidden;padding:8px 0;font-size:15px;line-height:21px;color:#d4d4d4}
+.ed-code .bd.sm{font-size:13.5px;line-height:18.5px;padding:5px 0}
+.ed-code .cl{display:flex;white-space:pre}
+.ed-code .cl .ln{width:38px;flex:none;text-align:right;padding-right:14px;color:#6e7681}
+.ed-code .cl.add{background:rgba(163,230,53,.15)}
+.ed-code .cl.del{background:rgba(248,113,113,.2)}
+.ed-code .cl.foc{outline:2px solid #facc15;outline-offset:-2px}
+.ed-code .cl.gap .cx{color:#6e7681}
+.ed-code .kw{color:#c4b5fd}.ed-code .ty{color:#7dd3fc}.ed-code .st{color:#fdba74}.ed-code .cm{color:#6a9955}.ed-code .nu{color:#fca5a5}
+.ed-code .sq{text-decoration:underline wavy #f14c4c;text-underline-offset:3px}
+.ed-dlg{background:#383838;border:1px solid #0e0e0e;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);overflow:hidden}
+.ed-dlg .in{padding:12px 14px}
+.ed-bpl{display:grid;grid-template-columns:34% 66%;height:100%}
+.ed-bpl > .uu-tree{border-right:1px solid #232323}
+.ed-bar{height:8px;background:#232323;border-radius:4px;overflow:hidden}
+.ed-bar > span{display:block;height:100%;background:#4d8ad6}
+/* 바탕 화면 (Windows) */
+.ed.desk{display:block;background:linear-gradient(135deg,#0b3b8c 0%,#1d6fd6 55%,#5fb2f2 100%);color:#1f2937}
+.dk-task{position:absolute;left:0;right:0;bottom:0;height:34px;background:rgba(243,243,243,.92);display:flex;justify-content:center;align-items:center;gap:14px;color:#334155;font-size:16px}
+.dk-ico{position:absolute;width:76px;display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:11.5px;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.6);padding:4px;border-radius:4px}
+.dk-ico i{font-size:30px}
+.dk-ico.sel{background:rgba(255,255,255,.25)}
+.ed.desk .win{position:absolute;font-size:13px}
+.ed.desk .win-row.sel{background:#dbeafe}
+.dk-menu{position:absolute;background:#f9f9f9;border:1px solid #d4d4d8;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.25);padding:5px;font-size:12.5px;color:#1f2937;min-width:190px}
+.dk-menus .dk-menu{position:relative}
+.dk-menu .mi{padding:4px 12px;border-radius:4px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.dk-menu .mi .ar{margin-left:auto;color:#71717a;font-size:10px;padding-left:14px}
+.dk-menu .mi.on{background:#e0e7ff}
+.dk-menu .sep{height:1px;background:#e4e4e7;margin:4px 0}
+.dk-menus{position:absolute;display:flex;flex-wrap:nowrap;width:max-content;align-items:flex-start;gap:2px}
+.gw{position:absolute;background:#000;border:1px solid #444;border-radius:8px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.gw .tt{background:#f3f3f3;color:#1f2937;font-size:12px;padding:4px 10px;display:flex;align-items:center;gap:8px}
+.gw .tt .ctl{margin-left:auto;display:flex;gap:16px;color:#52525b}
+.gw .scr{height:auto;width:100%}
+.ed .drag{outline:2px dashed #a3e635!important;outline-offset:-1px}
+/* 누를 곳 */
+.tap{outline:2px solid #facc15!important;outline-offset:1px;border-radius:3px;position:relative;animation:edtap 1.1s ease-in-out infinite}
+.tap::after{content:"\f245";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;right:-7px;bottom:-13px;color:#fff;font-size:15px;
+  text-shadow:0 0 2px #000,0 0 3px #000;z-index:6;pointer-events:none;line-height:1}
+@keyframes edtap{0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,.55)}50%{box-shadow:0 0 0 5px rgba(250,204,21,0)}}
+.ed.playing .ed-hi,.ed.playing .ed-in,.ed.playing .ed-bt,.ed.playing .ed-tabs,.ed.playing .ed-sub{filter:brightness(.8)}
+/* 단계 자막 */
+.ed-cap{font-variant-ligatures:none;display:flex;align-items:center;gap:12px;margin-top:10px;background:#0f172a;color:#f8fafc;border-radius:12px;padding:8px 14px;font-size:17px;min-height:44px}
+.ed-cap .n{background:#4f46e5;border-radius:8px;padding:2px 9px;font-weight:900;font-size:14px;flex:none;white-space:nowrap}
+.ed-cap .t{flex:1;min-width:0}
+.ed-cap .note{color:#a5b4fc;font-size:13.5px;max-width:34%;text-align:right;flex:none}
+.ed-cap .kbd{font-size:.78em}
+.ed-cap b{color:#fde68a}
+@media (max-width:768px){ .ed{height:auto;min-height:420px;grid-template-columns:1fr;grid-template-rows:24px 30px 160px 200px 220px 160px 20px}
+  .ed-hi{grid-column:1;grid-row:3}.ed-vw{grid-column:1;grid-row:4}.ed-in{grid-column:1;grid-row:5}.ed-bt{grid-column:1;grid-row:6}.ed-st{grid-row:7}
+  .ed-cap{flex-wrap:wrap}.ed-cap .note{max-width:none;text-align:left} }
+/* 10주차 — AI 채팅 · 메모장 · 탐색기 명령줄 */
+.ai{background:#fff;border:1px solid #d4d4d8;border-radius:12px;box-shadow:0 18px 44px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow:hidden;color:#1f2937;font-size:13px;line-height:1.5}
+.ai-h{display:flex;align-items:center;gap:8px;padding:7px 14px;border-bottom:1px solid #e4e4e7;font-weight:800;color:#3f3f46;flex:none}
+.ai-new{margin-left:auto;font-weight:700;color:#52525b;padding:2px 8px;border-radius:6px}
+.ai-b{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:9px;padding:10px 16px}
+.ai-empty{margin:auto;color:#a1a1aa;font-size:20px;font-weight:800}
+.ai-m{display:flex;gap:8px;align-items:flex-start;flex:none}
+.ai-m.u{justify-content:flex-end}
+.ai-m.u .bb{background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px 12px 2px 12px;padding:7px 11px;max-width:78%}
+.ai-m.a .bb{max-width:88%;min-width:0}
+.ai-m .av{width:24px;height:24px;border-radius:50%;background:#0f172a;color:#fff;display:grid;place-items:center;font-size:11px;flex:none}
+.ai-m .pre{font-family:"JetBrains Mono",Consolas,monospace;font-size:11.5px;white-space:pre-wrap;background:#fff;border:1px solid #e4e4e7;border-radius:6px;padding:4px 7px;margin-bottom:4px;color:#334155;line-height:1.4}
+.ai-m .pre.err{color:#b91c1c;margin:4px 0 0}
+.ai-m .ask{font-size:12.5px;line-height:1.55}
+.ai-m .plan{margin-bottom:6px;padding:2px 4px;border-radius:6px}
+.ai-code{background:#1f1f1f;border-radius:8px;overflow:hidden;font-variant-ligatures:none}
+.ai-code-h{display:flex;gap:6px;align-items:center;background:#2d2d2d;color:#bdbdbd;font-size:11px;padding:3px 10px}
+.ai-code-h span{margin-left:auto}
+.ai-code pre{margin:0;padding:6px 10px;font-family:"JetBrains Mono",Consolas,monospace;font-size:10.6px;line-height:1.38;color:#d4d4d4;white-space:pre;overflow:hidden}
+.ai-code .kw{color:#c4b5fd}.ai-code .ty{color:#7dd3fc}.ai-code .st{color:#fdba74}.ai-code .cm{color:#6a9955}.ai-code .nu{color:#fca5a5}
+.ai-in{display:flex;gap:8px;align-items:flex-end;margin:0 14px 12px;border:1px solid #d4d4d8;border-radius:14px;padding:7px 8px 7px 12px;flex:none;background:#fafafa}
+.ai-t{flex:1;min-width:0;max-height:150px;overflow:hidden;font-size:12.5px}
+.ai-t .ph{color:#a1a1aa}
+.ai-t .pre{font-family:"JetBrains Mono",Consolas,monospace;font-size:11px;white-space:pre-wrap;color:#475569;margin-bottom:3px}
+.ai-t .pre.err{color:#b91c1c}
+.ai-send{width:28px;height:28px;border-radius:50%;background:#0f172a;color:#fff;display:grid;place-items:center;flex:none;font-size:12px}
+.ai .uu-hl,.np .uu-hl{outline:2px solid #22c55e;outline-offset:2px;border-radius:6px}
+.np{background:#fff;border:1px solid #c4c4c8;border-radius:8px;box-shadow:0 18px 44px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow:hidden;color:#111}
+.np-t{display:flex;align-items:center;gap:8px;background:#f3f3f3;font-size:12px;padding:5px 10px;flex:none}
+.np-t .ctl{margin-left:auto;display:flex;gap:16px;color:#52525b}
+.np-m{display:flex;gap:14px;font-size:12px;padding:3px 10px;border-bottom:1px solid #e4e4e7;flex:none}
+.np-b{flex:1;min-height:0;overflow:hidden;padding:6px 12px;font-family:"Consolas","D2Coding","JetBrains Mono",monospace;font-size:12.6px;line-height:1.48}
+.np-l{white-space:pre-wrap}
+.np-l.h{font-weight:700;color:#1e3a8a}
+.np-l.add{background:rgba(34,197,94,.16);box-shadow:-3px 0 0 #22c55e}
+.win-cmd{display:flex;gap:4px;align-items:center;padding:4px 10px;border-bottom:1px solid #e4e4e7;font-size:12px;color:#3f3f46;background:#fbfbfb}
+.win-cmd span{padding:2px 7px;border-radius:4px;display:flex;gap:5px;align-items:center}
+.wdlg{background:#fff;border:1px solid #c4c4c8;border-radius:8px;box-shadow:0 18px 44px rgba(0,0,0,.35);padding:14px 16px;color:#111;font-size:13px;z-index:25}
+.wdlg .t{font-weight:800;margin-bottom:6px}
+.wdlg .bt{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.wdlg .bt span{border:1px solid #c4c4c8;border-radius:4px;padding:3px 18px;background:#f4f4f5}
+.ckl{background:rgba(15,23,42,.94);color:#f8fafc;border-radius:12px;padding:12px 16px;font-size:14px;box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.ckl .h{font-weight:900;color:#fde68a;margin-bottom:8px}
+.ckl .r{display:flex;gap:10px;align-items:center;padding:4px 0;color:#cbd5e1}
+.ckl .r.ok{color:#fff}
+.ckl .b{width:20px;height:20px;border-radius:6px;border:2px solid #64748b;display:grid;place-items:center;font-size:12px;flex:none}
+.ckl .r.ok .b{background:#22c55e;border-color:#22c55e}
+.roll .en2{position:absolute;top:47%;width:4.2cqw;height:4.2cqw;background:#ea580c;margin-left:-2.1cqw}
+.roll .mv{position:absolute;left:44.5%;top:39%;color:#fde68a;font-size:4.4cqw}
+.roll .pt{position:absolute;top:56%;color:#fff;font-weight:900;font-size:2.6cqw;background:rgba(15,23,42,.6);padding:0 .8cqw;border-radius:.6cqw;margin-left:-1.2cqw}
+.ed-hi .ed .uu-it,.ed-hi .uu-it{padding-top:0;padding-bottom:0;line-height:1.32}
+.ed-code .bd.sm{line-height:17.4px}
+/* 10주차 ② — 프리팹 · 패키지 창 · 파일 대화 상자 */
+.ic.prefab{color:#7cc4ff}
+.ed .uu-it.pf{color:#8cc8ff}
+.ed .uu-it.pf .ico{color:#7cc4ff}
+.ed .uu-it.pf.sel{color:#fff}
+.ed-hi .uu-it{line-height:1.2}
+.pf-bar{display:flex;gap:5px;align-items:center;margin:-2px 0 6px}
+.pf-bar .uu-btn{padding:0 7px;font-size:11px}
+.pk{display:flex;flex-direction:column;height:100%;font-size:12.5px}
+.pk-h{padding:5px 10px;font-weight:700;color:#d6d6d6;border-bottom:1px solid #2a2a2a;background:#3c3c3c;flex:none}
+.pk-h2{display:flex;align-items:center;gap:8px;padding:7px 10px;font-weight:800;color:#e6e6e6;border-bottom:1px solid #2a2a2a;background:#3c3c3c;flex:none}
+.pk-h2 .pk-ic{width:24px;height:24px;display:grid;place-items:center;background:#2a2a2a;border-radius:4px;color:#9fb6c8}
+.pk-list{flex:1;min-height:0;overflow:hidden;background:#2c2c2c;padding:4px 0}
+.pk-row{display:flex;align-items:center;gap:6px;padding-top:2px;padding-bottom:2px;padding-right:10px;line-height:17px;white-space:nowrap;border-radius:3px}
+.pk-row .tri{width:9px;color:#9a9a9a;font-size:9px;flex:none}
+.pk-row .ic{width:16px;text-align:center;font-size:12px;flex:none}
+.pk-row .nm{color:#d8d8d8}
+.pk-new{margin-left:10px;background:#2f7d4f;color:#fff;font-size:9.5px;font-weight:800;padding:0 5px;border-radius:3px;line-height:15px}
+.pk-chg{margin-left:10px;color:#8fc3ff;font-size:11px}
+.pk-ft{display:flex;align-items:center;gap:6px;padding:7px 10px;border-top:1px solid #2a2a2a;background:#383838;flex:none}
+.pk-opt{display:flex;align-items:center;gap:6px;margin-left:10px;color:#cfcfcf;padding:1px 3px}
+.pk-go{margin-left:auto;background:#2c5d87!important;color:#fff!important;border-color:#1f4466!important}
+.ed .pk-row.uu-hl{outline-offset:-1px}
+/* Windows 파일 대화 상자 */
+.fdlg{background:#fff;border:1px solid #c4c4c8;border-radius:8px;box-shadow:0 18px 44px rgba(0,0,0,.45);color:#1f2937;font-size:12.5px;overflow:hidden;display:flex;flex-direction:column;z-index:22}
+.fd-t{display:flex;align-items:center;gap:8px;background:#f3f3f3;padding:6px 12px;font-size:12px}
+.fd-t .x{margin-left:auto;color:#52525b}
+.fd-path{display:flex;align-items:center;gap:8px;margin:7px 10px;padding:4px 10px;border:1px solid #d4d4d8;border-radius:4px;color:#27272a}
+.fd-main{display:grid;grid-template-columns:27% 1fr;border-top:1px solid #e4e4e7;border-bottom:1px solid #e4e4e7;min-height:112px}
+.fd-nav{background:#fafafa;border-right:1px solid #e4e4e7;padding:6px 5px}
+.fd-nav div{padding:3px 8px;border-radius:4px;display:flex;gap:8px;align-items:center;white-space:nowrap}
+.fd-nav .sel{background:#e0e7ff}
+.fd-list .win-row{padding:5px 12px;font-size:12.5px}
+.fd-list .win-row.sel{background:#dbeafe}
+.fd-f{display:flex;align-items:center;gap:10px;padding:7px 14px 0}
+.fd-f .lb{width:92px;text-align:right;color:#3f3f46;flex:none}
+.fd-f .in{flex:1;border:1px solid #a1a1aa;border-radius:4px;padding:3px 8px;background:#fff;min-width:0;white-space:nowrap;overflow:hidden}
+.fd-f .in.dd{color:#52525b}
+.fd-bt{display:flex;justify-content:flex-end;gap:8px;padding:11px 14px 12px}
+.fd-bt span{border:1px solid #c4c4c8;border-radius:4px;padding:3px 18px;background:#f4f4f5}
+.fd-bt .ok{background:#2563eb;border-color:#2563eb;color:#fff}
+.fdlg .uu-hl{outline:2px solid #22c55e;outline-offset:1px}
+.wd-opt{display:flex;gap:9px;align-items:center;padding:6px 10px;border:1px solid #e4e4e7;border-radius:6px;margin-top:6px}
+.ed.desk .np{z-index:21}
+/* AI 채팅 — 새 칸 · 바꾼 파일 목록 */
+.ask-new{background:rgba(34,197,94,.16);box-shadow:-3px 0 0 #22c55e;padding:0 4px;border-radius:2px}
+.ai-m .chg{margin-top:6px;padding:5px 9px;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:8px;font-size:12.5px}
+.uu .uu-it.pf,.uu .uu-it.pf .ico{color:#8cc8ff}
+/* 녹화 화면 크기에 맞춰 내용 확대 · 축소 */
+@media (min-width:1800px) and (min-height:1000px){ .slide > div{zoom:1.25} }
+@media (min-width:1500px) and (max-width:1799px) and (min-height:840px){ .slide > div{zoom:1.08} }
+@media (min-width:769px) and (max-height:800px){ .slide > div{zoom:.93} }
+@media (min-width:769px) and (max-height:740px){ .slide > div{zoom:.85} }
+/* MOBILE */
+@media (max-width:768px){
+  .slide{padding:4rem 1rem 5.5rem;align-items:flex-start}
+  .part-num{font-size:5rem}
+}
+@media print{
+  body{overflow:visible;height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:auto;min-height:90vh;padding:2rem}
+  #progress-bar,.navbar-fixed{display:none!important}
+}
+</style>
+</head><body>
+
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[130]">
+  <div id="progress-bar" class="h-full bg-gradient-to-r from-dev-500 via-indigo-400 to-flame-500" style="width:0%;"></div>
+</div>
+<div id="part-label" class="navbar-fixed fixed top-5 left-6 z-[130] text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200 hidden md:block">
+  10주차 온라인 ②
+</div>
+<div class="navbar-fixed fixed top-5 right-6 z-[130] flex items-center gap-2">
+  <div class="text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200">
+    <span id="current-slide">1</span><span class="mx-1 text-slate-300">/</span><span id="total-slides">1</span>
+  </div>
+</div>
+
+<main id="slides-container" class="relative w-full h-screen">
+
+<!-- 1 커버 -->
+<section class="slide" data-part="0">
+  <div class="max-w-5xl w-full text-center">
+    <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-dev-700 bg-dev-50 border border-dev-200 rounded-full px-5 py-2">
+      10주차 · 온라인 ②
+    </div>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">AI 와 <span class="text-dev-600">팀으로</span><br>만들기</h1>
+    <p class="text-xl md:text-2xl text-slate-500 mb-10">셋이 각자 AI 와 고쳐도, <b class="text-slate-700">한 게임</b>으로 모이게.<br>대면에서 정한 「팀 AI 약속」을 글과 손으로 옮깁니다</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">팀 규칙 파일</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">고쳐도 되는 파일</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">.meta</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">Inspector 값</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">씬 파일</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">프리팹으로 묶기</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">.unitypackage</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">받는 날 합치기</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2 두 부분 -->
+<section class="slide" data-part="0">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">이번 편은 두 부분입니다</h2>
+    <div class="grid md:grid-cols-2 gap-6 mb-7">
+      <div class="soft-card rounded-3xl p-8">
+        <div class="text-5xl font-black text-dev-600 mb-3">01</div>
+        <div class="text-2xl font-black mb-4">AI 가 모르는 유니티의 연결</div>
+        <ul class="text-[18px] text-slate-600 space-y-2">
+          <li>· 팀 약속을 규칙 파일로</li>
+          <li>· 요청에 「고쳐도 되는 파일」 한 줄</li>
+          <li>· .meta 와 번호(GUID)</li>
+          <li>· Inspector 값과 변수 이름</li>
+          <li>· 씬 파일 · 프로젝트 설정 · 패키지</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-8">
+        <div class="text-5xl font-black text-flame-600 mb-3">02</div>
+        <div class="text-2xl font-black mb-4">넘기고 합치기</div>
+        <ul class="text-[18px] text-slate-600 space-y-2">
+          <li>· 넘기고 합치는 한 바퀴</li>
+          <li>· 묶어서 프리팹으로</li>
+          <li>· .unitypackage 로 내보내기</li>
+          <li>· 받는 날 가져와서 합치기</li>
+          <li>· 파일을 직접 고치는 AI · 깃을 쓰는 팀</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 text-center">
+      <p class="text-[18px] text-slate-700">예시는 영상 ① 의 <b class="text-dev-700">Roll a Ball</b> 에, 대면에서 본 세 사람과 작업 칸을 그대로 붙였습니다.<br><b>하린</b> · <b>지호</b> · <b>민준</b>(합치는 사람)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 다섯 칸이 가는 곳 -->
+<section class="slide" data-part="0">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">대면에서 정한 다섯 칸이 가는 곳</h2>
+    <p class="text-xl text-slate-500 mb-7">대면에서는 사람끼리 약속했습니다. 이 편은 그 약속을 <b class="text-slate-700">AI 가 읽는 글</b>과 <b class="text-slate-700">유니티에서 하는 손</b>으로 옮깁니다.</p>
+    <div class="soft-card rounded-2xl overflow-hidden mb-6">
+      <table class="cmp-table">
+        <thead><tr><th>대면의 칸</th><th>AI 가 읽는 글 — 규칙 파일 · 요청</th><th>유니티에서 하는 손</th></tr></thead>
+        <tbody>
+          <tr><td>① 작업 칸</td><td>「작업 칸」 줄 · 요청의 <b>고쳐도 되는 파일</b></td><td>내 칸의 파일만 묶어서 넘깁니다</td></tr>
+          <tr><td>② 씬</td><td>「씬 파일은 고치지 않는다」</td><td>Test 씬에서 만들고, Game 씬은 합치는 사람이 엽니다</td></tr>
+          <tr><td>③ 이름</td><td>「이름은 바꾸지 않는다 · 새 Tag 는 먼저 말한다」</td><td>바꿀 때는 Project 창에서 — <b>.meta · Inspector 값</b>이 끊기는 이유</td></tr>
+          <tr><td>④ 넘기기</td><td class="text-slate-400">사람이 하는 일</td><td><b>.unitypackage</b> 로 내보내고, 받는 날 가져와 합칩니다</td></tr>
+          <tr><td>⑤ 기록</td><td>「끝나면 바꾼 파일 목록」</td><td>넘길 때 · 합칠 때 팀 기록에 한 줄</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">AI 를 안 쓰는 팀원도 같은 약속입니다. 덮어쓰기 · 이름 바꾸기는 <b class="text-dev-700">사람 손으로도 똑같이</b> 일어납니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 파트 01 표지 -->
+<section class="slide" data-part="1">
+  <div class="max-w-4xl w-full text-center">
+    <div class="part-num mb-4">01</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">AI 가 모르는 유니티의 연결</h2>
+    <p class="text-xl text-slate-500">팀 규칙 파일 · 고쳐도 되는 파일 · .meta · Inspector 값 · 씬 · 설정</p>
+  </div>
+</section>
+
+<!-- 5 팀 규칙 파일 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">팀 규칙 파일 — 「## 팀 약속」을 더합니다</h2>
+    <p class="text-xl text-slate-500 mb-6">영상 ① 의 AGENTS.md 맨 아래에 붙입니다. 사람끼리 정한 약속도, AI 에게는 <b class="text-slate-700">글로 줘야</b> 지켜집니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start mb-5">
+      <div class="md:col-span-3">
+        <div class="code-cap">AGENTS.md — 팀 공유 폴더의 원본</div>
+        <div class="code" style="white-space:pre-wrap;font-size:13.5px"><span class="kw"># 우리 팀 규칙 — AI 에게 먼저 주는 파일</span>
+<span class="cm">…  우리 게임 · 폴더 · 이름 · 일하는 방식 · 하지 말 것 (영상 ①)</span>
+
+<span class="ty">## 팀 약속</span>
+- 작업 칸: 하린 TitleUI.cs · Title 씬 UI / 지호 SceneLoader.cs · EnemyPatrol.cs / 민준 Game 씬 · 합치기  <span class="nu">①</span>
+- 요청의 「고쳐도 되는 파일」만 고친다. 다른 파일이 필요하면 고치지 말고 먼저 말한다  <span class="nu">①</span>
+- 씬 파일은 고치지 않는다. 씬에서 할 일은 단계로 알려 준다  <span class="nu">②</span>
+- 파일 · class · Inspector 변수 이름은 바꾸지 않는다  <span class="nu">③</span>
+- Tag 는 Player · Enemy · PickUp. 새 Tag · Layer · 패키지 · 설정이 필요하면 먼저 말한다  <span class="nu">③</span>
+- 끝나면 바꾼 파일과 새로 생긴 Inspector 칸을 목록으로 알려 준다  <span class="nu">⑤</span></div>
+      </div>
+      <div class="md:col-span-2 space-y-4">
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-folder-open mr-2"></i>원본은 하나 — 팀 공유 폴더</div><p class="text-[16px] text-slate-600">고칠 때는 원본을 고치고 팀에 알립니다. 각자 고쳐 쓰지 않습니다.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-copy mr-2"></i>각자 복사 — 내 프로젝트 맨 위</div><p class="text-[16px] text-slate-600">Assets 옆에 덮어씁니다. 코딩 도구는 여기서 알아서 읽고, 채팅 AI 에는 새 대화 맨 처음에 붙여 넣습니다.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-hand mr-2"></i>④ 넘기기는 사람이 합니다</div><p class="text-[16px] text-slate-600">그래서 규칙 파일에는 없습니다. 파트 02 에서 유니티로 합니다.</p></div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">규칙 파일이 같으면, 셋이 각자 다른 AI 와 일해도 <b class="text-dev-700">같은 약속 안에서</b> 일합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 팀 규칙 파일 옮기고 쓰기 -->
+<section class="slide" data-part="1" data-sim="teamrules">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>팀 규칙 파일 옮기고 쓰기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 7 요청에 한 줄 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">요청에 한 줄 더 — 「고쳐도 되는 파일」</h2>
+    <p class="text-xl text-slate-500 mb-6">영상 ① 의 요청 네 칸에 다섯째 칸을 붙입니다. 대면에서 쓴 세 칸이 그대로 요청이 됩니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-stretch mb-5">
+      <div class="md:col-span-2 space-y-3">
+        <div class="soft-card rounded-2xl p-4">
+          <div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-800 text-white">점검표 A5 · △</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 완료 기준</span></div>
+          <p class="text-[15.5px] text-slate-700">게임 오버 뒤 RETRY 하면 공이 안 움직인다</p>
+        </div>
+        <div class="soft-card rounded-2xl p-4">
+          <div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-800 text-white">원인 칸 A5</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 지금 상황</span></div>
+          <p class="text-[15.5px] text-slate-700">코인 3개 → 적에게 닿음 → RETRY → 방향키 · 3 / 3 · <span class="mono">Time.timeScale</span>? · Debug.Log 로 확인</p>
+        </div>
+        <div class="soft-card rounded-2xl p-4">
+          <div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-800 text-white">팀 AI 약속 ① 작업 칸</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 고쳐도 되는 파일</span></div>
+          <p class="text-[15.5px] text-slate-700">지호: <span class="mono">SceneLoader.cs</span> · <span class="mono">EnemyPatrol.cs</span></p>
+        </div>
+      </div>
+      <div class="md:col-span-3 soft-card rounded-2xl p-6">
+        <div class="text-[15px] font-black text-slate-400 mb-3">지호의 요청</div>
+        <div class="text-[16.5px] text-slate-700 space-y-2 leading-relaxed">
+          <p><b>- 하려는 것:</b> 게임 오버 뒤 RETRY 를 누르면 처음 상태로 다시 시작하게</p>
+          <p><b>- 완료 기준:</b> 점검표 A5 — 게임 오버 뒤 RETRY 하면 처음 상태로 공이 움직인다 · 두 번 연달아 해도 같다 · Console 에 빨간 줄이 없다</p>
+          <p><b>- 지금 상황:</b> 코인 3개 → 적에게 닿음 → RETRY → 방향키, 3번 중 3번 공이 안 움직인다. LoadGame 에 Debug.Log 를 찍어 보니 RETRY 뒤 <span class="mono">Time.timeScale</span> 이 0</p>
+          <p><b>- 하지 말 것:</b> 이름 바꾸기 · 새 Tag · 씬 파일 고치기</p>
+          <p class="rounded-lg px-3 py-1" style="background:#dcfce7;box-shadow:inset 3px 0 0 #22c55e"><b>- 고쳐도 되는 파일:</b> <span class="mono">SceneLoader.cs</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">답을 받으면 하나부터 봅니다. <b class="text-dev-700">바꾼 파일 목록이 「고쳐도 되는 파일」 안에 있는가.</b> 밖이면 넣지 않고 다시 묻습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 .meta -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">유니티는 이름이 아니라 번호로 기억합니다</h2>
+    <p class="text-xl text-slate-500 mb-6">Assets 안의 파일마다 짝인 <span class="mono text-slate-700">.meta</span> 파일이 있고, 그 안에 번호(GUID)가 있습니다. 씬은 스크립트를 <b class="text-slate-700">이 번호로</b> 찾습니다.</p>
+    <div class="grid md:grid-cols-3 gap-5 mb-5 items-start">
+      <div>
+        <div class="win">
+          <div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> Assets › Scripts</div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-file-code text-blue-600"></i></span>EnemyPatrol.cs<span class="kind">C# 소스 파일</span></div>
+          <div class="win-row" style="background:#dcfce7;outline:2px solid #22c55e;outline-offset:-2px"><span class="ico"><i class="fa-solid fa-file text-slate-400"></i></span><b>EnemyPatrol.cs.meta</b><span class="kind">META 파일</span></div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-file-code text-blue-600"></i></span>PlayerController.cs<span class="kind">C# 소스 파일</span></div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-file text-slate-400"></i></span>PlayerController.cs.meta<span class="kind">META 파일</span></div>
+        </div>
+        <div class="uu-cap">탐색기에서는 보이고, 유니티 Project 창에서는 숨겨집니다</div>
+      </div>
+      <div>
+        <div class="code-cap">EnemyPatrol.cs.meta</div>
+        <div class="code" style="font-size:12.5px;white-space:pre-wrap;word-break:break-all">fileFormatVersion: 2
+guid: <span class="hl">9c2f1e7a4b8d4f03a6e15b7c2d9e8f41</span>
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}</div>
+      </div>
+      <div>
+        <div class="code-cap">Test_Jiho.unity — PatrolEnemy 에 붙은 스크립트</div>
+        <div class="code" style="font-size:12.5px;white-space:pre-wrap;word-break:break-all"><span class="cm">--- !u!114 &amp;1593082513</span>
+MonoBehaviour:
+  m_GameObject: {fileID: 1593082511}
+  m_Script: {fileID: 11500000,
+    guid: <span class="hl">9c2f1e7a4b8d4f03a6e15b7c2d9e8f41</span>,
+    type: 3}
+  <span class="ty">pointA</span>: {fileID: 402817361}
+  <span class="ty">pointB</span>: {fileID: 1120342255}
+  <span class="ty">speed</span>: 3</div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700">이름 · 위치는 Project 창에서</div><p class="text-[15.5px] text-slate-600">유니티 안에서 옮기면 .meta 가 같이 움직여 번호가 그대로입니다. 스크립트는 class 이름도 같이 바꿉니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700">밖에서 옮기거나 다시 만들면</div><p class="text-[15.5px] text-slate-600">탐색기나 AI 도구로 하면 .meta 가 따라가지 않아 번호가 새로 생깁니다. 붙어 있던 오브젝트에 <b>Missing (Mono Script)</b>.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700">넘길 때는 .meta 와 함께</div><p class="text-[15.5px] text-slate-600"><b>.unitypackage</b> 는 번호까지 담습니다. .cs 만 따로 보내면 받은 쪽에서 번호가 새로 생깁니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 Inspector 값 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Inspector 칸의 값은 변수 이름으로 저장됩니다</h2>
+    <p class="text-xl text-slate-500 mb-6">씬 파일에 <span class="mono text-slate-700">pointA: {…}</span> 처럼 변수 이름 옆에 값이 적힙니다. 이름을 「더 좋게」 바꾸면 끌어다 놓은 값이 비어 버립니다.</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-5 items-start">
+      <div class="soft-card rounded-3xl p-6">
+        <div class="tagchip bg-flame-600 text-white mb-3">AI 가 이름을 바꿨다</div>
+        <div class="code mb-3" style="font-size:13.5px;padding:.7rem 1rem"><span style="background:rgba(248,113,113,.22);display:block">-   public Transform pointA;</span><span style="background:rgba(163,230,53,.16);display:block">+   public Transform startPoint;</span></div>
+        <div class="uu mb-3">
+          <div class="uu-body">
+            <div class="uu-comp" style="margin-bottom:0">
+              <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-file-code"></i></span>Enemy Patrol (Script)</div>
+              <div class="uu-comp-b">
+                <div class="uu-row"><span class="uu-lb">Start Point</span><span class="uu-f obj" style="outline:2px solid #f97316;outline-offset:1px">None (Transform)</span></div>
+                <div class="uu-row"><span class="uu-lb">Point B</span><span class="uu-f obj"><i class="fa-solid fa-up-down-left-right"></i>PointB (Transform)</span></div>
+                <div class="uu-row"><span class="uu-lb">Speed</span><span class="uu-f">3</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="mono text-[13px] text-red-600 leading-snug">UnassignedReferenceException: The variable startPoint of EnemyPatrol has not been assigned.</p>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="tagchip bg-dev-600 text-white mb-3">꼭 바꿔야 하면</div>
+        <div class="code mb-4" style="font-size:13.5px"><span class="kw">using</span> UnityEngine;
+<span class="hl"><span class="kw">using</span> UnityEngine.Serialization;</span>   <span class="cm">// 이 줄이 필요합니다</span>
+
+<span class="kw">public class</span> <span class="ty">EnemyPatrol</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="hl">[<span class="ty">FormerlySerializedAs</span>(<span class="st">"pointA"</span>)]</span>
+    <span class="kw">public</span> <span class="ty">Transform</span> startPoint;</div>
+        <ul class="text-[16px] text-slate-600 space-y-1.5">
+          <li>· 옛 이름 pointA 로 저장된 값을 새 이름으로 읽어 옵니다</li>
+          <li>· 붙인 줄은 지우지 않고 둡니다</li>
+          <li>· <span class="mono">[SerializeField] private</span> 칸도 같습니다</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">그래서 규칙 파일에 <b class="text-dev-700">「Inspector 변수 이름은 바꾸지 않는다」</b>를 넣었습니다. 값을 다시 끌어다 놓아도 되지만, 프리팹 · 씬 여러 곳에 쓰였으면 전부 다시 해야 합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 씬은 파일 하나 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">씬은 파일 하나 — 주인은 한 명</h2>
+    <p class="text-xl text-slate-500 mb-6">오브젝트 · 위치 · 칸의 값이 전부 <span class="mono text-slate-700">.unity</span> 파일 하나에 들어 있습니다. 두 사람이 같은 씬을 고쳐 합치면 <b class="text-slate-700">나중에 넣은 쪽이 앞의 것을 덮습니다.</b></p>
+    <div class="grid md:grid-cols-3 gap-4 mb-6 items-stretch">
+      <div class="soft-card rounded-2xl p-5"><div class="text-[14px] font-black text-slate-400 mb-2">하린의 Game.unity</div><p class="text-[16.5px] text-slate-700">화면 아래에 조작키 안내를 넣었다</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-[14px] font-black text-slate-400 mb-2">지호의 Game.unity</div><p class="text-[16.5px] text-slate-700">순찰하는 적을 넣었다</p></div>
+      <div class="rounded-2xl p-5" style="background:#fff7ed;border:2px solid #fb923c"><div class="text-[14px] font-black text-flame-700 mb-2">둘 다 넘겨서 합치면</div><p class="text-[16.5px] text-slate-700">나중에 넣은 지호의 파일만 남고, <b>하린의 안내가 사라집니다.</b> 어디가 덮였는지 화면에 아무 표시도 없습니다.</p></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="rule-card"><span class="no">1</span><span>씬마다 주인 한 명 <span class="text-[15px] font-bold text-slate-500">— Game 씬은 합치는 사람, Title 씬은 하린. 주인은 씬을 통째로 넘겨도 됩니다</span></span></div>
+      <div class="rule-card"><span class="no">2</span><span>내 것은 Test_이름 씬에서 <span class="text-[15px] font-bold text-slate-500">— 만들고, 프리팹으로 묶어 넘깁니다</span></span></div>
+      <div class="rule-card"><span class="no">3</span><span>Test 씬은 넘기지 않습니다 <span class="text-[15px] font-bold text-slate-500">— 내 실험장입니다</span></span></div>
+      <div class="rule-card"><span class="no">4</span><span>깃을 써도 씬은 잘 안 합쳐집니다 <span class="text-[15px] font-bold text-slate-500">— 씬 약속은 그대로</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 설정 · 패키지 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">프로젝트마다 따로인 것 — 설정 · 패키지</h2>
+    <p class="text-xl text-slate-500 mb-6">Tag · Layer · 패키지 · 설정은 <b class="text-slate-700">Assets 밖</b>에 저장됩니다. 프리팹이나 .unitypackage 로 넘겨도 따라가지 않습니다.</p>
+    <div class="soft-card rounded-2xl overflow-hidden mb-6">
+      <table class="cmp-table">
+        <thead><tr><th>무엇</th><th>저장되는 곳</th><th>한 사람 것만 바뀌면, 합친 뒤</th></tr></thead>
+        <tbody>
+          <tr><td>Tag</td><td><span class="mono">ProjectSettings/TagManager.asset</span> · 오브젝트에는 글자로</td><td><span class="mono">Tag: Boss is not defined</span> — 태그로 하던 판정이 안 됩니다</td></tr>
+          <tr><td>Layer</td><td>같은 파일 · 오브젝트에는 번호로</td><td>충돌 · 카메라가 다르게 움직입니다</td></tr>
+          <tr><td>패키지</td><td><span class="mono">Packages/manifest.json</span></td><td><b>CS0246</b> — 이름을 찾을 수 없다는 빨간 줄</td></tr>
+          <tr><td>Player · Input 설정</td><td><span class="mono">ProjectSettings</span> 폴더</td><td>내 노트북에서만 다른 화면 · 다른 입력</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">AI 가 「Tag 를 추가하세요 · 패키지를 설치하세요」 라고 하면 <b class="text-dev-700">하기 전에 팀에 말합니다.</b> 넣는 것은 합치는 사람이 하고, 합친 zip 으로 모두에게 갑니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12 파트 02 표지 -->
+<section class="slide" data-part="2">
+  <div class="max-w-4xl w-full text-center">
+    <div class="part-num mb-4">02</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">넘기고 합치기</h2>
+    <p class="text-xl text-slate-500">묶기 · .unitypackage · 받는 날 · 새 시작점</p>
+  </div>
+</section>
+
+<!-- 13 한 바퀴 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">넘기고 합치는 한 바퀴</h2>
+    <p class="text-xl text-slate-500 mb-7">깃 없이도 됩니다. 넘기는 단위는 <b class="text-slate-700">.unitypackage</b>, 합치는 사람은 한 명, 합치는 날은 <b class="text-slate-700">받는 날</b>입니다.</p>
+    <div class="grid md:grid-cols-4 gap-4 mb-6 items-stretch">
+      <div class="soft-card rounded-2xl p-5 relative">
+        <div class="text-3xl font-black text-dev-600 mb-2">①</div>
+        <div class="text-lg font-black mb-2">내 Test 씬에서 ✓</div>
+        <p class="text-[15px] text-slate-600 leading-snug">넘기기 전에 세 가지 — 점검표 그 줄이 ✓ · 바꾼 파일과 새 Inspector 칸을 내가 말할 수 있다 · 다른 팀원이 한 판</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="text-3xl font-black text-dev-600 mb-2">②</div>
+        <div class="text-lg font-black mb-2">묶어서 내보내기</div>
+        <p class="text-[15px] text-slate-600 leading-snug">프리팹 + 내 칸 스크립트 → <b>.unitypackage</b> → 팀 공유 폴더 「넘기기」. 이름은 <span class="mono">누가_무엇_날짜</span>, 팀 기록에 한 줄</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="text-3xl font-black text-flame-600 mb-2">③</div>
+        <div class="text-lg font-black mb-2">받는 날 합치기</div>
+        <p class="text-[15px] text-slate-600 leading-snug">합치는 사람이 백업 zip → 가져오기 → Game 씬에 놓기 → Play 로 완료 기준 → 팀 기록</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="text-3xl font-black text-flame-600 mb-2">④</div>
+        <div class="text-lg font-black mb-2">새 시작점</div>
+        <p class="text-[15px] text-slate-600 leading-snug">합친 프로젝트 zip 을 모두가 받아 내 작업 폴더로. <b>안 넘긴 작업은</b> 바꾸기 전에 내 .unitypackage 로 묶어 둡니다</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17.5px] text-slate-700">예시 팀의 받는 날은 <b class="text-dev-700">금 11/6 · 일 11/8</b>, 마지막 빌드는 월 11/9. 받는 날에 모인 것만 합치고, 다음 받는 날까지는 새 시작점에서 일합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 묶어서 프리팹으로 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">넘길 것은 묶어서, 프리팹으로</h2>
+    <p class="text-xl text-slate-500 mb-6">프리팹은 <b class="text-slate-700">자기 안에 있는 것만</b> 기억합니다. Point A · B 가 묶음 밖에 있으면, 넘겨받은 쪽에서 칸이 비어 있습니다.</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-5">
+      <div class="rounded-3xl p-5" style="background:#fff7ed;border:2px solid #fdba74">
+        <div class="tagchip bg-flame-600 text-white mb-3">묶지 않으면</div>
+        <div class="grid grid-cols-2 gap-3 items-start">
+          <div class="uu"><div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div><div class="uu-tree">
+            <div class="uu-it pf"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>PatrolEnemy</div>
+            <div class="uu-it"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>PointA</div>
+            <div class="uu-it"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>PointB</div></div></div>
+          <div class="uu"><div class="uu-body">
+            <div class="uu-row"><span class="uu-lb" style="width:60px">Point A</span><span class="uu-f obj" style="outline:2px solid #f97316">None</span></div>
+            <div class="uu-row"><span class="uu-lb" style="width:60px">Point B</span><span class="uu-f obj" style="outline:2px solid #f97316">None</span></div></div></div>
+        </div>
+        <p class="text-[15px] text-slate-600 mt-3">프리팹은 PatrolEnemy 하나. 받은 Game 씬에서 <b>UnassignedReferenceException</b></p>
+      </div>
+      <div class="rounded-3xl p-5" style="background:#f0fdf4;border:2px solid #86efac">
+        <div class="tagchip bg-emerald-600 text-white mb-3">묶으면</div>
+        <div class="grid grid-cols-2 gap-3 items-start">
+          <div class="uu"><div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div><div class="uu-tree">
+            <div class="uu-it pf"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>PatrolSet</div>
+            <div class="uu-it pf" style="padding-left:24px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>PatrolEnemy</div>
+            <div class="uu-it pf" style="padding-left:24px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>PointA</div>
+            <div class="uu-it pf" style="padding-left:24px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>PointB</div></div></div>
+          <div class="uu"><div class="uu-body">
+            <div class="uu-row"><span class="uu-lb" style="width:60px">Point A</span><span class="uu-f obj uu-hl">PointA</span></div>
+            <div class="uu-row"><span class="uu-lb" style="width:60px">Point B</span><span class="uu-f obj uu-hl">PointB</span></div></div></div>
+        </div>
+        <p class="text-[15px] text-slate-600 mt-3">프리팹은 PatrolSet 하나에 셋이 다 들어 있습니다. 받은 쪽에서도 그대로 움직입니다</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-box mr-2"></i>넘기는 것</div><p class="text-[16px] text-slate-600">프리팹 <span class="mono">PatrolSet.prefab</span> · 내 칸 스크립트 <span class="mono">EnemyPatrol.cs</span> · 내가 새로 만든 머티리얼 · 그림 · 소리</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-ban mr-2"></i>넘기지 않는 것</div><p class="text-[16px] text-slate-600">Test 씬 · Game 씬 · 남의 칸 스크립트 · ProjectSettings · Packages</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 묶어서 .unitypackage 로 넘기기 -->
+<section class="slide" data-part="2" data-sim="handoff">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>묶어서 .unitypackage 로 넘기기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 받는 날 가져와서 합치기 -->
+<section class="slide" data-part="2" data-sim="merge">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>받는 날 가져와서 합치기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 17 합칠 때 자주 나는 문제 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-6">합칠 때 자주 나는 문제</h2>
+    <div class="soft-card rounded-2xl overflow-hidden mb-5">
+      <table class="cmp-table">
+        <thead><tr><th>이럴 때</th><th>이것부터 봅니다</th></tr></thead>
+        <tbody>
+          <tr><td>오브젝트에 Missing (Mono Script)</td><td>스크립트를 탐색기 · AI 도구로 옮기거나 다시 만들었는지 → 번호가 바뀌었습니다. Script 자리에 스크립트를 다시 끌어다 놓고, 칸이 비었으면 다시 채웁니다</td></tr>
+          <tr><td>칸이 None 으로 비어 있다</td><td>변수 이름이 바뀌었는지 (FormerlySerializedAs) · 프리팹 밖의 오브젝트를 가리켰는지 (묶어서 다시)</td></tr>
+          <tr><td><span class="mono">Tag: … is not defined</span></td><td>넘긴 사람만 그 Tag 를 만들었는지 → 합치는 사람이 Tag 를 더하고, 합친 zip 으로 나눕니다</td></tr>
+          <tr><td>CS0246 — 이름을 찾을 수 없음</td><td>패키지가 없는지 · 같이 넘겼어야 할 스크립트가 빠졌는지</td></tr>
+          <tr><td>Import 목록에서 남의 파일에 ↻</td><td>그 줄은 끄고 가져온 뒤 넘긴 사람에게 묻습니다. 그 파일의 주인이 넘긴 것이면 ↻ 가 맞습니다</td></tr>
+          <tr><td>CS0101 — 같은 이름이 이미 있음</td><td>같은 class 가 두 파일에 있는지 · 다른 폴더에 복사본이 생겼는지</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">이상하면 고치려 들기 전에 <b class="text-flame-700">합치기 전 zip 으로 돌아가</b>, 하나씩 다시 가져옵니다. 어느 묶음에서 문제가 생겼는지 바로 보입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 18 직접 고치는 AI -->
+<section class="slide" data-part="3">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">파일을 직접 고치는 AI 를 쓸 때</h2>
+    <p class="text-xl text-slate-500 mb-6">편집기 안 AI · 터미널 AI(에이전트) · 유니티 도구 연결(MCP)은 붙여 넣기 없이 프로젝트 파일을 바로 바꿉니다. 빠른 만큼, <b class="text-slate-700">한 번에 여러 파일</b>이 바뀝니다.</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-dev-600 mr-1">1</span> 내 작업 폴더에서만, 시키기 전에 zip</div><p class="text-[15.5px] text-slate-600">팀 공유 폴더나 합친 프로젝트에서 바로 돌리지 않습니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-dev-600 mr-1">2</span> 규칙 파일을 읽게</div><p class="text-[15.5px] text-slate-600">프로젝트 맨 위 AGENTS.md (도구에 따라 이름이 다릅니다). 「팀 약속」이 그대로 적용됩니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-dev-600 mr-1">3</span> 끝나면 바꾼 파일 목록부터</div><p class="text-[15.5px] text-slate-600">작업 칸 밖 파일, <span class="mono">.unity</span> · ProjectSettings · Packages 가 있으면 zip 에서 되돌립니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-flame-600 mr-1">4</span> 옮기기 · 이름 바꾸기는 사람이</div><p class="text-[15.5px] text-slate-600">Project 창에서 합니다. 도구가 지우고 다시 만들면 .meta 번호가 바뀝니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-flame-600 mr-1">5</span> 유니티로 돌아와 기다리기</div><p class="text-[15.5px] text-slate-600">도는 표시가 멈출 때까지. 새 파일의 .meta 는 유니티가 만듭니다. 그다음 Console · Play.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-flame-600 mr-1">6</span> 도구 연결(MCP)은 Test 씬에서</div><p class="text-[15.5px] text-slate-600">씬을 직접 바꿀 수 있으니, Game 씬은 합치는 사람만 엽니다.</p></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">복사 · 붙여 넣기는 사람이 한 번 보고 넣습니다. 직접 고치는 AI 는 <b class="text-dev-700">끝난 다음에 봅니다.</b> 그래서 바꾼 파일 목록과 되돌릴 zip 이 더 중요합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 19 깃을 쓰는 팀은 -->
+<section class="slide" data-part="3">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">깃을 쓰는 팀은</h2>
+    <p class="text-xl text-slate-500 mb-6">이 수업은 깃을 꼭 쓰라고 하지 않습니다. 이미 쓰는 팀만 보면 됩니다. 약속은 그대로이고, 넘기는 단위만 커밋으로 바뀝니다.</p>
+    <div class="grid md:grid-cols-2 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">.meta 도 커밋</div><p class="text-[16px] text-slate-600">.cs 와 .meta 는 한 쌍입니다. 빠지면 받은 쪽에서 번호가 새로 생깁니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">올리지 않는 폴더</div><p class="text-[16px] text-slate-600"><span class="mono">Library · Temp · Logs · UserSettings</span> 와 빌드 폴더. <span class="mono">.gitignore</span> 에 적습니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">씬은 깃으로도 잘 안 합쳐집니다</div><p class="text-[16px] text-slate-600">씬 주인 약속은 그대로. 남의 씬은 프리팹으로 넘깁니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">작업 칸마다 브랜치</div><p class="text-[16px] text-slate-600">합치는 사람이 받는 날에 합칩니다. 커밋 메시지는 팀 기록 한 줄처럼.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">저장 방식 확인</div><p class="text-[16px] text-slate-600">Project Settings 에서 Asset Serialization 이 <b>Force Text</b>, Version Control 이 <b>Visible Meta Files</b> 인지. 지금 기본값입니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">커밋은 본 사람이</div><p class="text-[16px] text-slate-600">AI 도구가 바꾼 파일 목록을 사람이 보고 나서 커밋합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 정리 -->
+<section class="slide" data-part="3">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-7 text-center">한 장으로 정리하면</h2>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="soft-card rounded-3xl p-7">
+        <div class="tagchip bg-dev-600 text-white mb-4">01 AI 가 모르는 연결</div>
+        <ul class="text-[17px] text-slate-700 space-y-2">
+          <li>· 규칙 파일에 <b>「## 팀 약속」</b> — 원본은 팀 공유 폴더, 각자 복사</li>
+          <li>· 요청 다섯째 칸 <b>고쳐도 되는 파일</b>, 답은 바꾼 파일 목록부터</li>
+          <li>· 유니티는 <b>.meta 번호</b>로 기억 — 이름 · 위치는 Project 창에서</li>
+          <li>· Inspector 값은 <b>변수 이름</b>으로 — 바꾸면 FormerlySerializedAs</li>
+          <li>· 씬은 파일 하나, 주인 한 명 · 설정 · 패키지는 팀에 먼저</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7">
+        <div class="tagchip bg-flame-600 text-white mb-4">02 넘기고 합치기</div>
+        <ul class="text-[17px] text-slate-700 space-y-2">
+          <li>· Test 씬에서 ✓ → <b>묶어서 프리팹</b>으로</li>
+          <li>· 내 칸 파일만 <b>.unitypackage</b>, 이름은 누가_무엇_날짜</li>
+          <li>· 받는 날 — 백업 → 가져오기 → Game 씬 → Play → 팀 기록</li>
+          <li>· 합친 zip 이 <b>모두의 새 시작점</b></li>
+          <li>· 직접 고치는 AI · 깃을 써도 같은 약속</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 text-center">
+      <p class="text-[19px] text-slate-700">AI 는 코드를 봅니다. 유니티는 코드 밖에도 연결을 저장합니다. <b class="text-dev-700">그 연결을 지키는 것이 팀의 몫</b>입니다.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="navbar-fixed fixed bottom-5 left-1/2 -translate-x-1/2 z-[130] flex items-center gap-3">
+  <button onclick="prevSlide()" aria-label="이전 슬라이드"
+    class="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:bg-slate-50 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur border border-slate-200 shadow-md rounded-full px-4 h-11 text-xs text-slate-400">
+    <span class="kbd">←</span><span class="kbd">→</span><span>이동</span>
+  </div>
+  <button onclick="nextSlide()" aria-label="다음 슬라이드"
+    class="w-12 h-12 rounded-full bg-slate-900 text-white shadow-lg hover:bg-dev-700 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+/* ===== 따라 하기: 유니티 에디터 모사 ===== */
+const fa = (n, c) => `<i class="fa-solid fa-${n}"${c ? ` style="color:${c}"` : ""}></i>`;
+const K = k => k ? ` data-k="${k}"` : "";
+
+/* --- 메뉴 --- */
+const MI_H = 21, MSEP_H = 9;
+function menuCols(cols){
+  let off = 0, html = "";
+  cols.forEach(col => {
+    html += `<div class="uu-menu" style="margin-top:${off}px">` + col.map(it => {
+      if (it === "-") return `<div class="uu-msep"></div>`;
+      const on = it[0] === "*", sub = it.endsWith(">");
+      const lb = it.replace(/^\*/, "").replace(/>$/, "");
+      return `<div class="uu-mi${on ? " on" : ""}">${lb}${sub ? `<span class="ar">▶</span>` : ""}</div>`;
+    }).join("") + `</div>`;
+    let h = 0; for (const it of col){ if (it[0] === "*") break; h += it === "-" ? MSEP_H : MI_H; }
+    off += h;
+  });
+  return html;
+}
+function ctx(pos, cols, rtl){ return `<div class="uu-menus ed-ov" style="${pos};${rtl ? "flex-direction:row-reverse;" : ""}">${menuCols(cols)}</div>`; }
+
+/* --- 인스펙터 조각 --- */
+const f = (v, k, st) => `<span class="uu-f"${K(k)}${st ? ` style="${st}"` : ""}>${v}</span>`;
+const row = (lb, v) => `<div class="uu-row"><span class="uu-lb">${lb}</span>${v}</div>`;
+function comp(title, icon, body){
+  return `<div class="uu-comp"><div class="uu-comp-h"><span class="tri">${body == null ? "▶" : "▼"}</span><span class="ico">${fa(icon)}</span>${title}<span class="ed-dots">⋮</span></div>${body == null ? "" : `<div class="uu-comp-b">${body}</div>`}</div>`;
+}
+function goHead(name, layer){
+  return `<div class="ed-goh"><span class="gi">${fa("cube")}</span><span class="uu-chk on">✓</span>${f(name, "i:name", "flex:1")}<span class="uu-note">Static</span></div>`
+    + `<div class="ed-goh2"><span class="uu-note">Tag</span>${f("Untagged ▾")}<span class="uu-note">Layer</span>${f((layer || "Default") + " ▾")}</div>`;
+}
+const xyz = (a, b, c) => `<span class="ed-xyz"><span>X</span>${f(a)}<span>Y</span>${f(b)}<span>Z</span>${f(c)}</span>`;
+const xform = () => comp("Transform", "up-down-left-right", row("Position", xyz(0, 0, 0)) + row("Rotation", xyz(0, 0, 0)) + row("Scale", xyz(1, 1, 1)));
+function rectT(x, y, w, h){
+  return comp("Rect Transform", "vector-square", `<div class="ed-rt"><span class="ed-anc">center<br>middle</span><div class="ed-rtg">`
+    + `<span>Pos X</span><span>Pos Y</span><span>Pos Z</span>${f(x, "i:px")}${f(y, "i:py")}${f(0)}`
+    + `<span>Width</span><span>Height</span><span></span>${f(w, "i:w")}${f(h, "i:h")}<span></span></div></div>`);
+}
+function alignB(a){
+  return `<span class="ed-al"${K("i:align")}>` + ["left", "center", "right"].map(x => `<span class="${x === a ? "on" : ""}">${fa("align-" + x)}</span>`).join("") + `</span>`;
+}
+function tmpC(text, size, align){
+  return comp("TextMeshPro - Text (UI)", "font",
+    row("Text Input", f(text, "i:text", "height:34px;white-space:normal"))
+    + row("Font Asset", f("LiberationSans SDF ⊙")) + row("Font Size", f(size, "i:size")) + row("Alignment", alignB(align || "left")));
+}
+const imageC = () => comp("Image", "image", null);
+function buttonC(oc){
+  let list;
+  if (!oc) list = `<div class="ed-oce">List is Empty</div>`;
+  else list = `<div class="uu-row">${f("Runtime Only ▾", "", "flex:0 0 92px")}${f(oc.fn ? `SceneLoader.${oc.fn} ▾` : "No Function ▾", "i:fn")}</div>`
+    + `<div class="uu-row"><span class="uu-f obj"${K("i:obj")} style="flex:0 0 92px">${oc.obj ? fa("cube") + oc.obj : "None (Object)"}</span></div>`;
+  return comp("Button", "hand-pointer", row("Interactable", `<span class="uu-chk on">✓</span>`) + row("Transition", f("Color Tint ▾"))
+    + `<div class="ed-ocl">On Click ()</div><div class="ed-ocb">${list}</div><div class="ed-pm"><span class="uu-btn"${K("i:plus")}>+</span><span class="uu-btn">−</span></div>`);
+}
+function scriptC(title, fields){
+  return comp(title + " (Script)", "file-code", row("Script", `<span class="uu-f obj" style="opacity:.75">${fa("file-code")}${title.replace(/ /g, "")}</span>`)
+    + (fields || []).map(([lb, v, k]) => row(lb, `<span class="uu-f obj"${K(k)}>${v ? fa("font") + v + " (TextMeshProUGUI)" : "None (TMP_Text)"}</span>`)).join(""));
+}
+const addComp = k => `<div class="ed-addc"><span class="uu-btn"${K(k || "i:add")}>Add Component</span></div>`;
+function scalerC(scale){
+  const b = scale
+    ? row("UI Scale Mode", f("Scale With Screen Size ▾", "i:mode")) + row("Reference Resolution", `<span class="ed-xyz" style="grid-template-columns:auto 1fr auto 1fr"${K("i:ref")}><span>X</span>${f(1920)}<span>Y</span>${f(1080)}</span>`)
+      + row("Screen Match Mode", f("Match Width Or Height ▾")) + row("Match", `<span class="uu-sl"${K("i:match")}><span>Width</span><span class="tr"></span><span>Height</span></span>${f("0.5", "", "flex:0 0 34px")}`)
+    : row("UI Scale Mode", f("Constant Pixel Size ▾", "i:mode")) + row("Scale Factor", f(1)) + row("Reference Pixels Per Unit", f(100));
+  return comp("Canvas Scaler", "expand", b);
+}
+const canvasInsp = scale => goHead("Canvas", "UI") + comp("Rect Transform", "vector-square", `<div class="uu-note">Some values driven by Canvas.</div>`)
+  + comp("Canvas", "table-cells", null) + `<div${K("i:scaler")}>${scalerC(scale)}</div>` + comp("Graphic Raycaster", "arrow-pointer", null);
+
+/* --- 게임 화면 (Full HD 기준 좌표) --- */
+function U(items, o){
+  o = o || {};
+  return `<div class="scr${o.cv ? " cv" : ""}"${K(o.k || "gv")}><div class="ed-ui"${o.scale ? ` style="transform:scale(${o.scale})"` : ""}>` + items.map(([kd, t, y, w, h, sz, k]) => {
+    const st = `top:${50 - y / 10.8}%;width:${w / 19.2}cqw;height:${h / 19.2}cqw;font-size:${sz / 19.2}cqw;`;
+    return `<div class="${kd}"${K(k)} style="${st}">${t}</div>`;
+  }).join("") + `</div></div>`;
+}
+const TITLE_T = ["t", "ROLL A BALL", 200, 1200, 160, 120];
+const START_B = ["b", "START", -150, 400, 100, 48, "u:start"];
+const QUIT_B = ["b", "QUIT", -400, 400, 100, 48, "u:quit"];
+const titleUI = (o, quit) => U([TITLE_T, START_B].concat(quit === false ? [] : [QUIT_B]), o);
+const resultUI = (title, score, o) => U([["t", title, 200, 1200, 160, 120], ["t", score, 40, 800, 80, 60],
+  ["b", "RETRY", -150, 400, 100, 48, "u:retry"], ["b", "TITLE", -300, 400, 100, 48, "u:title"]], o);
+const emptyScr = () => `<div class="scr"${K("gv")}></div>`;
+function roll(count, o){
+  o = o || {};
+  const pu = [[30, 60], [24, 74], [40, 52], [58, 58], [70, 72], [34, 88]].slice(0, o.pu == null ? 6 : o.pu)
+    .map(([l, t]) => `<span class="pu" style="left:${l}%;top:${t}%"></span>`).join("");
+  return `<div class="scr roll"${K("gv")}><div class="pl"></div>${pu}<span class="en"${K("u:enemy")}></span><span class="ball"></span>${count == null ? "" : `<span class="hud">Count: ${count}</span>`}</div>`;
+}
+const sv3d = inner => `<div class="ed-grid"></div><div class="ed-gv" style="opacity:.92">${inner || ""}</div>`;
+const sv2d = ui => `<div class="ed-grid"></div><div class="ed-gv" style="inset:14px">${ui}</div>`;
+
+/* --- 코드 편집기 --- */
+const C_KW = "using|public|private|static|class|void|bool|int|float|if|else|new|true|false|return";
+function hlc(t){
+  t = t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return t.replace(new RegExp(`(//.*$)|("[^"]*")|\\b(${C_KW})\\b|\\b(\\d+(?:\\.\\d+)?f?)\\b|\\b([A-Z][A-Za-z_]*)\\b`, "g"),
+    (m, cm, st, kw, nu, ty) => cm ? `<span class="cm">${cm}</span>` : st ? `<span class="st">${st}</span>` : kw ? `<span class="kw">${kw}</span>` : nu ? `<span class="nu">${nu}</span>` : `<span class="ty">${ty}</span>`);
+}
+function code(file, lines, pos){
+  let n = 1;
+  const body = lines.map(L => {
+    if (L[0] === "@"){ n = +L.slice(1); return ""; }
+    if (L === "…") return `<div class="cl gap"><span class="ln"></span><span class="cx">    …</span></div>`;
+    let cls = "", t = L;
+    if ("+->".includes(L[0])){ cls = { "+": " add", "-": " del", ">": " foc" }[L[0]]; t = L.slice(1); }
+    const cx = t.split("~").map((s, i) => i % 2 ? `<span class="sq">${hlc(s)}</span>` : hlc(s)).join("");
+    return `<div class="cl${cls}"><span class="ln">${n++}</span><span class="cx">${cx}</span></div>`;
+  }).join("");
+  return `<div class="ed-ov ed-code" style="${pos || "left:10%;right:3%;top:36px;bottom:24px"}"><div class="hd"><span class="tab">${fa("file-code", "#a7d1f5")} ${file}</span><span class="ap">코드 편집기</span></div><div class="bd${lines.length > 18 ? " sm" : ""}">${body}</div></div>`;
+}
+
+/* --- 창 --- */
+const win = (title, body, pos, k) => `<div class="ed-ov ed-win"${K(k)} style="${pos}"><div class="ed-wt">${title}<span class="x"${K("w:x")}>✕</span></div><div class="ed-wb">${body}</div></div>`;
+const BP_POS = "left:23%;top:58px;width:60%;height:270px";
+function bp(view, list, o){
+  o = o || {};
+  const left = `<div class="uu-tree">`
+    + `<div class="uu-it${view === "scenes" ? " sel" : ""}"${K("bp:list")}><span class="ico">${fa("list")}</span>Scene List</div>`
+    + `<div class="uu-note" style="padding:6px 7px 2px">Platforms</div>`
+    + `<div class="uu-it${view === "win" ? " sel" : ""}"${K("bp:win")}><span class="ico"><i class="fa-brands fa-windows"></i></span>Windows<span style="margin-left:auto;font-size:10.5px;opacity:.8">Active</span></div>`
+    + [["apple", "macOS"], ["linux", "Linux"], ["android", "Android"]].map(([i, n]) => `<div class="uu-it"><span class="ico"><i class="fa-brands fa-${i}"></i></span>${n}</div>`).join("")
+    + `<div class="uu-it"><span class="ico">${fa("globe")}</span>Web</div></div>`;
+  let right;
+  if (view === "scenes"){
+    right = `<div style="font-weight:800;color:#e6e6e6;margin-bottom:6px">Scene List</div><div class="uu-comp" style="padding:5px 8px;min-height:74px"${K("bp:rows")}>`
+      + (() => { let n = 0; return (list || []).map(([p, on, k]) => `<div class="uu-row"${K(k)}><span class="uu-chk${on ? " on" : ""}"${K(k ? k + "c" : "")}>${on ? "✓" : ""}</span><span style="flex:1">${p}</span><span class="uu-note">${on ? n++ : ""}</span></div>`).join(""); })()
+      + `</div><div style="text-align:right;margin-top:6px"><span class="uu-btn">Add Open Scenes</span></div>`;
+  } else {
+    right = `<div style="display:flex;flex-direction:column;height:100%"><div style="font-weight:800;color:#e6e6e6;margin-bottom:8px"><i class="fa-brands fa-windows" style="color:#9fb6c8"></i> Windows</div>`
+      + row("Scene List", f("Title · Game · Result")) + row("Architecture", f("Intel 64-bit")) + row("Development Build", `<span class="uu-chk"></span>`)
+      + `<div style="margin-top:auto;text-align:right"><span class="uu-btn">Build And Run</span> <span class="uu-btn"${K("bp:build")} style="background:#2c5d87;color:#fff">Build</span></div></div>`;
+  }
+  return win("Build Profiles", `<div class="ed-bpl"><div>${left}</div><div class="uu-body" style="padding:8px 10px">${right}</div></div>`, BP_POS);
+}
+
+/* --- 바탕 화면 --- */
+const winRows = rows => rows.map(([ic, name, kind, k, sel]) => `<div class="win-row${sel ? " sel" : ""}"${K(k)}><span class="ico">${ic}</span>${name}<span class="kind">${kind}</span></div>`).join("");
+const explorer = (path, rows, pos) => `<div class="win"${K("x:win")} style="${pos}"><div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> ${path}</div>${winRows(rows)}</div>`;
+const IC_DIR = `<i class="fa-solid fa-folder text-amber-500"></i>`, IC_EXE = `<i class="fa-solid fa-gamepad text-dev-600"></i>`,
+  IC_DLL = `<i class="fa-solid fa-gear text-slate-400"></i>`, IC_ZIP = `<i class="fa-solid fa-file-zipper text-amber-600"></i>`;
+const BUILD_ROWS = [[IC_DIR, "<b>RollABall_Data</b>", "파일 폴더", "x:data"], [IC_DIR, "MonoBleedingEdge", "파일 폴더"],
+  [IC_EXE, "<b>RollABall.exe</b>", "응용 프로그램", "x:exe"], [IC_DLL, "UnityPlayer.dll", "응용 프로그램 확장"], [IC_DLL, "UnityCrashHandler64.exe", "응용 프로그램"]];
+const gameWin = (inner, pos) => `<div class="gw" style="${pos}"><div class="tt">${fa("gamepad")} RollABall<span class="ctl"><span>—</span><span>☐</span><span>✕</span></span></div>${inner}</div>`;
+const dkMenu = (pos, cols) => `<div class="dk-menus" style="${pos}">` + cols.map((c, i) => `<div class="dk-menu"${i ? ` style="margin-top:${c.off || 0}px"` : ""}>` + c.items.map(it => it === "-" ? `<div class="sep"></div>`
+  : `<div class="mi${it[0] === "*" ? " on" : ""}">${it.replace(/^\*/, "").replace(/>$/, "")}${it.endsWith(">") ? `<span class="ar">▶</span>` : ""}</div>`).join("") + `</div>`).join("") + `</div>`;
+
+/* --- 렌더 --- */
+const SIM_BASE = { scene: "Title", hier: ["Main Camera", "Directional Light"], hsel: null, hedit: null,
+  proj: { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Title", "scene"]] }, psel: [], pedit: null,
+  insp: "", view: "scene", sv: sv3d(), gv: emptyScr(), res: "Full HD (1920x1080)", two: false,
+  bottom: "project", logs: [], logSel: -1, playing: false, busy: false, mb: null, mbm: null, desk: false };
+const SIM_TRANSIENT = { ov: "", tap: [], hl: [], drag: [], pedit: null, hedit: null, note: "", mb: null, mbm: null, logSel: -1 };
+const PTREE = ["Materials", "Prefabs", "Scenes", "Scripts", "Settings"];
+const TILE_IC = { scene: `<i class="fa-brands fa-unity"></i>`, script: fa("file-code"), folder: fa("folder"), zip: fa("file-zipper") };
+
+function hierHTML(s){
+  let h = `<div class="uu-it"${K("h:" + s.scene)}><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>${s.scene}</b><span class="ed-dots">⋮</span></div>`;
+  s.hier.forEach(r => {
+    const m = r.match(/^( *)(.*?)( [▸▾])?$/), d = m[1].length / 2 + 1, name = m[2];
+    const tri = m[3] ? (m[3].trim() === "▾" ? "▼" : "▶") : "";
+    const ico = /Camera/.test(name) ? "video" : /Light/.test(name) ? "sun" : "cube";
+    h += `<div class="uu-it${s.hsel === name ? " sel" : ""}"${K("h:" + name)} style="padding-left:${6 + d * 13}px"><span class="tri">${tri}</span><span class="ico">${fa(ico)}</span>${s.hedit === name ? `<span class="ed-edit">${name}</span>` : name}</div>`;
+  });
+  return h;
+}
+function projHTML(s){
+  const p = s.proj;
+  const tree = `<div class="uu-tree"><div class="uu-it${p.path === "Assets" ? " sel" : ""}"${K("pt:Assets")}><span class="tri">▼</span><span class="ico">${fa("folder")}</span>Assets</div>`
+    + PTREE.map(n => `<div class="uu-it${p.path === n ? " sel" : ""}"${K("pt:" + n)} style="padding-left:20px"><span class="tri"></span><span class="ico">${fa(p.path === n ? "folder-open" : "folder")}</span>${n}</div>`).join("")
+    + `<div class="uu-it"><span class="tri">▶</span><span class="ico">${fa("folder")}</span>Packages</div></div>`;
+  const tiles = p.items.map(([n, t]) => `<div class="ed-tile${s.psel.includes(n) ? " sel" : ""}"${K("p:" + n)}><span class="ic ${t}">${TILE_IC[t]}</span><span class="lb">${s.pedit === n ? `<span class="ed-edit">${n}</span>` : n}</span></div>`).join("");
+  return `<div class="ed-pj">${tree}<div><div class="ed-crumb">Assets${p.path === "Assets" ? "" : " › " + p.path}</div><div class="ed-tiles"${K("p:area")}>${tiles}</div></div></div>`;
+}
+function conHTML(s){
+  const e = s.logs.filter(l => l[0] === "err").length;
+  const rows = s.logs.map((l, i) => `<div class="lg ${l[0]}${s.logSel === i ? " sel" : ""}"${K("c:" + i)}>${fa(l[0] === "err" ? "circle-exclamation" : "circle-info")}<span>${l[1]}</span></div>`).join("");
+  const det = s.logSel >= 0 ? s.logs[s.logSel][2] || s.logs[s.logSel][1] : "";
+  return `<div class="ed-con"><div class="bar"><span class="uu-f">Clear ▾</span><span class="uu-f">Collapse</span><span class="uu-f">Error Pause</span><span class="cnt"><span>${fa("circle-info")} 0</span><span>${fa("triangle-exclamation")} 0</span><span style="${e ? "color:#ff8f7a" : ""}">${fa("circle-exclamation")} ${e}</span></span></div><div class="logs">${rows}</div><div class="det">${det}</div></div>`;
+}
+function viewHTML(s){
+  const tabs = `<div class="ed-tabs"><span class="${s.view === "scene" ? "on" : ""}">${fa("hashtag")} Scene</span><span class="${s.view === "game" ? "on" : ""}"${K("tab:game")}>${fa("gamepad")} Game</span></div>`;
+  if (s.view === "scene")
+    return tabs + `<div class="ed-sub"><span class="uu-f">Center ▾</span><span class="uu-f">Local ▾</span><span style="margin-left:auto" class="ed-2d${s.two ? " on" : ""}"${K("sv:2d")}>2D</span>${fa("lightbulb")}${fa("volume-high")}${fa("eye")}</div><div class="ed-body">${s.sv}</div>`;
+  return tabs + `<div class="ed-sub"><span class="uu-f">Display 1 ▾</span><span class="uu-f"${K("g:res")}>${s.res} ▾</span><span class="uu-note">Scale ─●─ 1x</span><span class="uu-f" style="margin-left:auto">Play Focused ▾</span></div><div class="ed-body"><div class="ed-gv">${s.gv}</div></div>`;
+}
+function renderEdHTML(s){
+  if (s.desk) return `${s.dk || ""}${s.ov}<div class="dk-task"><i class="fa-brands fa-windows" style="color:#2563eb"></i>${fa("magnifying-glass")}${fa("folder", "#d97706")}<i class="fa-brands fa-chrome"></i></div>`;
+  const MB = ["File", "Edit", "Assets", "GameObject", "Component", "Services", "Window", "Help"];
+  const mb = `<div class="ed-mb">` + MB.map(m => `<span class="${s.mb === m ? "on" : ""}"${K("mb:" + m)}>${m}${s.mb === m && s.mbm ? `<div class="uu-menus">${menuCols(s.mbm)}</div>` : ""}</span>`).join("") + `</div>`;
+  const tb = `<div class="ed-tb"><div class="lt"><span>${fa("circle-user")} ▾</span><span>${fa("cloud")}</span></div><span class="pb${s.playing ? " on" : ""}"${K("tb:play")}>${fa("play")}</span><span class="pb">${fa("pause")}</span><span class="pb">${fa("forward-step")}</span><div class="rt"><span>Layers ▾</span><span>Layout ▾</span></div></div>`;
+  const hi = `<div class="ed-p ed-hi"><div class="ed-tabs"><span class="on">${fa("list")} Hierarchy</span></div><div class="ed-sub">${fa("plus")} ▾<span class="uu-f" style="flex:1">${fa("magnifying-glass")} </span></div><div class="ed-body"${K("h:area")}><div class="uu-tree">${hierHTML(s)}</div></div></div>`;
+  const vw = `<div class="ed-p ed-vw">${viewHTML(s)}</div>`;
+  const ins = `<div class="ed-p ed-in"><div class="ed-tabs"><span class="on">${fa("circle-info")} Inspector</span></div><div class="ed-body"><div class="ed-insp">${s.insp}</div>${s.inspOv || ""}</div></div>`;
+  const bt = `<div class="ed-p ed-bt"><div class="ed-tabs"><span class="${s.bottom === "project" ? "on" : ""}">${fa("folder")} Project</span><span class="${s.bottom === "console" ? "on" : ""}"${K("tab:console")}>${fa("terminal")} Console</span></div><div class="ed-body">${s.bottom === "project" ? projHTML(s) : conHTML(s)}</div></div>`;
+  const last = s.logs.length ? s.logs[s.logs.length - 1] : null;
+  const st = `<div class="ed-st"><span class="msg${last && last[0] === "err" ? " err" : ""}">${last ? last[1] : ""}</span><span${K("st:spin")}>${s.busy ? fa("spinner fa-spin") : fa("circle-check", "#6b7280")}</span></div>`;
+  return mb + tb + hi + vw + ins + bt + st + s.ov;
+}
+function simStates(def){
+  if (def._st) return def._st;
+  let cur = Object.assign({}, SIM_BASE, { inspOv: "" }, def.base || {});
+  def._st = def.steps.map(st => (cur = Object.assign({}, cur, SIM_TRANSIENT, { inspOv: "" }, st)));
+  return def._st;
+}
+function renderSim(sl){
+  const def = SIMS[sl.dataset.sim], states = simStates(def), i = sl._step || 0, s = states[i];
+  const ed = sl.querySelector(".ed");
+  ed.className = "ed" + (s.playing ? " playing" : "") + (s.desk ? " desk" : "");
+  ed.innerHTML = renderEdHTML(s);
+  const mark = (keys, cls) => (keys || []).forEach(k => ed.querySelectorAll(`[data-k="${k}"]`).forEach(el => el.classList.add(cls)));
+  mark(s.tap, "tap"); mark(s.hl, "uu-hl"); mark(s.drag, "drag");
+  sl.querySelector(".ed-cap").innerHTML = `<span class="n">${i + 1} / ${states.length}</span><span class="t">${s.cap}</span>${s.note ? `<span class="note">${s.note}</span>` : ""}`;
+}
+function simCount(sl){ return simStates(SIMS[sl.dataset.sim]).length; }
+
+/* ===== 10주차 따라 하기 — 장면 정의 ===== */
+/* --- AI 채팅 · 메모장 · 탐색기 --- */
+const esc = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function aiCode(file, lines){
+  return `<div class="ai-code"><div class="ai-code-h">${fa("file-code")} ${file}<span>복사</span></div><pre>${lines.map(l => hlc(l)).join("\n")}</pre></div>`;
+}
+function chat(msgs, input, o){
+  o = o || {};
+  const m = msgs.map(([who, html, k]) => `<div class="ai-m ${who}"${K(k)}>${who === "a" ? `<span class="av">${fa("robot")}</span>` : ""}<div class="bb">${html}</div></div>`).join("");
+  return `<div class="ed-ov ai" style="${o.pos || "left:7%;right:7%;top:14px;bottom:46px"}">`
+    + `<div class="ai-h">${fa("comments", "#4f46e5")} AI 채팅<span class="ai-new"${K("ai:new")}>${fa("pen-to-square")} 새 대화</span></div>`
+    + `<div class="ai-b">${m || `<div class="ai-empty">무엇을 도와드릴까요?</div>`}</div>`
+    + `<div class="ai-in"><div class="ai-t"${K("ai:in")}>${input || `<span class="ph">메시지 입력</span>`}</div><span class="ai-send"${K("ai:send")}>${fa("arrow-up")}</span></div></div>`;
+}
+function notepad(name, lines, pos){
+  const body = lines.map(L => {
+    const add = L[0] === "+", t = add ? L.slice(1) : L;
+    return `<div class="np-l${add ? " add" : ""}${/^#/.test(t) ? " h" : ""}">${esc(t) || "&nbsp;"}</div>`;
+  }).join("");
+  return `<div class="ed-ov np" style="${pos || "left:20%;right:6%;top:14px;bottom:46px"}"><div class="np-t">${fa("file-lines", "#2563eb")} ${name} - 메모장<span class="ctl"><span>—</span><span>☐</span><span>✕</span></span></div>`
+    + `<div class="np-m"><span${K("np:file")}>파일</span><span>편집</span><span>보기</span></div><div class="np-b">${body}</div></div>`;
+}
+const IC_MD = `<i class="fa-solid fa-file-lines text-blue-600"></i>`, IC_TXT = `<i class="fa-solid fa-file-lines text-slate-400"></i>`;
+const exp2 = (path, rows, pos) => `<div class="win"${K("x:win")} style="${pos || "left:4%;top:20px;width:58%"}"><div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> ${path}</div>`
+  + `<div class="win-cmd"><span${K("x:new")}>${fa("circle-plus")} 새로 만들기</span><span>${fa("scissors")}</span><span>${fa("copy")}</span><span>${fa("paste")}</span><span>${fa("arrow-down-wide-short")} 정렬</span><span${K("x:view")}>${fa("bars")} 보기</span></div>`
+  + `<div${K("x:area")}>${winRows(rows)}</div></div>`;
+const P_ROWS = (o) => {
+  o = o || {}; const sel = o.sel || [];
+  const r = (ic, n, kind, k) => [ic, n, kind, k, sel.includes(n)];
+  return [r(IC_DIR, "Assets", "파일 폴더", "x:Assets"), r(IC_DIR, "Library", "파일 폴더"), r(IC_DIR, "Logs", "파일 폴더"), r(IC_DIR, "Packages", "파일 폴더", "x:Packages"),
+    r(IC_DIR, "ProjectSettings", "파일 폴더", "x:ProjectSettings"), r(IC_DIR, "Temp", "파일 폴더"), r(IC_DIR, "UserSettings", "파일 폴더", "x:UserSettings")].concat(o.extra || []);
+};
+const EDIT_NAME = (t) => `<span class="ed-edit" style="background:#fff;color:#111">${t}</span>`;
+const AG_ROW = (sel, name) => [IC_MD, name || "AGENTS.md", "Markdown 파일", "x:agents", sel];
+const DK_TASK_OPEN = "";
+
+/* --- 유니티 쪽 --- */
+const ROLL_H = ["Main Camera", "Directional Light", "Ground", "Player", "Walls ▸", "PickUps ▸", "Enemy", "Canvas ▸", "EventSystem"];
+const T_SCENES = { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Test_Jiho", "scene"], ["Title", "scene"]] };
+const SCRIPTS = n => ({ path: "Scripts", items: ["CameraController", "EscToTitle", "GameResult", "PlayerController", "ResultUI", "Rotator", "SceneLoader"].concat(n).sort().map(x => [x, "script"]) });
+const PROJ_CTX = (hi) => ctx("left:24%;top:118px", [["*Create>", "Show in Explorer", "Open", "Delete", "Rename", "Copy Path", "-", "Import New Asset...", "Import Package>", "Export Package...", "-", "Refresh"],
+  ["Folder", "-", (hi === "script" ? "*" : "") + "MonoBehaviour Script", "Scripting>", "Shader>", "-", "Scene", "Prefab", "-", "Material"]]);
+const SHOW_CTX = ctx("left:9%;top:150px", [["Create>", "*Show in Explorer", "Open", "Delete", "Rename", "Copy Path", "-", "Import New Asset...", "Import Package>", "Export Package...", "-", "Refresh"]]);
+const HIER_CTX = ctx("left:3%;top:200px", [["Copy", "Paste", "-", "Rename", "Duplicate", "Delete", "-", "*Create Empty", "3D Object>", "Effects>", "Light>", "Audio>", "Video>", "UI>", "UI Toolkit>", "Camera"]]);
+const GO_CUBE = [["Create Empty", "Create Empty Child", "*3D Object>", "2D Object>", "Effects>", "Light>", "Audio>", "Video>", "UI>", "UI Toolkit>", "Camera"],
+  ["*Cube", "Sphere", "Capsule", "Cylinder", "Plane", "Quad", "Text - TextMeshPro", "-", "Ragdoll...", "Terrain", "Tree", "Wind Zone"]];
+const searchOv = (q, res) => `<div class="ed-search" style="top:178px"><div class="q">${q}</div><div class="uu-it sel"${K("i:res")}><span class="ico">${fa("file-code")}</span>${res}</div></div>`;
+function goHead2(name, tag){
+  return `<div class="ed-goh"><span class="gi">${fa("cube")}</span><span class="uu-chk on">✓</span>${f(name, "i:name", "flex:1")}<span class="uu-note">Static</span></div>`
+    + `<div class="ed-goh2"><span class="uu-note">Tag</span>${f((tag || "Untagged") + " ▾", "i:tag")}<span class="uu-note">Layer</span>${f("Default ▾")}</div>`;
+}
+const xyz2 = (a, b, c, k) => `<span class="ed-xyz"${K(k)}><span>X</span>${f(a)}<span>Y</span>${f(b)}<span>Z</span>${f(c)}</span>`;
+const xform2 = (p, k) => comp("Transform", "up-down-left-right", row("Position", xyz2(p[0], p[1], p[2], k || "i:pos")) + row("Rotation", xyz2(0, 0, 0)) + row("Scale", xyz2(1, 1, 1)));
+const objF = (v, k) => `<span class="uu-f obj"${K(k)}>${v ? fa("up-down-left-right") + v + " (Transform)" : "None (Transform)"}</span>`;
+const patrolC = (a, b) => comp("Enemy Patrol (Script)", "file-code", row("Script", `<span class="uu-f obj" style="opacity:.75">${fa("file-code")}EnemyPatrol</span>`)
+  + row("Point A", objF(a, "i:pa")) + row("Point B", objF(b, "i:pb")) + row("Speed", f(3, "i:speed")));
+const cubeInsp = (name, tag, pos, script) => goHead2(name, tag) + xform2(pos) + comp("Cube (Mesh Filter)", "border-all", null) + comp("Mesh Renderer", "paintbrush", null)
+  + comp("Box Collider", "vector-square", null) + (script || "") + `<div class="ed-addc"><span class="uu-btn"${K("i:add")}>Add Component</span></div>`;
+const emptyInsp2 = (name, pos) => goHead2(name) + xform2(pos) + `<div class="ed-addc"><span class="uu-btn">Add Component</span></div>`;
+const TAG_DD = `<div class="ed-ov uu-menus" style="right:12%;top:112px"><div class="uu-menu">${["Untagged", "Respawn", "Finish", "EditorOnly", "MainCamera", "Player", "GameController", "*Enemy", "-", "Add Tag..."].map(t => t === "-" ? `<div class="uu-msep"></div>` : `<div class="uu-mi${t[0] === "*" ? " on" : ""}">${t.replace("*", "")}</div>`).join("")}</div></div>`;
+const H_T = (more) => ROLL_H.concat(more || []);
+function rollP(o){
+  o = o || {};
+  return `<div class="scr roll"${K("gv")}><div class="pl"></div>`
+    + [[30, 60], [24, 74], [40, 52], [58, 58], [70, 72], [34, 88]].map(([l, t]) => `<span class="pu" style="left:${l}%;top:${t}%"></span>`).join("")
+    + `<span class="en"></span><span class="en2"${K("u:pe")} style="left:${o.x == null ? 47 : o.x}%"></span>`
+    + (o.move ? `<span class="mv">${fa("arrows-left-right")}</span><span class="pt" style="left:31%">A</span><span class="pt" style="left:63%">B</span>` : "")
+    + `<span class="ball"></span>${o.count == null ? "" : `<span class="hud">Count: ${o.count}</span>`}</div>`;
+}
+const sv3dP = (o) => `<div class="ed-grid"></div><div class="ed-gv" style="opacity:.92">${rollP(o)}</div>`;
+
+/* --- 코드 · 글 --- */
+const PATROL = ["using UnityEngine;", "", "public class EnemyPatrol : MonoBehaviour", "{",
+  "    public Transform pointA;   // 왕복할 두 지점", "    public Transform pointB;", "    public float speed = 3f;", "",
+  "    Transform target;          // 지금 가는 쪽", "", "    void Start()", "    {", "        target = pointB;", "    }", "",
+  "    void Update()", "    {", "        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);", "",
+  "        if (Vector3.Distance(transform.position, target.position) < 0.05f)", "        {",
+  "            target = (target == pointA) ? pointB : pointA;   // 도착하면 방향을 바꾼다", "        }", "    }", "}"];
+const RULES = ["# 우리 팀 규칙 — AI 에게 먼저 주는 파일", "", "## 우리 게임",
+  "- Roll a Ball. 공을 굴려 코인을 다 모으면 클리어, 적에 닿으면 게임 오버", "- 씬은 Title · Game · Result. 입력은 Input System (Keyboard.current)", "",
+  "## 폴더 · 이름", "- 스크립트는 Assets/Scripts 에. 파일 이름 = class 이름, 영문 · 공백 없이", "- Game 씬은 합치는 사람만 연다. 실험은 Test_이름 씬에서", "",
+  "## 일하는 방식", "- 코드를 주기 전에 무엇을 할지 세 줄로 먼저 말한다", "- 한 번에 스크립트 하나만 만들거나 고친다", "- 다른 스크립트를 고쳐야 하면 먼저 묻는다", "",
+  "## 하지 말 것", "- 묻지 않은 기능을 덧붙이지 않는다", "- 씬 · 프로젝트 설정을 통째로 바꾸라고 하지 않는다"];
+const NEW_LINE = "- Inspector 에 끌어다 놓을 칸이 생기면, 무엇을 어디에 놓는지 같이 알려 준다";
+const RULES2 = (mark) => RULES.slice(0, 14).concat([(mark ? "+" : "") + NEW_LINE]).concat(RULES.slice(14));
+const U_RULES = `<div class="pre">${esc(RULES.slice(0, 4).join("\n"))}\n…</div>이 규칙을 지켜서 도와줘. 읽었으면 「확인」 이라고만 답해 줘.`;
+const ASK = `<div class="ask"><b>- 하려는 것:</b> 두 지점 사이를 왕복하는 적을 하나 더 만들고 싶어<br><b>- 완료 기준:</b> Play 하면 적이 두 지점 사이를 초속 3 으로 왕복한다 · 부딪히면 지금처럼 게임 오버 · Console 에 빨간 줄이 없다<br><b>- 지금 상황:</b> 적은 새로 만든 큐브 PatrolEnemy, 태그는 Enemy. 게임 오버는 PlayerController 가 Enemy 태그로 처리하고 있어<br><b>- 하지 말 것:</b> PlayerController 는 고치지 마</div>`;
+const PLAN = `<div class="plan" ${K("ai:plan")}><b>할 일</b><br>1. 새 스크립트 EnemyPatrol 하나를 만듭니다.<br>2. pointA · pointB 두 지점 사이를 speed 속도로 오갑니다.<br>3. PlayerController 는 고치지 않습니다.</div>`;
+const A_CODE = (k, full) => PLAN + `<div${K(k || "ai:code")}>${aiCode("EnemyPatrol.cs", full ? PATROL : PATROL.slice(0, 10).concat(["    …   (아래로 이어집니다)"]))}</div>`;
+const ERR1 = "UnassignedReferenceException: The variable pointB of EnemyPatrol has not been assigned.";
+const ERR_FULL = ERR1 + "\nYou probably need to assign the pointB variable of the EnemyPatrol script in the inspector.\nEnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)";
+const U_ERR = `Play 를 누르자 적이 안 움직이고 이 에러가 났어<div class="pre err">${esc(ERR_FULL)}</div>`;
+const A_FIX = `<div${K("ai:fix")}>코드 문제가 아니라 Inspector 의 <b>Point A · Point B 칸이 비어 있어서</b> 납니다.<br>1. 빈 오브젝트 <b>PointA</b> · <b>PointB</b> 를 만듭니다.<br>2. 적이 오갈 왼쪽 · 오른쪽 끝에 둡니다. Y · Z 는 적과 같게.<br>3. PatrolEnemy 의 Point A · Point B 칸에 각각 끌어다 놓습니다.</div>`;
+const CHECK = (n) => `<div class="ed-ov ckl" style="left:25%;right:25%;top:120px"><div class="h">${fa("list-check")} 완료 기준</div>`
+  + ["적이 두 지점 사이를 초속 3 으로 왕복한다", "부딪히면 지금처럼 게임 오버", "Console 에 빨간 줄이 없다"].map((t, i) => `<div class="r${i < n ? " ok" : ""}"><span class="b">${i < n ? "✓" : ""}</span>${t}</div>`).join("") + `</div>`;
+
+const DESK = { desk: true };
+
+/* ===== 10주차 온라인 ② — AI 와 팀으로 만들기 · 장면 정의 ===== */
+/* --- 프리팹(파란 이름) · 여러 개 고르기 --- */
+TILE_IC.prefab = fa("cube");
+function hierHTML(s){
+  const pf = s.pf || [];
+  let h = `<div class="uu-it"${K("h:" + s.scene)}><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>${s.scene}</b><span class="ed-dots">⋮</span></div>`;
+  s.hier.forEach(r => {
+    const m = r.match(/^( *)(.*?)( [▸▾])?$/), d = m[1].length / 2 + 1, name = m[2];
+    const tri = m[3] ? (m[3].trim() === "▾" ? "▼" : "▶") : "";
+    const ico = /Camera/.test(name) ? "video" : /Light/.test(name) ? "sun" : "cube";
+    const sel = Array.isArray(s.hsel) ? s.hsel.includes(name) : s.hsel === name;
+    h += `<div class="uu-it${sel ? " sel" : ""}${pf.includes(name) ? " pf" : ""}"${K("h:" + name)} style="padding-left:${6 + d * 13}px"><span class="tri">${tri}</span><span class="ico">${fa(ico)}</span>${s.hedit === name ? `<span class="ed-edit">${name}</span>` : name}</div>`;
+  });
+  return h;
+}
+const pfBar = () => `<div class="pf-bar"><span class="uu-note">Prefab</span><span class="uu-btn">Open</span><span class="uu-btn">Select</span><span class="uu-f" style="flex:0 0 auto">Overrides ▾</span></div>`;
+const MULTI3 = `<div class="ed-goh"><span class="gi">${fa("cubes")}</span><span class="uu-chk on">✓</span>${f("—", "", "flex:1")}<span class="uu-note">Static</span></div>`
+  + `<div class="ed-goh2"><span class="uu-note">Tag</span>${f("— ▾")}<span class="uu-note">Layer</span>${f("Default ▾")}</div>`
+  + comp("Transform", "up-down-left-right", row("Position", xyz2("—", 0.5, 6)) + row("Rotation", xyz2(0, 0, 0)) + row("Scale", xyz2(1, 1, 1)));
+const setInsp = (pfb) => goHead2("PatrolSet") + (pfb ? pfBar() : "") + xform2([0, 0, 0]) + `<div class="ed-addc"><span class="uu-btn">Add Component</span></div>`;
+
+/* --- 패키지 창 (Exporting package · Import Unity Package) --- */
+function pkRows(rows){
+  return rows.map(([d, t, n, on, k, b]) => `<div class="pk-row"${K(k)} style="padding-left:${8 + d * 16}px">`
+    + `<span class="uu-chk${on ? " on" : ""}">${on === "mix" ? "−" : on ? "✓" : ""}</span><span class="tri">${t === "folder" ? "▼" : ""}</span>`
+    + `<span class="ic ${t}">${TILE_IC[t]}</span><span class="nm">${n}</span>`
+    + (b === "NEW" ? `<span class="pk-new">NEW</span>` : b === "chg" ? `<span class="pk-chg">${fa("rotate")}</span>` : "") + `</div>`).join("");
+}
+const exportWin = (rows, pos) => win("Exporting package",
+  `<div class="pk"><div class="pk-h">Items to Export</div><div class="pk-list">${pkRows(rows)}</div>`
+  + `<div class="pk-ft"><span class="uu-btn"${K("pk:all")}>All</span><span class="uu-btn"${K("pk:none")}>None</span>`
+  + `<span class="pk-opt"${K("pk:dep")}><span class="uu-chk on">✓</span>Include dependencies</span>`
+  + `<span class="uu-btn pk-go"${K("pk:export")}>Export...</span></div></div>`, pos || "left:21%;top:44px;width:56%;height:356px");
+const importWin = (name, rows, pos) => win("Import Unity Package",
+  `<div class="pk"><div class="pk-h2"><span class="pk-ic">${fa("box-open")}</span>${name}</div><div class="pk-list">${pkRows(rows)}</div>`
+  + `<div class="pk-ft"><span class="uu-btn">All</span><span class="uu-btn">None</span><span class="uu-btn" style="margin-left:auto">Cancel</span><span class="uu-btn pk-go" style="margin-left:0"${K("pk:import")}>Import</span></div></div>`,
+  pos || "left:23%;top:70px;width:52%;height:250px");
+const PK_SCRIPTS = ["CameraController", "EnemyPatrol", "EscToTitle", "GameResult", "PlayerController", "ResultUI", "Rotator", "SceneLoader"];
+const PK_EXP = mine => [[0, "folder", "Assets", mine ? "mix" : true], [1, "folder", "Prefabs", true], [2, "prefab", "PatrolSet.prefab", true, "pk:pf"],
+  [1, "folder", "Scripts", mine ? "mix" : true]].concat(PK_SCRIPTS.map(n => [2, "script", n + ".cs", n === "EnemyPatrol" || !mine, n === "EnemyPatrol" ? "pk:ep" : "pk:x"]));
+const PK_IMP = [[0, "folder", "Assets", true], [1, "folder", "Prefabs", true], [2, "prefab", "PatrolSet.prefab", true, "pk:n1", "NEW"],
+  [1, "folder", "Scripts", true], [2, "script", "EnemyPatrol.cs", true, "pk:n2", "NEW"]];
+
+/* --- 파일 대화 상자 (Windows) --- */
+const IC_PKG = `<i class="fa-brands fa-unity text-slate-700"></i>`;
+const FD_NAV = [["desktop", "바탕 화면"], ["file-lines", "문서"], ["download", "다운로드"], ["folder", "팀 공유 폴더", 1]];
+function fileDlg(title, path, rows, name, ok, pos){
+  return `<div class="ed-ov fdlg" style="${pos || "left:17%;top:40px;width:64%"}"><div class="fd-t">${title}<span class="x">✕</span></div>`
+    + `<div class="fd-path"><i class="fa-solid fa-folder-open text-amber-500"></i> ${path}</div>`
+    + `<div class="fd-main"><div class="fd-nav">${FD_NAV.map(([i, n, on]) => `<div class="${on ? "sel" : ""}">${fa(i, on ? "#d97706" : "#64748b")}${n}</div>`).join("")}</div><div class="fd-list">${winRows(rows)}</div></div>`
+    + `<div class="fd-f"><span class="lb">파일 이름(N):</span><span class="in"${K("fd:name")}>${name}</span></div>`
+    + `<div class="fd-f"><span class="lb">파일 형식(T):</span><span class="in dd">unitypackage (*.unitypackage) ▾</span></div>`
+    + `<div class="fd-bt"><span class="ok"${K("fd:ok")}>${ok}</span><span>취소</span></div></div>`;
+}
+const PKG_H = [IC_PKG, "Harin_TitleUI_1106.unitypackage", "Unity package file"];
+const PKG_J = (sel, k) => [IC_PKG, sel ? "<b>Jiho_PatrolSet_1106.unitypackage</b>" : "Jiho_PatrolSet_1106.unitypackage", "Unity package file", k, sel];
+
+/* --- 팀 공유 폴더 · 팀 기록 --- */
+const TEAM_ROWS = (o) => {
+  o = o || {}; const sel = o.sel || [];
+  return [[IC_DIR, "넘기기", "파일 폴더", "x:pass", sel.includes("넘기기")], [IC_MD, "AGENTS.md", "Markdown 파일", "x:agents", sel.includes("AGENTS.md")],
+    [IC_TXT, "팀기록.txt", "텍스트 문서", "x:log", sel.includes("팀기록.txt")]].concat(o.extra || []);
+};
+const PACT = ["## 팀 약속",
+  "- 작업 칸: 하린 TitleUI.cs · Title 씬 UI / 지호 SceneLoader.cs · EnemyPatrol.cs / 민준 Game 씬 · 합치기",
+  "- 요청의 「고쳐도 되는 파일」만 고친다. 다른 파일이 필요하면 고치지 말고 먼저 말한다",
+  "- 씬 파일은 고치지 않는다. 씬에서 할 일은 단계로 알려 준다",
+  "- 파일 · class · Inspector 변수 이름은 바꾸지 않는다",
+  "- Tag 는 Player · Enemy · PickUp. 새 Tag · Layer · 패키지 · 설정이 필요하면 먼저 말한다",
+  "- 끝나면 바꾼 파일과 새로 생긴 Inspector 칸을 목록으로 알려 준다"];
+const TEAM_RULES = RULES2(false).concat([""], PACT);
+const RULES_TAIL = (mark) => RULES2(false).slice(10).concat(mark == null ? [] : [""].concat(PACT.map(l => (mark ? "+" : "") + l)));
+const LOG0 = ["날짜 · 누가 · 파일 · 무엇 · 확인한 사람", "", "11/4 · 민준 · AGENTS.md · 「## 팀 약속」 추가 — 대면에서 정한 다섯 칸 · 확인: 하린 · 지호"];
+const LOG_J = "11/6 · 지호 · PatrolSet.prefab, EnemyPatrol.cs · 두 지점을 오가는 적, 넘기기에 올림 (AI 씀) · 확인: 하린";
+const LOG_M = "11/6 · 민준 · Game.unity · Jiho_PatrolSet_1106 합침, 완료 기준 세 줄 ✓ · 확인: 민준";
+
+/* --- AI 채팅 --- */
+const U_PACT = `<div class="pre">${esc(["# 우리 팀 규칙 — AI 에게 먼저 주는 파일", "…", "## 팀 약속", PACT[1], "…"].join("\n"))}</div>이 규칙을 지켜서 도와줘. 나는 <b>지호</b>야. 오늘은 점검표 A5 를 고칠 거야. 내 작업 칸을 한 줄로 말해 줘.`;
+const A_PACT = `<div${K("ai:ok")}>지호 님의 작업 칸은 <b>SceneLoader.cs · EnemyPatrol.cs</b> 입니다. 다른 파일이 필요하면 고치지 않고 먼저 말씀드릴게요. 씬에서 할 일은 단계로 알려 드리겠습니다.</div>`;
+const REQ5 = `<div class="ask"><b>- 하려는 것:</b> 게임 오버 뒤 RETRY 를 누르면 처음 상태로 다시 시작하게<br><b>- 완료 기준:</b> 점검표 A5 — 게임 오버 뒤 RETRY 하면 처음 상태로 공이 움직인다 · 두 번 연달아 해도 같다 · Console 에 빨간 줄이 없다<br><b>- 지금 상황:</b> 코인 3개 → 적에게 닿음 → RETRY → 방향키, 3번 중 3번 공이 안 움직인다. LoadGame 에 Debug.Log 를 찍어 보니 RETRY 뒤 Time.timeScale 이 0<br><b>- 하지 말 것:</b> 이름 바꾸기 · 새 Tag · 씬 파일 고치기<br><span class="ask-new"><b>- 고쳐도 되는 파일:</b> SceneLoader.cs</span></div>`;
+const LOADER = ["using UnityEngine;", "using UnityEngine.SceneManagement;", "", "public class SceneLoader : MonoBehaviour", "{", "    public void LoadGame()", "    {",
+  "        Time.timeScale = 1f;   // 게임 오버 때 멈춘 시간을 먼저 되돌린다", "        SceneManager.LoadScene(\"Game\");", "    }", "    …   (LoadTitle 도 같은 줄)", "}"];
+const A_A5 = `<div class="plan"><b>할 일</b><br>1. SceneLoader.cs 의 LoadGame · LoadTitle 에서, 씬을 부르기 전에 Time.timeScale 을 1 로 되돌립니다.<br>2. 다른 파일 · 씬 · 이름은 그대로 둡니다.<br>3. 확인은 RETRY 를 두 번 연달아.</div>`
+  + aiCode("SceneLoader.cs", LOADER) + `<div class="chg"${K("ai:list")}><b>바꾼 파일</b> SceneLoader.cs 하나 · <b>새 Inspector 칸</b> 없음</div>`;
+
+/* --- 바탕 화면 대화 상자 --- */
+const REPLACE_DLG = `<div class="ed-ov wdlg" style="left:22%;top:236px;width:46%"><div class="t">파일 바꾸기 또는 건너뛰기</div><p>대상에 이름이 'AGENTS.md'인 파일이 이미 있습니다</p>`
+  + `<div class="wd-opt"${K("d:rep")}>${fa("check", "#16a34a")} 대상 폴더의 파일 덮어쓰기</div><div class="wd-opt">${fa("share")} 이 파일 건너뛰기</div></div>`;
+
+const ASSETS_IMPORT = [["Create>", "Show in Explorer", "Open", "Delete", "Rename", "Copy Path", "-", "Import New Asset...", "*Import Package>", "Export Package...", "-", "Refresh"], ["*Custom Package..."]];
+const PF_CTX = ctx("left:25%;top:228px", [["Create>", "Show in Explorer", "Open", "Delete", "Rename", "Copy Path", "-", "Import New Asset...", "Import Package>", "*Export Package...", "-", "Refresh"]]);
+const PREFABS = more => ({ path: "Prefabs", items: (more ? [["PatrolSet", "prefab"]] : []).concat([["PickUp", "prefab"]]) });
+const SET_H = ["PatrolSet ▾", "  PatrolEnemy", "  PointA", "  PointB"];
+const SET_PF = ["PatrolSet", "PatrolEnemy", "PointA", "PointB"];
+
+const SIMS = {
+/* 팀 규칙 파일 */
+teamrules: { base: DESK,
+  steps: [
+  { cap: "대표 한 명이 <b>팀 공유 폴더</b>의 AGENTS.md 원본을 메모장으로 엽니다", ov: exp2("팀 공유 폴더", TEAM_ROWS({ sel: ["AGENTS.md"] })) + notepad("AGENTS.md", RULES_TAIL()), hl: ["x:agents"], note: "영상 ① 에서 만든 규칙 파일" },
+  { cap: "맨 아래에 <b>## 팀 약속</b> — 대면에서 정한 칸을 AI 가 읽을 문장으로 옮깁니다", ov: exp2("팀 공유 폴더", TEAM_ROWS({ sel: ["AGENTS.md"] })) + notepad("AGENTS.md", RULES_TAIL(true)), note: "Tag 이름까지 적어 둡니다" },
+  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀원은 각자 이 파일을 <b>내 프로젝트 맨 위(Assets 옆)</b>에 복사해 덮어씁니다", ov: exp2("팀 공유 폴더", TEAM_ROWS({ sel: ["AGENTS.md"] }), "left:3%;top:16px;width:50%") + exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] }), "left:45%;top:96px;width:52%") + REPLACE_DLG, tap: ["d:rep"], note: "Mac 은 「대치」" },
+  { cap: "<b>지호</b>의 새 대화 — 규칙 파일을 붙이고 「나는 누구 · 오늘 고칠 줄」", ov: chat([["u", U_PACT], ["a", A_PACT]], ""), hl: ["ai:ok"], note: "코딩 도구는 프로젝트 맨 위 파일을 알아서 읽습니다" },
+  { cap: "요청 네 칸에 <b>고쳐도 되는 파일</b> 한 줄을 더해 보냅니다", ov: chat([["u", U_PACT], ["a", A_PACT]], REQ5), hl: ["ai:in"], tap: ["ai:send"], note: "점검표 → 완료 기준 · 원인 칸 → 지금 상황" },
+  { cap: "답 끝에 <b>바꾼 파일 · 새 Inspector 칸</b>. SceneLoader.cs 하나 — 작업 칸 안입니다", ov: chat([["u", REQ5], ["a", A_A5]], ""), hl: ["ai:list"], note: "이 목록이 팀 기록 한 줄이 됩니다" },
+]},
+/* 묶어서 넘기기 */
+handoff: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy", "PointA", "PointB"]), sv: sv3dP(), proj: PREFABS(false) },
+  steps: [
+  { cap: "<b>지호</b> — Test_Jiho 씬. Hierarchy 빈 곳을 우클릭 → <b>Create Empty</b>", ov: HIER_CTX, note: "세 오브젝트를 묶을 빈 오브젝트" },
+  { cap: "이름 <b>PatrolSet</b> · Position <b>0 · 0 · 0</b>", hier: H_T(["PatrolEnemy", "PointA", "PointB", "PatrolSet"]), hsel: "PatrolSet", insp: setInsp(), hl: ["i:name", "i:pos"], note: "합친 씬에서도 같은 자리에 오도록" },
+  { cap: "<span class=\"kbd\">Ctrl</span> 을 누른 채 <b>PatrolEnemy · PointA · PointB</b> 를 고르고, <b>PatrolSet</b> 위로 끌어다 놓습니다", hier: H_T(SET_H), hsel: ["PatrolEnemy", "PointA", "PointB"], insp: MULTI3, drag: ["h:PatrolEnemy", "h:PointA", "h:PointB"], hl: ["h:PatrolSet"], note: "세 개가 PatrolSet 아래로 들어갑니다" },
+  { cap: "PatrolEnemy 의 <b>Point A · B</b> 가 묶음 안의 PointA · PointB 를 가리킵니다", hsel: "PatrolEnemy", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC("PointA", "PointB")), hl: ["i:pa", "i:pb"], note: "프리팹은 자기 안의 것만 기억합니다" },
+  { cap: "<b>PatrolSet</b> 을 Project 창 <b>Prefabs</b> 폴더로 끌어다 놓습니다. 프리팹이 되어 이름이 파래집니다", pf: SET_PF, hsel: "PatrolSet", insp: setInsp(true), proj: PREFABS(true), drag: ["h:PatrolSet"], hl: ["p:PatrolSet"] },
+  { cap: "PatrolSet 프리팹을 우클릭 → <b>Export Package...</b>", psel: ["PatrolSet"], ov: PF_CTX, tap: ["p:PatrolSet"], note: "버전에 따라 Export Assets · Export Asset Package" },
+  { cap: "담길 목록을 봅니다. 프리팹이 쓰는 것을 따라 <b>남의 칸 스크립트</b>까지 체크되어 있습니다 → <b>None</b>", psel: ["PatrolSet"], ov: exportWin(PK_EXP(false)), tap: ["pk:none"], note: "버전 · 설정에 따라 EnemyPatrol.cs 만 담기기도 합니다" },
+  { cap: "<b>PatrolSet.prefab · EnemyPatrol.cs</b> 두 개만 다시 체크하고 <b>Export...</b>", psel: ["PatrolSet"], ov: exportWin(PK_EXP(true)), hl: ["pk:pf", "pk:ep"], tap: ["pk:export"], note: "Include all scripts 칸이 있으면 끕니다" },
+  { cap: "팀 공유 폴더 <b>넘기기</b> 에 <b>누가_무엇_날짜</b> — Jiho_PatrolSet_1106 → 저장", psel: ["PatrolSet"], ov: fileDlg("Export package ...", "팀 공유 폴더 › 넘기기", [PKG_H], "Jiho_PatrolSet_1106", "저장(S)"), hl: ["fd:name"], tap: ["fd:ok"], note: "확장자 .unitypackage 는 저절로 붙습니다" },
+  { cap: "팀 기록에 한 줄 — <b>날짜 · 누가 · 파일 · 무엇 · 확인한 사람</b>", desk: true, ov: exp2("팀 공유 폴더 › 넘기기", [PKG_H, PKG_J(true, "x:jp")], "left:3%;top:18px;width:56%") + notepad("팀기록.txt", LOG0.concat(["+" + LOG_J]), "left:24%;right:4%;top:150px;bottom:46px"), hl: ["x:jp"], note: "확인한 사람 = 넘기기 전에 한 판 해 본 팀원" },
+]},
+/* 가져와서 합치기 */
+merge: { base: { scene: "Game", hier: ROLL_H, sv: sv3d(roll()), proj: PREFABS(false) },
+  steps: [
+  { cap: "<b>민준</b> — 받는 날. 합치기 전에 되돌릴 지점부터 · <b>1106_합치기전</b> zip", desk: true, ov: exp2("백업", [[IC_ZIP, "1104_알파준비.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1106_합치기전.zip</b>", "압축(ZIP) 폴더", "x:zip", true]], "left:10%;top:40px;width:62%"), hl: ["x:zip"], note: "영상 ① 과 같은 방법" },
+  { cap: "Game 씬을 연 채로 맨 위 메뉴 <b>Assets → Import Package → Custom Package...</b>", desk: false, mb: "Assets", mbm: ASSETS_IMPORT },
+  { cap: "팀 공유 폴더 <b>넘기기</b> 에서 <b>Jiho_PatrolSet_1106</b> → 열기", ov: fileDlg("Import package ...", "팀 공유 폴더 › 넘기기", [PKG_H, PKG_J(true, "fd:j")], "Jiho_PatrolSet_1106.unitypackage", "열기(O)"), tap: ["fd:ok"], note: "하린 것도 같은 방법으로, 하나씩" },
+  { cap: "가져올 목록이 나옵니다. 두 파일 모두 <b>NEW</b> — 새로 생기는 파일입니다", ov: importWin("Jiho_PatrolSet_1106", PK_IMP), hl: ["pk:n1", "pk:n2"], note: "이미 있는 파일을 바꾸는 줄에는 ↻ 가 붙습니다" },
+  { cap: "남의 파일을 덮는 줄(↻)이 없으면 <b>Import</b>", ov: importWin("Jiho_PatrolSet_1106", PK_IMP), tap: ["pk:import"], note: "↻ 가 남의 파일에 있으면 그 줄은 끕니다" },
+  { cap: "도는 표시가 멈추면 <b>Console</b> 부터. 빨간 줄이 없습니다", proj: PREFABS(true), bottom: "console", tap: ["st:spin"], note: "빨간 줄이 있으면 합치기 전 zip 으로" },
+  { cap: "Project 창 Prefabs 의 <b>PatrolSet</b> 을 Hierarchy 빈 곳으로 끌어다 놓습니다", bottom: "project", hier: ROLL_H.concat(["PatrolSet ▸"]), pf: ["PatrolSet"], hsel: "PatrolSet", insp: setInsp(true), sv: sv3dP(), drag: ["p:PatrolSet"], hl: ["h:PatrolSet"], note: "Hierarchy 로 끌면 Test 씬에서 놓았던 자리 그대로" },
+  { cap: "펼쳐서 <b>PatrolEnemy</b> — Point A · B 칸이 채워져 있고 Tag 는 Enemy 입니다", hier: ROLL_H.concat(SET_H), pf: SET_PF, hsel: "PatrolEnemy", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC("PointA", "PointB")), hl: ["i:pa", "i:pb", "i:tag"], note: "묶어서 넘긴 덕분입니다" },
+  { cap: "<b>Play</b> — 영상 ① 의 완료 기준 세 줄을 Game 씬에서 다시 봅니다", playing: true, view: "game", gv: rollP({ move: true, count: 0 }), ov: CHECK(3), tap: ["tb:play"], note: "Test 씬에서 되던 것이 합친 씬에서도" },
+  { cap: "Play 를 끄고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀 기록에 <b>합친 줄</b>", playing: false, view: "scene", desk: true, ov: exp2("팀 공유 폴더", TEAM_ROWS({ sel: ["팀기록.txt"] }), "left:3%;top:18px;width:52%") + notepad("팀기록.txt", LOG0.concat([LOG_J, "+" + LOG_M]), "left:22%;right:4%;top:120px;bottom:46px"), note: "받는 날마다 한 줄" },
+  { cap: "합친 프로젝트를 zip 으로 묶어 팀 공유 폴더에 — <b>모두의 새 시작점</b>", desk: true, ov: exp2("팀 공유 폴더", TEAM_ROWS({ extra: [[IC_ZIP, "<b>1106_합침.zip</b>", "압축(ZIP) 폴더", "x:mz", true]] }), "left:10%;top:40px;width:62%"), hl: ["x:mz"], note: "Library · Logs · Temp 는 빼고 묶습니다" },
+]},
+};
+
+const slides = document.querySelectorAll(".slide");
+const progressBar = document.getElementById("progress-bar");
+const currentSlideLabel = document.getElementById("current-slide");
+const totalSlidesLabel = document.getElementById("total-slides");
+const partLabel = document.getElementById("part-label");
+const PART_NAMES = {"0":"10주차 온라인 ②","1":"AI 가 모르는 연결","2":"넘기고 합치기","3":"도구가 달라도 · 정리"};
+let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
+totalSlidesLabel.textContent = slides.length;
+
+function updateSlide(){
+  slides.forEach((s,i)=>{
+    s.classList.remove("active","prev-slide");
+    if(i===currentSlide){ s.classList.add("active"); s.scrollTop=0; }
+    else if(i<currentSlide){ s.classList.add("prev-slide"); }
+  });
+  progressBar.style.width = `${((currentSlide+1)/slides.length)*100}%`;
+  currentSlideLabel.textContent = currentSlide+1;
+  partLabel.textContent = PART_NAMES[slides[currentSlide].dataset.part] || "10주차 온라인 ②";
+  if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
+}
+function enterSlide(dir){ const s=slides[currentSlide]; if(s.dataset.sim){ s._step = dir<0 ? simCount(s)-1 : 0; renderSim(s); } }
+function nextSlide(){
+  const s=slides[currentSlide];
+  if(s.dataset.sim && s._step<simCount(s)-1){ s._step++; renderSim(s); return; }
+  if(currentSlide<slides.length-1){currentSlide++;enterSlide(1);updateSlide();}
+}
+function prevSlide(){
+  const s=slides[currentSlide];
+  if(s.dataset.sim && s._step>0){ s._step--; renderSim(s); return; }
+  if(currentSlide>0){currentSlide--;enterSlide(-1);updateSlide();}
+}
+
+document.addEventListener("keydown",(e)=>{
+  const k=e.key;
+  if(k==="ArrowRight"||k==="PageDown"||k===" "){e.preventDefault();nextSlide();}
+  else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
+  else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
+  else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
+  else if(k==="Home"){currentSlide=0;enterSlide(1);updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;enterSlide(1);updateSlide();}
+});
+window.addEventListener("wheel",(e)=>{
+  const inner=e.target.closest(".overflow-x-auto,.overflow-y-auto,.custom-scrollbar,.code");
+  if(inner && inner.scrollHeight>inner.clientHeight+3){
+    const atTop=inner.scrollTop<=0, atBottom=Math.abs(inner.scrollHeight-inner.clientHeight-inner.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  const s=slides[currentSlide];
+  if(s&&s.scrollHeight>s.clientHeight+3){
+    const atTop=s.scrollTop<=0, atBottom=Math.abs(s.scrollHeight-s.clientHeight-s.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  if(isAnimating)return;
+  if(e.deltaY>0)nextSlide(); else if(e.deltaY<0)prevSlide();
+  isAnimating=true; setTimeout(()=>{isAnimating=false;},520);
+},{passive:true});
+window.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+window.addEventListener("touchend",(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx<0?nextSlide():prevSlide(); }
+},{passive:true});
+
+(function(){
+  const n=parseInt((location.hash||"").replace("#",""),10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  slides.forEach(s=>{ if(s.dataset.sim){ s._step=0; renderSim(s); } });
+  updateSlide();
+})();
+</script>
+</body>
+</html>
