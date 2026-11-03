@@ -367,6 +367,169 @@ body{
 .roll .pt{position:absolute;top:56%;color:#fff;font-weight:900;font-size:2.6cqw;background:rgba(15,23,42,.6);padding:0 .8cqw;border-radius:.6cqw;margin-left:-1.2cqw}
 .ed-hi .ed .uu-it,.ed-hi .uu-it{padding-top:0;padding-bottom:0;line-height:1.32}
 .ed-code .bd.sm{line-height:17.4px}
+/* 10주차 — Visual Studio · Copilot Chat · 설치 관리자 · 브라우저 */
+.ed.vsm{display:block;background:#1e1e1e}
+.vs{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr) 35%;grid-template-rows:30px 28px minmax(0,1fr) 22px;background:#1e1e1e;color:#d4d4d4;font-size:12.5px;line-height:1.4}
+.vs.wide{grid-template-columns:minmax(0,1fr) 49%}
+.vs-top{grid-column:1/-1;display:flex;align-items:center;gap:2px;background:#1f1f1f;padding:0 8px;border-bottom:1px solid #333;position:relative;z-index:30;white-space:nowrap}
+.vs-logo svg{width:18px;height:18px;display:block;margin-right:6px}
+.vs-mb{display:flex;align-items:center}
+.vs-mb>span{position:relative;padding:3px 6px;border-radius:3px;color:#d4d4d4}
+.vs-mb>span.on{background:#3d3d3d}
+.vs-search{margin-left:8px;background:#2d2d2d;border:1px solid #3f3f46;border-radius:4px;padding:1px 10px;color:#9d9d9d;font-size:11.5px;min-width:80px}
+.vs-sln{margin-left:10px;color:#e6e6e6;font-weight:800;background:#2d2d2d;padding:1px 8px;border-radius:4px}
+.vs-badge{margin-left:auto;display:grid;place-items:center;width:30px;height:22px;border-radius:4px;color:#e6e6e6;position:relative}
+.vs-badge.off{color:#8a8a8a}
+.vs-badge.off::after{content:"";position:absolute;width:22px;height:2px;background:#9a9a9a;transform:rotate(-38deg)}
+.vs-acc{color:#9d9d9d;font-size:15px;padding:0 4px 0 8px}
+.cpi{width:16px;height:16px;display:block}
+.vs-tb{grid-column:1/-1;display:flex;align-items:center;gap:8px;background:#2b2b2b;padding:0 10px;border-bottom:1px solid #333;color:#bdbdbd;font-size:11.5px;white-space:nowrap}
+.vs-tb .sep{width:1px;height:16px;background:#444}
+.vs-tb .dd{background:#333337;border:1px solid #434346;border-radius:3px;padding:0 8px}
+.vs-tb .run{color:#8ae28a;font-weight:700;padding:0 6px;border-radius:3px}
+.vs-tb .run i{margin-right:4px}
+.vs-edp{grid-column:1;grid-row:3;display:flex;flex-direction:column;min-width:0;min-height:0;background:#1e1e1e;border-right:1px solid #333}
+.vs-tabs{display:flex;background:#252526;height:26px;align-items:flex-end;flex:none;padding-left:2px;gap:1px}
+.vs-tab{padding:4px 12px;color:#bdbdbd;background:#2d2d2d;display:flex;gap:10px;align-items:center;border-top:2px solid transparent;white-space:nowrap}
+.vs-tab.on{background:#1e1e1e;color:#fff;border-top-color:#9a6fd6}
+.vs-tab .x{color:#8a8a8a;font-size:10px}
+.vs-code{flex:1;min-height:0;overflow:hidden;padding:6px 0;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;line-height:18.6px;color:#dcdcdc}
+.vs-code.sm{font-size:12px;line-height:16px}
+.vs-code .cl{display:flex;white-space:pre}
+.vs-code .cl .ln{width:40px;flex:none;text-align:right;padding-right:14px;color:#2b91af}
+.vs-code .cl.add{background:rgba(70,160,70,.26)}
+.vs-code .cl.del{background:rgba(200,70,70,.28)}
+.vs-code .cl.foc{outline:2px solid #facc15;outline-offset:-2px}
+.vs-code .cl.gap .cx{color:#6e7681}
+.vs-code .kw{color:#569cd6}.vs-code .ty{color:#4ec9b0}.vs-code .st{color:#d69d85}.vs-code .cm{color:#57a64a}.vs-code .nu{color:#b5cea8}
+.vs-code .sq{text-decoration:underline wavy #f14c4c;text-underline-offset:3px}
+.vs-side{grid-column:2;grid-row:3;display:flex;flex-direction:column;min-width:0;min-height:0;background:#252526}
+.vs-sh{display:flex;align-items:center;gap:7px;padding:0 8px;background:#2d2d30;color:#e6e6e6;font-weight:700;height:26px;flex:none;white-space:nowrap}
+.vs-sh .r{margin-left:auto;display:flex;gap:4px;color:#bdbdbd}
+.vs-sh .r span{padding:1px 6px;border-radius:3px}
+.vs-tree{padding:4px 2px;overflow:hidden}
+.vs-tree .it{display:flex;align-items:center;gap:5px;padding:1px 6px;white-space:nowrap;border-radius:2px}
+.vs-tree .it.sel{background:#094771;color:#fff}
+.vs-tree .tri{width:9px;color:#9d9d9d;font-size:10px}
+.vs-tree .ic{width:15px;text-align:center;font-size:11.5px}
+.vs-tree .cs{font-size:8.5px;font-weight:900;color:#9b77e0;border:1px solid #9b77e0;border-radius:2px;padding:0 1px;line-height:1.15}
+.vs-st{grid-column:1/-1;grid-row:4;background:#007acc;color:#fff;display:flex;align-items:center;padding:0 10px;font-size:11px;gap:10px}
+.vs-st .r{margin-left:auto}
+.vs-menu{position:absolute;left:0;top:calc(100% + 2px);background:#1f1f1f;border:1px solid #454545;box-shadow:0 10px 26px rgba(0,0,0,.5);padding:4px 0;min-width:210px;z-index:35;color:#e0e0e0}
+.vs-menu.ed-ov{z-index:45}
+.vs-menu .mi{padding:3px 22px 3px 26px;white-space:nowrap}
+.vs-menu .mi.on{background:#3e3e40;outline:1px solid #6b6b6b;outline-offset:-1px}
+.vs-menu .sep{height:1px;background:#3f3f46;margin:3px 6px}
+/* Copilot Chat */
+.vc{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.vc-b{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:8px 10px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 26px);mask-image:linear-gradient(to bottom,transparent 0,#000 26px)}
+.vc-empty{margin:auto;text-align:center;color:#9d9d9d}
+.vc-empty .cpi{width:42px;height:42px;margin:0 auto 6px;color:#cfcfcf}
+.vc-empty .t{font-weight:800;color:#e6e6e6;font-size:14px}
+.vc-u{display:flex;flex-direction:column;align-items:flex-end;flex:none}
+.vc-u .bb{background:#2f3d58;border:1px solid #3e5277;border-radius:8px;padding:6px 9px;max-width:94%;color:#e8eefc;font-size:11.8px;line-height:1.5}
+.vc-u .bb .ask{font-size:11.4px;line-height:1.5}
+.vc-u .bb .pre{font-family:"JetBrains Mono",Consolas,monospace;font-size:10.6px;white-space:pre-wrap;background:#1f2533;border-radius:5px;padding:3px 6px;margin-top:4px;color:#ffb4a8;line-height:1.4}
+.vc-a{flex:none;min-width:0}
+.vc-a .who{display:flex;align-items:center;gap:6px;font-weight:800;color:#e6e6e6;font-size:11.5px;margin-bottom:3px}
+.vc-a .bd{font-size:11.8px;color:#d4d4d4;line-height:1.5}
+.vc-a .plan{background:#2a2a2d;border-radius:6px;padding:4px 8px;margin-bottom:6px}
+.vc-a .ai-code{margin-top:4px}
+.vc-a .ai-code pre{font-size:10.2px;line-height:1.36}
+.vc-a .ai-code-h .cpc{display:inline-flex;gap:4px;align-items:center;color:#cfcfcf}
+.vc-a .fchip{display:inline-flex;gap:6px;align-items:center;background:#2a2a2d;border:1px solid #3f3f46;border-radius:5px;padding:2px 8px;margin:4px 0;font-size:11px}
+.vc-a .fchip .p{color:#7ad97a}
+.vc-ref{margin-top:5px;font-size:11px;color:#9cc2ff;border-top:1px solid #333;padding-top:4px;display:inline-block;min-width:60%}
+.vc-ref .r{color:#e6e6e6;padding:3px 0 0 12px;display:flex;gap:6px;align-items:center}
+.vc-chg{margin:0 10px 6px;border:1px solid #3f3f46;border-radius:6px;background:#202022;font-size:11.5px;flex:none}
+.vc-chg .h{display:flex;align-items:center;gap:8px;padding:4px 8px;border-bottom:1px solid #333}
+.vc-chg .h .n{color:#9d9d9d}
+.vc-chg .h .keep{margin-left:auto;background:#0e639c;color:#fff;border-radius:3px;padding:0 12px}
+.vc-chg .h .undo{background:#3a3a3d;border-radius:3px;padding:0 12px}
+.vc-chg .f{padding:3px 8px;display:flex;gap:6px;align-items:center}
+.vc-chg .p{color:#7ad97a;margin-left:auto}.vc-chg .m{color:#ff8b8b}
+.vc-restore{display:inline-flex;gap:4px;align-items:center;font-size:10.5px;color:#9cc2ff;margin:0 0 3px;padding:0 5px;border-radius:3px}
+.vc-in{margin:0 10px 8px;border:1px solid #4a4a4f;border-radius:6px;background:#1f1f22;flex:none;position:relative}
+.vc-in .t{padding:6px 8px;min-height:30px;max-height:178px;overflow:hidden;font-size:11.8px;color:#e6e6e6;line-height:1.5}
+.vc-in .t .ph{color:#8a8a8a}
+.vc-in .t .ask{font-size:11.2px;line-height:1.5}
+.vc-in .t .pre{font-family:"JetBrains Mono",Consolas,monospace;font-size:10.4px;white-space:pre-wrap;color:#ffb4a8;margin-top:3px;line-height:1.4}
+.vc-in .row{display:flex;align-items:center;gap:6px;padding:3px 6px;border-top:1px solid #2f2f33;font-size:11px;color:#c8c8c8}
+.vc-mode,.vc-model{background:#2d2d30;border-radius:3px;padding:1px 7px;display:inline-flex;gap:5px;align-items:center}
+.vc-mode i,.vc-model i{font-size:8px}
+.vc-send{margin-left:auto;color:#cfcfcf;padding:1px 6px;border-radius:3px}
+.vc-mm{position:absolute;left:6px;bottom:28px;background:#1f1f1f;border:1px solid #454545;box-shadow:0 10px 26px rgba(0,0,0,.5);padding:4px 0;min-width:130px;z-index:5}
+.vc-mm .mi{padding:4px 14px;color:#e0e0e0;display:flex;gap:8px;align-items:center}
+.vc-mm .mi.on{background:#3e3e40}
+/* 대화 상자 */
+.vs-dlg{background:#252526;border:1px solid #4a4a4f;box-shadow:0 18px 50px rgba(0,0,0,.6);color:#e0e0e0;display:flex;flex-direction:column;z-index:40;font-size:12.5px}
+.vs-dlg .t{display:flex;align-items:center;padding:6px 12px;background:#1f1f1f;font-weight:700}
+.vs-dlg .t .x{margin-left:auto;color:#9d9d9d}
+.vs-dlg .b{flex:1;min-height:0;display:flex;flex-direction:column}
+.vo{flex:1;min-height:0;display:grid;grid-template-columns:34% 1fr}
+.vo-l{border-right:1px solid #3a3a3a;padding:6px 4px;overflow:hidden}
+.vo-q{background:#1f1f22;border:1px solid #3f3f46;border-radius:3px;padding:2px 8px;color:#8a8a8a;margin:0 4px 6px;font-size:11.5px}
+.vo-l .it{padding:1px 6px;white-space:nowrap;display:flex;gap:4px;border-radius:2px}
+.vo-l .it.sel{background:#094771;color:#fff}
+.vo-l .tri{width:10px;color:#9d9d9d;font-size:10px}
+.vo-r{padding:10px 14px}
+.vo-r .h{font-weight:800;font-size:13.5px;margin-bottom:10px;color:#fff}
+.vo-c{display:flex;gap:8px;align-items:flex-start;padding:4px;border-radius:3px;margin-bottom:6px;line-height:1.45}
+.vo-c .bx{width:15px;height:15px;border:1px solid #8a8a8a;border-radius:2px;display:grid;place-items:center;font-size:11px;flex:none;margin-top:2px}
+.vo-c .bx.on{background:#0e639c;border-color:#0e639c;color:#fff}
+.vo-bt{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px;border-top:1px solid #3a3a3a}
+.vo-bt span{border:1px solid #5a5a5f;border-radius:3px;padding:2px 18px;background:#333337}
+.cf{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 20px 22px}
+.cf .cpi{width:44px;height:44px;color:#e6e6e6}
+.cf .bt1,.cf .bt2{width:88%;text-align:center;border-radius:5px;padding:6px 0;font-weight:700;display:flex;gap:8px;justify-content:center;align-items:center}
+.cf .bt1{background:#e6e6e6;color:#111}.cf .bt2{background:#333337;border:1px solid #5a5a5f}
+/* 브라우저 */
+.br{background:#fff;border:1px solid #cbd5e1;border-radius:10px;box-shadow:0 18px 44px rgba(0,0,0,.4);display:flex;flex-direction:column;overflow:hidden;color:#1f2328;z-index:42}
+.br-t{display:flex;align-items:center;gap:10px;background:#eef1f4;padding:6px 10px;flex:none}
+.br-t .dots{display:flex;gap:5px}.br-t .dots i{width:9px;height:9px;border-radius:50%;background:#cbd5e1;display:block}
+.br-t .url{flex:1;background:#fff;border-radius:999px;padding:2px 12px;font-size:11.5px;color:#475569}
+.br-b{flex:1;min-height:0;overflow:hidden;background:#f6f8fa}
+.gh{display:flex;flex-direction:column;align-items:center;padding:16px 0}
+.gh > .fa-github{font-size:38px;color:#1f2328}
+.gh .h{font-size:19px;font-weight:300;margin:8px 0 12px}
+.gh .box{width:54%;background:#fff;border:1px solid #d0d7de;border-radius:6px;padding:12px 14px;font-size:12px}
+.gh label{display:block;margin:4px 0 3px;font-weight:600}
+.gh .in{border:1px solid #d0d7de;border-radius:5px;padding:4px 8px;margin-bottom:6px;background:#fff}
+.gh .go{background:#1f883d;color:#fff;text-align:center;border-radius:5px;padding:5px 0;font-weight:700;margin-top:6px}
+.gh .new{margin-top:10px;font-size:12px;border:1px solid #d0d7de;border-radius:6px;padding:8px 14px;width:54%;text-align:center;background:#fff}
+/* 설치 관리자 */
+.vi{background:#f3f3f3;color:#1f2937;display:flex;flex-direction:column;font-size:13px;z-index:20}
+.vi-t{display:flex;align-items:center;padding:6px 12px;background:#e9e9ef;font-size:12px}
+.vi-t .ctl{margin-left:auto;display:flex;gap:16px;color:#52525b}
+.vi-h{padding:10px 22px 0;font-size:15px}
+.vi-tabs{display:flex;gap:18px;padding:10px 22px 0;border-bottom:1px solid #d4d4d8;font-weight:700;color:#52525b;flex:none}
+.vi-tabs span{padding-bottom:6px}
+.vi-tabs span.on{color:#5b2a86;border-bottom:3px solid #7c4dbd}
+.vi-card{margin:18px 22px;background:#fff;border:1px solid #d4d4d8;border-radius:6px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.vi-card .ic svg{width:40px;height:40px;display:block}
+.vi-card .nm{flex:1;font-size:15px}
+.vi-card .bts{display:flex;flex-direction:column;gap:6px}
+.vi-card .bts span{border:1px solid #c4c4c8;border-radius:3px;padding:3px 24px;text-align:center;background:#fafafa}
+.vi-card .bts .pri{background:#5c2d91;color:#fff;border-color:#5c2d91}
+.vi-mod{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 32%}
+.vi-ws{padding:10px 18px;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
+.vi-g{grid-column:1/-1;font-weight:800;color:#3f3f46;margin-top:2px}
+.vi-w{background:#fff;border:1px solid #d4d4d8;border-radius:4px;padding:9px 10px;display:flex;align-items:center;gap:10px;font-size:12.5px}
+.vi-w .ic{font-size:20px;color:#5c2d91;width:24px;text-align:center}
+.vi-w .cb{margin-left:auto;width:16px;height:16px;border:1px solid #8a8a8a;border-radius:2px;display:grid;place-items:center;font-size:11px;flex:none}
+.vi-w.on{border-color:#7c4dbd;background:#f4eefc}
+.vi-w.on .cb{background:#5c2d91;border-color:#5c2d91;color:#fff}
+.vi-d{background:#fff;border-left:1px solid #d4d4d8;padding:10px 12px;font-size:12px}
+.vi-d .h{font-weight:800;margin-bottom:6px}
+.vi-d .g{font-weight:700;margin:4px 0}
+.vi-d .s{color:#6b7280;margin:6px 0 2px}
+.vi-d .r{display:flex;gap:6px;align-items:center;padding:2px 4px 2px 10px;border-radius:3px}
+.vi-d .bx{width:14px;height:14px;border:1px solid #8a8a8a;border-radius:2px;display:grid;place-items:center;font-size:10px;flex:none}
+.vi-d .bx.on{background:#5c2d91;border-color:#5c2d91;color:#fff}
+.vi-bot{display:flex;align-items:center;gap:12px;padding:8px 16px;border-top:1px solid #d4d4d8;background:#fafafa;font-size:11.5px;color:#6b7280;flex:none}
+.vi-bot .go{margin-left:auto;background:#5c2d91;color:#fff;border-radius:3px;padding:4px 28px;font-weight:700;font-size:12.5px}
+/* 긴 메모장 */
+.np-b.sm{font-size:11.2px;line-height:1.36}
 /* 녹화 화면 크기에 맞춰 내용 확대 · 축소 */
 @media (min-width:1800px) and (min-height:1000px){ .slide > div{zoom:1.25} }
 @media (min-width:1500px) and (max-width:1799px) and (min-height:840px){ .slide > div{zoom:1.08} }
@@ -406,8 +569,9 @@ body{
       10주차 · 온라인
     </div>
     <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">AI 와 함께<br><span class="text-dev-600">만들기</span></h1>
-    <p class="text-xl md:text-2xl text-slate-500 mb-10">AI 를 바꾸기보다 <b class="text-slate-700">AI 둘레</b>를 바꿉니다.<br>하네스 엔지니어링</p>
+    <p class="text-xl md:text-2xl text-slate-500 mb-10">Visual Studio 안의 AI 와 함께, AI 를 바꾸기보다 <b class="text-slate-700">AI 둘레</b>를 바꿉니다.<br>하네스 엔지니어링</p>
     <div class="flex flex-wrap justify-center gap-3">
+      <span class="tagchip bg-violet-50 text-violet-700 border border-violet-200">Visual Studio · Copilot</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">규칙 파일</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">완료 기준</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">요청 틀</span>
@@ -418,36 +582,46 @@ body{
   </div>
 </section>
 
-<!-- 2 두 부분 -->
+<!-- 2 세 부분 -->
 <section class="slide" data-part="0">
-  <div class="max-w-5xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">이번 편은 두 부분입니다</h2>
-    <div class="grid md:grid-cols-2 gap-6 mb-7">
-      <div class="soft-card rounded-3xl p-8">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">이번 편은 세 부분입니다</h2>
+    <div class="grid md:grid-cols-3 gap-5 mb-7">
+      <div class="soft-card rounded-3xl p-7">
+        <div class="text-5xl font-black text-violet-600 mb-3">00</div>
+        <div class="text-2xl font-black mb-4">Visual Studio 준비</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· AI 를 쓰는 세 자리 · 무료로 되나</li>
+          <li>· 설치 관리자 — Unity 워크로드 · Copilot</li>
+          <li>· 유니티와 Visual Studio 잇기</li>
+          <li>· Copilot 로그인 · Ask 와 Agent</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7">
         <div class="text-5xl font-black text-dev-600 mb-3">01</div>
         <div class="text-2xl font-black mb-4">시키기 전에</div>
-        <ul class="text-[18px] text-slate-600 space-y-2">
+        <ul class="text-[17px] text-slate-600 space-y-2">
           <li>· AI 가 유니티에서 자주 틀리는 이유</li>
           <li>· 하네스 — AI 둘레에 두는 장치</li>
-          <li>· 규칙 파일 만들기</li>
+          <li>· 규칙 파일 만들기 · 읽었는지 확인</li>
           <li>· 완료 기준 · 요청 틀</li>
           <li>· 받은 코드 읽기</li>
         </ul>
       </div>
-      <div class="soft-card rounded-3xl p-8">
+      <div class="soft-card rounded-3xl p-7">
         <div class="text-5xl font-black text-flame-600 mb-3">02</div>
         <div class="text-2xl font-black mb-4">시킨 다음에</div>
-        <ul class="text-[18px] text-slate-600 space-y-2">
+        <ul class="text-[17px] text-slate-600 space-y-2">
           <li>· 되돌릴 지점 만들기</li>
           <li>· 넣고 돌려 보기 — 확인 루프</li>
           <li>· 에러를 그대로 붙여 넣기</li>
           <li>· 규칙 파일에 한 줄 더하기</li>
-          <li>· 도구 연결 (MCP)</li>
+          <li>· Agent 로 한 번 더 · 도구 연결</li>
         </ul>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 text-center">
-      <p class="text-[18px] text-slate-700">예제는 <b class="text-dev-700">Roll a Ball</b> 에 두 지점을 오가는 적을 하나 더 넣는 일입니다. 어느 AI 채팅을 써도 방법은 같습니다.</p>
+      <p class="text-[18px] text-slate-700">예제는 <b class="text-dev-700">Roll a Ball</b> 에 두 지점을 오가는 적을 하나 더 넣는 일입니다. <b class="text-violet-700">Visual Studio 의 GitHub Copilot</b> 으로 따라 합니다. 웹 채팅이나 다른 코딩 도구를 써도 하네스는 같습니다.</p>
     </div>
   </div>
 </section>
@@ -468,6 +642,157 @@ body{
   </div>
 </section>
 
+<!-- 3a 파트 00 표지 -->
+<section class="slide" data-part="p">
+  <div class="max-w-4xl w-full text-center">
+    <div class="part-num mb-4">00</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">Visual Studio 에 AI 붙이기</h2>
+    <p class="text-xl text-slate-500">설치 · 연결 · 로그인 — 처음 한 번만 합니다</p>
+  </div>
+</section>
+
+<!-- 3b AI 를 쓰는 세 자리 -->
+<section class="slide" data-part="p">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">AI 를 쓰는 세 자리</h2>
+    <p class="text-xl text-slate-500 mb-6">같은 AI 라도 <b class="text-slate-700">어디에서 쓰느냐</b>에 따라 보는 것과 하는 일이 다릅니다.</p>
+    <div class="soft-card rounded-2xl overflow-hidden mb-5">
+      <table class="cmp-table" style="font-size:15.5px">
+        <thead><tr><th style="width:15%"></th><th style="width:26%">웹 채팅<div class="font-medium text-slate-300 text-[13px]">ChatGPT · Claude · Gemini 웹</div></th><th style="width:31%;background:#4c1d95">편집기 안 AI<div class="font-medium text-violet-200 text-[13px]">Visual Studio 의 GitHub Copilot</div></th><th>코딩 에이전트<div class="font-medium text-slate-300 text-[13px]">Claude Code · Codex</div></th></tr></thead>
+        <tbody>
+          <tr><td>무엇을 보나</td><td>붙여 넣은 글만</td><td class="bg-violet-50">열린 파일 · 솔루션의 코드 + 규칙 파일</td><td>프로젝트 폴더 전체 + 규칙 파일</td></tr>
+          <tr><td>코드를 넣는 손</td><td>사람이 복사 · 붙여 넣기</td><td class="bg-violet-50">Ask 는 사람이. Agent 는 AI 가 고치고 사람이 Keep</td><td>AI 가 파일을 고치고 명령도 실행. 사람이 승인</td></tr>
+          <tr><td>규칙 파일</td><td>새 대화마다 붙여 넣기 · 프로젝트 지침 칸</td><td class="bg-violet-50"><span class="mono text-[14px]">.github/copilot-instructions.md</span> 를 알아서 읽음</td><td>Claude Code 는 <span class="mono text-[14px]">CLAUDE.md</span>, Codex 는 <span class="mono text-[14px]">AGENTS.md</span></td></tr>
+          <tr><td>씬 · Inspector · Play</td><td colspan="3" class="text-center text-slate-700">셋 다 기본으로는 못 봅니다. 확인은 우리가 유니티에서 합니다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">ChatGPT 와 Claude Code 는 무엇이 다른가</div><p class="text-[16px] text-slate-600">회사보다 <b>자리</b>가 다릅니다. ChatGPT 웹은 붙여 넣은 글에 답하고, Claude Code 는 프로젝트 폴더에서 파일을 직접 읽고 고칩니다. ChatGPT 쪽의 코딩 에이전트는 Codex 입니다.</p></div>
+      <div class="glass-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-violet-700">이 영상은 가운데 자리</div><p class="text-[16px] text-slate-700">유니티 스크립트를 여는 Visual Studio 안에서 바로 쓰고, 무료로 시작할 수 있습니다. 규칙 파일 · 완료 기준 · 되돌릴 지점 · 확인 루프는 세 자리 모두 같습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3c 무료로 되나 -->
+<section class="slide" data-part="p">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">무료로 되나</h2>
+    <p class="text-xl text-slate-500 mb-6">이 영상은 <b class="text-slate-700">무료로 끝까지</b> 따라 할 수 있습니다. 요금 · 양은 자주 바뀝니다. 2026년 11월 기준입니다.</p>
+    <div class="soft-card rounded-2xl overflow-hidden mb-5">
+      <table class="cmp-table" style="font-size:15.5px">
+        <thead><tr><th style="width:25%">도구</th><th style="width:40%">무료로</th><th>더 쓰려면</th></tr></thead>
+        <tbody>
+          <tr><td>Visual Studio Community</td><td>무료. 학생 · 개인 · 수업에 씁니다</td><td>—</td></tr>
+          <tr class="bg-violet-50"><td>GitHub Copilot<div class="font-medium text-slate-500 text-[13px]">Visual Studio 안</div></td><td><b>Copilot Free</b> — 코드 자동 완성 매달 2,000번, 채팅 · Agent 는 매달 정해진 양</td><td>학생 인증(GitHub Education)을 받으면 <b>Copilot Student</b>. 유료 Pro 는 매달 $10</td></tr>
+          <tr><td>웹 채팅<div class="font-medium text-slate-500 text-[13px]">ChatGPT · Claude · Gemini</div></td><td>무료 요금제로 채팅 · 코드 질문</td><td>유료 요금제는 더 많이, 더 좋은 모델로</td></tr>
+          <tr><td>Claude Code</td><td>무료 요금제에는 없습니다</td><td>Claude Pro 부터 (매달 $20, 1년 결제면 매달 $17)</td></tr>
+          <tr><td>Codex<div class="font-medium text-slate-500 text-[13px]">OpenAI</div></td><td>ChatGPT 무료 요금제에서 적은 양 (지역 · 시기에 따라 다름)</td><td>ChatGPT 유료 요금제에서 더 많이</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">다 쓰면</div><p class="text-[16px] text-slate-600">Copilot Free 는 다음 달에 다시 찹니다. 남은 양은 Copilot 아이콘 → Copilot Usage. 급하면 웹 채팅에 같은 규칙 파일 · 요청 틀을 붙여 씁니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">학생 인증</div><p class="text-[16px] text-slate-600">GitHub Education 에 학교 메일 · 재학 증명으로 신청합니다. 승인까지 며칠 걸릴 수 있으니, 이번 주는 Free 로 따라 합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3d 유니티와 Visual Studio -->
+<section class="slide" data-part="p">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">유니티와 Visual Studio 는 일을 나눕니다</h2>
+    <p class="text-xl text-slate-500 mb-5">코드는 Visual Studio 에서, 나머지는 모두 유니티에서. Copilot 은 <b class="text-slate-700">Visual Studio 쪽</b>에 있습니다.</p>
+    <div class="soft-card rounded-3xl p-4 mb-5">
+      <svg viewBox="0 0 1000 250" role="img" aria-label="왼쪽 유니티에는 씬, Hierarchy, Inspector, Play, Console, 빌드가 있고 오른쪽 Visual Studio 에는 C# 스크립트와 Copilot Chat 이 있다. 스크립트를 더블클릭하면 Visual Studio 에서 열리고, 저장하고 유니티로 돌아오면 유니티가 다시 읽는다" class="w-full h-auto">
+        <defs>
+          <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#475569"/></marker>
+        </defs>
+        <g font-family="Pretendard, sans-serif">
+          <rect x="20" y="20" width="360" height="210" rx="22" fill="#1f2937"/>
+          <text x="48" y="62" font-size="26" font-weight="900" fill="#fff">유니티</text>
+          <text x="48" y="104" font-size="19" font-weight="700" fill="#e5e7eb">씬 · Hierarchy · Inspector</text>
+          <text x="48" y="138" font-size="19" font-weight="700" fill="#e5e7eb">Play · Console · 빌드</text>
+          <text x="48" y="196" font-size="16" font-weight="700" fill="#9ca3af">확인은 모두 여기서</text>
+          <rect x="620" y="20" width="360" height="210" rx="22" fill="#3b0764"/>
+          <text x="648" y="62" font-size="26" font-weight="900" fill="#fff">Visual Studio</text>
+          <text x="648" y="104" font-size="19" font-weight="700" fill="#ede9fe">C# 스크립트</text>
+          <text x="648" y="138" font-size="19" font-weight="700" fill="#ede9fe">Copilot Chat — Ask · Agent</text>
+          <text x="648" y="196" font-size="16" font-weight="700" fill="#c4b5fd">규칙 파일을 읽는 곳</text>
+          <line x1="388" y1="88" x2="612" y2="88" stroke="#475569" stroke-width="3" marker-end="url(#pa)"/>
+          <text x="500" y="74" text-anchor="middle" font-size="16.5" font-weight="800" fill="#334155">스크립트 더블클릭 → 열림</text>
+          <line x1="612" y1="168" x2="388" y2="168" stroke="#475569" stroke-width="3" marker-end="url(#pa)"/>
+          <text x="500" y="154" text-anchor="middle" font-size="16.5" font-weight="800" fill="#334155">Ctrl + S → 유니티가 다시 읽음</text>
+          <text x="500" y="196" text-anchor="middle" font-size="14.5" font-weight="700" fill="#64748b">오른쪽 아래 도는 표시가 멈출 때까지</text>
+        </g>
+      </svg>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">Visual Studio 가 없으면</div><p class="text-[15.5px] text-slate-600">Unity Hub → 설치 → 에디터 옆 톱니 → 모듈 추가 → <b>Microsoft Visual Studio Community</b>. visualstudio.microsoft.com 에서 Community 를 받아도 됩니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">Mac 이라면</div><p class="text-[15.5px] text-slate-600">Mac 용 Visual Studio 는 지원이 끝났습니다. <b>VS Code</b> + Unity 확장 + GitHub Copilot 을 씁니다. 화면은 달라도 Chat · Agent · 규칙 파일은 같습니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">메뉴 이름이 다르면</div><p class="text-[15.5px] text-slate-600">영상의 Visual Studio 는 영어 메뉴입니다. 한국어 화면이면 Tools 는 도구, Options 는 옵션, View 는 보기. 버전마다 다른 이름은 맨 위 검색 칸에 칩니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 설치 관리자에서 Unity 워크로드 · Copilot -->
+<section class="slide" data-part="p" data-sim="vsinstall">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-violet-600 text-white align-middle mr-2">따라 하기</span>설치 관리자에서 Unity 워크로드 · Copilot</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 유니티와 Visual Studio 잇기 -->
+<section class="slide" data-part="p" data-sim="vsconnect">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-violet-600 text-white align-middle mr-2">따라 하기</span>유니티와 Visual Studio 잇기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 따라 하기 · Copilot 켜고 로그인하기 -->
+<section class="slide" data-part="p" data-sim="copilot">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-violet-600 text-white align-middle mr-2">따라 하기</span>Copilot 켜고 로그인하기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 3e Ask 와 Agent -->
+<section class="slide" data-part="p">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Ask 와 Agent — 누가 파일을 고치나</h2>
+    <p class="text-xl text-slate-500 mb-6">입력 칸 아래에서 모드를 바꾸면 Copilot 이 하는 일이 달라집니다.</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="soft-card rounded-3xl p-7">
+        <div class="tagchip bg-dev-600 text-white mb-4"><i class="fa-solid fa-comment"></i> Ask</div>
+        <div class="text-xl font-black mb-3">답과 코드를 줍니다. 파일은 그대로</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 코드를 읽고, 우리가 복사해 넣습니다</li>
+          <li>· 무엇이 바뀌는지 우리 눈에 다 보입니다</li>
+          <li>· 처음에는 이것으로. 01 · 02 를 Ask 로 따라 합니다</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7">
+        <div class="tagchip bg-slate-800 text-white mb-4"><i class="fa-solid fa-robot"></i> Agent</div>
+        <div class="text-xl font-black mb-3">AI 가 파일을 직접 만들고 고칩니다</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 끝나면 바뀐 줄을 보여 주고 <b>Keep</b> · <b>Undo</b> 를 묻습니다</li>
+          <li>· 명령을 실행하려 하면 <b>Allow</b> 를 묻습니다</li>
+          <li>· 여러 파일을 한꺼번에 고칠 수 있어서 장치가 더 필요합니다</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">둘 다 규칙 파일을 읽고, 둘 다 <b class="text-dev-700">Play 는 못 누릅니다</b>. 02 끝에서 같은 적에 기능 하나를 Agent 로 더해 봅니다.</p>
+    </div>
+  </div>
+</section>
+
 <!-- 4 파트 01 표지 -->
 <section class="slide" data-part="1">
   <div class="max-w-4xl w-full text-center">
@@ -481,7 +806,7 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">AI 가 유니티에서 자주 틀리는 이유</h2>
-    <p class="text-xl text-slate-500 mb-7">AI 가 받는 것은 <b class="text-slate-700">우리가 붙여 넣은 글</b>뿐입니다. 유니티 화면은 보지 못합니다.</p>
+    <p class="text-xl text-slate-500 mb-7">Copilot 은 우리 코드를 읽지만 <b class="text-slate-700">유니티 화면은 보지 못합니다</b>. 웹 채팅은 붙여 넣은 글이 전부입니다.</p>
     <div class="grid md:grid-cols-2 gap-5 mb-6">
       <div class="soft-card rounded-2xl p-6 flex gap-4"><div class="text-3xl text-dev-600 w-10 flex-none"><i class="fa-solid fa-eye-slash"></i></div><div><div class="text-xl font-black mb-1">씬과 Inspector 를 못 봅니다</div><p class="text-[16px] text-slate-600">스크립트가 어느 오브젝트에 붙었는지, 칸이 비었는지, 태그가 무엇인지 모릅니다.</p></div></div>
       <div class="soft-card rounded-2xl p-6 flex gap-4"><div class="text-3xl text-dev-600 w-10 flex-none"><i class="fa-solid fa-users-slash"></i></div><div><div class="text-xl font-black mb-1">우리 팀 규칙을 모릅니다</div><p class="text-[16px] text-slate-600">폴더 · 이름 규칙, 누가 어느 씬을 여는지, 입력을 어떤 방식으로 받는지.</p></div></div>
@@ -536,11 +861,11 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">규칙 파일 — AI 에게 먼저 주는 글</h2>
-    <p class="text-xl text-slate-500 mb-6">팀이 정한 규칙을 파일 하나에 적어 두고, AI 와 일을 시작할 때마다 줍니다.</p>
-    <div class="grid md:grid-cols-5 gap-6 items-start">
-      <div class="md:col-span-3">
-        <div class="code-cap">AGENTS.md</div>
-        <div class="code" style="white-space:pre-wrap;font-size:13.5px"><span class="kw"># 우리 팀 규칙 — AI 에게 먼저 주는 파일</span>
+    <p class="text-xl text-slate-500 mb-5">팀이 정한 규칙을 파일 하나에 적어 두면, Copilot 이 <b class="text-slate-700">대화마다 알아서</b> 같이 읽습니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start">
+      <div class="md:col-span-8">
+        <div class="code-cap">.github / copilot-instructions.md</div>
+        <div class="code" style="white-space:pre-wrap;font-size:12.4px;line-height:1.5;padding:.85rem 1.1rem"><span class="kw"># 우리 팀 규칙 — AI 에게 먼저 주는 파일</span>
 
 <span class="ty">## 우리 게임</span>
 - Roll a Ball. 공을 굴려 코인을 다 모으면 클리어, 적에 닿으면 게임 오버
@@ -548,7 +873,6 @@ body{
 
 <span class="ty">## 폴더 · 이름</span>
 - 스크립트는 Assets/Scripts 에. 파일 이름 = class 이름, 영문 · 공백 없이
-- Game 씬은 합치는 사람만 연다. 실험은 Test_이름 씬에서
 
 <span class="ty">## 일하는 방식</span>
 - 코드를 주기 전에 무엇을 할지 세 줄로 먼저 말한다
@@ -557,12 +881,20 @@ body{
 
 <span class="ty">## 하지 말 것</span>
 - 묻지 않은 기능을 덧붙이지 않는다
-- 씬 · 프로젝트 설정을 통째로 바꾸라고 하지 않는다</div>
+- 파일을 지우거나 옮기지 않는다. 씬 · 프로젝트 설정은 사람이 유니티에서 바꾼다
+
+<span class="fn">## 팀 약속 — 대면 수업에서 정한 다섯 칸</span>
+- ① 작업 칸: 하린 TitleUI.cs / 지호 SceneLoader.cs · EnemyPatrol.cs. 칸 밖의 파일은 고치지 않는다
+- ② 씬: Game 씬은 합치는 사람(민준)만 연다. AI 작업은 Test_이름 씬에서
+- ③ 이름: 파일 · class · Inspector 변수 이름은 바꾸지 않는다. Tag 는 Player · Enemy · PickUp
+- ④ 넘기기: 스크립트 + 프리팹을 .unitypackage 로. 합치기는 사람이 한다
+- ⑤ 기록: 끝나면 바꾼 파일을 목록으로 알려 준다</div>
       </div>
-      <div class="md:col-span-2 space-y-4">
-        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700">우리 게임</div><p class="text-[16px] text-slate-600">게임을 한 줄로. 씬 이름, 입력 방식처럼 AI 가 코드를 쓸 때 꼭 알아야 하는 것.</p></div>
-        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700">폴더 · 이름</div><p class="text-[16px] text-slate-600">7주차 다섯 줄 규칙이 그대로 들어갑니다.</p></div>
-        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700">일하는 방식 · 하지 말 것</div><p class="text-[16px] text-slate-600">AI 가 어떤 순서로, 얼마만큼 일할지. 고칠 범위를 좁힙니다.</p></div>
+      <div class="md:col-span-4 space-y-3">
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">우리 게임</div><p class="text-[15.5px] text-slate-600">게임을 한 줄로. 씬 이름, 입력 방식처럼 AI 가 코드를 쓸 때 꼭 알아야 하는 것.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">폴더 · 이름</div><p class="text-[15.5px] text-slate-600">7주차 다섯 줄 규칙이 그대로 들어갑니다.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">일하는 방식 · 하지 말 것</div><p class="text-[15.5px] text-slate-600">AI 가 어떤 순서로, 얼마만큼 일할지. 고칠 범위를 좁힙니다.</p></div>
+        <div class="soft-card rounded-2xl p-4 border-lime-300"><div class="font-black text-lg mb-1 text-lime-700">팀 약속</div><p class="text-[15.5px] text-slate-600">대면 수업에서 정한 「팀 AI 약속」 다섯 칸을 AI 가 읽는 말로 옮깁니다. 이름 · 파일은 우리 팀 것으로.</p></div>
       </div>
     </div>
   </div>
@@ -572,7 +904,7 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">짧게 시작해서, 실수할 때마다 한 줄</h2>
-    <p class="text-xl text-slate-500 mb-7">처음부터 완벽한 규칙 파일은 없습니다. <b class="text-slate-700">열 줄 안팎</b>으로 시작합니다.</p>
+    <p class="text-xl text-slate-500 mb-7">처음부터 완벽한 규칙 파일은 없습니다. <b class="text-slate-700">한 화면에 들어오는 길이</b>로 시작합니다.</p>
     <div class="soft-card rounded-2xl overflow-hidden mb-6">
       <table class="cmp-table">
         <thead><tr><th>AI 가 이렇게 틀렸다</th><th>규칙 파일에 더한 줄</th></tr></thead>
@@ -596,32 +928,40 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">어디에 두고, 어떻게 주나</h2>
-    <p class="text-xl text-slate-500 mb-7">프로젝트 폴더 맨 위, <b class="text-slate-700">Assets 옆</b>에 둡니다. 유니티는 건드리지 않고, 백업할 때 같이 묶입니다.</p>
-    <div class="grid md:grid-cols-5 gap-6 items-start mb-6">
-      <div class="md:col-span-2">
+    <p class="text-xl text-slate-500 mb-6">프로젝트 폴더 맨 위에 <b class="text-slate-700">.github 폴더</b>, 그 안에 <b class="text-slate-700">copilot-instructions.md</b>. 유니티는 건드리지 않고, 백업할 때 같이 묶입니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start mb-5">
+      <div class="md:col-span-2 space-y-3">
         <div class="win">
           <div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> RollABall</div>
+          <div class="win-row" style="background:#dcfce7;outline:2px solid #22c55e;outline-offset:-2px"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span><b>.github</b><span class="kind">파일 폴더</span></div>
           <div class="win-row"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span>Assets<span class="kind">파일 폴더</span></div>
           <div class="win-row"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span>Library<span class="kind">파일 폴더</span></div>
           <div class="win-row"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span>Packages<span class="kind">파일 폴더</span></div>
           <div class="win-row"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span>ProjectSettings<span class="kind">파일 폴더</span></div>
-          <div class="win-row" style="background:#dcfce7;outline:2px solid #22c55e;outline-offset:-2px"><span class="ico"><i class="fa-solid fa-file-lines text-blue-600"></i></span><b>AGENTS.md</b><span class="kind">Markdown 파일</span></div>
         </div>
-        <div class="uu-cap">Mac 은 Finder 에서 같은 자리에. TextEdit 은 「일반 텍스트」로 저장합니다</div>
+        <div class="win">
+          <div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> RollABall › .github</div>
+          <div class="win-row" style="background:#dcfce7;outline:2px solid #22c55e;outline-offset:-2px"><span class="ico"><i class="fa-solid fa-file-lines text-blue-600"></i></span><b>copilot-instructions.md</b><span class="kind">Markdown 파일</span></div>
+        </div>
+        <div class="uu-cap">이름은 모두 소문자, 사이는 - 한 개. 끝에 .txt 가 붙으면 안 읽습니다</div>
       </div>
-      <div class="md:col-span-3 space-y-4">
+      <div class="md:col-span-3 space-y-3">
+        <div class="soft-card rounded-2xl p-5" style="border-color:#c4b5fd">
+          <div class="font-black text-lg mb-1"><i class="fa-solid fa-code text-violet-600 mr-2"></i>Visual Studio · Copilot</div>
+          <p class="text-[16px] text-slate-600">이 자리, 이 이름이면 대화마다 알아서 읽습니다. 답 아래 <b>References</b> 에 이 파일이 보이면 읽은 것입니다.</p>
+        </div>
         <div class="soft-card rounded-2xl p-5">
-          <div class="font-black text-lg mb-1"><i class="fa-solid fa-comments text-dev-600 mr-2"></i>채팅 AI (웹 · 앱)</div>
+          <div class="font-black text-lg mb-1"><i class="fa-solid fa-comments text-dev-600 mr-2"></i>웹 채팅 (ChatGPT · Claude · Gemini)</div>
           <p class="text-[16px] text-slate-600">파일을 알아서 읽지 못합니다. <b>새 대화 맨 처음에 붙여 넣거나</b>, 그 서비스의 프로젝트 · 지침 칸에 넣어 둡니다.</p>
         </div>
         <div class="soft-card rounded-2xl p-5">
-          <div class="font-black text-lg mb-1"><i class="fa-solid fa-terminal text-dev-600 mr-2"></i>코딩 도구 (편집기 안 AI · 터미널 AI)</div>
-          <p class="text-[16px] text-slate-600">프로젝트 맨 위의 <span class="mono">AGENTS.md</span> 를 알아서 읽는 도구가 많습니다. 다른 이름을 찾는 도구도 있습니다 (예: Claude Code 는 <span class="mono">CLAUDE.md</span>). 내용은 같고 이름만 맞춥니다.</p>
+          <div class="font-black text-lg mb-1"><i class="fa-solid fa-terminal text-dev-600 mr-2"></i>코딩 에이전트 (Claude Code · Codex)</div>
+          <p class="text-[16px] text-slate-600">프로젝트 맨 위에서 Claude Code 는 <span class="mono">CLAUDE.md</span>, Codex 는 <span class="mono">AGENTS.md</span> 를 읽습니다. 내용은 같고, 이름 · 자리만 도구에 맞춥니다.</p>
         </div>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">규칙 파일은 <b class="text-dev-700">팀에 하나</b>입니다. 각자 고쳐 쓰지 않고, 바꾸면 팀 공유 폴더의 파일도 같이 바꿉니다.</p>
+      <p class="text-[18px] text-slate-700">규칙 파일은 <b class="text-dev-700">팀에 하나</b>입니다. 각자 고쳐 쓰지 않고, 바꾸면 팀 공유 폴더의 원본도 같이 바꿉니다.</p>
     </div>
   </div>
 </section>
@@ -687,7 +1027,7 @@ body{
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">요청은 네 칸으로</h2>
-    <p class="text-xl text-slate-500 mb-6">칸 이름을 그대로 적고, 뒤에 바로 씁니다.</p>
+    <p class="text-xl text-slate-500 mb-6">칸 이름을 그대로 적고, 뒤에 바로 씁니다. Copilot Chat 에서 줄은 <span class="kbd">Shift</span> + <span class="kbd">Enter</span> 로 바꿉니다.</p>
     <div class="grid md:grid-cols-5 gap-6 items-start mb-5">
       <div class="md:col-span-3 soft-card rounded-2xl p-6">
         <div class="space-y-3 text-[17px] text-slate-700">
@@ -698,7 +1038,7 @@ body{
         </div>
       </div>
       <div class="md:col-span-2 space-y-4">
-        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">지금 상황에는</div><p class="text-[16px] text-slate-600">오브젝트 이름 · 붙은 컴포넌트 · 관련 코드 전체. AI 가 못 보는 것을 글로 보여 줍니다.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">지금 상황에는</div><p class="text-[16px] text-slate-600">오브젝트 이름 · 붙은 컴포넌트 · Inspector 칸 · 태그. Copilot 은 코드를 읽어도 이것은 못 보니 글로 보여 줍니다.</p></div>
         <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">하지 말 것에는</div><p class="text-[16px] text-slate-600">다른 사람이 맡은 파일, 이미 잘 되는 코드.</p></div>
       </div>
     </div>
@@ -708,10 +1048,10 @@ body{
   </div>
 </section>
 
-<!-- 따라 하기 · AI 에게 시키기 -->
+<!-- 따라 하기 · Copilot 에게 시키기 — Ask -->
 <section class="slide" data-part="1" data-sim="ask">
   <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>AI 에게 시키기</h2>
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>Copilot 에게 시키기 — Ask</h2>
     <div class="ed"></div>
     <div class="ed-cap"></div>
   </div>
@@ -768,7 +1108,7 @@ body{
   <div class="max-w-4xl w-full text-center">
     <div class="part-num mb-4">02</div>
     <h2 class="text-5xl md:text-6xl font-black mb-5">시킨 다음에</h2>
-    <p class="text-xl text-slate-500">되돌릴 지점 · 확인 루프 · 규칙 파일에 한 줄</p>
+    <p class="text-xl text-slate-500">되돌릴 지점 · 확인 루프 · 규칙 파일에 한 줄 · Agent</p>
   </div>
 </section>
 
@@ -776,12 +1116,12 @@ body{
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">넣기 전에, 되돌릴 지점</h2>
-    <p class="text-xl text-slate-500 mb-7">AI 코드를 넣다가 꼬이면 <b class="text-slate-700">넣기 전으로</b> 돌아갈 수 있어야 합니다.</p>
+    <p class="text-xl text-slate-500 mb-7">AI 코드를 넣다가 꼬이면 <b class="text-slate-700">넣기 전으로</b> 돌아갈 수 있어야 합니다. Agent 가 파일을 직접 고칠 때는 더욱 그렇습니다.</p>
     <div class="grid md:grid-cols-3 gap-5 mb-6">
       <div class="soft-card rounded-2xl p-6">
         <div class="text-3xl mb-3 text-flame-600"><i class="fa-solid fa-file-zipper"></i></div>
         <div class="text-xl font-black mb-2">zip 백업 하나</div>
-        <p class="text-[16px] text-slate-600">Library · Logs · Temp 만 빼고 묶습니다. 이름에 날짜와 무엇을 하기 전인지 — <span class="mono whitespace-nowrap">1104_적순찰전.zip</span></p>
+        <p class="text-[16px] text-slate-600">Library · Logs · Temp 만 빼고 묶습니다. 규칙 파일이 든 .github 도 같이. 이름에 날짜와 무엇을 하기 전인지 — <span class="mono whitespace-nowrap">1104_적순찰전.zip</span></p>
         <p class="text-[15px] text-slate-500 mt-2">깃을 쓰는 팀은 커밋이 같은 일을 합니다.</p>
       </div>
       <div class="soft-card rounded-2xl p-6">
@@ -925,7 +1265,7 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
       </div>
       <div class="soft-card rounded-3xl p-6 border-dev-200">
         <div class="tagchip bg-dev-600 text-white mb-3">규칙 파일에 한 줄</div>
-        <p class="text-[17px] text-slate-700 mb-3">파일로 남아서 다음 대화마다, 팀 전체에 갑니다.</p>
+        <p class="text-[17px] text-slate-700 mb-3">copilot-instructions.md 에 남아서 다음 대화마다, 팀 전체에 갑니다.</p>
         <div class="mono text-[14px] bg-green-50 border border-green-300 rounded-xl px-4 py-3 text-slate-800">- Inspector 에 끌어다 놓을 칸이 생기면, 무엇을 어디에 놓는지 같이 알려 준다</div>
       </div>
     </div>
@@ -944,6 +1284,32 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
   </div>
 </section>
 
+<!-- 18a Agent 에게 맡길 때 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Agent 에게 맡길 때 — 장치가 더 필요합니다</h2>
+    <p class="text-xl text-slate-500 mb-6">Agent 는 우리 손을 거치지 않고 파일을 고칩니다. 그래서 <b class="text-slate-700">시키기 전과 끝난 뒤</b>가 더 중요합니다.</p>
+    <div class="grid md:grid-cols-4 gap-4 mb-6">
+      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">1</span><div class="text-lg font-black">시키기 전</div></div><p class="text-[15.5px] text-slate-600">되돌릴 지점 zip · 커밋. 이름에 무엇을 하기 전인지 — <span class="mono whitespace-nowrap">1104_멈춤전</span></p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">2</span><div class="text-lg font-black">시킬 때</div></div><p class="text-[15.5px] text-slate-600">요청 네 칸 그대로. <b>하지 말 것</b>에 고쳐도 되는 파일을 적어, 팀 약속 ① 작업 칸 안으로 좁힙니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">3</span><div class="text-lg font-black">하는 동안</div></div><p class="text-[15.5px] text-slate-600">명령을 실행하려 하면 <b>Allow</b> 를 묻습니다. 무엇을 하는지 모르면 누르지 않고 묻습니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">4</span><div class="text-lg font-black">끝난 뒤</div></div><p class="text-[15.5px] text-slate-600"><b>Total changes</b> 의 파일 목록부터. 작업 칸 밖 · .unity · ProjectSettings 가 있으면 <b>Undo</b>.</p></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700"><b>Keep</b> 을 눌러도 끝이 아닙니다. 유니티로 돌아와 Console · Play · 완료 기준까지 봐야 끝입니다. <b class="text-dev-700">확인 루프는 같습니다.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · Agent 로 한 번 더 — 끝에서 멈추기 -->
+<section class="slide" data-part="2" data-sim="agent">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>Agent 로 한 번 더 — 끝에서 멈추기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
 <!-- 19 도구 연결 -->
 <section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
@@ -952,11 +1318,11 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
     <div class="grid md:grid-cols-2 gap-6 mb-6">
       <div class="soft-card rounded-3xl p-7">
         <div class="tagchip bg-dev-600 text-white mb-4">오늘 한 방법</div>
-        <div class="text-xl font-black mb-3">복사 · 붙여 넣기</div>
+        <div class="text-xl font-black mb-3">Copilot 은 코드를, 우리는 유니티를</div>
         <ul class="text-[17px] text-slate-600 space-y-2">
-          <li>· 규칙 파일 · 요청 · 에러 전문을 우리가 옮깁니다</li>
-          <li>· 코드는 우리가 넣고, Play 도 우리가 누릅니다</li>
-          <li>· 어느 AI · 어느 유니티에서나 됩니다</li>
+          <li>· Copilot 은 코드 · 규칙 파일을 읽고, Agent 는 파일도 고칩니다</li>
+          <li>· 씬 · Inspector · 에러 전문은 우리가 보고 글로 옮깁니다</li>
+          <li>· Play 도, 완료 기준 확인도 우리가 합니다</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-7">
@@ -965,12 +1331,36 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
         <ul class="text-[17px] text-slate-600 space-y-2">
           <li>· Console · Hierarchy · Inspector 값을 AI 가 읽습니다</li>
           <li>· 오브젝트를 만들고 칸을 채우는 일까지 할 수 있습니다</li>
+          <li>· Visual Studio 의 Agent 모드에도 MCP 서버를 붙일 수 있습니다</li>
           <li>· 유니티 공식 연결은 최신 버전 유니티 · AI Assistant 패키지 · Unity AI 이용 권한(체험 · 구독)이 있어야 씁니다</li>
         </ul>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
       <p class="text-[18px] text-slate-700">연결해도 고리는 같습니다. 규칙 파일 · 완료 기준 · 확인 루프는 그대로 필요하고, AI 가 씬을 직접 바꿀 수 있으니 <b class="text-flame-700">되돌릴 지점은 더 중요해집니다.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 20a Visual Studio · Copilot 에서 막힐 때 -->
+<section class="slide" data-part="3">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-6">Visual Studio · Copilot 에서 막힐 때</h2>
+    <div class="soft-card rounded-2xl overflow-hidden mb-5">
+      <table class="cmp-table">
+        <thead><tr><th style="width:36%">이럴 때</th><th>이것부터 봅니다</th></tr></thead>
+        <tbody>
+          <tr><td>스크립트를 더블클릭하면 메모장 · 다른 앱이 열린다</td><td>유니티 Edit → Preferences → External Tools → External Script Editor 를 Visual Studio 로</td></tr>
+          <tr><td>글자에 색이 없다 · Solution Explorer 가 비었다</td><td>같은 곳의 Regenerate project files → Visual Studio 다시 열기. 그래도 그러면 설치 관리자의 Unity 워크로드</td></tr>
+          <tr><td>Copilot 아이콘이 꺼져 있다 · 답이 없다</td><td>오른쪽 위 아이콘에서 로그인 상태 · Copilot Usage 에서 이번 달 남은 양</td></tr>
+          <tr><td>모드에 Agent 가 없다</td><td>Tools → Options → GitHub › Copilot › Copilot Chat 의 Agent 칸 · 설치 관리자에서 Visual Studio 업데이트</td></tr>
+          <tr><td>규칙 파일을 안 읽는 것 같다</td><td>답 아래 References 에 copilot-instructions.md 가 있는지 · 폴더 이름 <span class="mono">.github</span> · 끝에 .txt 가 붙지 않았는지</td></tr>
+          <tr><td>Agent 가 바꾼 것이 이상하다</td><td>Undo · 그 요청 위 Restore. 그래도 꼬이면 되돌릴 지점 zip</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">References 에 규칙 파일이 안 보이면, 입력 칸에 <span class="kbd">#</span> 을 치고 copilot-instructions.md 를 골라 붙여도 됩니다. 웹 채팅이면 새 대화 맨 처음에 붙여 넣습니다.</p>
     </div>
   </div>
 </section>
@@ -989,12 +1379,12 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
           <tr><td>UnassignedReference · NullReference</td><td>Inspector 의 칸이 비었는지 · 끌어다 놓은 것이 맞는 오브젝트인지</td></tr>
           <tr><td>AI 가 말한 메뉴가 없다</td><td>버전마다 메뉴 이름이 다릅니다. 내 화면에 보이는 메뉴 이름을 그대로 알려 줍니다</td></tr>
           <tr><td>고칠 때마다 다른 데가 망가진다</td><td>되돌릴 지점으로 돌아가서 한 번에 하나씩 · 「지금처럼」 기준을 더합니다</td></tr>
-          <tr><td>같은 실수가 또 나온다</td><td>새 대화에 규칙 파일을 줬는지 · 그 실수를 막는 줄이 있는지</td></tr>
+          <tr><td>같은 실수가 또 나온다</td><td>References 에 규칙 파일이 있는지 · 그 실수를 막는 줄이 있는지</td></tr>
         </tbody>
       </table>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[17px] text-slate-700">다음 주 영상 「버그 잡기」에서 Console 읽는 법과 <span class="mono">Debug.Log</span> 를 더 자세히 봅니다.</p>
+      <p class="text-[17px] text-slate-700">빨간 줄이 여러 개면 <b class="text-dev-700">맨 위 한 줄부터</b> 고칩니다. 아래 줄은 위 줄 때문에 같이 나는 경우가 많습니다.</p>
     </div>
   </div>
 </section>
@@ -1009,7 +1399,7 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
         <div class="text-[15px] font-black text-slate-400 mb-3">「개인 기여 보고서」 의 한 칸</div>
         <div class="text-[17px] text-slate-700 space-y-2">
           <p class="font-black">## AI를 쓴 곳</p>
-          <p>- 무엇을 시켰나: 두 지점을 오가는 적 스크립트 EnemyPatrol</p>
+          <p>- 무엇을 시켰나: Visual Studio Copilot 에게 두 지점을 오가는 적 스크립트 EnemyPatrol (Ask), 끝에서 잠깐 멈추기 (Agent)</p>
           <p>- 그대로 쓴 것 / 고친 것: 코드는 그대로. Point A · B 칸이 비어 UnassignedReference 에러 → 빈 오브젝트 두 개를 만들어 연결. 규칙 파일에 Inspector 칸 안내 줄 추가</p>
         </div>
       </div>
@@ -1023,28 +1413,38 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
 
 <!-- 22 정리 -->
 <section class="slide" data-part="3">
-  <div class="max-w-6xl w-full">
+  <div class="max-w-7xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-7 text-center">한 장으로 정리하면</h2>
-    <div class="grid md:grid-cols-2 gap-6 mb-6">
-      <div class="soft-card rounded-3xl p-7">
+    <div class="grid md:grid-cols-3 gap-5 mb-6">
+      <div class="soft-card rounded-3xl p-6">
+        <div class="tagchip bg-violet-600 text-white mb-4">00 준비</div>
+        <ul class="text-[16px] text-slate-700 space-y-2">
+          <li>· 설치 관리자 — <b>Unity 워크로드</b> · GitHub Copilot</li>
+          <li>· 유니티 Preferences → External Tools → Visual Studio</li>
+          <li>· GitHub 로 로그인, <b>Copilot Free</b> 로 시작</li>
+          <li>· Ask 는 우리가 넣고, Agent 는 AI 가 고칩니다</li>
+          <li>· 웹 채팅 · Claude Code · Codex 도 하네스는 같습니다</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
         <div class="tagchip bg-dev-600 text-white mb-4">01 시키기 전에</div>
-        <ul class="text-[17px] text-slate-700 space-y-2">
-          <li>· AI 는 씬 · Inspector · 팀 규칙을 <b>못 봅니다</b></li>
-          <li>· 규칙 파일 <span class="mono">AGENTS.md</span> — 프로젝트 맨 위, 팀에 하나</li>
-          <li>· 새 대화 맨 처음에 규칙 파일부터</li>
+        <ul class="text-[16px] text-slate-700 space-y-2">
+          <li>· AI 는 씬 · Inspector · Play 를 <b>못 봅니다</b></li>
+          <li>· 규칙 파일 <span class="mono text-[14px]">.github/copilot-instructions.md</span> — 팀에 하나, 팀 약속까지</li>
+          <li>· 답 아래 <b>References</b> 로 읽었는지 확인</li>
           <li>· 완료 기준 — 눈으로 · 숫자로 · 「지금처럼」</li>
           <li>· 요청 네 칸 — 하려는 것 · 완료 기준 · 지금 상황 · 하지 말 것</li>
           <li>· 받은 코드 — 몇 개 · class 이름 · 다른 파일 · 모르는 줄</li>
         </ul>
       </div>
-      <div class="soft-card rounded-3xl p-7">
+      <div class="soft-card rounded-3xl p-6">
         <div class="tagchip bg-flame-600 text-white mb-4">02 시킨 다음에</div>
-        <ul class="text-[17px] text-slate-700 space-y-2">
+        <ul class="text-[16px] text-slate-700 space-y-2">
           <li>· 넣기 전에 zip · 커밋, <b>Test 씬</b>에서, 한 번에 하나</li>
           <li>· 확인 루프 — 넣는다 → Console → Play → 기준</li>
           <li>· 에러는 <b>전문 그대로</b> + 그때 한 일</li>
           <li>· 고쳤으면 규칙 파일에 <b>한 줄</b>, 팀에 알리기</li>
-          <li>· 잘 되면 그때가 다음 되돌릴 지점</li>
+          <li>· Agent 는 Total changes 부터. Keep 다음에도 확인 루프</li>
           <li>· 도구 연결(MCP)도 같은 고리</li>
         </ul>
       </div>
@@ -1291,6 +1691,144 @@ function renderSim(sl){
 }
 function simCount(sl){ return simStates(SIMS[sl.dataset.sim]).length; }
 
+/* ===== 10주차 따라 하기 — Visual Studio · Copilot · 설치 관리자 · 유니티 Preferences 모사 ===== */
+const VS_LOGO = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.2 2 8.6 9.8 4.1 6.4 2 7.4v9.2l2.1 1 4.5-3.4 8.6 7.8 4.8-2.3V4.3L17.2 2zM4.3 14.9V9.1L7.2 12l-2.9 2.9zm12.6 1.8L11.7 12l5.2-4.7v9.4z" fill="#a974e6"/></svg>`;
+const CP_ICON = `<svg class="cpi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.4c-4.7 0-8.3 2.3-8.3 6.5v3.8c0 1.4.8 2.6 2.1 3.2 1.8.9 3.9 1.9 6.2 1.9s4.4-1 6.2-1.9c1.3-.6 2.1-1.8 2.1-3.2V9.9c0-4.2-3.6-6.5-8.3-6.5z" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="6.4" y="8.4" width="4.6" height="3.8" rx="1.5" fill="currentColor"/><rect x="13" y="8.4" width="4.6" height="3.8" rx="1.5" fill="currentColor"/><path d="M9.6 15.2h4.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const VS_MB = ["File", "Edit", "View", "Git", "Project", "Build", "Debug", "Test", "Analyze", "Tools", "Extensions", "Window", "Help"];
+
+/* --- 코드 --- */
+function vsCodeHTML(lines){
+  let n = 1;
+  return lines.map(L => {
+    if (L[0] === "@"){ n = +L.slice(1); return ""; }
+    if (L === "…") return `<div class="cl gap"><span class="ln"></span><span class="cx">    …</span></div>`;
+    let cls = "", t = L;
+    if ("+->".includes(L[0])){ cls = { "+": " add", "-": " del", ">": " foc" }[L[0]]; t = L.slice(1); }
+    const cx = t.split("~").map((s, i) => i % 2 ? `<span class="sq">${hlc(s)}</span>` : hlc(s)).join("");
+    return `<div class="cl${cls}"><span class="ln">${cls === " del" ? "" : n++}</span><span class="cx">${cx}</span></div>`;
+  }).join("");
+}
+
+/* --- Solution Explorer --- */
+const SOL_FILES = ["CameraController", "EscToTitle", "GameResult", "PlayerController", "ResultUI", "Rotator", "SceneLoader"];
+function vsSol(o){
+  o = o || {};
+  const files = (o.files || SOL_FILES).slice().sort();
+  const rows = [
+    [0, "▾", `<i class="fa-solid fa-layer-group" style="color:#a974e6"></i>`, "Solution 'RollABall' (1 of 1 project)", "s:sln"],
+    [1, "▾", `<i class="fa-solid fa-cube" style="color:#5ea1e8"></i>`, "<b>Assembly-CSharp</b>", "s:proj"],
+    [2, "▾", `<i class="fa-solid fa-folder-open" style="color:#dcb67a"></i>`, "Assets", "s:assets"],
+    [3, "▾", `<i class="fa-solid fa-folder-open" style="color:#dcb67a"></i>`, "Scripts", "s:scripts"],
+  ].concat(files.map(f => [4, "", `<span class="cs">C#</span>`, f + ".cs", "s:" + f]));
+  return `<div class="vs-tree">` + rows.map(([d, tri, ic, name, k]) => `<div class="it${o.sel === k.slice(2) ? " sel" : ""}"${K(k)} style="padding-left:${6 + d * 14}px"><span class="tri">${tri}</span><span class="ic">${ic}</span><span class="nm">${name}</span></div>`).join("") + `</div>`;
+}
+
+/* --- Copilot Chat --- */
+const REFS = (open) => `<div class="vc-ref${open ? " open" : ""}"${K("c:refs")}>${open ? "▾" : "▸"} References (1)${open ? `<div class="r"${K("c:ref1")}>${fa("file-lines")} .github/copilot-instructions.md</div>` : ""}</div>`;
+const RESTORE = `<span class="vc-restore"${K("c:restore")}>${fa("rotate-left")} Restore</span>`;
+function CHANGES(files){
+  return `<div class="vc-chg"${K("c:chg")}><div class="h"><b>Total changes</b><span class="n">${files.length} file</span><span class="keep"${K("c:keep")}>Keep</span><span class="undo"${K("c:undo")}>Undo</span></div>`
+    + files.map(([f, p, m]) => `<div class="f"${K("c:f:" + f)}>${fa("file-code", "#9b77e0")} ${f}<span class="p">+${p}</span>${m ? `<span class="m">−${m}</span>` : ""}</div>`).join("") + `</div>`;
+}
+function vsChat(c){
+  c = c || {};
+  const msgs = (c.msgs || []).map(([who, html, k]) => [who, html.replace(/<span>복사<\/span>/g, `<span class="cpc"${K("ai:copy")}>${fa("copy")} Copy</span>`), k]).map(([who, html, k]) => who === "u"
+    ? `<div class="vc-u"${K(k)}><div class="bb">${html}</div></div>`
+    : `<div class="vc-a"${K(k)}><div class="who"><span class="cp">${CP_ICON}</span>GitHub Copilot</div><div class="bd">${html}</div></div>`).join("");
+  const empty = `<div class="vc-empty"><span class="cp big">${CP_ICON}</span><div class="t">GitHub Copilot</div></div>`;
+  const mode = c.mode || "Ask";
+  const mm = c.modeOpen ? `<div class="vc-mm">${["Ask", "Agent"].map(m => `<div class="mi${m === (c.modeOpen === true ? mode : c.modeOpen) ? " on" : ""}"${K("c:m:" + m)}>${m === "Ask" ? fa("comment") : fa("robot")} ${m}</div>`).join("")}</div>` : "";
+  return `<div class="vc"><div class="vc-b">${msgs || empty}</div>${c.changes ? CHANGES(c.changes) : ""}`
+    + `<div class="vc-in"><div class="t"${K("c:in")}>${c.input || `<span class="ph">Ask Copilot</span>`}</div>`
+    + `<div class="row"><span class="vc-mode"${K("c:mode")}>${mode} <i class="fa-solid fa-chevron-down"></i></span><span class="vc-model">Auto <i class="fa-solid fa-chevron-down"></i></span><span class="vc-send"${K("c:send")}>${fa("paper-plane")}</span></div>${mm}</div></div>`;
+}
+
+/* --- 창 전체 --- */
+const VS_BASE = { file: "PlayerController.cs", tabs: null, code: null, side: "sol", sol: null, chat: null, menu: null, menuItems: null, badge: "on", wide: false, small: false };
+function vsMenu(items, pos){
+  return `<div class="vs-menu${pos ? " ed-ov" : ""}"${pos ? ` style="left:auto;${pos}"` : ""}>` + items.map(it => it === "-" ? `<div class="sep"></div>`
+    : `<div class="mi${it[0] === "*" ? " on" : ""}"${K("vmi:" + it.replace(/^\*/, ""))}>${it.replace(/^\*/, "")}</div>`).join("") + `</div>`;
+}
+function vsHTML(s){
+  const v = Object.assign({}, VS_BASE, s.vs);
+  const mb = `<div class="vs-mb">` + VS_MB.map(m => `<span class="${v.menu === m ? "on" : ""}"${K("vm:" + m)}>${m}${v.menu === m && v.menuItems ? vsMenu(v.menuItems) : ""}</span>`).join("") + `</div>`;
+  const top = `<div class="vs-top"><span class="vs-logo">${VS_LOGO}</span>${mb}<span class="vs-search">${fa("magnifying-glass")} Search</span><span class="vs-sln">RollABall</span>`
+    + `<span class="vs-badge${v.badge === "off" ? " off" : ""}"${K("vs:badge")}>${CP_ICON}</span><span class="vs-acc"${K("vs:acc")}>${fa("circle-user")}</span></div>`;
+  const tb = `<div class="vs-tb"><span>${fa("arrow-left")}</span><span>${fa("arrow-right")}</span><span class="sep"></span><span class="dd">Debug ▾</span><span class="dd">Any CPU ▾</span><span class="run"${K("vs:attach")}>${fa("play")} Attach to Unity ▾</span></div>`;
+  const tabs = (v.tabs || (v.file ? [v.file] : [])).map(t => `<span class="vs-tab${t === v.file ? " on" : ""}"${K("vt:" + t)}>${t}<span class="x">✕</span></span>`).join("");
+  const ed = `<div class="vs-edp"><div class="vs-tabs">${tabs}</div><div class="vs-code${v.small ? " sm" : ""}"${K("vs:code")}>${v.code ? vsCodeHTML(v.code) : ""}</div></div>`;
+  const side = v.side === "chat"
+    ? `<div class="vs-side"><div class="vs-sh">${CP_ICON} GitHub Copilot Chat<span class="r"><span${K("c:new")}>${fa("plus")}</span><span>${fa("clock-rotate-left")}</span></span></div>${vsChat(v.chat)}</div>`
+    : `<div class="vs-side"><div class="vs-sh">${fa("sitemap")} Solution Explorer</div>${vsSol(v.sol)}</div>`;
+  const st = `<div class="vs-st"><span>Ready</span><span class="r">Ln 1, Ch 1</span></div>`;
+  return `<div class="vs${v.wide ? " wide" : ""}">${top}${tb}${ed}${side}${st}</div>`;
+}
+
+/* --- Visual Studio 대화 상자 · 브라우저 --- */
+const vsDlg = (title, body, pos) => `<div class="ed-ov vs-dlg" style="${pos}"><div class="t">${title}<span class="x">✕</span></div><div class="b">${body}</div></div>`;
+function vsOptions(o){
+  o = o || {};
+  const tree = [["Environment", 0, "▸"], ["Projects and Solutions", 0, "▸"], ["Source Control", 0, "▸"], ["Text Editor", 0, "▸"], ["Debugging", 0, "▸"],
+    ["GitHub", 0, "▾"], ["Copilot", 1, "▾"], ["Copilot Chat", 2, "", true], ["Tools", 2, ""], ["Tools for Unity", 0, "▸"]];
+  const left = `<div class="vo-l"><div class="vo-q">${fa("magnifying-glass")} Search Options</div>`
+    + tree.map(([n, d, tri, sel]) => `<div class="it${sel ? " sel" : ""}"${K("vo:" + n)} style="padding-left:${6 + d * 14}px"><span class="tri">${tri}</span>${n}</div>`).join("") + `</div>`;
+  const chk = (on, t, k) => `<div class="vo-c"${K(k)}><span class="bx${on ? " on" : ""}">${on ? "✓" : ""}</span><span>${t}</span></div>`;
+  const right = `<div class="vo-r"><div class="h">Copilot Chat</div>`
+    + chk(true, "Enable custom instructions to be loaded from .github/copilot-instructions.md files and added to requests", "vo:ci")
+    + chk(true, "Enable Agent mode in the chat pane", "vo:agent") + `</div>`;
+  return vsDlg("Options", `<div class="vo">${left}${right}</div><div class="vo-bt"><span${K("vo:ok")}>OK</span><span>Cancel</span></div>`, o.pos || "left:10%;right:10%;top:44px;bottom:44px");
+}
+const CP_FREE = vsDlg("Get started with Copilot Free", `<div class="cf"><span class="cp big">${CP_ICON}</span><div class="bt1"${K("d:gh")}><i class="fa-brands fa-github"></i> Continue with GitHub</div><div class="bt2"${K("d:gg")}><i class="fa-brands fa-google"></i> Continue with Google</div></div>`, "left:31%;right:31%;top:96px");
+function browser(url, body, pos){
+  return `<div class="ed-ov br" style="${pos || "left:12%;right:12%;top:20px;bottom:24px"}"><div class="br-t"><span class="dots"><i></i><i></i><i></i></span><span class="url">${fa("lock")} ${url}</span></div><div class="br-b">${body}</div></div>`;
+}
+const GH_LOGIN = browser("github.com/login", `<div class="gh"><i class="fa-brands fa-github"></i><div class="h">Sign in to GitHub</div><div class="box"><label>Username or email address</label><div class="in"${K("g:user")}>jiho-mjc</div><label>Password</label><div class="in"${K("g:pw")}>••••••••••</div><div class="go"${K("g:go")}>Sign in</div></div><div class="new">New to GitHub? <u${K("g:new")}>Create an account</u></div></div>`);
+
+/* --- Visual Studio Installer --- */
+function vsi(view, o){
+  o = o || {};
+  const top = `<div class="vi-t">Visual Studio Installer<span class="ctl"><span>—</span><span>☐</span><span>✕</span></span></div>`;
+  if (view === "home")
+    return `<div class="ed-ov vi" style="inset:0">${top}<div class="vi-tabs"><span class="on">설치됨</span><span>사용 가능</span></div>`
+      + `<div class="vi-card"><div class="ic">${VS_LOGO}</div><div class="nm"><b>Visual Studio Community</b></div><div class="bts"><span class="pri"${K("vi:modify")}>수정</span><span>실행</span><span>자세히 ▾</span></div></div></div>`;
+  const W = [["ASP.NET 및 웹 개발", fa("globe")], ["Azure 개발", fa("cloud")], [".NET 데스크톱 개발", fa("desktop")], ["C++를 사용한 데스크톱 개발", fa("laptop-code")],
+    ["Unity를 사용한 게임 개발", `<i class="fa-brands fa-unity"></i>`, "vi:unity"], ["C++를 사용한 게임 개발", fa("gamepad")]];
+  const tiles = W.map(([n, ic, k]) => { const on = k && o.unity; return `<div class="vi-w${on ? " on" : ""}"${K(k)}><span class="ic">${ic}</span><span class="nm">${n}</span><span class="cb">${on ? "✓" : ""}</span></div>`; }).join("");
+  const det = o.unity
+    ? `<div class="g">▾ Unity를 사용한 게임 개발</div><div class="s">포함됨</div><div class="r">${fa("check", "#5c2d91")} Visual Studio Tools for Unity</div>`
+      + `<div class="s">선택 사항</div><div class="r"${K("vi:copilot")}><span class="bx${o.copilot ? " on" : ""}">${o.copilot ? "✓" : ""}</span> GitHub Copilot</div><div class="r"><span class="bx"></span> Unity Hub</div>`
+    : `<div class="s">선택한 항목이 없습니다</div>`;
+  return `<div class="ed-ov vi" style="inset:0">${top}<div class="vi-h">수정 중 — <b>Visual Studio Community</b></div><div class="vi-tabs"><span class="on">워크로드</span><span>개별 구성 요소</span><span>언어 팩</span><span>설치 위치</span></div>`
+    + `<div class="vi-mod"><div class="vi-ws"><div class="vi-g">웹 및 클라우드 · 데스크톱 · 게임</div>${tiles}</div><div class="vi-d"><div class="h">설치 세부 정보</div>${det}</div></div>`
+    + `<div class="vi-bot"><span>위치 C:\\Program Files\\Microsoft Visual Studio</span><span class="go"${K("vi:go")}>수정</span></div></div>`;
+}
+
+/* --- 유니티 Preferences --- */
+function uPrefs(o){
+  o = o || {};
+  const L = ["General", "2D", "Analysis", "Asset Pipeline", "Colors", "Diagnostics", "*External Tools", "GI Cache", "Jobs", "Package Manager", "Scene View", "Search", "UI Scaling"];
+  const left = `<div class="uu-tree">` + L.map(n => `<div class="uu-it${n[0] === "*" ? " sel" : ""}"${K("pf:" + n.replace("*", ""))}>${n.replace("*", "")}</div>`).join("") + `</div>`;
+  const pk = [["Embedded packages", 1], ["Local packages", 1], ["Registry packages", 0], ["Git packages", 0], ["Built-in packages", 0], ["Local tarball", 0], ["Packages from unknown sources", 0], ["Player projects", 0]];
+  const right = `<div style="font-weight:800;color:#e6e6e6;margin-bottom:8px">External Tools</div>`
+    + `<div class="uu-row"><span class="uu-lb" style="width:150px">External Script Editor</span><span class="uu-f"${K("pf:ed")} style="flex:1">${o.editor || "Open by file extension"} ▾</span></div>`
+    + `<div class="uu-note" style="margin:10px 0 4px">Generate .csproj files for:</div>`
+    + pk.map(([n, on]) => `<div class="uu-row" style="margin:2px 0 2px 6px"><span class="uu-chk${on ? " on" : ""}">${on ? "✓" : ""}</span><span>${n}</span></div>`).join("")
+    + `<div style="margin-top:10px"><span class="uu-btn"${K("pf:regen")}>Regenerate project files</span></div>`;
+  const dd = o.open ? `<div class="uu-menus" style="position:absolute;left:158px;top:52px;z-index:5"><div class="uu-menu">`
+    + ["Open by file extension", "*Visual Studio Community", "Visual Studio Code", "-", "Browse..."].map(t => t === "-" ? `<div class="uu-msep"></div>` : `<div class="uu-mi${t[0] === "*" ? " on" : ""}"${K("pf:o:" + t.replace("*", ""))}>${t.replace("*", "")}</div>`).join("") + `</div></div>` : "";
+  return win("Preferences", `<div class="ed-bpl" style="grid-template-columns:28% 1fr"><div>${left}</div><div class="uu-body" style="padding:10px 14px;position:relative">${right}${dd}</div></div>`, "left:12%;top:34px;width:70%;height:410px");
+}
+
+/* --- 엔진에 붙이기: s.vs 가 있으면 Visual Studio 화면 --- */
+const _renderEdHTML0 = renderEdHTML;
+renderEdHTML = function(s){ return s.vs ? vsHTML(s) + (s.ov || "") : _renderEdHTML0(s); };
+const _renderSim0 = renderSim;
+renderSim = function(sl){
+  _renderSim0(sl);
+  const s = simStates(SIMS[sl.dataset.sim])[sl._step || 0];
+  if (s.vs) sl.querySelector(".ed").classList.add("vsm");
+};
+
 /* ===== 10주차 따라 하기 — 장면 정의 ===== */
 /* --- AI 채팅 · 메모장 · 탐색기 --- */
 const esc = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -1311,7 +1849,7 @@ function notepad(name, lines, pos){
     return `<div class="np-l${add ? " add" : ""}${/^#/.test(t) ? " h" : ""}">${esc(t) || "&nbsp;"}</div>`;
   }).join("");
   return `<div class="ed-ov np" style="${pos || "left:20%;right:6%;top:14px;bottom:46px"}"><div class="np-t">${fa("file-lines", "#2563eb")} ${name} - 메모장<span class="ctl"><span>—</span><span>☐</span><span>✕</span></span></div>`
-    + `<div class="np-m"><span${K("np:file")}>파일</span><span>편집</span><span>보기</span></div><div class="np-b">${body}</div></div>`;
+    + `<div class="np-m"><span${K("np:file")}>파일</span><span>편집</span><span>보기</span></div><div class="np-b${lines.length > 19 ? " sm" : ""}">${body}</div></div>`;
 }
 const IC_MD = `<i class="fa-solid fa-file-lines text-blue-600"></i>`, IC_TXT = `<i class="fa-solid fa-file-lines text-slate-400"></i>`;
 const exp2 = (path, rows, pos) => `<div class="win"${K("x:win")} style="${pos || "left:4%;top:20px;width:58%"}"><div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> ${path}</div>`
@@ -1320,11 +1858,14 @@ const exp2 = (path, rows, pos) => `<div class="win"${K("x:win")} style="${pos ||
 const P_ROWS = (o) => {
   o = o || {}; const sel = o.sel || [];
   const r = (ic, n, kind, k) => [ic, n, kind, k, sel.includes(n)];
-  return [r(IC_DIR, "Assets", "파일 폴더", "x:Assets"), r(IC_DIR, "Library", "파일 폴더"), r(IC_DIR, "Logs", "파일 폴더"), r(IC_DIR, "Packages", "파일 폴더", "x:Packages"),
-    r(IC_DIR, "ProjectSettings", "파일 폴더", "x:ProjectSettings"), r(IC_DIR, "Temp", "파일 폴더"), r(IC_DIR, "UserSettings", "파일 폴더", "x:UserSettings")].concat(o.extra || []);
+  return (o.gh ? [r(IC_DIR, o.gh === "edit" ? EDIT_NAME(".github") : ".github", "파일 폴더", "x:github")] : []).concat([r(IC_DIR, "Assets", "파일 폴더", "x:Assets"), r(IC_DIR, "Library", "파일 폴더"), r(IC_DIR, "Logs", "파일 폴더"), r(IC_DIR, "Packages", "파일 폴더", "x:Packages"),
+    r(IC_DIR, "ProjectSettings", "파일 폴더", "x:ProjectSettings"), r(IC_DIR, "Temp", "파일 폴더"), r(IC_DIR, "UserSettings", "파일 폴더", "x:UserSettings")]).concat(o.extra || []);
 };
 const EDIT_NAME = (t) => `<span class="ed-edit" style="background:#fff;color:#111">${t}</span>`;
 const AG_ROW = (sel, name) => [IC_MD, name || "AGENTS.md", "Markdown 파일", "x:agents", sel];
+const CI_ROW = (sel, name, kind) => [name && name[0] === "<" ? IC_TXT : IC_MD, name || "copilot-instructions.md", kind || "Markdown 파일", "x:ci", sel];
+const GH_PATH = "RollABall › .github";
+const EMPTY_DIR = `<div class="win-row" style="color:#71717a;justify-content:center">이 폴더는 비어 있습니다.</div>`;
 const DK_TASK_OPEN = "";
 
 /* --- 유니티 쪽 --- */
@@ -1371,11 +1912,15 @@ const PATROL = ["using UnityEngine;", "", "public class EnemyPatrol : MonoBehavi
   "            target = (target == pointA) ? pointB : pointA;   // 도착하면 방향을 바꾼다", "        }", "    }", "}"];
 const RULES = ["# 우리 팀 규칙 — AI 에게 먼저 주는 파일", "", "## 우리 게임",
   "- Roll a Ball. 공을 굴려 코인을 다 모으면 클리어, 적에 닿으면 게임 오버", "- 씬은 Title · Game · Result. 입력은 Input System (Keyboard.current)", "",
-  "## 폴더 · 이름", "- 스크립트는 Assets/Scripts 에. 파일 이름 = class 이름, 영문 · 공백 없이", "- Game 씬은 합치는 사람만 연다. 실험은 Test_이름 씬에서", "",
+  "## 폴더 · 이름", "- 스크립트는 Assets/Scripts 에. 파일 이름 = class 이름, 영문 · 공백 없이", "",
   "## 일하는 방식", "- 코드를 주기 전에 무엇을 할지 세 줄로 먼저 말한다", "- 한 번에 스크립트 하나만 만들거나 고친다", "- 다른 스크립트를 고쳐야 하면 먼저 묻는다", "",
-  "## 하지 말 것", "- 묻지 않은 기능을 덧붙이지 않는다", "- 씬 · 프로젝트 설정을 통째로 바꾸라고 하지 않는다"];
+  "## 하지 말 것", "- 묻지 않은 기능을 덧붙이지 않는다", "- 파일을 지우거나 옮기지 않는다. 씬 · 프로젝트 설정은 사람이 유니티에서 바꾼다", "",
+  "## 팀 약속 — 대면 수업에서 정한 다섯 칸", "- ① 작업 칸: 하린 TitleUI.cs / 지호 SceneLoader.cs · EnemyPatrol.cs. 칸 밖의 파일은 고치지 않는다",
+  "- ② 씬: Game 씬은 합치는 사람(민준)만 연다. AI 작업은 Test_이름 씬에서",
+  "- ③ 이름: 파일 · class · Inspector 변수 이름은 바꾸지 않는다. Tag 는 Player · Enemy · PickUp",
+  "- ④ 넘기기: 스크립트 + 프리팹을 .unitypackage 로. 합치기는 사람이 한다", "- ⑤ 기록: 끝나면 바꾼 파일을 목록으로 알려 준다"];
 const NEW_LINE = "- Inspector 에 끌어다 놓을 칸이 생기면, 무엇을 어디에 놓는지 같이 알려 준다";
-const RULES2 = (mark) => RULES.slice(0, 14).concat([(mark ? "+" : "") + NEW_LINE]).concat(RULES.slice(14));
+const RULES2 = (mark) => RULES.slice(0, 13).concat([(mark ? "+" : "") + NEW_LINE]).concat(RULES.slice(13));
 const U_RULES = `<div class="pre">${esc(RULES.slice(0, 4).join("\n"))}\n…</div>이 규칙을 지켜서 도와줘. 읽었으면 「확인」 이라고만 답해 줘.`;
 const ASK = `<div class="ask"><b>- 하려는 것:</b> 두 지점 사이를 왕복하는 적을 하나 더 만들고 싶어<br><b>- 완료 기준:</b> Play 하면 적이 두 지점 사이를 초속 3 으로 왕복한다 · 부딪히면 지금처럼 게임 오버 · Console 에 빨간 줄이 없다<br><b>- 지금 상황:</b> 적은 새로 만든 큐브 PatrolEnemy, 태그는 Enemy. 게임 오버는 PlayerController 가 Enemy 태그로 처리하고 있어<br><b>- 하지 말 것:</b> PlayerController 는 고치지 마</div>`;
 const PLAN = `<div class="plan" ${K("ai:plan")}><b>할 일</b><br>1. 새 스크립트 EnemyPatrol 하나를 만듭니다.<br>2. pointA · pointB 두 지점 사이를 speed 속도로 오갑니다.<br>3. PlayerController 는 고치지 않습니다.</div>`;
@@ -1388,39 +1933,94 @@ const CHECK = (n) => `<div class="ed-ov ckl" style="left:25%;right:25%;top:120px
   + ["적이 두 지점 사이를 초속 3 으로 왕복한다", "부딪히면 지금처럼 게임 오버", "Console 에 빨간 줄이 없다"].map((t, i) => `<div class="r${i < n ? " ok" : ""}"><span class="b">${i < n ? "✓" : ""}</span>${t}</div>`).join("") + `</div>`;
 
 const DESK = { desk: true };
+const PC_CODE = ["using UnityEngine;", "using UnityEngine.InputSystem;", "", "public class PlayerController : MonoBehaviour", "{", "    public float speed = 10f;", "    Rigidbody rb;", "",
+  "    void Start()", "    {", "        rb = GetComponent<Rigidbody>();", "    }", "", "    void FixedUpdate()", "    {", "        Vector3 move = Vector3.zero;",
+  "        if (Keyboard.current.leftArrowKey.isPressed) move.x -= 1;", "        if (Keyboard.current.rightArrowKey.isPressed) move.x += 1;", "        if (Keyboard.current.upArrowKey.isPressed) move.z += 1;",
+  "        if (Keyboard.current.downArrowKey.isPressed) move.z -= 1;", "        rb.AddForce(move * speed);", "    }"];
+const TEMPLATE = ["using UnityEngine;", "", "public class EnemyPatrol : MonoBehaviour", "{", "    // Start is called once before the first execution of Update after the MonoBehaviour is created",
+  "    void Start()", "    {", "        ", "    }", "", "    // Update is called once per frame", "    void Update()", "    {", "        ", "    }", "}"];
+const PATROL_WAIT = ["@5", "    public Transform pointA;   // 왕복할 두 지점", "    public Transform pointB;", "    public float speed = 3f;", "+    public float waitTime = 0.5f;   // 끝에서 멈추는 시간", "",
+  "    Transform target;          // 지금 가는 쪽", "+    float waitTimer;", "…", "@18", "    void Update()", "    {", "+        if (waitTimer > 0f)", "+        {", "+            waitTimer -= Time.deltaTime;", "+            return;   // 멈춰 있는 동안은 움직이지 않는다", "+        }",
+  "        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);", "", "        if (Vector3.Distance(transform.position, target.position) < 0.05f)", "        {",
+  "            target = (target == pointA) ? pointB : pointA;   // 도착하면 방향을 바꾼다", "+            waitTimer = waitTime;   // 도착하면 잠깐 멈춘다", "        }", "    }", "}"];
+const ASK2 = `<div class="ask"><b>- 하려는 것:</b> PatrolEnemy 가 끝에 닿으면 잠깐 멈췄다가 돌아가게<br><b>- 완료 기준:</b> Play 하면 끝에서 0.5초 멈췄다가 돌아간다 · 부딪히면 지금처럼 게임 오버 · Console 에 빨간 줄이 없다<br><b>- 지금 상황:</b> EnemyPatrol.cs 로 두 지점을 오가고 있어. Point A · B 는 Inspector 에 연결되어 있어<br><b>- 하지 말 것:</b> EnemyPatrol.cs 말고는 고치지 마</div>`;
+const A_AGENT = `<div class="plan"><b>할 일</b><br>1. EnemyPatrol.cs 에 멈추는 시간 waitTime 과 남은 시간 waitTimer 를 더합니다.<br>2. 끝에 닿으면 waitTimer 동안 움직이지 않습니다.<br>3. 다른 파일은 고치지 않습니다.</div>`
+  + `<div class="fchip">${fa("file-code", "#9b77e0")} EnemyPatrol.cs <span class="p">+8</span></div><div${K("ai:list")}><b>바꾼 파일</b> EnemyPatrol.cs 하나 · <b>새 Inspector 칸</b> Wait Time (0.5) — PatrolEnemy 에서 바로 보입니다</div>`;
+const CHECK2 = (n) => `<div class="ed-ov ckl" style="left:25%;right:25%;top:120px"><div class="h">${fa("list-check")} 완료 기준</div>`
+  + ["끝에서 0.5초 멈췄다가 돌아간다", "부딪히면 지금처럼 게임 오버", "Console 에 빨간 줄이 없다"].map((t, i) => `<div class="r${i < n ? " ok" : ""}"><span class="b">${i < n ? "✓" : ""}</span>${t}</div>`).join("") + `</div>`;
+const patrolC2 = () => comp("Enemy Patrol (Script)", "file-code", row("Script", `<span class="uu-f obj" style="opacity:.75">${fa("file-code")}EnemyPatrol</span>`)
+  + row("Point A", objF("PointA", "i:pa")) + row("Point B", objF("PointB", "i:pb")) + row("Speed", f(3, "i:speed")) + row("Wait Time", f(0.5, "i:wait")));
+const VSB = (o) => Object.assign({ file: "PlayerController.cs", code: PC_CODE, side: "sol", sol: { sel: "PlayerController" } }, o || {});
+const VSC = (chat, o) => Object.assign({ file: "EnemyPatrol.cs", tabs: ["PlayerController.cs", "EnemyPatrol.cs"], code: PATROL, side: "chat", wide: true, chat: chat }, o || {});
+const U_INPUT_Q = "우리 팀 규칙에서 입력은 어떤 방식으로 받아?";
+const A_INPUT_Q = "Input System 의 <b>Keyboard.current</b> 로 받습니다. 예를 들어 <span class=\"mono\">Keyboard.current.leftArrowKey.isPressed</span> 처럼 씁니다.";
+const EDIT_MENU = [["Undo", "Redo", "-", "Cut", "Copy", "Paste", "-", "Duplicate", "Rename", "Delete", "-", "Play", "Pause", "Step", "-", "Project Settings...", "*Preferences...", "Shortcuts..."]];
 const SIMS = {
+/* Visual Studio 설치 관리자 */
+vsinstall: { base: DESK,
+  steps: [
+  { cap: "시작 메뉴에서 <b>Visual Studio Installer</b> 를 엽니다", ov: vsi("home"), note: "Visual Studio 가 열려 있으면 Tools → Get Tools and Features" },
+  { cap: "설치된 Visual Studio 의 <b>수정</b>", ov: vsi("home"), tap: ["vi:modify"] },
+  { cap: "워크로드 탭에서 <b>Unity를 사용한 게임 개발</b> 에 체크", ov: vsi("mod", { unity: true, copilot: true }), tap: ["vi:unity"], note: "영어 화면은 Game development with Unity" },
+  { cap: "오른쪽 설치 세부 정보 — 선택 사항의 <b>GitHub Copilot</b> 에 체크되어 있는지 봅니다", ov: vsi("mod", { unity: true, copilot: true }), hl: ["vi:copilot"], note: "요즘 Visual Studio 는 Copilot 이 들어 있어서 확장을 따로 받지 않습니다" },
+  { cap: "오른쪽 아래 <b>수정</b>. 끝나면 Visual Studio 를 다시 엽니다", ov: vsi("mod", { unity: true, copilot: true }), tap: ["vi:go"], note: "이미 둘 다 체크되어 있으면 그대로 닫습니다" },
+]},
+/* 유니티와 Visual Studio 잇기 */
+vsconnect: { base: { scene: "Game", hier: ROLL_H, sv: sv3dP(), proj: SCRIPTS([]) },
+  steps: [
+  { cap: "유니티 맨 위 메뉴 <b>Edit → Preferences...</b>", mb: "Edit", mbm: EDIT_MENU, note: "Mac 은 Unity → Settings..." },
+  { cap: "왼쪽 <b>External Tools</b> → <b>External Script Editor</b> 칸을 누릅니다", ov: uPrefs(), tap: ["pf:External Tools", "pf:ed"] },
+  { cap: "<b>Visual Studio Community</b> 를 고릅니다", ov: uPrefs({ open: true }), tap: ["pf:o:Visual Studio Community"], note: "뒤에 숫자가 붙어 보여도 됩니다. 없으면 Browse... 로 devenv.exe" },
+  { cap: "<b>Regenerate project files</b> 를 한 번 누르고 창을 닫습니다", ov: uPrefs({ editor: "Visual Studio Community" }), hl: ["pf:ed"], tap: ["pf:regen"], note: "스크립트를 열었는데 글자에 색이 안 들어올 때도 이 단추" },
+  { cap: "Project 창 Scripts 에서 <b>PlayerController</b> 를 더블클릭", psel: ["PlayerController"], tap: ["p:PlayerController"], note: "맨 위 메뉴 Assets → Open C# Project 도 같습니다" },
+  { cap: "Visual Studio 가 열립니다. 오른쪽 <b>Solution Explorer</b> — Assembly-CSharp › Assets › Scripts", vs: VSB(), hl: ["s:proj", "s:scripts"], note: "처음 열면 로그인 · 색 테마를 묻습니다. 고르고 넘어갑니다" },
+  { cap: "위에 <b>Attach to Unity</b> 가 보이면 유니티와 이어진 것입니다", vs: VSB(), hl: ["vs:attach"], note: "Visual Studio 는 코드만. 씬 · Inspector · Play 는 유니티에서" },
+]},
+/* Copilot 로그인 */
+copilot: { base: { vs: VSB({ badge: "off" }) },
+  steps: [
+  { cap: "오른쪽 위 <b>Copilot 아이콘</b> → <b>Open Chat Window</b>", ov: vsMenu(["*Open Chat Window", "Sign up for Copilot Free", "Sign in"], "right:42px;top:28px"), tap: ["vs:badge", "vmi:Open Chat Window"], note: "아이콘이 없으면 View → GitHub Copilot Chat" },
+  { cap: "로그인 전이면 <b>Get started with Copilot Free</b> 창이 뜹니다 → <b>Continue with GitHub</b>", vs: VSB({ badge: "off", side: "chat", chat: {} }), ov: CP_FREE, tap: ["d:gh"], note: "아이콘 메뉴의 Sign up for Copilot Free 도 같은 창입니다" },
+  { cap: "브라우저가 열리면 GitHub 계정으로 <b>Sign in</b> → Visual Studio 를 <b>승인</b>", ov: GH_LOGIN, tap: ["g:go"], note: "계정이 없으면 Create an account. 학교 메일로 만들면 학생 인증이 쉽습니다" },
+  { cap: "Visual Studio 로 돌아오면 <b>Copilot 아이콘이 켜집니다</b>. 채팅에 한마디 보내 봅니다", vs: VSB({ side: "chat", chat: { msgs: [["u", "안녕"], ["a", "안녕하세요. 무엇을 도와드릴까요?"]] } }), hl: ["vs:badge"] },
+  { cap: "아이콘 → <b>Copilot Usage</b> 에서 이번 달 남은 양을 봅니다", ov: vsMenu(["Open Chat Window", "*Copilot Usage", "Settings"], "right:42px;top:28px"), tap: ["vs:badge", "vmi:Copilot Usage"], note: "Free 는 매달 정해진 양. 다 쓰면 다음 달에 다시 찹니다" },
+  { cap: "<b>Tools → Options</b> → GitHub › Copilot › Copilot Chat — 두 칸이 켜져 있는지", vs: VSB({ side: "chat", chat: {} }), ov: vsOptions(), hl: ["vo:ci", "vo:agent"], note: "규칙 파일 읽기 · Agent 모드. 보통 처음부터 켜져 있습니다" },
+  { cap: "채팅 창 한눈에 — <b>+</b> 새 대화 · 입력 칸 · 모드 <b>Ask</b> · 모델 <b>Auto</b>", vs: VSB({ side: "chat", wide: true, chat: {} }), hl: ["c:new", "c:in", "c:mode"], note: "이 영상은 Ask 로 따라 하고, Agent 는 02 끝에서 봅니다" },
+]},
 /* 규칙 파일 만들기 */
 rulefile: { base: { scene: "Game", hier: ROLL_H, sv: sv3dP(), proj: { path: "Assets", items: [["Materials", "folder"], ["Prefabs", "folder"], ["Scenes", "folder"], ["Scripts", "folder"], ["Settings", "folder"]] } },
   steps: [
   { cap: "Project 창 왼쪽의 <b>Assets</b> 폴더를 우클릭 → <b>Show in Explorer</b>", ov: SHOW_CTX, tap: ["pt:Assets"], note: "Mac 은 Reveal in Finder" },
   { cap: "프로젝트 폴더가 열립니다. <b>Assets</b> 가 보이는 이곳이 맨 위입니다", desk: true, ov: exp2("RollABall", P_ROWS({ sel: ["Assets"] })), hl: ["x:Assets"] },
   { cap: "<b>보기 → 표시 → 파일 확장명</b> 을 켭니다", desk: true, ov: exp2("RollABall", P_ROWS()) + dkMenu("left:44%;top:84px", [{ items: ["큰 아이콘", "보통 아이콘", "자세히", "-", "*표시>"] }, { off: 98, items: ["탐색 창", "세부 정보 창", "-", "항목 확인란", "*✓ 파일 확장명", "숨긴 항목"] }]), tap: ["x:view"], note: "Windows 10 은 위쪽 보기 탭의 「파일 확장명」" },
-  { cap: "빈 곳을 우클릭 → <b>새로 만들기 → 텍스트 문서</b>", desk: true, ov: exp2("RollABall", P_ROWS()) + dkMenu("left:26%;top:300px", [{ items: ["보기>", "정렬 기준>", "-", "*새로 만들기>", "-", "속성"] }, { off: 52, items: ["폴더", "바로 가기", "-", "*텍스트 문서", "압축(ZIP) 폴더"] }]) },
-  { cap: "이름을 <b>AGENTS.md</b> 로 — <b>.txt</b> 까지 지우고 <span class=\"kbd\">Enter</span>", desk: true, ov: exp2("RollABall", P_ROWS({ extra: [[IC_TXT, EDIT_NAME("AGENTS.md"), "텍스트 문서", "x:agents", true]] })), hl: ["x:agents"], note: "확장명이 안 보이면 AGENTS.md.txt 가 됩니다" },
-  { cap: "확장명을 바꾸겠냐고 물으면 <b>예</b>", desk: true, ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })) + `<div class="ed-ov wdlg" style="left:30%;top:150px;width:40%"><div class="t">이름 바꾸기</div><p>확장명을 변경하면 파일을 사용할 수 없게 될 수도 있습니다. 변경하시겠습니까?</p><div class="bt"><span${K("d:yes")}>예</span><span>아니요</span></div></div>`, tap: ["d:yes"] },
-  { cap: "<b>AGENTS.md</b> 를 우클릭 → <b>연결 프로그램 → 메모장</b>", desk: true, ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })) + dkMenu("left:30%;top:318px", [{ items: ["열기", "*연결 프로그램>", "-", "복사", "이름 바꾸기", "삭제", "속성"] }, { off: 21, items: ["*메모장", "Visual Studio Code", "다른 앱 선택"] }]), tap: ["x:agents"], note: "Mac 은 TextEdit → 포맷 → 일반 텍스트로 만들기" },
-  { cap: "팀 규칙을 적습니다. <b>우리 게임 · 폴더 · 이름 · 일하는 방식 · 하지 말 것</b>", desk: true, ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })) + notepad("AGENTS.md", RULES.map(l => "+" + l)), note: "# 은 제목 표시입니다" },
-  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span> 로 저장하고 닫습니다. <b>Assets 옆에 AGENTS.md</b> 가 있으면 됩니다", desk: true, ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })), hl: ["x:agents", "x:Assets"], note: "유니티 Project 창에는 안 보입니다" },
+  { cap: "빈 곳을 우클릭 → <b>새로 만들기 → 폴더</b>", desk: true, ov: exp2("RollABall", P_ROWS()) + dkMenu("left:26%;top:300px", [{ items: ["보기>", "정렬 기준>", "-", "*새로 만들기>", "-", "속성"] }, { off: 52, items: ["*폴더", "바로 가기", "-", "텍스트 문서", "압축(ZIP) 폴더"] }]) },
+  { cap: "이름을 <b>.github</b> — 점으로 시작합니다 → <span class=\"kbd\">Enter</span>", desk: true, ov: exp2("RollABall", P_ROWS({ gh: "edit", sel: [".github"] })), hl: ["x:github"], note: "이름이 안 바뀌면 끝에 점을 하나 더 — .github." },
+  { cap: "<b>.github</b> 를 더블클릭해 들어가서, 빈 곳 우클릭 → <b>새로 만들기 → 텍스트 문서</b>", desk: true, ov: exp2(GH_PATH, []).replace(`${K("x:area")}></div>`, `${K("x:area")}>${EMPTY_DIR}</div>`) + dkMenu("left:26%;top:150px", [{ items: ["보기>", "정렬 기준>", "-", "*새로 만들기>", "-", "속성"] }, { off: 52, items: ["폴더", "바로 가기", "-", "*텍스트 문서", "압축(ZIP) 폴더"] }]) },
+  { cap: "이름을 <b>copilot-instructions.md</b> — <b>.txt</b> 까지 지우고 <span class=\"kbd\">Enter</span> → 확장명을 바꾸겠냐고 물으면 <b>예</b>", desk: true, ov: exp2(GH_PATH, [CI_ROW(true, EDIT_NAME("copilot-instructions.md"), "텍스트 문서")]) + `<div class="ed-ov wdlg" style="left:30%;top:150px;width:40%"><div class="t">이름 바꾸기</div><p>확장명을 변경하면 파일을 사용할 수 없게 될 수도 있습니다. 변경하시겠습니까?</p><div class="bt"><span${K("d:yes")}>예</span><span>아니요</span></div></div>`, tap: ["d:yes"], note: "모두 소문자, 사이는 - 한 개" },
+  { cap: "<b>copilot-instructions.md</b> 를 우클릭 → <b>연결 프로그램 → 메모장</b>", desk: true, ov: exp2(GH_PATH, [CI_ROW(true)]) + dkMenu("left:30%;top:110px", [{ items: ["열기", "*연결 프로그램>", "-", "복사", "이름 바꾸기", "삭제", "속성"] }, { off: 21, items: ["*메모장", "Visual Studio", "다른 앱 선택"] }]), tap: ["x:ci"], note: "Mac 은 TextEdit → 포맷 → 일반 텍스트로 만들기" },
+  { cap: "팀 규칙을 적습니다. <b>우리 게임 · 폴더 · 이름 · 일하는 방식 · 하지 말 것 · 팀 약속</b>", desk: true, ov: exp2(GH_PATH, [CI_ROW(true)]) + notepad("copilot-instructions.md", RULES.map(l => "+" + l), "left:16%;right:5%;top:10px;bottom:40px"), note: "# 은 제목 표시. 팀 약속은 대면에서 정한 다섯 칸" },
+  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span> 로 저장하고 닫습니다. <b>RollABall › .github › copilot-instructions.md</b>", desk: true, ov: exp2("RollABall", P_ROWS({ gh: true, sel: [".github"] })), hl: ["x:github", "x:Assets"], note: "Assets 밖이라 유니티 Project 창에는 안 보입니다" },
+  { cap: "Visual Studio Copilot Chat 에서 <b>+</b> 새 대화 → 규칙에 적은 것을 하나 물어봅니다", desk: false, vs: VSB({ side: "chat", wide: true, chat: { input: U_INPUT_Q } }), tap: ["c:new"], hl: ["c:in"] },
+  { cap: "답 아래 <b>References</b> 를 펼치면 <b>copilot-instructions.md</b> — 규칙을 읽고 답했다는 표시", vs: VSB({ side: "chat", wide: true, chat: { msgs: [["u", U_INPUT_Q], ["a", A_INPUT_Q + REFS(true)]] } }), tap: ["c:refs"], hl: ["c:ref1"], note: "안 보이면 입력 칸에 # 을 치고 이 파일을 골라 붙입니다" },
 ]},
-/* AI 에게 시키기 */
-ask: { base: DESK,
+/* AI 에게 시키기 — Visual Studio · Ask */
+ask: { base: { vs: VSB({ side: "chat", wide: true, chat: {} }) },
   steps: [
-  { cap: "AI 채팅에서 <b>새 대화</b>를 엽니다", ov: chat([], ""), tap: ["ai:new"], note: "어느 서비스든 화면은 비슷합니다" },
-  { cap: "메모장의 AGENTS.md 를 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">A</span> · <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">C</span> → 채팅 칸에 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">V</span>, 끝에 한 줄", ov: chat([], U_RULES), hl: ["ai:in"] },
-  { cap: "보내면 <b>확인</b> 이라고 답합니다", ov: chat([["u", U_RULES], ["a", "확인", "ai:ok"]], ""), hl: ["ai:ok"], note: "서비스의 프로젝트 · 지침 칸에 넣어 두었다면 이 단계는 없습니다" },
-  { cap: "요청 틀 네 칸을 채워 보냅니다. <b>하려는 것 · 완료 기준 · 지금 상황 · 하지 말 것</b>", ov: chat([["u", U_RULES], ["a", "확인"]], ASK), hl: ["ai:in"], tap: ["ai:send"] },
-  { cap: "AI 가 <b>할 일 세 줄</b>을 먼저 말하고 코드를 줍니다", ov: chat([["u", ASK], ["a", A_CODE()]], ""), hl: ["ai:plan"], note: "규칙 파일에 적어 둔 대로입니다" },
-  { cap: "넣기 전에 읽습니다. <b>스크립트 하나 · class 이름 EnemyPatrol · PlayerController 는 그대로</b>", ov: chat([["u", ASK], ["a", A_CODE()]], ""), hl: ["ai:code"] },
-  { cap: "모르는 줄은 그 줄을 붙여 묻습니다", ov: chat([["a", A_CODE()], ["u", "18번 줄 <span class=\"mono\">Vector3.MoveTowards(…)</span> 가 하는 일을 한 줄로 알려 줘"], ["a", "지금 위치에서 target 쪽으로, 한 프레임에 <b>speed × 지난 시간</b> 만큼만 다가갑니다. 지나치지 않고 도착하면 그 자리에 멈춥니다.", "ai:exp"]], ""), hl: ["ai:exp"], note: "이해한 코드만 팀에 넘깁니다" },
+  { cap: "Copilot Chat 위쪽 <b>+</b> 로 새 대화. 모드는 <b>Ask</b>", tap: ["c:new"], hl: ["c:mode"], note: "새 일은 새 대화에서. 규칙 파일은 Copilot 이 같이 읽습니다" },
+  { cap: "요청 틀 네 칸을 채웁니다. 줄은 <span class=\"kbd\">Shift</span> + <span class=\"kbd\">Enter</span> 로 바꿉니다", vs: VSB({ side: "chat", wide: true, chat: { input: ASK } }), hl: ["c:in"], note: "웹 채팅이면 새 대화 맨 처음에 규칙 파일부터 붙여 넣습니다" },
+  { cap: "보내면 AI 가 <b>할 일 세 줄</b>을 먼저 말하고 코드를 줍니다", vs: VSB({ side: "chat", wide: true, chat: { msgs: [["u", ASK], ["a", A_CODE() + REFS(false)]] } }), hl: ["ai:plan"], note: "규칙 파일에 적어 둔 대로입니다" },
+  { cap: "답 아래 <b>References</b> 에 copilot-instructions.md — 규칙을 읽고 답했습니다", vs: VSB({ side: "chat", wide: true, chat: { msgs: [["u", ASK], ["a", A_CODE() + REFS(true)]] } }), tap: ["c:refs"], hl: ["c:ref1"] },
+  { cap: "넣기 전에 읽습니다. <b>스크립트 하나 · class 이름 EnemyPatrol · PlayerController 는 그대로</b>", vs: VSB({ side: "chat", wide: true, chat: { msgs: [["u", ASK], ["a", A_CODE() + REFS(true)]] } }), hl: ["ai:code"] },
+  { cap: "모르는 줄은 그 줄을 붙여 묻습니다", vs: VSB({ side: "chat", wide: true, chat: { msgs: [["a", A_CODE()], ["u", "18번 줄 <span class=\"mono\">Vector3.MoveTowards(…)</span> 가 하는 일을 한 줄로 알려 줘"], ["a", "지금 위치에서 target 쪽으로, 한 프레임에 <b>speed × 지난 시간</b> 만큼만 다가갑니다. 지나치지 않고 도착하면 그 자리에 멈춥니다.", "ai:exp"]] } }), hl: ["ai:exp"], note: "이해한 코드만 팀에 넘깁니다" },
 ]},
 /* 되돌릴 지점 */
 backup: { base: DESK,
   steps: [
-  { cap: "프로젝트 폴더를 엽니다 (Project 창 → Assets 우클릭 → Show in Explorer)", ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(false)] })) },
-  { cap: "<span class=\"kbd\">Ctrl</span> 을 누른 채 <b>Library · Logs · Temp 를 뺀 나머지</b>를 고릅니다", ov: exp2("RollABall", P_ROWS({ sel: ["Assets", "Packages", "ProjectSettings", "UserSettings"], extra: [AG_ROW(true)] })), hl: ["x:Assets", "x:Packages", "x:ProjectSettings", "x:UserSettings", "x:agents"], note: "빼는 셋은 유니티가 다시 만듭니다" },
-  { cap: "고른 것 위에서 우클릭 → <b>압축 대상 → ZIP 파일</b>", ov: exp2("RollABall", P_ROWS({ sel: ["Assets", "Packages", "ProjectSettings", "UserSettings"], extra: [AG_ROW(true)] })) + dkMenu("left:30%;top:94px", [{ items: ["열기", "-", "*압축 대상>", "복사", "속성"] }, { off: 30, items: ["*ZIP 파일", "7z 파일", "TAR 파일"] }]), note: "Windows 버전에 따라 메뉴 이름이 조금 다릅니다" },
-  { cap: "이름에 <b>날짜 · 무엇을 하기 전인지</b> — <b>1104_적순찰전</b>", ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(false), [IC_ZIP, EDIT_NAME("1104_적순찰전.zip"), "압축(ZIP) 폴더", "x:zip", true]] })), hl: ["x:zip"] },
-  { cap: "zip 을 <b>프로젝트 밖 백업 폴더</b>로 옮깁니다", ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(false)] })) + exp2("백업", [[IC_ZIP, "1103_알파준비.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1104_적순찰전.zip</b>", "압축(ZIP) 폴더", "x:zip2", true]], "left:40%;top:150px;width:54%"), hl: ["x:zip2"], note: "깃을 쓰는 팀은 여기서 커밋" },
+  { cap: "프로젝트 폴더를 엽니다 (Project 창 → Assets 우클릭 → Show in Explorer)", ov: exp2("RollABall", P_ROWS({ gh: true })) },
+  { cap: "<span class=\"kbd\">Ctrl</span> 을 누른 채 <b>Library · Logs · Temp 를 뺀 나머지</b>를 고릅니다", ov: exp2("RollABall", P_ROWS({ gh: true, sel: [".github", "Assets", "Packages", "ProjectSettings", "UserSettings"] })), hl: ["x:github", "x:Assets", "x:Packages", "x:ProjectSettings", "x:UserSettings"], note: "빼는 셋은 유니티가 다시 만듭니다. 규칙 파일이 든 .github 도 같이" },
+  { cap: "고른 것 위에서 우클릭 → <b>압축 대상 → ZIP 파일</b>", ov: exp2("RollABall", P_ROWS({ gh: true, sel: [".github", "Assets", "Packages", "ProjectSettings", "UserSettings"] })) + dkMenu("left:30%;top:94px", [{ items: ["열기", "-", "*압축 대상>", "복사", "속성"] }, { off: 30, items: ["*ZIP 파일", "7z 파일", "TAR 파일"] }]), note: "Windows 버전에 따라 메뉴 이름이 조금 다릅니다" },
+  { cap: "이름에 <b>날짜 · 무엇을 하기 전인지</b> — <b>1104_적순찰전</b>", ov: exp2("RollABall", P_ROWS({ gh: true, extra: [[IC_ZIP, EDIT_NAME("1104_적순찰전.zip"), "압축(ZIP) 폴더", "x:zip", true]] })), hl: ["x:zip"] },
+  { cap: "zip 을 <b>프로젝트 밖 백업 폴더</b>로 옮깁니다", ov: exp2("RollABall", P_ROWS({ gh: true })) + exp2("백업", [[IC_ZIP, "1103_알파준비.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1104_적순찰전.zip</b>", "압축(ZIP) 폴더", "x:zip2", true]], "left:40%;top:150px;width:54%"), hl: ["x:zip2"], note: "깃을 쓰는 팀은 여기서 커밋" },
 ]},
 /* 넣기 */
 place: { base: { scene: "Game", hier: ROLL_H, sv: sv3dP({ x: -50 }), proj: { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Title", "scene"]] } },
@@ -1433,8 +2033,9 @@ place: { base: { scene: "Game", hier: ROLL_H, sv: sv3dP({ x: -50 }), proj: { pat
   { cap: "Tag 를 눌러 <b>Enemy</b> 를 고릅니다", insp: cubeInsp("PatrolEnemy", null, [0, 0.5, 6]), ov: TAG_DD, tap: ["i:tag"], note: "그래서 부딪히면 게임 오버" },
   { cap: "Project 창 Scripts 빈 곳을 우클릭 → <b>Create → MonoBehaviour Script</b>", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6]), hl: ["i:tag"], proj: SCRIPTS([]), ov: PROJ_CTX("script"), note: "버전에 따라 C# Script" },
   { cap: "이름은 AI 답의 class 이름 그대로 <b>EnemyPatrol</b> → <span class=\"kbd\">Enter</span>", proj: SCRIPTS(["EnemyPatrol"]), pedit: "EnemyPatrol", note: "파일 이름과 class 이름이 같아야 붙습니다" },
-  { cap: "더블클릭 → 편집기에서 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">A</span> → AI 코드를 붙여 넣고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>", psel: ["EnemyPatrol"], ov: code("EnemyPatrol.cs", PATROL.map(l => "+" + l), "left:8%;right:3%;top:26px;bottom:2px") },
-  { cap: "유니티로 돌아옵니다. 도는 표시가 멈추고 Console 에 빨간 줄이 없으면 됩니다", bottom: "console", tap: ["st:spin"] },
+  { cap: "<b>EnemyPatrol</b> 을 더블클릭 → Visual Studio 에 유니티가 만든 틀이 열립니다", psel: ["EnemyPatrol"], vs: VSB({ file: "EnemyPatrol.cs", tabs: ["PlayerController.cs", "EnemyPatrol.cs"], code: TEMPLATE, sol: { files: SOL_FILES.concat(["EnemyPatrol"]), sel: "EnemyPatrol" } }), hl: ["s:EnemyPatrol"], note: "Start · Update 만 있는 빈 틀" },
+  { cap: "Copilot 답의 코드 블록 위 <b>Copy</b> → 편집기를 클릭하고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">A</span> → <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">V</span> → <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>", vs: VSC({ msgs: [["a", A_CODE()]] }, { code: PATROL.map(l => "+" + l), wide: false, small: true }), tap: ["ai:copy"], hl: ["vs:code"], note: "틀은 지우고 통째로 바꿉니다" },
+  { cap: "유니티로 돌아옵니다. 도는 표시가 멈추고 Console 에 빨간 줄이 없으면 됩니다", vs: null, bottom: "console", tap: ["st:spin"] },
 ]},
 /* 돌려 보기 */
 run: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy"]), hsel: "PatrolEnemy", sv: sv3dP(), proj: SCRIPTS(["EnemyPatrol"]), insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6]) },
@@ -1448,9 +2049,9 @@ run: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy"]), hsel: "PatrolEnem
 /* 에러를 붙여 넣고 고치기 */
 fix: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy"]), hsel: "PatrolEnemy", sv: sv3dP(), proj: SCRIPTS(["EnemyPatrol"]), insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC()), bottom: "console", logs: [["err", ERR1, ERR_FULL]] },
   steps: [
-  { cap: "같은 대화에 <b>그때 한 일 한 줄 + 에러 전문</b>을 붙여 보냅니다", desk: true, ov: chat([["a", A_CODE()]], U_ERR), hl: ["ai:in"], tap: ["ai:send"] },
-  { cap: "AI 가 원인을 말합니다. <b>코드가 아니라 Inspector 칸</b>이었습니다", desk: true, ov: chat([["u", U_ERR], ["a", A_FIX]], ""), hl: ["ai:fix"], note: "에러 전문이 AI 대신 Inspector 를 보여 준 셈입니다" },
-  { cap: "유니티로 돌아와 Hierarchy 빈 곳을 우클릭 → <b>Create Empty</b>", desk: false, logs: [], ov: HIER_CTX },
+  { cap: "같은 대화에 <b>그때 한 일 한 줄 + 에러 전문</b>을 붙여 보냅니다", vs: VSC({ msgs: [["a", A_CODE()]], input: U_ERR }), hl: ["c:in"], tap: ["c:send"], note: "Console 에서 Ctrl + C 한 것을 Ctrl + V" },
+  { cap: "AI 가 원인을 말합니다. <b>코드가 아니라 Inspector 칸</b>이었습니다", vs: VSC({ msgs: [["u", U_ERR], ["a", A_FIX]] }), hl: ["ai:fix"], note: "에러 전문이 AI 대신 Inspector 를 보여 준 셈입니다" },
+  { cap: "유니티로 돌아와 Hierarchy 빈 곳을 우클릭 → <b>Create Empty</b>", vs: null, logs: [], ov: HIER_CTX },
   { cap: "이름 <b>PointA</b> · Position <b>-4 · 0.5 · 6</b>", hier: H_T(["PatrolEnemy", "PointA"]), hsel: "PointA", insp: emptyInsp2("PointA", [-4, 0.5, 6]), hl: ["i:name", "i:pos"], note: "Y · Z 는 PatrolEnemy 와 같게" },
   { cap: "같은 방법으로 <b>PointB</b> · Position <b>4 · 0.5 · 6</b>", hier: H_T(["PatrolEnemy", "PointA", "PointB"]), hsel: "PointB", insp: emptyInsp2("PointB", [4, 0.5, 6]), hl: ["i:name", "i:pos"] },
   { cap: "<b>PatrolEnemy</b> 를 고르고 PointA 를 <b>Point A</b> 칸으로, PointB 를 <b>Point B</b> 칸으로 끌어다 놓습니다", hsel: "PatrolEnemy", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC("PointA", "PointB")), drag: ["h:PointA", "h:PointB"], hl: ["i:pa", "i:pb"] },
@@ -1462,10 +2063,22 @@ fix: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy"]), hsel: "PatrolEnem
 /* 규칙 파일에 한 줄 */
 addline: { base: DESK,
   steps: [
-  { cap: "메모장으로 <b>AGENTS.md</b> 를 엽니다", ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })) + notepad("AGENTS.md", RULES) },
-  { cap: "「일하는 방식」 아래에 <b>한 줄</b>을 더합니다", ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })) + notepad("AGENTS.md", RULES2(true)), note: "이번에 AI 가 빠뜨린 것" },
-  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀 공유 폴더의 규칙 파일도 같이 바꾸고 팀에 알립니다", ov: exp2("RollABall", P_ROWS({ extra: [AG_ROW(true)] })) + notepad("AGENTS.md", RULES2(false)), note: "팀 전체가 같은 파일을 씁니다" },
+  { cap: "메모장으로 <b>.github › copilot-instructions.md</b> 를 엽니다", ov: exp2(GH_PATH, [CI_ROW(true)]) + notepad("copilot-instructions.md", RULES, "left:16%;right:5%;top:10px;bottom:40px") },
+  { cap: "「일하는 방식」 아래에 <b>한 줄</b>을 더합니다", ov: exp2(GH_PATH, [CI_ROW(true)]) + notepad("copilot-instructions.md", RULES2(true), "left:16%;right:5%;top:10px;bottom:40px"), note: "이번에 AI 가 빠뜨린 것" },
+  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀 공유 폴더의 원본도 같이 바꾸고 팀에 알립니다", ov: exp2(GH_PATH, [CI_ROW(true)]) + notepad("copilot-instructions.md", RULES2(false), "left:16%;right:5%;top:10px;bottom:40px"), note: "다음 대화부터 Copilot 이 이 줄도 읽습니다" },
   { cap: "잘 되는 지금이 다음 되돌릴 지점입니다. 같은 방법으로 <b>1104_적순찰완료</b> zip", ov: exp2("백업", [[IC_ZIP, "1103_알파준비.zip", "압축(ZIP) 폴더"], [IC_ZIP, "1104_적순찰전.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1104_적순찰완료.zip</b>", "압축(ZIP) 폴더", "x:zip3", true]], "left:12%;top:40px;width:62%"), hl: ["x:zip3"], note: "깃을 쓰는 팀은 커밋" },
+]},
+/* Agent 모드 */
+agent: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy", "PointA", "PointB"]), hsel: "PatrolEnemy", sv: sv3dP(), proj: SCRIPTS(["EnemyPatrol"]), insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC("PointA", "PointB")), desk: true },
+  steps: [
+  { cap: "Agent 는 파일을 직접 고칩니다. 시키기 전에 되돌릴 지점부터 — <b>1104_멈춤전</b> zip", ov: exp2("백업", [[IC_ZIP, "1104_적순찰전.zip", "압축(ZIP) 폴더"], [IC_ZIP, "1104_적순찰완료.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1104_멈춤전.zip</b>", "압축(ZIP) 폴더", "x:zip4", true]], "left:12%;top:40px;width:62%"), hl: ["x:zip4"], note: "깃을 쓰는 팀은 커밋" },
+  { cap: "Copilot Chat 입력 칸 아래 <b>Ask</b> 를 눌러 <b>Agent</b> 로 바꿉니다", desk: false, vs: VSC({ modeOpen: "Agent" }, { code: PATROL }), tap: ["c:m:Agent"] },
+  { cap: "요청 틀 네 칸은 그대로 — <b>하지 말 것</b>에 고쳐도 되는 파일을 좁혀 둡니다", vs: VSC({ mode: "Agent", input: ASK2 }, { code: PATROL }), hl: ["c:in"], tap: ["c:send"] },
+  { cap: "Agent 가 <b>EnemyPatrol.cs 를 직접 고칩니다</b>. 바뀐 줄이 초록으로 보입니다", vs: VSC({ mode: "Agent", msgs: [["u", ASK2], ["a", A_AGENT]], changes: [["EnemyPatrol.cs", 8, 0]] }, { code: PATROL_WAIT, small: true }), hl: ["vs:code"], note: "규칙 파일의 「끝나면 바꾼 파일 목록」 대로" },
+  { cap: "<b>Total changes</b> — 바뀐 파일이 EnemyPatrol.cs 하나인지, 작업 칸 안인지 봅니다", vs: VSC({ mode: "Agent", msgs: [["u", ASK2], ["a", A_AGENT]], changes: [["EnemyPatrol.cs", 8, 0]] }, { code: PATROL_WAIT, small: true }), hl: ["c:chg", "ai:list"], note: "모르는 파일 · .unity · ProjectSettings 가 있으면 Undo" },
+  { cap: "읽고 나서 <b>Keep</b>. 아니면 <b>Undo</b>", vs: VSC({ mode: "Agent", msgs: [["u", RESTORE + ASK2], ["a", A_AGENT]], changes: [["EnemyPatrol.cs", 8, 0]] }, { code: PATROL_WAIT, small: true }), tap: ["c:keep"], hl: ["c:restore"], note: "요청 전으로 통째로 돌리려면 그 요청 위 Restore" },
+  { cap: "유니티로 돌아와 <b>Play</b> — 완료 기준을 한 줄씩 봅니다", vs: null, playing: true, view: "game", gv: rollP({ move: true, count: 0 }), insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC2()), ov: CHECK2(3), tap: ["tb:play"] },
+  { cap: "Inspector 에 새 칸 <b>Wait Time</b> — AI 가 말한 그대로입니다. Play 를 끄고 저장", playing: false, view: "scene", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC2()), hl: ["i:wait"], note: "잘 되면 이때가 다음 되돌릴 지점" },
 ]},
 };
 
@@ -1474,7 +2087,7 @@ const progressBar = document.getElementById("progress-bar");
 const currentSlideLabel = document.getElementById("current-slide");
 const totalSlidesLabel = document.getElementById("total-slides");
 const partLabel = document.getElementById("part-label");
-const PART_NAMES = {"0":"10주차 온라인","1":"시키기 전에","2":"시킨 다음에","3":"정리"};
+const PART_NAMES = {"0":"10주차 온라인","p":"Visual Studio 준비","1":"시키기 전에","2":"시킨 다음에","3":"정리"};
 let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
 totalSlidesLabel.textContent = slides.length;
 
