@@ -943,7 +943,7 @@ MonoBehaviour:
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[17.5px] text-slate-700">예시 팀의 받는 날은 <b class="text-dev-700">금 11/20 · 일 11/22</b>, 마지막 빌드는 베타 전날 화 11/24. 받는 날에 모인 것만 합치고, 다음 받는 날까지는 새 시작점에서 일합니다.</p>
+      <p class="text-[17.5px] text-slate-700">예시 팀의 받는 날은 <b class="text-dev-700">금 · 일</b>, 마지막 빌드는 <b class="text-dev-700">다음 테스트 전날</b>. 받는 날에 모인 것만 합치고, 다음 받는 날까지는 새 시작점에서 일합니다.</p>
     </div>
   </div>
 </section>
@@ -1598,7 +1598,7 @@ const U_INPUT_Q = "우리 팀 규칙에서 입력은 어떤 방식으로 받아?
 const A_INPUT_Q = "Input System 의 <b>Keyboard.current</b> 로 받습니다. 예를 들어 <span class=\"mono\">Keyboard.current.leftArrowKey.isPressed</span> 처럼 씁니다.";
 const EDIT_MENU = [["Undo", "Redo", "-", "Cut", "Copy", "Paste", "-", "Duplicate", "Rename", "Delete", "-", "Play", "Pause", "Step", "-", "Project Settings...", "*Preferences...", "Shortcuts..."]];
 
-/* ===== 10주차 온라인 ② — AI 와 팀으로 만들기 · 장면 정의 ===== */
+/* ===== 11주차 온라인 — AI 와 팀으로 만들기 · 장면 정의 ===== */
 /* --- 프리팹(파란 이름) · 여러 개 고르기 --- */
 TILE_IC.prefab = fa("cube");
 function hierHTML(s){
@@ -1726,7 +1726,7 @@ handoff: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy", "PointA", "Poin
 /* 가져와서 합치기 */
 merge: { base: { scene: "Game", hier: ROLL_H, sv: sv3d(roll()), proj: PREFABS(false) },
   steps: [
-  { cap: "<b>민준</b> — 받는 날. 합치기 전에 되돌릴 지점부터 · <b>1120_합치기전</b> zip", desk: true, ov: exp2("백업", [[IC_ZIP, "1110_알파빌드.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1120_합치기전.zip</b>", "압축(ZIP) 폴더", "x:zip", true]], "left:10%;top:40px;width:62%"), hl: ["x:zip"], note: "10주차 영상과 같은 방법" },
+  { cap: "<b>민준</b> — 받는 날. 합치기 전에 되돌릴 지점부터 · <b>1120_합치기전</b> zip", desk: true, ov: exp2("백업", [[IC_ZIP, "1110_빌드.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1120_합치기전.zip</b>", "압축(ZIP) 폴더", "x:zip", true]], "left:10%;top:40px;width:62%"), hl: ["x:zip"], note: "10주차 영상과 같은 방법" },
   { cap: "Game 씬을 연 채로 맨 위 메뉴 <b>Assets → Import Package → Custom Package...</b>", desk: false, mb: "Assets", mbm: ASSETS_IMPORT },
   { cap: "팀 공유 폴더 <b>넘기기</b> 에서 <b>Jiho_PatrolSet_1120</b> → 열기", ov: fileDlg("Import package ...", "팀 공유 폴더 › 넘기기", [PKG_H, PKG_J(true, "fd:j")], "Jiho_PatrolSet_1120.unitypackage", "열기(O)"), tap: ["fd:ok"], note: "하린 것도 같은 방법으로, 하나씩" },
   { cap: "가져올 목록이 나옵니다. 두 파일 모두 <b>NEW</b> — 새로 생기는 파일입니다", ov: importWin("Jiho_PatrolSet_1120", PK_IMP), hl: ["pk:n1", "pk:n2"], note: "이미 있는 파일을 바꾸는 줄에는 ↻ 가 붙습니다" },
