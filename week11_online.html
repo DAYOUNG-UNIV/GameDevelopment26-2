@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>게임 개발 실습 · 11주차 온라인 — AI 와 팀으로 만들기</title>
+<title>게임 개발 실습 · 11주차 온라인 — AI 와 함께 고치기</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
@@ -530,6 +530,95 @@ body{
 .vi-bot .go{margin-left:auto;background:#5c2d91;color:#fff;border-radius:3px;padding:4px 28px;font-weight:700;font-size:12.5px}
 /* 긴 메모장 */
 .np-b.sm{font-size:11.2px;line-height:1.36}
+/* 11주차 둘째 영상 — 버그 잡기 */
+/* 슬라이드 속 Console · 코드 · 결과 화면 그림 */
+.cm-bar{display:flex;align-items:center;gap:6px;padding:5px 9px;background:#3c3c3c;border-bottom:1px solid #232323;font-size:12.5px}
+.cm-bar .uu-f{flex:0 0 auto;padding:1px 8px;font-size:12px}
+.cm-cnt{margin-left:auto;display:flex;gap:12px;color:#bdbdbd;font-size:12.5px}
+.cm-row{display:flex;gap:8px;align-items:center;padding:6px 10px;background:#2c2c2c;border-bottom:1px solid #333;font-size:13px;white-space:nowrap;overflow:hidden}
+.cm-row.err{color:#ff8f7a}.cm-row.sel{background:#2c5d87;color:#fff}
+.cm-det{background:#262626;padding:8px 10px;font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;color:#d0d0d0;line-height:1.9}
+.cm-det .lnk,.ed-con .lnk{color:#6cb6ff;text-decoration:underline}
+.lbl{display:inline-block;font-family:"Pretendard",sans-serif;font-size:11px;font-weight:900;border-radius:999px;padding:0 8px;margin-right:8px;line-height:1.7;vertical-align:1px}
+.lbl.what{background:#fecdd3;color:#9f1239}.lbl.where{background:#c7d2fe;color:#3730a3}.lbl.when{background:#fde68a;color:#92400e}
+.code.lnc{padding:.7rem 0;white-space:pre}
+.code.lnc > div{padding:0 1rem}
+.code.lnc .n{display:inline-block;width:2.2em;text-align:right;margin-right:1.1em;color:#64748b}
+.code.lnc .errl{background:rgba(244,63,94,.28);box-shadow:inset 3px 0 0 #f43f5e}
+.code.lnc .dim{background:#334155;opacity:.62}
+.code.lnc .addl{background:rgba(163,230,53,.16);box-shadow:inset 3px 0 0 #a3e635}
+.lgd{display:inline-flex;align-items:center;gap:6px;color:#475569}
+.lgd i{width:14px;height:14px;border-radius:3px;display:inline-block}
+.scrm{position:relative;aspect-ratio:16/9;background:linear-gradient(#3b5b84,#1e293b);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2%;color:#fff;box-shadow:0 12px 30px rgba(15,23,42,.25);container-type:inline-size}
+.scrm .t1{font-size:9cqw;font-weight:900;line-height:1}
+.scrm .t2{font-size:4.6cqw;font-weight:700;line-height:1.1}
+.scrm .t3{font-size:3.6cqw;font-weight:700;color:#e2e8f0;line-height:1.1}
+.scrm .b{background:#fff;color:#111;font-weight:800;font-size:3.2cqw;width:26%;text-align:center;border-radius:4px;padding:.5% 0}
+.stepn{width:28px;height:28px;border-radius:999px;background:#4f46e5;color:#fff;font-weight:900;display:grid;place-items:center;flex:none;font-size:14px}
+
+/* 따라 하기 — Console */
+.ed-con .bar{position:relative}
+.ed-con .bar .uu-f.on{background:#46607c;color:#fff;border-color:#2b4a6b}
+.ed-con .bar .srch{min-width:110px;color:#8d8d8d}
+.ed-con .lg .tx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ed-con .lg .ct{background:#555;color:#eee;border-radius:9px;padding:0 7px;font-size:10.5px;flex:none}
+.ed-con .lg.warn{color:#f5d76e}
+.con-mm{position:absolute;left:4px;top:calc(100% + 2px);background:#2b2b2b;border:1px solid #191919;border-radius:4px;padding:4px 0;z-index:6;box-shadow:0 8px 20px rgba(0,0,0,.5);font-size:12px}
+.con-mm .mi{display:flex;gap:6px;padding:2px 14px 2px 6px;color:#d2d2d2;white-space:nowrap}
+.con-mm .mi .ck{width:12px;text-align:center}
+.ed.tall{grid-template-rows:24px 30px minmax(0,1fr) 236px 20px}
+.ed.tall .ed-con .lg{padding:1px 8px}
+.ed.tall .ed-con .det{height:62px}
+/* 따라 하기 — Hierarchy · 상태 줄 */
+.ed .uu-it.off{color:#7b7b7b}
+.ed .uu-it.off .ico{opacity:.5}
+.ed .uu-it.pf{color:#8fb8ff}
+.ed .uu-it.pf .ico{color:#6aa6ff}
+.ed .uu-it.pf.off{color:#5d77a0}
+.ed .uu-it.ping{background:#7a6a12;color:#fff;box-shadow:inset 0 0 0 2px #facc15}
+.ed .uu-it.ping.pf,.ed .uu-it.ping.off,.ed .uu-it.ping.pf.off{color:#fff}
+.ed .uu-it.ping .ico{opacity:1}
+.ed-st .ed-bug{color:#8d8d8d;padding:0 4px;border-radius:3px}
+.ed-st .ed-bug.dbg{color:#f0a35b}
+.ed-pfr{display:flex;align-items:center;gap:5px;margin:-2px 0 6px}
+.ed-pfr .uu-btn{padding:0 8px;font-size:11px}
+.ed-pfr .uu-f{padding:0 6px;font-size:11px}
+.cop{background:#2b2b2b;border:1px solid #111;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.55);padding:10px 12px;color:#d6d6d6;font-size:12px;z-index:40}
+.cop .h{font-weight:800;color:#eee;margin-bottom:8px;display:flex;gap:7px;align-items:center}
+.cop .m{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.cop .m .pill{background:#3a3a3a;border-radius:3px;padding:0 8px;color:#fff}
+.cop .uu-btn{display:inline-block}
+
+/* 따라 하기 — Visual Studio 디버거 */
+.vs.mid{grid-template-columns:minmax(0,1fr) 44%}
+.vs-code.xs{font-size:11px;line-height:15.4px}
+.vs-code .cl{position:relative}
+.vs-code .cl .gl{width:16px;flex:none;position:relative}
+.vs-code .cl.bp{background:rgba(229,20,0,.22)}
+.vs-code .cl.bp .gl::before{content:"";position:absolute;left:3px;top:50%;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;background:#e51400}
+.vs-code .cl.cur{background:rgba(255,215,0,.30)}
+.vs-code .cl.cur .gl::after{content:"";position:absolute;left:3px;top:50%;margin-top:-6px;border-left:11px solid #ffd700;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.vs-code .cl .tok{border-radius:2px}
+.vs-tip{position:absolute;top:100%;margin-top:1px;background:#252526;border:1px solid #6b6b6b;box-shadow:0 6px 18px rgba(0,0,0,.55);padding:1px 8px;font-size:12px;z-index:5;white-space:nowrap;display:flex;gap:10px;align-items:center;color:#dcdcdc;font-family:"JetBrains Mono",Consolas,monospace}
+.vs-tip .v{color:#9cdcfe}
+.vs-tip .pin{color:#8a8a8a;font-size:10px}
+.vs.dbg .vs-st{background:#ca5100}
+.vs-tb .dbtn{padding:0 5px;border-radius:3px;color:#cfcfcf}
+.vs-tb .dbtn.stop{color:#f14c4c}
+.vs.loc{grid-template-rows:30px 28px minmax(0,1fr) 124px 22px}
+.vs.loc .vs-st{grid-row:5}
+.vs-bot{grid-column:1/-1;grid-row:4;background:#252526;border-top:1px solid #3f3f46;display:flex;flex-direction:column;min-height:0;font-size:12px}
+.vs-bot .ttl{background:#2d2d30;color:#e6e6e6;font-weight:700;padding:2px 10px;flex:none}
+.vs-bot .lh,.vs-bot .lr{display:grid;grid-template-columns:26% 40% 34%;padding:2px 10px;white-space:nowrap}
+.vs-bot .lh{color:#9d9d9d;border-bottom:1px solid #3a3a3a}
+.vs-bot .lr .ex{display:inline-block;width:12px;font-style:normal;color:#9d9d9d}
+.vs-bot .lr .v{color:#d4d4d4}
+.vs-bot .lr .t{color:#9d9d9d}
+.vs-bot .tabs{margin-top:auto;display:flex;gap:1px;background:#2d2d30;font-size:11px;flex:none}
+.vs-bot .tabs span{padding:2px 12px;color:#bdbdbd}
+.vs-bot .tabs span.on{background:#252526;color:#fff;border-bottom:2px solid #9a6fd6}
+.vc-a .cand{background:#2a2a2d;border-radius:6px;padding:4px 8px;margin-bottom:5px}
+.vc-a .howto{margin-bottom:4px}
 /* 10주차 ② — 프리팹 · 패키지 창 · 파일 대화 상자 */
 .ic.prefab{color:#7cc4ff}
 .ed .uu-it.pf{color:#8cc8ff}
@@ -578,6 +667,38 @@ body{
 .ask-new{background:rgba(34,197,94,.16);box-shadow:-3px 0 0 #22c55e;padding:0 4px;border-radius:2px}
 .ai-m .chg{margin-top:6px;padding:5px 9px;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:8px;font-size:12.5px}
 .uu .uu-it.pf,.uu .uu-it.pf .ico{color:#8cc8ff}
+/* ===== 편 2 · 도구 연결(MCP) 보기 ===== */
+.vc-tools{background:#2d2d30;border-radius:3px;padding:1px 7px;display:inline-flex;gap:5px;align-items:center;color:#d4d4d4}
+.vc-tl{position:absolute;left:44px;bottom:28px;background:#1f1f1f;border:1px solid #454545;box-shadow:0 10px 26px rgba(0,0,0,.5);padding:5px 0;min-width:240px;z-index:5;font-size:11.5px;color:#e0e0e0}
+.vc-tl .h{padding:2px 12px 5px;color:#9d9d9d;font-weight:700;border-bottom:1px solid #333;margin-bottom:3px;display:flex;align-items:center}
+.vc-tl .h .add{margin-left:auto;color:#cfcfcf;padding:0 4px;border-radius:3px}
+.vc-tl .r{display:flex;gap:7px;align-items:center;padding:3px 12px}
+.vc-tl .r.sub{padding-left:32px;color:#c8c8c8;font-family:"JetBrains Mono",Consolas,monospace;font-size:10.8px}
+.vc-tl .r .n{margin-left:auto;font-size:10px;color:#9cc2ff;border:1px solid #3e5277;border-radius:3px;padding:0 4px}
+.vc-tl .ck{width:13px;height:13px;border:1px solid #6b6b6b;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff;flex:none}
+.vc-tl .ck.on{background:#0e639c;border-color:#0e639c}
+.vc-a .mcp-call{background:#252529;border:1px solid #3f3f46;border-radius:6px;padding:5px 8px;margin:4px 0 6px}
+.vc-a .mcp-call .h{display:flex;gap:6px;align-items:center;color:#e6e6e6}
+.vc-a .mcp-call .d{color:#a8a8a8;font-size:11px;margin:2px 0 4px}
+.vc-a .mcp-call .b{display:flex;gap:6px}
+.vc-a .mcp-call .al{background:#0e639c;color:#fff;border-radius:3px;padding:1px 12px}
+.vc-a .mcp-call .dn{background:#3a3a3d;border-radius:3px;padding:1px 12px}
+.vc-a .mcp-call .ok{color:#7ad97a;font-size:11px}
+.ed .mcp-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.ed .mcp-row .uu-lb{width:120px}
+.ed .mcp-run{display:inline-flex;gap:6px;align-items:center;color:#9be29b;font-weight:700}
+.ed .mcp-run .dot,.ed .mcp-pend .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;flex:none}
+.ed .mcp-int{display:flex;align-items:center;gap:8px;padding:3px 2px;border-bottom:1px solid #2a2a2a;color:#d4d4d4}
+.ed .mcp-int .uu-btn{margin-left:auto}
+.ed .mcp-pend{display:flex;align-items:center;gap:8px;padding:5px 6px;border:1px solid #6b5a1e;background:#2d2817;border-radius:4px;color:#e6e6e6}
+.ed .mcp-pend .dot{background:#facc15}
+.ed .mcp-pend.ok{border-color:#2f5f3a;background:#1d2a20}
+.ed .mcp-pend.ok .dot{background:#4ade80}
+.ed .mcp-pend .nm{font-weight:700}
+.ed .mcp-pend .acc{margin-left:auto}
+
+.vc-a .mcp-ans{background:#2a2a2d;border-radius:6px;padding:5px 8px}
+.np-b.sm.xs{font-size:10.8px;line-height:1.3}
 /* 녹화 화면 크기에 맞춰 내용 확대 · 축소 */
 @media (min-width:1800px) and (min-height:1000px){ .slide > div{zoom:1.25} }
 @media (min-width:1500px) and (max-width:1799px) and (min-height:840px){ .slide > div{zoom:1.08} }
@@ -616,165 +737,626 @@ body{
     <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-dev-700 bg-dev-50 border border-dev-200 rounded-full px-5 py-2">
       11주차 · 온라인
     </div>
-    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">AI 와 <span class="text-dev-600">팀으로</span><br>만들기</h1>
-    <p class="text-xl md:text-2xl text-slate-500 mb-10">셋이 각자 AI 와 고쳐도, <b class="text-slate-700">한 게임</b>으로 모이게.<br>10주차에 정한 「팀 AI 약속」을 유니티에서 하는 손으로 옮깁니다</p>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">AI 와 함께<br><span class="text-dev-600">고치기</span></h1>
+    <p class="text-xl md:text-2xl text-slate-500 mb-10">상호 테스트에서 본 막힌 곳을 고칩니다. 버그는 눈으로 확인하고, 바꿀 것은 AI 에게 맡기고,<br><b class="text-slate-700">셋이 나눠 고친 것을 한 게임으로 합칩니다.</b></p>
     <div class="flex flex-wrap justify-center gap-3">
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">팀 규칙 파일</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">고쳐도 되는 파일</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">.meta</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">Inspector 값</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">씬 파일</span>
-      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">프리팹으로 묶기</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">Console 끝까지</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">Debug.Log</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">디버거 · 중단점</span>
+      <span class="tagchip bg-violet-50 text-violet-700 border border-violet-200">규칙 파일에 한 줄</span>
+      <span class="tagchip bg-violet-50 text-violet-700 border border-violet-200">Agent</span>
+      <span class="tagchip bg-violet-50 text-violet-700 border border-violet-200">도구 연결 (MCP)</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">고쳐도 되는 파일</span>
       <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">.unitypackage</span>
       <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">받는 날 합치기</span>
     </div>
   </div>
 </section>
 
-<!-- 2 두 부분 -->
+<!-- 2 세 부분 -->
 <section class="slide" data-part="0">
-  <div class="max-w-5xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">이번 편은 두 부분입니다</h2>
-    <div class="grid md:grid-cols-2 gap-6 mb-7">
-      <div class="soft-card rounded-3xl p-8">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">이번 편은 세 부분입니다</h2>
+    <div class="grid md:grid-cols-3 gap-5 mb-7">
+      <div class="soft-card rounded-3xl p-7">
         <div class="text-5xl font-black text-dev-600 mb-3">01</div>
-        <div class="text-2xl font-black mb-4">AI 가 모르는 유니티의 연결</div>
-        <ul class="text-[18px] text-slate-600 space-y-2">
-          <li>· 팀 규칙 파일 나눠 쓰기 · 두 줄 더하기</li>
-          <li>· 요청에 「고쳐도 되는 파일」 한 줄</li>
-          <li>· .meta 와 번호(GUID)</li>
-          <li>· Inspector 값과 변수 이름</li>
-          <li>· 씬 파일 · 프로젝트 설정 · 패키지</li>
+        <div class="text-2xl font-black mb-4">버그 잡기</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 기록지 줄 → 원인 칸</li>
+          <li>· Console 끝까지 — 무엇 · 어디서 · 언제</li>
+          <li>· 빨간 줄이 없으면 Debug.Log</li>
+          <li>· AI 에게는 원인 후보 먼저</li>
+          <li>· Visual Studio 디버거 — 중단점 · Locals</li>
         </ul>
       </div>
-      <div class="soft-card rounded-3xl p-8">
-        <div class="text-5xl font-black text-flame-600 mb-3">02</div>
-        <div class="text-2xl font-black mb-4">넘기고 합치기</div>
-        <ul class="text-[18px] text-slate-600 space-y-2">
-          <li>· 넘기고 합치는 한 바퀴</li>
-          <li>· 묶어서 프리팹으로</li>
-          <li>· .unitypackage 로 내보내기</li>
+      <div class="soft-card rounded-3xl p-7">
+        <div class="text-5xl font-black text-violet-600 mb-3">02</div>
+        <div class="text-2xl font-black mb-4">AI 에게 더 맡기기</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 틀린 곳은 규칙 파일에 한 줄</li>
+          <li>· Agent — 시키기 전과 끝난 뒤</li>
+          <li>· 도구 연결(MCP) — AI 가 유니티를 볼 때</li>
+          <li>· 연결하는 두 길</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7">
+        <div class="text-5xl font-black text-flame-600 mb-3">03</div>
+        <div class="text-2xl font-black mb-4">나눠 고치고 합치기</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 파일마다 주인 · 고쳐도 되는 파일</li>
+          <li>· .meta · Inspector 값 · 씬 파일</li>
+          <li>· 프리팹으로 묶어 .unitypackage</li>
           <li>· 받는 날 가져와서 합치기</li>
-          <li>· Agent 를 팀 프로젝트에 · 깃을 쓰는 팀</li>
         </ul>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 text-center">
-      <p class="text-[18px] text-slate-700">예시는 10주차 영상의 <b class="text-dev-700">Roll a Ball</b> 에, 10주차 대면에서 본 세 사람과 작업 칸을 그대로 붙였습니다.<br><b>하린</b> · <b>지호</b> · <b>민준</b>(합치는 사람)</p>
+      <p class="text-[18px] text-slate-700">예시는 앞 편과 같은 <b class="text-dev-700">Roll a Ball</b>, 규칙 파일 팀 약속에 적힌 세 사람입니다. <b>하린</b> · <b>지호</b> · <b>민준</b>(합치는 사람)<br>상호 테스트 날 관찰 기록지에 적힌 줄을 처음부터 끝까지 따라갑니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 3 다섯 칸이 가는 곳 -->
+<!-- 3 기록지의 막힌 곳 -->
 <section class="slide" data-part="0">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">10주차에 정한 다섯 칸이 가는 곳</h2>
-    <p class="text-xl text-slate-500 mb-7">대면에서 사람끼리 약속하고, 10주차 영상에서 <b class="text-slate-700">규칙 파일</b>에 적었습니다. 이 편은 그 약속을 <b class="text-slate-700">유니티에서 하는 손</b>으로 옮깁니다.</p>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">기록지의 막힌 곳 — 버그 · 안내 · 규칙</h2>
+    <p class="text-xl text-slate-500 mb-6">상호 테스트 날 쓴 관찰 기록지를 다시 폅니다. 막힌 곳마다 원인을 셋 중 하나로 나눠 두었습니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start mb-5">
+      <div class="md:col-span-7 soft-card rounded-2xl overflow-hidden">
+        <div class="px-4 py-2 text-[13px] font-black text-slate-500 bg-slate-50 border-b border-slate-200">관찰 기록지 · 예시 · Roll a Ball · 1번 컴퓨터</div>
+        <table class="cmp-table" style="font-size:15px">
+          <thead><tr><th>번호</th><th>어디까지</th><th>막힌 곳 · 그때 한 것</th><th>말 · 표정</th><th>원인</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>클리어</td><td>코인이 하나 남았는데 CLEAR 가 떴다</td><td>「어? 하나 남았는데」</td><td><span style="white-space:nowrap" class="tagchip bg-rose-50 text-rose-700 border border-rose-200">버그</span></td></tr>
+            <tr><td>2</td><td>코인 7개 · 게임 오버</td><td>결과 화면에 점수가 안 나온다. RESULT · Score 글자 그대로</td><td>「몇 점이에요?」</td><td><span style="white-space:nowrap" class="tagchip bg-rose-50 text-rose-700 border border-rose-200">버그</span></td></tr>
+            <tr><td>3</td><td>코인 10개 · 게임 오버</td><td>적이 움직이는 줄 모르고 정면으로 감</td><td>「저게 적이에요?」</td><td><span style="white-space:nowrap" class="tagchip bg-sky-50 text-sky-700 border border-sky-200">안내</span></td></tr>
+            <tr><td>4</td><td>코인 5개 · 게임 오버</td><td>적이 끝에 닿자마자 돌아와 코인을 노릴 틈이 없다</td><td>「아 너무 빨라」</td><td><span style="white-space:nowrap" class="tagchip bg-amber-50 text-amber-700 border border-amber-200">규칙</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="md:col-span-5 space-y-3">
+        <div class="soft-card rounded-2xl p-4 border-l-4" style="border-left-color:#e11d48">
+          <div class="flex items-center gap-2 mb-1"><span class="font-black text-lg text-rose-700">버그</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 파트 01</span></div>
+          <p class="text-[15.5px] text-slate-600">「만든 대로 움직이지 않았나?」 다시 나게 하고, 눈으로 확인하고, 하나만 고칩니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-4 border-l-4" style="border-left-color:#0284c7">
+          <div class="flex items-center gap-2 mb-1"><span class="font-black text-lg text-sky-700">안내</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 파트 03 나눠 고치기</span></div>
+          <p class="text-[15.5px] text-slate-600">「설명을 한 줄 들었다면 안 막혔을까?」 말 대신 화면이 알려 주게 글자 · 화면을 더합니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-4 border-l-4" style="border-left-color:#d97706">
+          <div class="flex items-center gap-2 mb-1"><span class="font-black text-lg text-amber-700">규칙</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 파트 02 Agent</span></div>
+          <p class="text-[15.5px] text-slate-600">「알고 해도 그렇게 될까?」 숫자 · 배치 · 규칙을 바꿉니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">무엇부터 고칠지는 상호 테스트 뒤에 <b class="text-dev-700">팀이 센 숫자</b>로 정했습니다. 이 편은 그 「바꿀 것」을 하나씩 고치는 손을 봅니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 원인 칸 -->
+<section class="slide" data-part="0">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">버그 줄에는 원인 칸부터</h2>
+    <p class="text-xl text-slate-500 mb-6">대면 수업에서 점검표에 붙인 그 칸입니다. 이 편은 마지막 칸, <b class="text-slate-700">「확인한 방법」을 채우는 도구</b>를 봅니다.</p>
     <div class="soft-card rounded-2xl overflow-hidden mb-6">
       <table class="cmp-table">
-        <thead><tr><th>대면의 칸</th><th>AI 가 읽는 글 — 규칙 파일 · 요청</th><th>유니티에서 하는 손</th></tr></thead>
+        <thead><tr><th>기록지 줄</th><th>다시 나게 하는 순서</th><th>몇 번 중</th><th>의심되는 곳</th><th>확인한 방법</th></tr></thead>
         <tbody>
-          <tr><td>① 작업 칸</td><td>「작업 칸」 줄 · 요청의 <b>고쳐도 되는 파일</b></td><td>내 칸의 파일만 묶어서 넘깁니다</td></tr>
-          <tr><td>② 씬</td><td>「Game 씬은 합치는 사람만 · AI 작업은 Test 씬에서」</td><td>Test 씬에서 만들고, Game 씬은 합치는 사람이 엽니다</td></tr>
-          <tr><td>③ 이름</td><td>「이름은 바꾸지 않는다 · 새 Tag 는 먼저 말한다」</td><td>바꿀 때는 Project 창에서 — <b>.meta · Inspector 값</b>이 끊기는 이유</td></tr>
-          <tr><td>④ 넘기기</td><td>「.unitypackage 로 · 합치기는 사람이」</td><td><b>.unitypackage</b> 로 내보내고, 받는 날 가져와 합칩니다</td></tr>
-          <tr><td>⑤ 기록</td><td>「끝나면 바꾼 파일 목록」</td><td>넘길 때 · 합칠 때 팀 기록에 한 줄</td></tr>
+          <tr><td>결과 화면에 점수가 안 나온다</td><td>Result 씬을 열고 Play</td><td class="mono">3 / 3</td><td>ResultUI ?</td><td><b class="text-dev-700">Console · 디버거</b></td></tr>
+          <tr><td>코인이 하나 남았는데 CLEAR</td><td>Title → START → 코인을 다 먹는다</td><td class="mono">3 / 4</td><td>코인을 세는 곳 ?</td><td><b class="text-dev-700">Debug.Log</b></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">AI 를 안 쓰는 팀원도 같은 약속입니다. 덮어쓰기 · 이름 바꾸기는 <b class="text-dev-700">사람 손으로도 똑같이</b> 일어납니다.</p>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-display mr-2"></i>에디터에서 먼저</div><p class="text-[15.5px] text-slate-600">빌드에서 본 버그가 에디터 Play 에서도 나는지 봅니다. 빌드에서만 나면 대면 수업에서 본 「에디터와 빌드가 다른 곳」 · Player.log 로.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-scissors mr-2"></i>순서는 짧게</div><p class="text-[15.5px] text-slate-600">고치는 동안 몇 번이고 되풀이합니다. 결과 화면 버그는 한 판을 하지 않고 Result 씬만 열고 Play 해도 나는지 봅니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-hashtag mr-2"></i>몇 번 중</div><p class="text-[15.5px] text-slate-600">4번 중 3번처럼 가끔이면 순서 어딘가가 다릅니다. 안 난 한 번에 무엇이 달랐는지가 단서입니다.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 4 파트 01 표지 -->
+<!-- 파트 01 표지 -->
 <section class="slide" data-part="1">
   <div class="max-w-4xl w-full text-center">
     <div class="part-num mb-4">01</div>
-    <h2 class="text-5xl md:text-6xl font-black mb-5">AI 가 모르는 유니티의 연결</h2>
-    <p class="text-xl text-slate-500">팀 규칙 파일 · 고쳐도 되는 파일 · .meta · Inspector 값 · 씬 · 설정</p>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">버그 잡기</h2>
+    <p class="text-xl text-slate-500">Console 끝까지 · Debug.Log · AI 에게 원인 후보 · 디버거</p>
   </div>
 </section>
 
-<!-- 5 팀 규칙 파일 -->
+<!-- 6 Console 끝까지 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">팀 규칙 파일 — 원본 하나, 두 줄 더하기</h2>
-    <p class="text-xl text-slate-500 mb-6">10주차 영상에서 팀 약속 다섯 칸까지 적었습니다. 합치기 전에 <b class="text-slate-700">두 줄</b>을 더합니다. 왜 필요한지는 이 편에서 봅니다.</p>
-    <div class="grid md:grid-cols-12 gap-5 items-start mb-5">
-      <div class="md:col-span-8">
-        <div class="code-cap">.github / copilot-instructions.md — 팀 공유 폴더의 원본</div>
-        <div class="code" style="white-space:pre-wrap;font-size:12.6px;line-height:1.55;padding:.85rem 1rem"><span class="kw"># 우리 팀 규칙 — AI 에게 먼저 주는 파일</span>
-<span class="cm">…  우리 게임 · 폴더 · 이름 · 일하는 방식 · 하지 말 것 (10주차 영상)</span>
-
-<span class="ty">## 팀 약속 — 대면 수업에서 정한 다섯 칸</span>
-- ① 작업 칸: 하린 TitleUI.cs / 지호 SceneLoader.cs · EnemyPatrol.cs. 칸 밖의 파일은 고치지 않는다
-<span style="display:block;background:rgba(34,197,94,.2);box-shadow:-3px 0 0 #22c55e;margin:0 -1rem;padding:0 1rem">- ① 요청에 「고쳐도 되는 파일」이 있으면 그 파일만 고친다. 다른 파일이 필요하면 먼저 말한다</span>- ② 씬: Game 씬은 합치는 사람(민준)만 연다. AI 작업은 Test_이름 씬에서
-- ③ 이름: 파일 · class · Inspector 변수 이름은 바꾸지 않는다. Tag 는 Player · Enemy · PickUp
-<span style="display:block;background:rgba(34,197,94,.2);box-shadow:-3px 0 0 #22c55e;margin:0 -1rem;padding:0 1rem">- ③ 새 Tag · Layer · 패키지 · 프로젝트 설정이 필요하면 먼저 말한다. 넣는 것은 합치는 사람이 한다</span>- ④ 넘기기: 스크립트 + 프리팹을 .unitypackage 로. 합치기는 사람이 한다
-- ⑤ 기록: 끝나면 바꾼 파일을 목록으로 알려 준다</div>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Console 은 끝까지 — 무엇 · 어디서 · 언제</h2>
+    <p class="text-xl text-slate-500 mb-5">앞 편에서 맨 위 줄과 줄 번호를 봤습니다. 그 아래 줄들도 읽으면 <b class="text-slate-700">언제 났는지</b>까지 압니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start mb-4">
+      <div class="md:col-span-7 space-y-4">
+        <div class="uu">
+          <div class="cm-bar"><span class="uu-f">Clear ▾</span><span class="uu-f">Collapse</span><span class="uu-f">Error Pause</span><span class="uu-f">Editor ▾</span><span class="cm-cnt"><span><i class="fa-solid fa-circle-info"></i> 0</span><span><i class="fa-solid fa-triangle-exclamation"></i> 0</span><span style="color:#ff8f7a"><i class="fa-solid fa-circle-exclamation"></i> 1</span></span></div>
+          <div class="cm-row err sel"><i class="fa-solid fa-circle-exclamation"></i>NullReferenceException: Object reference not set to an instance of an object</div>
+          <div class="cm-det"><div><span class="lbl what">무엇</span>NullReferenceException: Object reference not set to an instance of an object</div><div><span class="lbl when">언제</span>ResultUI.Start () (at <u class="lnk">Assets/Scripts/ResultUI.cs:13</u>)<span class="lbl where" style="margin-left:8px">어디서</span></div></div>
+        </div>
+        <div>
+          <div class="code-cap">줄이 더 있으면 — 예: 하린의 START 버튼을 눌렀을 때</div>
+          <div class="code" style="font-size:12.6px;line-height:1.6;padding:.8rem 1rem;white-space:pre">NullReferenceException: Object reference not set to an instance of an object
+<span style="background:rgba(99,102,241,.28);border-radius:4px;padding:0 4px">TitleUI.OnStartClick () (at Assets/Scripts/TitleUI.cs:21)</span>   <span class="cm">← 터진 곳 · 우리 코드</span>
+UnityEngine.Events.InvokableCall.Invoke () …       <span class="cm">← 그 함수를 부른 쪽</span>
+UnityEngine.Events.UnityEvent.Invoke () …
+UnityEngine.UI.Button.Press () …                    <span class="cm">← 버튼을 눌러서</span></div>
+        </div>
       </div>
-      <div class="md:col-span-4 space-y-4">
-        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-folder-open mr-2"></i>원본은 하나 — 팀 공유 폴더</div><p class="text-[15.5px] text-slate-600">고칠 때는 원본을 고치고 팀에 알립니다. 각자 고쳐 쓰지 않습니다.</p></div>
-        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-copy mr-2"></i>각자 복사 — .github 폴더째</div><p class="text-[15.5px] text-slate-600">내 프로젝트 맨 위, Assets 옆에 덮어씁니다. Copilot 은 여기서 알아서 읽고, 웹 채팅에는 새 대화 맨 처음에 붙여 넣습니다.</p></div>
-        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-plus mr-2"></i>더한 두 줄</div><p class="text-[15.5px] text-slate-600">고쳐도 되는 파일은 슬라이드 7, 새 Tag · 패키지는 슬라이드 11 에서 이유를 봅니다.</p></div>
+      <div class="md:col-span-5">
+        <div class="soft-card rounded-2xl overflow-hidden mb-3">
+          <table class="cmp-table" style="font-size:15px">
+            <thead><tr><th>함수 이름</th><th>그때</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Start · Awake</td><td>씬이 시작할 때 한 번</td></tr>
+              <tr><td class="mono">Update</td><td>매 프레임 — 같은 빨간 줄이 계속 쌓입니다</td></tr>
+              <tr><td class="mono">OnTriggerEnter<br>OnCollisionEnter</td><td>무엇에 닿았을 때</td></tr>
+              <tr><td>아래에 <span class="mono">UnityEngine.UI.Button</span></td><td>버튼을 눌렀을 때</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="glass-card rounded-2xl p-4">
+          <p class="text-[15.5px] text-slate-700"><b>위에서부터</b> 처음 나오는 <span class="mono">Assets/</span> 줄이 우리 코드에서 터진 곳입니다. 그 아래는 그 함수를 부른 쪽 — 맨 아래로 갈수록 유니티 쪽입니다.</p>
+        </div>
       </div>
     </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">규칙 파일이 같으면, 셋이 각자 다른 AI 와 일해도 <b class="text-dev-700">같은 약속 안에서</b> 일합니다.</p>
+    <div class="grid md:grid-cols-4 gap-3">
+      <div class="soft-card rounded-xl p-3"><div class="font-black text-[15.5px] text-dev-700 mb-0.5">Clear ▾ → Clear on Play</div><p class="text-[14px] text-slate-600">Play 할 때마다 앞 판 줄을 지웁니다</p></div>
+      <div class="soft-card rounded-xl p-3"><div class="font-black text-[15.5px] text-dev-700 mb-0.5">Collapse</div><p class="text-[14px] text-slate-600">같은 줄을 하나로 묶고 옆에 횟수</p></div>
+      <div class="soft-card rounded-xl p-3"><div class="font-black text-[15.5px] text-dev-700 mb-0.5">Error Pause</div><p class="text-[14px] text-slate-600">빨간 줄이 찍히는 순간 Play 가 멈춥니다</p></div>
+      <div class="soft-card rounded-xl p-3"><div class="font-black text-[15.5px] text-dev-700 mb-0.5">더블클릭 · 파란 글자</div><p class="text-[14px] text-slate-600">Visual Studio 가 그 줄을 엽니다</p></div>
     </div>
   </div>
 </section>
 
-<!-- 따라 하기 · 팀 규칙 파일 나눠 쓰고 Copilot 에게 시키기 -->
-<section class="slide" data-part="1" data-sim="teamrules">
+<!-- 따라 하기 · 결과 화면에 점수가 안 나온다 — 다시 나게 하고 Console 읽기 -->
+<section class="slide" data-part="1" data-sim="console">
   <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>팀 규칙 파일 나눠 쓰고 Copilot 에게 시키기</h2>
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>결과 화면에 점수가 안 나온다 — 다시 나게 하고 Console 읽기</h2>
     <div class="ed"></div>
     <div class="ed-cap"></div>
   </div>
 </section>
 
-<!-- 7 요청에 한 줄 -->
+<!-- 8 에러 아래 줄 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">요청에 한 줄 더 — 「고쳐도 되는 파일」</h2>
-    <p class="text-xl text-slate-500 mb-6">10주차 영상의 요청 네 칸에 다섯째 칸을 붙입니다. 10주차 대면에서 쓴 세 칸이 그대로 요청이 됩니다.</p>
-    <div class="grid md:grid-cols-5 gap-6 items-stretch mb-5">
-      <div class="md:col-span-2 space-y-3">
-        <div class="soft-card rounded-2xl p-4">
-          <div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-800 text-white">점검표 A5 · △</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 완료 기준</span></div>
-          <p class="text-[15.5px] text-slate-700">게임 오버 뒤 RETRY 하면 공이 안 움직인다</p>
-        </div>
-        <div class="soft-card rounded-2xl p-4">
-          <div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-800 text-white">원인 칸 A5</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 지금 상황</span></div>
-          <p class="text-[15.5px] text-slate-700">코인 3개 → 적에게 닿음 → RETRY → 방향키 · 3 / 3 · <span class="mono">Time.timeScale</span>? · Debug.Log 로 확인</p>
-        </div>
-        <div class="soft-card rounded-2xl p-4">
-          <div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-800 text-white">팀 AI 약속 ① 작업 칸</span><span class="ml-auto text-[14px] font-black text-dev-600">→ 고쳐도 되는 파일</span></div>
-          <p class="text-[15.5px] text-slate-700">지호: <span class="mono">SceneLoader.cs</span> · <span class="mono">EnemyPatrol.cs</span></p>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">에러가 난 줄 아래는 실행되지 않습니다</h2>
+    <p class="text-xl text-slate-500 mb-5">그래서 에러는 13번째 줄인데, 보이는 증상은 <b class="text-slate-700">다른 글자</b>입니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start mb-5">
+      <div class="md:col-span-8">
+        <div class="code-cap">ResultUI.cs — 지호가 Copilot 에게 BEST 점수를 맡겨 더한 13번째 줄</div>
+        <div class="code lnc" style="font-size:13px;line-height:1.75;padding:.7rem 0"><div><span class="n">9</span><span class="kw">void</span> <span class="fn">Start</span>()</div><div><span class="n">10</span>{</div><div><span class="n">11</span>    <span class="kw">int</span> best = <span class="ty">Mathf</span>.Max(<span class="ty">PlayerPrefs</span>.GetInt(<span class="st">"best"</span>, <span class="nu">0</span>), <span class="ty">GameResult</span>.score);</div><div><span class="n">12</span>    <span class="ty">PlayerPrefs</span>.SetInt(<span class="st">"best"</span>, best);</div><div class="errl"><span class="n">13</span>    <span class="ty">GameObject</span>.Find(<span class="st">"BestText"</span>).GetComponent&lt;<span class="ty">TMP_Text</span>&gt;().text = <span class="st">"BEST "</span> + best;</div><div class="dim"><span class="n">14</span>    <span class="kw">if</span> (<span class="ty">GameResult</span>.cleared) { titleText.text = <span class="st">"CLEAR!"</span>; }</div><div class="dim"><span class="n">15</span>    <span class="kw">else</span> { titleText.text = <span class="st">"GAME OVER"</span>; }</div><div class="dim"><span class="n">16</span>    scoreText.text = <span class="st">"Score: "</span> + <span class="ty">GameResult</span>.score;</div><div><span class="n">17</span>}</div></div>
+        <div class="flex gap-3 mt-2 text-[14px]"><span class="lgd"><i style="background:rgba(244,63,94,.45)"></i>에러가 난 줄</span><span class="lgd"><i style="background:#334155"></i>실행되지 않은 줄</span></div>
+      </div>
+      <div class="md:col-span-4">
+        <div class="code-cap">Play 한 Result 화면</div>
+        <div class="scrm"><div class="t1">RESULT</div><div class="t2">Score</div><div class="t3">New Text</div><div class="b">RETRY</div><div class="b">TITLE</div></div>
+        <div class="text-[14px] text-slate-600 mt-2 leading-relaxed"><b>RESULT · Score</b> — 씬에 적어 둔 처음 글자 그대로 (14 · 15 · 16 이 안 돌아서)<br><b>New Text</b> — 새로 만든 BEST 글자의 처음 값 (13 이 끝까지 못 가서)</div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-dev-700">유니티는 그 함수만 멈춥니다</div><p class="text-[15px] text-slate-600">에러가 나면 그 자리에서 Start 를 그만두고 Console 에 적습니다. 게임은 계속 돕니다. RETRY 도 눌립니다.</p></div>
+      <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-dev-700">Update 에서 나면</div><p class="text-[15px] text-slate-600">매 프레임 그 줄 아래가 안 돌고 빨간 줄이 계속 쌓입니다. Collapse 를 켜면 숫자가 올라갑니다.</p></div>
+      <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-flame-700">점이 여럿인 줄</div><p class="text-[15px] text-slate-600"><span class="mono">Find(…)</span> · <span class="mono">GetComponent(…)</span> · <span class="mono">.text</span> 중 무엇이 비었는지는 이 줄만으로 모릅니다. 조금 뒤 디버거로 확인합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 Debug.Log 세 질문 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">빨간 줄이 없으면 — Debug.Log 로 묻습니다</h2>
+    <p class="text-xl text-slate-500 mb-5">코드가 지나가는 자리에 한 줄을 넣어, 엔진에게 <b class="text-slate-700">보고</b>를 받습니다.</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-4"><div class="text-3xl font-black text-dev-600 mb-1">①</div><div class="font-black text-lg mb-1">불리나?</div><p class="text-[15px] text-slate-600">함수 맨 위에 한 줄. 안 찍히면 그 함수가 안 불린 것입니다 — Is Trigger · Rigidbody · Tag 부터.</p></div>
+      <div class="soft-card rounded-2xl p-4"><div class="text-3xl font-black text-dev-600 mb-1">②</div><div class="font-black text-lg mb-1">값은?</div><p class="text-[15px] text-slate-600">바뀐 바로 다음 줄에서 변수를 찍습니다. 기대한 값과 대어 봅니다.</p></div>
+      <div class="soft-card rounded-2xl p-4"><div class="text-3xl font-black text-flame-600 mb-1">③</div><div class="font-black text-lg mb-1">언제 · 무엇과?</div><p class="text-[15px] text-slate-600">몇 번째 프레임인지, 무엇과 닿았는지를 같이 찍습니다. 한 번에 두 번 불리는지가 보입니다.</p></div>
+    </div>
+    <div class="grid md:grid-cols-12 gap-5 items-start">
+      <div class="md:col-span-8">
+        <div class="code-cap">PlayerController.cs — 코인을 세는 OnTriggerEnter 에 한 줄</div>
+        <div class="code lnc" style="font-size:13px;line-height:1.75;padding:.7rem 0"><div><span class="n">55</span><span class="kw">void</span> <span class="fn">OnTriggerEnter</span>(<span class="ty">Collider</span> other)</div><div><span class="n">56</span>{</div><div><span class="n">57</span>    <span class="kw">if</span> (other.gameObject.CompareTag(<span class="st">"PickUp"</span>))</div><div><span class="n">58</span>    {</div><div><span class="n">59</span>        other.gameObject.SetActive(<span class="kw">false</span>);</div><div><span class="n">60</span>        count = count + <span class="nu">1</span>;</div><div class="addl"><span class="n">61</span>        <span class="ty">Debug</span>.Log(<span class="ty">Time</span>.frameCount + <span class="st">" "</span> + other.name + <span class="st">" count "</span> + count, other);</div><div><span class="n">62</span>        SetCountText();</div><div><span class="n">63</span>    }</div><div><span class="n">64</span>}</div></div>
+      </div>
+      <div class="md:col-span-4 soft-card rounded-2xl overflow-hidden">
+        <table class="cmp-table" style="font-size:14px">
+          <thead><tr><th>넣은 것</th><th>알려 주는 것</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">Time.frameCount</td><td>몇 번째 프레임 — 같은 숫자면 같은 순간</td></tr>
+            <tr><td class="mono">other.name</td><td>무엇과 닿았나</td></tr>
+            <tr><td class="mono">count</td><td>그때 값</td></tr>
+            <tr><td class="mono">, other</td><td>Console 에서 그 줄을 누르면 Hierarchy 에서 other 를 노랗게 보여 줍니다</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 코인이 하나 남았는데 CLEAR — Debug.Log 로 찾기 -->
+<section class="slide" data-part="1" data-sim="logcoin">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>코인이 하나 남았는데 CLEAR — Debug.Log 로 찾기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 11 멈춰서 보고, 하나만 고치기 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">멈춰서 보고, 하나만 고칩니다</h2>
+    <p class="text-xl text-slate-500 mb-6">움직이는 동안 못 보는 것은 멈춰 놓고 봅니다. 원인을 눈으로 봤으면 고치는 것은 대개 짧습니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-stretch mb-5">
+      <div class="md:col-span-7 grid grid-cols-2 gap-3">
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-dev-700"><i class="fa-solid fa-pause mr-2"></i>Pause · Step</div><p class="text-[14.5px] text-slate-600">위 가운데 두 단추. 멈춘 채로 Hierarchy · Inspector 를 봅니다. Step 은 한 프레임씩. <span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">P</span></p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-dev-700"><i class="fa-solid fa-code mr-2"></i>Debug.Break()</div><p class="text-[14.5px] text-slate-600">코드가 Pause 를 누릅니다. <span class="mono text-[13px]">if (count == 5) Debug.Break();</span> — 손으로는 놓치는 그 순간에.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-dev-700"><i class="fa-solid fa-ellipsis-vertical mr-2"></i>Inspector ⋮ → Debug</div><p class="text-[14.5px] text-slate-600">private 변수도 보입니다. Player 를 고르면 count 가 Play 중에 바뀌는 대로. 다 보면 Normal 로.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-dev-700"><i class="fa-solid fa-magnifying-glass mr-2"></i>Hierarchy 검색 칸</div><p class="text-[14.5px] text-slate-600">PickUp 이라고 치면 그 이름만 남습니다. 12개여야 할 코인이 몇 개인지 바로 셉니다.</p></div>
+      </div>
+      <div class="md:col-span-5 space-y-3">
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-flame-700"><i class="fa-solid fa-circle-half-stroke mr-2"></i>Play 를 끈 다음에 고칩니다</div><p class="text-[14.5px] text-slate-600">Play 중에 바꾼 것은 끄는 순간 돌아갑니다. 맞는 값을 찾았으면 컴포넌트 ⋮ → Copy Component, 끈 다음 Paste Component Values.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-flame-700"><i class="fa-solid fa-1 mr-2"></i>한 번에 하나</div><p class="text-[14.5px] text-slate-600">두 가지를 한꺼번에 바꾸면 무엇이 고쳤는지 모릅니다. 이번에는 PickUp (12) 하나만 지웠습니다.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-[17px] mb-1 text-flame-700"><i class="fa-solid fa-rotate mr-2"></i>같은 순서로 다시 — 4번 중 0번</div><p class="text-[14.5px] text-slate-600">원인 칸의 순서로 네 판. 코인이 남은 채 CLEAR 가 안 뜨면 끝. 그다음 Debug.Log 줄을 지웁니다.</p></div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-4">
+      <p class="text-[16.5px] text-slate-700"><b>4번 중 3번이던 까닭</b> — 겹친 자리를 마지막에 먹은 판은 코인이 다 없어지면서 CLEAR 라, 점수가 12 가 아니라 13 인 것 말고는 이상해 보이지 않았습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 AI 에게 버그를 맡길 때 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">AI 에게는 원인 후보와 확인하는 법을 먼저</h2>
+    <p class="text-xl text-slate-500 mb-5">앞 편의 요청 네 칸에 다섯째 칸 <b class="text-slate-700">「고쳐도 되는 파일」</b>을 붙이고, 버그일 때는 <b class="text-slate-700">하지 말 것</b> 칸에 한 줄을 씁니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start">
+      <div class="md:col-span-7 soft-card rounded-2xl p-5">
+        <div class="code-cap" style="margin-left:0">Copilot Chat (Ask) 에 보내는 요청</div>
+        <div class="text-[15px] leading-relaxed text-slate-700 space-y-1.5">
+          <div><b class="text-dev-700">- 하려는 것:</b> 결과 화면에 GAME OVER · 점수 · BEST 가 나오게 하고 싶어</div>
+          <div><b class="text-dev-700">- 완료 기준:</b> Result 씬을 열고 Play 하면 세 글자가 다 바뀐다 · Console 에 빨간 줄이 없다 · 3번 해서 3번</div>
+          <div><b class="text-dev-700">- 지금 상황:</b> Result 씬을 열고 Play, 3번 중 3번 이 에러. BEST 는 13번째 줄에 더했어</div>
+          <div class="mono text-[12.5px] bg-slate-900 text-rose-200 rounded-lg px-3 py-2">NullReferenceException: Object reference not set to an instance of an object<br>ResultUI.Start () (at Assets/Scripts/ResultUI.cs:13)</div>
+          <div class="bg-flame-50 border border-flame-200 rounded-lg px-3 py-1.5"><b class="text-flame-700">- 하지 말 것:</b> 아직 고치지 마. 원인 후보와 확인하는 법을 먼저 알려 줘</div>
+          <div class="rounded-lg px-3 py-1" style="background:#dcfce7;box-shadow:inset 3px 0 0 #22c55e"><b class="text-dev-700">- 고쳐도 되는 파일:</b> ResultUI.cs <span class="text-[13px] text-slate-500">— AI 가 고칠 파일을 하나로 좁힙니다. 팀으로 고칠 때 왜 중요한지는 파트 03</span></div>
         </div>
       </div>
-      <div class="md:col-span-3 soft-card rounded-2xl p-6">
-        <div class="text-[15px] font-black text-slate-400 mb-3">지호의 요청</div>
-        <div class="text-[16.5px] text-slate-700 space-y-2 leading-relaxed">
-          <p><b>- 하려는 것:</b> 게임 오버 뒤 RETRY 를 누르면 처음 상태로 다시 시작하게</p>
-          <p><b>- 완료 기준:</b> 점검표 A5 — 게임 오버 뒤 RETRY 하면 처음 상태로 공이 움직인다 · 두 번 연달아 해도 같다 · Console 에 빨간 줄이 없다</p>
-          <p><b>- 지금 상황:</b> 코인 3개 → 적에게 닿음 → RETRY → 방향키, 3번 중 3번 공이 안 움직인다. LoadGame 에 Debug.Log 를 찍어 보니 RETRY 뒤 <span class="mono">Time.timeScale</span> 이 0</p>
-          <p><b>- 하지 말 것:</b> 이름 바꾸기 · 새 Tag · 씬 파일 고치기</p>
-          <p class="rounded-lg px-3 py-1" style="background:#dcfce7;box-shadow:inset 3px 0 0 #22c55e"><b>- 고쳐도 되는 파일:</b> <span class="mono">SceneLoader.cs</span></p>
-        </div>
+      <div class="md:col-span-5 space-y-4">
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-hand mr-2"></i>왜 후보부터</div><p class="text-[15.5px] text-slate-600">AI 는 Play 를 못 누르고 씬도 못 봅니다. 짐작으로 고친 코드는 맞는지, 다른 데를 망가뜨렸는지 모릅니다. 확인은 우리 손으로.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-triangle-exclamation mr-2"></i>조심할 답</div><p class="text-[15.5px] text-slate-600 mb-2"><span class="mono text-[14px]">if (bestObj != null) { … }</span> 로 감싸기.</p><p class="text-[15.5px] text-slate-600">빨간 줄은 사라져도 BEST 는 여전히 안 나옵니다. 원인이 아니라 <b>증상을 가린 것</b>입니다.</p></div>
+        <div class="glass-card rounded-2xl p-4"><p class="text-[15.5px] text-slate-700">지금 상황 칸에는 <b class="text-dev-700">원인 칸 그대로</b> — 다시 나게 하는 순서 · 몇 번 중 · 에러 전문 · 확인한 것.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · Copilot 에게 원인 후보 받기 -->
+<section class="slide" data-part="1" data-sim="askbug">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>Copilot 에게 원인 후보 받기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 18 Visual Studio 디버거 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Visual Studio 디버거 — 그 줄에서 멈춰서 값 보기</h2>
+    <p class="text-xl text-slate-500 mb-5">Debug.Log 는 넣고 다시 Play 해야 보입니다. 디버거는 <b class="text-slate-700">멈춘 그 순간의 변수를 전부</b> 봅니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start mb-5">
+      <div class="md:col-span-7 space-y-2.5">
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">1</span><div><b>유니티를 디버그 모드로</b><span class="text-slate-600"> — 맨 아래 오른쪽 벌레 아이콘 → Switch to debug mode. Attach 를 먼저 누르면 유니티가 켤지 묻습니다</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">2</span><div><b>중단점</b><span class="text-slate-600"> — 볼 줄의 왼쪽 회색 칸 클릭 또는 <span class="kbd">F9</span>. 빨간 점</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">3</span><div><b>▶ Attach to Unity</b><span class="text-slate-600"> — Visual Studio 가 켜져 있는 유니티 에디터에 붙습니다</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">4</span><div><b>유니티에서 Play</b><span class="text-slate-600"> — 그 줄에 오면 멈춥니다. 멈춘 동안 유니티는 응답이 없습니다. 정상입니다</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">5</span><div><b>값 보기</b><span class="text-slate-600"> — 변수 위에 마우스를 올리거나, 아래 Locals 창</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">6</span><div><b>떼기</b><span class="text-slate-600"> — <span class="kbd">Shift</span> + <span class="kbd">F5</span>. 다 보면 유니티도 Switch to release mode 로 돌립니다</span></div></div>
+      </div>
+      <div class="md:col-span-5 soft-card rounded-2xl overflow-hidden">
+        <table class="cmp-table" style="font-size:15px">
+          <thead><tr><th>키</th><th>하는 일</th></tr></thead>
+          <tbody>
+            <tr><td><span class="kbd">F9</span></td><td>중단점 놓기 · 빼기</td></tr>
+            <tr><td><span class="kbd">F10</span></td><td>한 줄 실행하고 다음 줄에서 멈춤 (Step Over)</td></tr>
+            <tr><td><span class="kbd">F11</span></td><td>그 줄의 함수 안으로 (Step Into)</td></tr>
+            <tr><td><span class="kbd">F5</span></td><td>다음 중단점까지 계속 (Continue)</td></tr>
+            <tr><td><span class="kbd">Shift</span> + <span class="kbd">F5</span></td><td>디버깅 그만 — 유니티에서 떼기</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">답을 받으면 하나부터 봅니다. <b class="text-dev-700">바꾼 파일 목록이 「고쳐도 되는 파일」 안에 있는가.</b> 밖이면 넣지 않고 다시 묻습니다.</p>
+      <p class="text-[17px] text-slate-700">디버그 모드에서는 Play 가 조금 느립니다. 빌드에는 상관없습니다. VS Code 를 쓰면 Run and Debug 에서 Attach to Unity, 키는 같습니다. 메뉴 이름은 버전마다 조금 다릅니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 중단점에서 멈춰 bestObj 보기 -->
+<section class="slide" data-part="1" data-sim="debugger">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>중단점에서 멈춰 bestObj 보기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 20 Find 대신 Inspector 칸 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">이름으로 찾지 말고, Inspector 칸으로 받습니다</h2>
+    <p class="text-xl text-slate-500 mb-5">AI 는 씬을 못 보니 이름을 <b class="text-slate-700">짐작</b>해서 Find 로 찾게 씁니다. 이름 하나만 달라도 null 입니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start mb-5">
+      <div class="md:col-span-8 soft-card rounded-2xl overflow-hidden">
+        <table class="cmp-table" style="font-size:15px">
+          <thead><tr><th></th><th>GameObject.Find("BestText")</th><th>Inspector 칸 (public TMP_Text bestText)</th></tr></thead>
+          <tbody>
+            <tr><td>찾는 법</td><td>Play 중에 이름 글자로 씬을 뒤짐</td><td>끌어다 놓은 그 오브젝트를 기억</td></tr>
+            <tr><td>이름을 바꾸면</td><td><b class="text-rose-600">null</b> — 한 글자만 달라도</td><td><b class="text-emerald-600">그대로</b></td></tr>
+            <tr><td>꺼 두면</td><td><b class="text-rose-600">null</b> — 켜진 것만 찾음</td><td><b class="text-emerald-600">그대로</b></td></tr>
+            <tr><td>없으면 알려 주는 곳</td><td>그 줄에서 NullReference</td><td>Inspector 칸에 None, Play 하면 UnassignedReference</td></tr>
+            <tr><td>다른 씬의 것</td><td>못 찾음</td><td>칸에 안 들어감 → 앞 편의 GameResult 처럼 static</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="md:col-span-4 space-y-4">
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-link mr-2"></i>왜 그대로인가</div><p class="text-[15.5px] text-slate-600">씬 파일은 오브젝트마다 번호를 붙이고, Inspector 칸에는 이름이 아니라 그 번호를 적습니다. 파트 03 의 .meta 번호와 같은 생각입니다.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-gauge-high mr-2"></i>Find 를 쓴다면</div><p class="text-[15.5px] text-slate-600">Start 에서 한 번만 찾아 변수에 담습니다. Update 에서 매 프레임 찾지 않습니다.</p></div>
+      </div>
+    </div>
+    <div class="soft-card rounded-2xl p-4 flex items-center gap-4">
+      <span class="tagchip bg-slate-800 text-white">규칙 파일에 한 줄</span>
+      <span class="mono text-[15px] text-slate-700">- 씬의 오브젝트는 GameObject.Find 로 찾지 않고 Inspector 칸으로 받는다</span>
+      <span class="ml-auto text-[14px] text-slate-500">→ 파트 02 첫 장</span>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · Inspector 칸으로 고치고 다시 Play -->
+<section class="slide" data-part="1" data-sim="fixbug">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>Inspector 칸으로 고치고 다시 Play</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 22 고친 다음 -->
+<section class="slide" data-part="1">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">고친 다음에 하는 다섯 가지</h2>
+    <p class="text-xl text-slate-500 mb-5">빨간 줄이 사라진 것은 시작입니다. 기록지 줄이 다시 안 나야 끝입니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start">
+      <div class="md:col-span-6 space-y-2.5">
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">1</span><div><b>같은 순서로 3번 → 0번</b><span class="text-slate-600"> — 원인 칸의 「몇 번 중」을 고쳐 적습니다. 3 / 3 → 0 / 3</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">2</span><div><b>점검표로 한 판</b><span class="text-slate-600"> — 고치다 다른 곳이 망가지지 않았는지 (대면 수업의 그 표)</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">3</span><div><b>치우기</b><span class="text-slate-600"> — Debug.Log 줄 · 나눠 적은 줄 · 중단점. 유니티는 release mode 로</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">4</span><div><b>팀에</b><span class="text-slate-600"> — 팀 기록 한 줄, 넘길 때는 파트 03 대로 .unitypackage. 규칙 파일 원본에 한 줄 (파트 02)</span></div></div>
+        <div class="soft-card rounded-xl p-3 flex items-start gap-3"><span class="stepn">5</span><div><b>개인 기여 보고서</b><span class="text-slate-600"> — 고친 줄 · 증상 · AI 를 쓴 곳</span></div></div>
+      </div>
+      <div class="md:col-span-6">
+        <div class="code-cap">「개인 기여 보고서」 의 한 칸 · 예시 · 지호</div>
+        <div class="code" style="white-space:pre-wrap;font-size:13px;line-height:1.65;padding:.9rem 1.1rem"><span class="kw">## AI를 쓴 곳</span>
+- 무엇을 시켰나: Copilot 에게 결과 화면 NullReference 의 원인 후보와 확인하는 법 (Ask), 확인한 뒤 Inspector 칸으로 고치기
+- 그대로 쓴 것 / 고친 것: 후보 1번을 디버거로 확인 — bestObj 가 null, 글자 이름은 BestLabel. 고친 코드는 그대로 쓰고 Best Text 칸에 BestLabel 연결. 규칙 파일에 Find 대신 Inspector 칸 한 줄 추가</div>
+        <div class="glass-card rounded-2xl p-4 mt-4"><p class="text-[15.5px] text-slate-700">「무엇을 짐작했고, 무엇으로 확인했나」가 남으면 그대로 포트폴리오의 문제 해결 한 줄이 됩니다.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 파트 02 표지 -->
+<section class="slide" data-part="2">
+  <div class="max-w-4xl w-full text-center">
+    <div class="part-num mb-4">02</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">AI 에게 더 맡기기</h2>
+    <p class="text-xl text-slate-500">틀린 곳은 규칙 파일에 한 줄 · Agent · 도구 연결(MCP)</p>
+  </div>
+</section>
+
+<!-- 20 틀린 곳은 규칙 파일에 한 줄 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">틀린 곳은 규칙 파일에 한 줄</h2>
+    <p class="text-xl text-slate-500 mb-6">AI 가 틀리면 코드만 고치고 끝내지 않습니다. 같은 실수가 다시 안 나오게 <b class="text-slate-700">장치를 한 줄</b> 고칩니다.</p>
+    <div class="soft-card rounded-2xl overflow-hidden mb-5">
+      <table class="cmp-table">
+        <thead><tr><th></th><th>AI 가 이렇게 틀렸다</th><th>규칙 파일 「일하는 방식」에 더한 줄</th></tr></thead>
+        <tbody>
+          <tr><td class="whitespace-nowrap">앞 편</td><td>Point A · B 칸이 생긴다는 말을 안 해서, 비어 있는 채로 Play — UnassignedReference</td><td class="mono text-[14.5px]">- Inspector 에 끌어다 놓을 칸이 생기면, 무엇을 어디에 놓는지 같이 알려 준다</td></tr>
+          <tr><td class="whitespace-nowrap">이 편</td><td>글자를 <span class="mono">GameObject.Find("BestText")</span> 로 찾게 썼는데, 씬의 이름은 BestLabel — NullReference</td><td class="mono text-[14.5px]">- 씬의 오브젝트는 GameObject.Find 로 찾지 않고 Inspector 칸으로 받는다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-slate-500"><i class="fa-regular fa-comment mr-2"></i>대화에서 「다음부터 그렇게 해」</div><p class="text-[15.5px] text-slate-600">그 대화 안에서만 남습니다. 새 대화, 다른 팀원의 AI 는 모릅니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-dev-700"><i class="fa-solid fa-file-lines mr-2"></i>규칙 파일에 한 줄</div><p class="text-[15.5px] text-slate-600">copilot-instructions.md 에 남아서 다음 대화마다, 팀 전체에 갑니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1 text-flame-700"><i class="fa-solid fa-pen mr-2"></i>한 줄은 구체적으로</div><p class="text-[15.5px] text-slate-600">「잘 정리해서」 대신 「한 번에 스크립트 하나」. 안 지켜지는 줄은 더 구체적으로, 안 쓰는 줄은 지웁니다.</p></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">코드를 고치는 것은 이번 한 번, 규칙 파일을 고치는 것은 <b class="text-dev-700">다음부터 계속</b>입니다. 이것이 하네스 엔지니어링의 거의 전부입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 고친 것을 규칙 파일에 두 줄 -->
+<section class="slide" data-part="2" data-sim="addline">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-violet-600 text-white align-middle mr-2">따라 하기</span>고친 것을 규칙 파일에 두 줄</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 22 Agent 에게 맡길 때 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Agent 에게 맡길 때 — 장치가 더 필요합니다</h2>
+    <p class="text-xl text-slate-500 mb-6">Agent 는 우리 손을 거치지 않고 파일을 고칩니다. 그래서 <b class="text-slate-700">시키기 전과 끝난 뒤</b>가 더 중요합니다.</p>
+    <div class="grid md:grid-cols-4 gap-4 mb-4 items-stretch">
+      <div class="soft-card rounded-2xl p-5"><div class="flex items-center gap-2 mb-2"><span class="stepn">1</span><span class="font-black text-lg">시키기 전</span></div><p class="text-[15px] text-slate-600 leading-snug"><b>되돌릴 지점</b> zip · 커밋. 내 작업 폴더에서만 — 팀 공유 폴더 · 합친 프로젝트에서 바로 돌리지 않습니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="flex items-center gap-2 mb-2"><span class="stepn">2</span><span class="font-black text-lg">시킬 때</span></div><p class="text-[15px] text-slate-600 leading-snug">요청 다섯 칸 그대로. <b>고쳐도 되는 파일</b>을 내 작업 칸 안으로 좁힙니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="flex items-center gap-2 mb-2"><span class="stepn">3</span><span class="font-black text-lg">하는 동안</span></div><p class="text-[15px] text-slate-600 leading-snug">명령을 실행하려 하면 <b>Allow</b> 를 묻습니다. 무엇을 하는지 모르면 누르지 않고 묻습니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="flex items-center gap-2 mb-2"><span class="stepn">4</span><span class="font-black text-lg">끝난 뒤</span></div><p class="text-[15px] text-slate-600 leading-snug"><b>Total changes</b> 의 파일 목록부터. 작업 칸 밖 · .unity · ProjectSettings · Packages 가 있으면 Undo.</p></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 mb-5">
+      <div class="soft-card rounded-2xl p-4 flex items-start gap-3"><i class="fa-solid fa-arrows-up-down-left-right text-xl text-flame-600 mt-1"></i><p class="text-[15px] text-slate-600"><b>옮기기 · 이름 바꾸기는 사람이</b> 유니티 Project 창에서. 도구가 지우고 다시 만들면 .meta 번호가 바뀝니다 — 파트 03</p></div>
+      <div class="soft-card rounded-2xl p-4 flex items-start gap-3"><i class="fa-solid fa-spinner text-xl text-flame-600 mt-1"></i><p class="text-[15px] text-slate-600"><b>유니티로 돌아와 기다리기</b> — 도는 표시가 멈출 때까지. 새 파일의 .meta 는 유니티가 만듭니다. 그다음 Console · Play</p></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">Ask 는 넣기 전에 사람이 봅니다. Agent 는 <b class="text-dev-700">끝난 다음에</b> 봅니다. Keep 을 눌러도 끝이 아닙니다 — 확인 루프까지 봐야 끝입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · Agent 에게 맡기기 — 적이 끝에서 잠깐 멈추게 -->
+<section class="slide" data-part="2" data-sim="agent">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-violet-600 text-white align-middle mr-2">따라 하기</span>Agent 에게 맡기기 — 적이 끝에서 잠깐 멈추게</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 24 도구 연결 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">도구 연결(MCP) — AI 가 유니티를 직접 볼 때</h2>
+    <p class="text-xl text-slate-500 mb-6">앞 편에서 AI 는 씬 · Inspector · Play 를 못 본다고 했습니다. 그 일을 도구가 대신하게 이어 주는 약속이 <b class="text-slate-700">MCP</b> 입니다.</p>
+    <div class="grid md:grid-cols-2 gap-5 mb-4">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="font-black text-xl mb-3 text-slate-500">연결 없이 — 지금까지</div>
+        <ul class="text-[16px] text-slate-600 space-y-2">
+          <li>· AI 는 코드 · 규칙 파일을 읽고, Agent 는 파일도 고칩니다</li>
+          <li>· Console · Hierarchy · Inspector 는 <b>우리가 보고 글로</b> 옮깁니다 — 에러 전문 · 지금 상황 칸</li>
+          <li>· Play 와 완료 기준 확인은 우리가 합니다</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-2xl p-6 border-2 border-violet-200">
+        <div class="font-black text-xl mb-3 text-violet-700">연결하면 — MCP</div>
+        <ul class="text-[16px] text-slate-600 space-y-2">
+          <li>· AI 도구가 켜져 있는 유니티 에디터에 붙어 <b>도구(tool)</b>를 부릅니다</li>
+          <li>· Console 읽기 · Hierarchy · Inspector 값 보기</li>
+          <li>· 오브젝트 만들기 · 칸 채우기 · 스크립트 고치기까지</li>
+          <li>· 도구를 부를 때마다 <b>Allow</b> 를 묻습니다</li>
+        </ul>
+      </div>
+    </div>
+    <div class="soft-card rounded-2xl p-4 mb-5 flex items-center justify-center gap-5">
+      <div class="rounded-xl px-5 py-3 bg-violet-50 text-violet-700 border border-violet-200 font-bold text-[17px]"><i class="fa-solid fa-robot mr-2"></i>AI 도구 <span class="font-normal text-[15px]">— Visual Studio Agent · Claude Code · Cursor …</span></div>
+      <div class="flex flex-col items-center text-violet-600 font-black leading-none"><i class="fa-solid fa-arrow-right-arrow-left text-3xl"></i><span class="text-[14px] mt-1">MCP</span></div>
+      <div class="rounded-xl px-5 py-3 bg-slate-800 text-white font-bold text-[17px]"><i class="fa-brands fa-unity mr-2"></i>유니티 에디터 <span class="font-normal text-[15px] text-slate-300">— Console · Hierarchy · Inspector · 씬</span></div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17.5px] text-slate-700">연결해도 하네스는 그대로입니다. 규칙 파일 · 완료 기준 · 확인 루프는 같고, AI 가 씬을 직접 바꿀 수 있으니 <b class="text-dev-700">되돌릴 지점과 씬 주인 약속</b>이 더 중요해집니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 25 연결하는 두 길 -->
+<section class="slide" data-part="2">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-3"><h2 class="text-4xl md:text-5xl font-black">연결하는 두 길</h2><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">2026년 11월 기준</span></div>
+    <p class="text-xl text-slate-500 mb-5">유니티 쪽에 MCP 서버를 켜고, AI 도구 쪽에 그 서버를 등록합니다. 유니티 쪽은 두 길이 있습니다.</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-5 items-stretch">
+      <div class="soft-card rounded-2xl p-5">
+        <div class="font-black text-lg mb-1"><i class="fa-brands fa-unity mr-2"></i>유니티 공식 — Unity MCP</div>
+        <div class="text-[13px] font-black text-slate-400 mb-2">Unity AI 의 AI Assistant 패키지</div>
+        <ul class="text-[14.5px] text-slate-600 space-y-1.5 leading-snug">
+          <li>· 있어야 할 것 — 최신 버전 유니티, Unity Cloud 에 연결한 프로젝트, <b>Unity AI 이용 권한</b>(체험 · 구독)</li>
+          <li>· Edit → Project Settings → AI → <b>Unity MCP</b> 에서 Unity Bridge 가 Running</li>
+          <li>· Integrations 에서 쓰는 AI 도구를 골라 Configure, 없는 도구는 설정 파일에 직접</li>
+          <li>· 처음 붙는 연결은 유니티가 <b>Accept · Deny</b> 를 묻습니다</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="font-black text-lg mb-1"><i class="fa-solid fa-box-open mr-2"></i>공개 패키지 — MCP for Unity</div>
+        <div class="text-[13px] font-black text-slate-400 mb-2">CoplayDev · 무료 · MIT</div>
+        <ul class="text-[14.5px] text-slate-600 space-y-1.5 leading-snug">
+          <li>· 있어야 할 것 — <b>Python · uv</b> 를 먼저 설치</li>
+          <li>· Package Manager → + → Install package from git URL 로 넣습니다</li>
+          <li>· Window → MCP for Unity 에서 쓰는 AI 도구를 골라 Configure</li>
+          <li>· 누가 만든 패키지인지, 무엇을 할 수 있는 도구인지 읽고 넣습니다</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-2xl p-5 border-2 border-violet-200">
+        <div class="font-black text-lg mb-1 text-violet-700"><i class="fa-solid fa-robot mr-2"></i>AI 도구 쪽 — Visual Studio</div>
+        <div class="text-[13px] font-black text-slate-400 mb-2">Copilot Chat 의 Agent 모드</div>
+        <ul class="text-[14.5px] text-slate-600 space-y-1.5 leading-snug">
+          <li>· 입력 칸 아래 도구 단추 → <b>+</b> 로 MCP 서버를 등록합니다. 솔루션 폴더의 .mcp.json 에 적어도 됩니다</li>
+          <li>· 처음에는 도구가 꺼져 있어 켭니다</li>
+          <li>· 도구를 부를 때마다 <b>Allow</b> 를 누릅니다. Allow 옆 목록의 「항상 허용」은 켜지 않습니다</li>
+          <li>· VS Code · Cursor · Claude Code 도 같은 서버를 붙입니다</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17.5px] text-slate-700">이 수업은 연결 없이도 다 됩니다. 앞 편 하네스 그림의 <b class="text-dev-700">「있으면 편한 것」</b> 자리입니다. 연결하는 팀은 다음 장면처럼 <b class="text-dev-700">읽기부터</b> 맡깁니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 보기 · 같은 버그를 도구 연결로 — AI 가 씬을 읽을 때 -->
+<section class="slide" data-part="2" data-sim="mcp">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-slate-700 text-white align-middle mr-2">보기</span>같은 버그를 도구 연결로 — AI 가 씬을 읽을 때</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 파트 03 표지 -->
+<section class="slide" data-part="3">
+  <div class="max-w-4xl w-full text-center">
+    <div class="part-num mb-4">03</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">나눠 고치고 합치기</h2>
+    <p class="text-xl text-slate-500">파일마다 주인 · .meta · Inspector 값 · 씬 파일 · 프리팹으로 묶어 넘기고, 받는 날 합치기</p>
+  </div>
+</section>
+
+<!-- 28 나눠 고칠 때 -->
+<section class="slide" data-part="3">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">나눠 고칠 때 — 파일마다 주인 한 명</h2>
+    <p class="text-xl text-slate-500 mb-5">바꿀 것을 셋이 나눕니다. 나누는 기준은 대면 수업에서 정한 팀 약속 <b class="text-slate-700">① 작업 칸 · ② 씬</b> 그대로입니다.</p>
+    <div class="grid md:grid-cols-12 gap-5 items-start mb-5">
+      <div class="md:col-span-5 soft-card rounded-2xl overflow-hidden">
+        <div class="px-4 py-2 text-[13px] font-black text-slate-500 bg-slate-50 border-b border-slate-200">바꿀 것 · 예시 · 누가 · 고쳐도 되는 파일</div>
+        <table class="cmp-table" style="font-size:14.5px">
+          <tbody>
+            <tr><td>결과 화면 BEST <span class="text-rose-600 font-bold">버그</span></td><td><b>지호</b></td><td class="mono">ResultUI.cs</td></tr>
+            <tr><td>겹친 코인 <span class="text-rose-600 font-bold">버그</span></td><td><b>민준</b></td><td class="mono">Game 씬</td></tr>
+            <tr><td>적이 끝에서 잠깐 멈추게 <span class="text-amber-600 font-bold">규칙</span></td><td><b>지호</b></td><td class="mono">EnemyPatrol.cs</td></tr>
+            <tr><td>Title 에 조작키 · 적 안내 <span class="text-sky-600 font-bold">안내</span></td><td><b>하린</b></td><td class="mono">TitleUI.cs · Title 씬</td></tr>
+          </tbody>
+        </table>
+        <p class="text-[13.5px] text-slate-500 px-4 py-2">작업 칸에 없던 파일(ResultUI.cs)은 팀이 정해 한 사람의 칸에 넣습니다. 그 사람의 칸이 요청의 「고쳐도 되는 파일」이 됩니다.</p>
+      </div>
+      <div class="md:col-span-7">
+        <div class="code-cap">.github / copilot-instructions.md — 팀 약속 고치기 · ① 칸에 파일 하나, 두 줄 더하기</div>
+        <div class="code" style="white-space:pre-wrap;font-size:12.4px;line-height:1.55;padding:.8rem 1rem"><span class="ty">## 팀 약속 — 대면 수업에서 정한 다섯 칸</span>
+- ① 작업 칸: 하린 TitleUI.cs / 지호 SceneLoader.cs · EnemyPatrol.cs <span style="background:rgba(34,197,94,.28);border-radius:3px;padding:0 3px">· ResultUI.cs</span>. 칸 밖의 파일은 고치지 않는다
+<span style="display:block;background:rgba(34,197,94,.2);box-shadow:-3px 0 0 #22c55e;margin:0 -1rem;padding:0 1rem">- ① 요청에 「고쳐도 되는 파일」이 있으면 그 파일만 고친다. 다른 파일이 필요하면 먼저 말한다</span>- ② 씬: Game 씬은 합치는 사람(민준)만 연다. AI 작업은 Test_이름 씬에서
+- ③ 이름: 파일 · class · Inspector 변수 이름은 바꾸지 않는다. Tag 는 Player · Enemy · PickUp
+<span style="display:block;background:rgba(34,197,94,.2);box-shadow:-3px 0 0 #22c55e;margin:0 -1rem;padding:0 1rem">- ③ 새 Tag · Layer · 패키지 · 프로젝트 설정이 필요하면 먼저 말한다. 넣는 것은 합치는 사람이 한다</span>- ④ 넘기기: 스크립트 + 프리팹을 .unitypackage 로. 합치기는 사람이 한다
+- ⑤ 기록: 끝나면 바꾼 파일을 목록으로 알려 준다</div>
+        <p class="text-[14px] text-slate-500 mt-2"><b>새 Tag · 패키지 · 설정</b>은 Assets 밖에 저장되어 프리팹 · .unitypackage 로 넘겨도 따라가지 않습니다. 그래서 넣는 사람을 한 명으로.</p>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17.5px] text-slate-700">원본은 팀 공유 폴더에 하나, 각자 <b>.github 폴더째</b> 내 프로젝트 맨 위에 복사합니다. 규칙 파일이 같으면 셋이 각자 다른 AI 와 일해도 <b class="text-dev-700">같은 약속 안에서</b> 일합니다.</p>
     </div>
   </div>
 </section>
 
 <!-- 8 .meta -->
-<section class="slide" data-part="1">
+<section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">유니티는 이름이 아니라 번호로 기억합니다</h2>
     <p class="text-xl text-slate-500 mb-6">Assets 안의 파일마다 짝인 <span class="mono text-slate-700">.meta</span> 파일이 있고, 그 안에 번호(GUID)가 있습니다. 씬은 스크립트를 <b class="text-slate-700">이 번호로</b> 찾습니다.</p>
@@ -821,7 +1403,7 @@ MonoBehaviour:
 </section>
 
 <!-- 9 Inspector 값 -->
-<section class="slide" data-part="1">
+<section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">Inspector 칸의 값은 변수 이름으로 저장됩니다</h2>
     <p class="text-xl text-slate-500 mb-6">씬 파일에 <span class="mono text-slate-700">pointA: {…}</span> 처럼 변수 이름 옆에 값이 적힙니다. 이름을 「더 좋게」 바꾸면 끌어다 놓은 값이 비어 버립니다.</p>
@@ -866,7 +1448,7 @@ MonoBehaviour:
 </section>
 
 <!-- 10 씬은 파일 하나 -->
-<section class="slide" data-part="1">
+<section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">씬은 파일 하나 — 주인은 한 명</h2>
     <p class="text-xl text-slate-500 mb-6">오브젝트 · 위치 · 칸의 값이 전부 <span class="mono text-slate-700">.unity</span> 파일 하나에 들어 있습니다. 두 사람이 같은 씬을 고쳐 합치면 <b class="text-slate-700">나중에 넣은 쪽이 앞의 것을 덮습니다.</b></p>
@@ -884,39 +1466,8 @@ MonoBehaviour:
   </div>
 </section>
 
-<!-- 11 설정 · 패키지 -->
-<section class="slide" data-part="1">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">프로젝트마다 따로인 것 — 설정 · 패키지</h2>
-    <p class="text-xl text-slate-500 mb-6">Tag · Layer · 패키지 · 설정은 <b class="text-slate-700">Assets 밖</b>에 저장됩니다. 프리팹이나 .unitypackage 로 넘겨도 따라가지 않습니다.</p>
-    <div class="soft-card rounded-2xl overflow-hidden mb-6">
-      <table class="cmp-table">
-        <thead><tr><th>무엇</th><th>저장되는 곳</th><th>한 사람 것만 바뀌면, 합친 뒤</th></tr></thead>
-        <tbody>
-          <tr><td>Tag</td><td><span class="mono">ProjectSettings/TagManager.asset</span> · 오브젝트에는 글자로</td><td><span class="mono">Tag: Boss is not defined</span> — 태그로 하던 판정이 안 됩니다</td></tr>
-          <tr><td>Layer</td><td>같은 파일 · 오브젝트에는 번호로</td><td>충돌 · 카메라가 다르게 움직입니다</td></tr>
-          <tr><td>패키지</td><td><span class="mono">Packages/manifest.json</span></td><td><b>CS0246</b> — 이름을 찾을 수 없다는 빨간 줄</td></tr>
-          <tr><td>Player · Input 설정</td><td><span class="mono">ProjectSettings</span> 폴더</td><td>내 노트북에서만 다른 화면 · 다른 입력</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">AI 가 「Tag 를 추가하세요 · 패키지를 설치하세요」 라고 하면 <b class="text-dev-700">하기 전에 팀에 말합니다.</b> 넣는 것은 합치는 사람이 하고, 합친 zip 으로 모두에게 갑니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 12 파트 02 표지 -->
-<section class="slide" data-part="2">
-  <div class="max-w-4xl w-full text-center">
-    <div class="part-num mb-4">02</div>
-    <h2 class="text-5xl md:text-6xl font-black mb-5">넘기고 합치기</h2>
-    <p class="text-xl text-slate-500">묶기 · .unitypackage · 받는 날 · 새 시작점</p>
-  </div>
-</section>
-
 <!-- 13 한 바퀴 -->
-<section class="slide" data-part="2">
+<section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">넘기고 합치는 한 바퀴</h2>
     <p class="text-xl text-slate-500 mb-7">깃 없이도 됩니다. 넘기는 단위는 <b class="text-slate-700">.unitypackage</b>, 합치는 사람은 한 명, 합치는 날은 <b class="text-slate-700">받는 날</b>입니다.</p>
@@ -949,7 +1500,7 @@ MonoBehaviour:
 </section>
 
 <!-- 14 묶어서 프리팹으로 -->
-<section class="slide" data-part="2">
+<section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">넘길 것은 묶어서, 프리팹으로</h2>
     <p class="text-xl text-slate-500 mb-6">프리팹은 <b class="text-slate-700">자기 안에 있는 것만</b> 기억합니다. Point A · B 가 묶음 밖에 있으면, 넘겨받은 쪽에서 칸이 비어 있습니다.</p>
@@ -990,7 +1541,7 @@ MonoBehaviour:
 </section>
 
 <!-- 따라 하기 · 묶어서 .unitypackage 로 넘기기 -->
-<section class="slide" data-part="2" data-sim="handoff">
+<section class="slide" data-part="3" data-sim="handoff">
   <div class="max-w-6xl w-full">
     <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>묶어서 .unitypackage 로 넘기기</h2>
     <div class="ed"></div>
@@ -999,7 +1550,7 @@ MonoBehaviour:
 </section>
 
 <!-- 따라 하기 · 받는 날 가져와서 합치기 -->
-<section class="slide" data-part="2" data-sim="merge">
+<section class="slide" data-part="3" data-sim="merge">
   <div class="max-w-6xl w-full">
     <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>받는 날 가져와서 합치기</h2>
     <div class="ed"></div>
@@ -1008,7 +1559,7 @@ MonoBehaviour:
 </section>
 
 <!-- 17 합칠 때 자주 나는 문제 -->
-<section class="slide" data-part="2">
+<section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-6">합칠 때 자주 나는 문제</h2>
     <div class="soft-card rounded-2xl overflow-hidden mb-5">
@@ -1025,74 +1576,55 @@ MonoBehaviour:
       </table>
     </div>
     <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700 mb-2"><b>깃을 쓰는 팀은</b> 넘기는 단위만 커밋으로 바뀝니다. .cs 와 .meta 는 함께 커밋하고, 씬은 깃으로도 잘 안 합쳐지니 씬 주인 약속은 그대로입니다.</p>
       <p class="text-[17px] text-slate-700">이상하면 고치려 들기 전에 <b class="text-flame-700">합치기 전 zip 으로 돌아가</b>, 하나씩 다시 가져옵니다. 어느 묶음에서 문제가 생겼는지 바로 보입니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 18 Agent 를 팀 프로젝트에 -->
-<section class="slide" data-part="3">
+<!-- 37 정리 -->
+<section class="slide" data-part="e">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">Agent 를 팀 프로젝트에 쓸 때</h2>
-    <p class="text-xl text-slate-500 mb-6">Copilot 의 Agent · 코딩 에이전트(Claude Code · Codex) · 유니티 도구 연결(MCP)은 붙여 넣기 없이 프로젝트 파일을 바로 바꿉니다. 빠른 만큼, <b class="text-slate-700">한 번에 여러 파일</b>이 바뀝니다.</p>
-    <div class="grid md:grid-cols-3 gap-4 mb-5">
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-dev-600 mr-1">1</span> 내 작업 폴더에서만, 시키기 전에 zip</div><p class="text-[15.5px] text-slate-600">팀 공유 폴더나 합친 프로젝트에서 바로 돌리지 않습니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-dev-600 mr-1">2</span> 규칙 파일을 읽게</div><p class="text-[15.5px] text-slate-600">.github/copilot-instructions.md. Claude Code 는 CLAUDE.md, Codex 는 AGENTS.md 로 같은 내용을 둡니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-dev-600 mr-1">3</span> 끝나면 Total changes 부터</div><p class="text-[15.5px] text-slate-600">작업 칸 밖 파일, <span class="mono">.unity</span> · ProjectSettings · Packages 가 있으면 Undo. 꼬이면 zip 에서 되돌립니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-flame-600 mr-1">4</span> 옮기기 · 이름 바꾸기는 사람이</div><p class="text-[15.5px] text-slate-600">Project 창에서 합니다. 도구가 지우고 다시 만들면 .meta 번호가 바뀝니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-flame-600 mr-1">5</span> 유니티로 돌아와 기다리기</div><p class="text-[15.5px] text-slate-600">도는 표시가 멈출 때까지. 새 파일의 .meta 는 유니티가 만듭니다. 그다음 Console · Play.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1"><span class="text-flame-600 mr-1">6</span> 도구 연결(MCP)은 Test 씬에서</div><p class="text-[15.5px] text-slate-600">씬을 직접 바꿀 수 있으니, Game 씬은 합치는 사람만 엽니다.</p></div>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[17px] text-slate-700">Ask 는 사람이 한 번 보고 넣습니다. Agent 는 <b class="text-dev-700">끝난 다음에 봅니다.</b> 그래서 바꾼 파일 목록과 되돌릴 zip 이 더 중요합니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 19 깃을 쓰는 팀은 -->
-<section class="slide" data-part="3">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">깃을 쓰는 팀은</h2>
-    <p class="text-xl text-slate-500 mb-6">이 수업은 깃을 꼭 쓰라고 하지 않습니다. 이미 쓰는 팀만 보면 됩니다. 약속은 그대로이고, 넘기는 단위만 커밋으로 바뀝니다.</p>
-    <div class="grid md:grid-cols-2 gap-4 mb-5">
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">.meta 도 커밋</div><p class="text-[16px] text-slate-600">.cs 와 .meta 는 한 쌍입니다. 빠지면 받은 쪽에서 번호가 새로 생깁니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">올리지 않는 폴더</div><p class="text-[16px] text-slate-600"><span class="mono">Library · Temp · Logs · UserSettings</span> 와 빌드 폴더. <span class="mono">.gitignore</span> 에 적습니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">씬은 깃으로도 잘 안 합쳐집니다</div><p class="text-[16px] text-slate-600">씬 주인 약속은 그대로. 남의 씬은 프리팹으로 넘깁니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">작업 칸마다 브랜치</div><p class="text-[16px] text-slate-600">합치는 사람이 받는 날에 합칩니다. 커밋 메시지는 팀 기록 한 줄처럼.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">저장 방식 확인</div><p class="text-[16px] text-slate-600">Project Settings 에서 Asset Serialization 이 <b>Force Text</b>, Version Control 이 <b>Visible Meta Files</b> 인지. 지금 기본값입니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">커밋은 본 사람이</div><p class="text-[16px] text-slate-600">AI 도구가 바꾼 파일 목록을 사람이 보고 나서 커밋합니다.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 20 정리 -->
-<section class="slide" data-part="3">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-7 text-center">한 장으로 정리하면</h2>
-    <div class="grid md:grid-cols-2 gap-6 mb-6">
-      <div class="soft-card rounded-3xl p-7">
-        <div class="tagchip bg-dev-600 text-white mb-4">01 AI 가 모르는 연결</div>
-        <ul class="text-[17px] text-slate-700 space-y-2">
-          <li>· 팀 약속에 <b>두 줄</b> — 원본은 팀 공유 폴더, .github 폴더째 각자 복사</li>
-          <li>· 요청 다섯째 칸 <b>고쳐도 되는 파일</b>, 답은 바꾼 파일 목록부터</li>
-          <li>· 유니티는 <b>.meta 번호</b>로 기억 — 이름 · 위치는 Project 창에서</li>
-          <li>· Inspector 값은 <b>변수 이름</b>으로 — 바꾸면 FormerlySerializedAs</li>
-          <li>· 씬은 파일 하나, 주인 한 명 · 설정 · 패키지는 팀에 먼저</li>
+    <h2 class="text-4xl md:text-5xl font-black mb-6 text-center">한 장으로 정리하면</h2>
+    <div class="grid md:grid-cols-3 gap-5 mb-6">
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-3xl font-black text-dev-600 mb-2">01</div>
+        <div class="text-xl font-black mb-3">버그 잡기</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>· 기록지 줄 → 원인 칸, 에디터에서 짧게 다시</li>
+          <li>· Console 끝까지 — 무엇 · 어디서 · 언제</li>
+          <li>· 빨간 줄이 없으면 Debug.Log, frameCount 가 같으면 같은 순간</li>
+          <li>· AI 에게는 원인 후보와 확인하는 법 먼저</li>
+          <li>· 중단점 F9 · Attach · 마우스 · Locals</li>
+          <li>· Play 를 끈 다음 하나만, 같은 순서로 다시</li>
         </ul>
       </div>
-      <div class="soft-card rounded-3xl p-7">
-        <div class="tagchip bg-flame-600 text-white mb-4">02 넘기고 합치기</div>
-        <ul class="text-[17px] text-slate-700 space-y-2">
-          <li>· Test 씬에서 ✓ → <b>묶어서 프리팹</b>으로</li>
-          <li>· 내 칸 파일만 <b>.unitypackage</b>, 이름은 누가_무엇_날짜</li>
-          <li>· 받는 날 — 백업 → 가져오기 → Game 씬 → Play → 팀 기록</li>
-          <li>· 합친 zip 이 <b>모두의 새 시작점</b></li>
-          <li>· Agent · 깃을 써도 같은 약속</li>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-3xl font-black text-violet-600 mb-2">02</div>
+        <div class="text-xl font-black mb-3">AI 에게 더 맡기기</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>· AI 가 틀린 곳 = 규칙 파일에 한 줄</li>
+          <li>· Agent — 시키기 전 zip, 끝난 뒤 Total changes</li>
+          <li>· Keep 다음에 Console · Play · 완료 기준</li>
+          <li>· MCP — AI 가 Console · 씬을 직접 읽습니다</li>
+          <li>· 연결하면 읽기부터, Allow 는 한 번씩</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="text-3xl font-black text-flame-600 mb-2">03</div>
+        <div class="text-xl font-black mb-3">나눠 고치고 합치기</div>
+        <ul class="text-[15.5px] text-slate-600 space-y-1.5">
+          <li>· 파일마다 주인, 요청에 고쳐도 되는 파일</li>
+          <li>· 이름 · 위치는 Project 창에서 — .meta 번호</li>
+          <li>· Inspector 변수 이름은 그대로</li>
+          <li>· 씬은 주인 한 명, 내 것은 프리팹으로 묶어</li>
+          <li>· 내 칸 파일만 .unitypackage, 받는 날 합치기</li>
+          <li>· 합친 zip 이 모두의 새 시작점</li>
         </ul>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 text-center">
-      <p class="text-[19px] text-slate-700">AI 는 코드를 봅니다. 유니티는 코드 밖에도 연결을 저장합니다. <b class="text-dev-700">그 연결을 지키는 것이 팀의 몫</b>입니다.</p>
+      <p class="text-[19px] text-slate-700">AI 가 코드를 빨리 줄수록 <b class="text-dev-700">확인하는 손과 지키는 약속</b>이 일을 정합니다. 다시 나게 하고, 눈으로 보고, 하나만 고치고, 함께 합칩니다.</p>
     </div>
   </div>
 </section>
@@ -1598,10 +2130,212 @@ const U_INPUT_Q = "우리 팀 규칙에서 입력은 어떤 방식으로 받아?
 const A_INPUT_Q = "Input System 의 <b>Keyboard.current</b> 로 받습니다. 예를 들어 <span class=\"mono\">Keyboard.current.leftArrowKey.isPressed</span> 처럼 씁니다.";
 const EDIT_MENU = [["Undo", "Redo", "-", "Cut", "Copy", "Paste", "-", "Duplicate", "Rename", "Delete", "-", "Play", "Pause", "Step", "-", "Project Settings...", "*Preferences...", "Shortcuts..."]];
 
+/* ===== 11주차 둘째 영상 「버그 잡기」 — 따라 하기 ===== */
+Object.assign(SIM_TRANSIENT, { hping: null, cmenu: false });
+
+/* --- Console: 단추 · 개수 · 묶기 · 파일 링크 --- */
+const conDet = t => esc(t).replace(/\(at (Assets\/[^)]+)\)/g, (m, p) => `(at <u class="lnk"${K("c:lnk")}>${p}</u>)`);
+conHTML = function(s){
+  const L = s.logs, c = s.con || {};
+  const n = t => L.filter(l => l[0] === t).reduce((a, l) => a + (l[3] || 1), 0);
+  const ic = t => t === "err" ? "circle-exclamation" : t === "warn" ? "triangle-exclamation" : "circle-info";
+  const rows = L.map((l, i) => `<div class="lg ${l[0]}${s.logSel === i ? " sel" : ""}"${K("c:" + i)}>${fa(ic(l[0]))}<span class="tx">${esc(l[1])}</span>${c.collapse && l[3] ? `<span class="ct">${l[3]}</span>` : ""}</div>`).join("");
+  const det = s.logSel >= 0 ? conDet(L[s.logSel][2] || L[s.logSel][1]) : "";
+  const bt = (k, t, on) => `<span class="uu-f${on ? " on" : ""}"${K(k)}>${t}</span>`;
+  const mm = s.cmenu ? `<div class="con-mm">${[["Clear on Play", true], ["Clear on Build", false], ["Clear on Recompile", false]].map(([t, on]) => `<div class="mi"${K("cm:" + t)}><span class="ck">${on ? "✓" : ""}</span>${t}</div>`).join("")}</div>` : "";
+  const e = n("err");
+  return `<div class="ed-con"><div class="bar">${bt("c:clear", "Clear ▾")}${bt("c:collapse", "Collapse", c.collapse)}${bt("c:epause", "Error Pause", c.epause)}${bt("", "Editor ▾")}`
+    + `<span class="uu-f srch">${fa("magnifying-glass")} ${c.q || ""}</span><span class="cnt"${K("c:cnt")}><span>${fa("circle-info")} ${n("info")}</span><span>${fa("triangle-exclamation")} ${n("warn")}</span><span style="${e ? "color:#ff8f7a" : ""}">${fa("circle-exclamation")} ${e}</span></span>${mm}</div>`
+    + `<div class="logs">${rows}</div><div class="det"${K("c:det")}>${det}</div></div>`;
+};
+
+/* --- Hierarchy: 내려 보기 · 꺼진 것 · 프리팹 · 잠깐 노랗게 --- */
+hierHTML = function(s){
+  const sel = [].concat(s.hsel || []), off = s.hoff || [], pf = s.hpf ? new RegExp(s.hpf) : null, sc = s.hscroll || 0;
+  let h = sc ? "" : `<div class="uu-it"${K("h:" + s.scene)}><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>${s.scene}</b><span class="ed-dots">⋮</span></div>`;
+  s.hier.slice(sc).forEach(r => {
+    const m = r.match(/^( *)(.*?)( [▸▾])?$/), d = m[1].length / 2 + 1, name = m[2];
+    const tri = m[3] ? (m[3].trim() === "▾" ? "▼" : "▶") : "";
+    const ico = /Camera/.test(name) ? "video" : /Light/.test(name) ? "sun" : "cube";
+    const cls = (sel.includes(name) ? " sel" : "") + (off.includes(name) ? " off" : "") + (pf && pf.test(name) ? " pf" : "") + (s.hping === name ? " ping" : "");
+    h += `<div class="uu-it${cls}"${K("h:" + name)} style="padding-left:${6 + d * 13}px"><span class="tri">${tri}</span><span class="ico">${fa(ico)}</span>${s.hedit === name ? `<span class="ed-edit">${name}</span>` : name}</div>`;
+  });
+  return h;
+};
+
+/* --- 유니티 쪽: Pause · Step 단추, 상태 줄의 벌레 아이콘 --- */
+const _renderEdHTML10 = renderEdHTML;
+renderEdHTML = function(s){
+  if (s.vs || s.desk) return _renderEdHTML10(s);
+  return _renderEdHTML0(s)
+    .replace(`<span class="pb">${fa("pause")}</span>`, `<span class="pb${s.paused ? " on" : ""}"${K("tb:pause")}>${fa("pause")}</span>`)
+    .replace(`<span class="pb">${fa("forward-step")}</span>`, `<span class="pb"${K("tb:step")}>${fa("forward-step")}</span>`)
+    .replace(`<span class="msg`, `<span${K("st:msg")} class="msg`)
+    .replace(`<span data-k="st:spin">`, `<span class="ed-bug${s.dbgMode ? " dbg" : ""}"${K("st:bug")}>${fa("bug")}</span><span data-k="st:spin">`);
+};
+const _renderSim10 = renderSim;
+renderSim = function(sl){
+  _renderSim10(sl);
+  const s = simStates(SIMS[sl.dataset.sim])[sl._step || 0];
+  if (s.edCls) s.edCls.split(" ").forEach(c => sl.querySelector(".ed").classList.add(c));
+};
+const COP = dbg => `<div class="ed-ov cop" style="right:8px;bottom:26px;width:290px"><div class="h">${fa("bug")} Code Optimization</div>`
+  + `<div class="m"><span class="uu-note">Mode</span><span class="pill">${dbg ? "Debug" : "Release"}</span></div><span class="uu-btn"${K("cop:sw")}>${dbg ? "Switch to release mode" : "Switch to debug mode"}</span></div>`;
+
+/* --- Visual Studio: 중단점 · 지금 줄 · 값 상자 · Locals --- */
+function vsCode2(lines, v){
+  let n = 1;
+  const bp = v.bp || [];
+  return lines.map(L => {
+    if (L[0] === "@"){ n = +L.slice(1); return ""; }
+    if (L === "…") return `<div class="cl gap"><span class="gl"></span><span class="ln"></span><span class="cx">    …</span></div>`;
+    let cls = "", t = L;
+    if ("+->".includes(L[0])){ cls = { "+": " add", "-": " del", ">": " foc" }[L[0]]; t = L.slice(1); }
+    const num = cls === " del" ? null : n++;
+    if (num != null){ if (bp.includes(num)) cls += " bp"; if (v.cur === num) cls += " cur"; }
+    const cx = t.split("~").map((x, i) => i % 2 ? `<span class="sq">${hlc(x)}</span>` : hlc(x)).join("")
+      .replace(/\{\{(.+?)\|(.+?)\}\}/g, (m, a, k) => `<span class="tok"${K(k)}>${a}</span>`);
+    const tip = v.tip && v.tip.line === num ? `<div class="vs-tip"${K("v:tip")} style="left:${v.tip.left}">${v.tip.html}</div>` : "";
+    return `<div class="cl${cls}"${num != null ? K("v:l" + num) : ""}><span class="gl"${num != null ? K("v:m" + num) : ""}></span><span class="ln">${num == null ? "" : num}</span><span class="cx">${cx}</span>${tip}</div>`;
+  }).join("");
+}
+const vsLocals = rows => `<div class="vs-bot"${K("vs:locals")}><div class="ttl">Locals</div><div class="lh"><span>Name</span><span>Value</span><span>Type</span></div>`
+  + rows.map(([nm, val, ty, ex]) => `<div class="lr"${K("lc:" + nm)}><span><i class="ex">${ex ? "▸" : ""}</i>${nm}</span><span class="v">${val}</span><span class="t">${ty}</span></div>`).join("")
+  + `<div class="tabs"><span>Autos</span><span class="on">Locals</span><span>Watch 1</span></div></div>`;
+vsHTML = function(s){
+  const v = Object.assign({}, VS_BASE, s.vs);
+  const mb = `<div class="vs-mb">` + VS_MB.map(m => `<span class="${v.menu === m ? "on" : ""}"${K("vm:" + m)}>${m}${v.menu === m && v.menuItems ? vsMenu(v.menuItems) : ""}</span>`).join("") + `</div>`;
+  const top = `<div class="vs-top"><span class="vs-logo">${VS_LOGO}</span>${mb}<span class="vs-search">${fa("magnifying-glass")} Search</span><span class="vs-sln">RollABall</span>`
+    + `<span class="vs-badge"${K("vs:badge")}>${CP_ICON}</span><span class="vs-acc"${K("vs:acc")}>${fa("circle-user")}</span></div>`;
+  const pre = `<span>${fa("arrow-left")}</span><span>${fa("arrow-right")}</span><span class="sep"></span><span class="dd">Debug ▾</span><span class="dd">Any CPU ▾</span>`;
+  const tb = v.dbg
+    ? `<div class="vs-tb">${pre}<span class="run"${K("vs:cont")}>${fa("play")} Continue ▾</span><span class="sep"></span><span class="dbtn"${K("vs:pause")}>${fa("pause")}</span><span class="dbtn stop"${K("vs:stop")}>${fa("square")}</span><span class="dbtn">${fa("rotate-right")}</span><span class="sep"></span><span class="dbtn"${K("vs:into")}>${fa("arrow-down")}</span><span class="dbtn"${K("vs:over")}>${fa("share")}</span><span class="dbtn">${fa("arrow-up")}</span></div>`
+    : `<div class="vs-tb">${pre}<span class="run"${K("vs:attach")}>${fa("play")} Attach to Unity ▾</span></div>`;
+  const tabs = (v.tabs || (v.file ? [v.file] : [])).map(t => `<span class="vs-tab${t === v.file ? " on" : ""}"${K("vt:" + t)}>${t}<span class="x">✕</span></span>`).join("");
+  const ed = `<div class="vs-edp"><div class="vs-tabs">${tabs}</div><div class="vs-code${v.small ? " sm" : ""}${v.xs ? " xs" : ""}"${K("vs:code")}>${v.code ? vsCode2(v.code, v) : ""}</div></div>`;
+  const side = v.side === "chat"
+    ? `<div class="vs-side"><div class="vs-sh">${CP_ICON} GitHub Copilot Chat<span class="r"><span${K("c:new")}>${fa("plus")}</span><span>${fa("clock-rotate-left")}</span></span></div>${vsChat(v.chat)}</div>`
+    : `<div class="vs-side"><div class="vs-sh">${fa("sitemap")} Solution Explorer</div>${vsSol(v.sol)}</div>`;
+  const st = `<div class="vs-st"><span>Ready</span><span class="r">Ln ${v.ln || 1}, Ch 1</span></div>`;
+  return `<div class="vs${v.wide ? " wide" : ""}${v.mid ? " mid" : ""}${v.dbg ? " dbg" : ""}${v.locals ? " loc" : ""}">${top}${tb}${ed}${side}${v.locals ? vsLocals(v.locals) : ""}${st}</div>`;
+};
+
+/* --- 예시 프로젝트 --- */
+const SCN = { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Title", "scene"]] };
+const TITLE_H = ["Main Camera", "Directional Light", "Canvas ▸", "EventSystem", "SceneLoader"];
+const RESULT_H = ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  BestLabel", "  RetryButton ▸", "  TitleButton ▸", "EventSystem", "SceneLoader", "ResultUI"];
+const resultUI3 = (title, score, best, o) => U([["t", title, 200, 1200, 160, 120], ["t", score, 40, 800, 80, 60], ["t", best, -50, 600, 60, 40, "u:best"],
+  ["b", "RETRY", -150, 400, 100, 48, "u:retry"], ["b", "TITLE", -300, 400, 100, 48, "u:title"]], o);
+const R_SCR = o => resultUI3("RESULT", "Score", "New Text", o);
+const NRE = "NullReferenceException: Object reference not set to an instance of an object";
+const LOG_A = ln => ["err", NRE, NRE + "\nResultUI.Start () (at Assets/Scripts/ResultUI.cs:" + ln + ")"];
+const RU_HEAD = ["using UnityEngine;", "using TMPro;", "", "public class ResultUI : MonoBehaviour", "{", "    public TMP_Text titleText;", "    public TMP_Text scoreText;", "", "    void Start()", "    {",
+  "        int best = Mathf.Max(PlayerPrefs.GetInt(\"best\", 0), GameResult.score);", "        PlayerPrefs.SetInt(\"best\", best);"];
+const RU_TAIL = ["        if (GameResult.cleared) { titleText.text = \"CLEAR!\"; }", "        else { titleText.text = \"GAME OVER\"; }", "        scoreText.text = \"Score: \" + GameResult.score;", "    }", "}"];
+const L13 = "        GameObject.Find(\"BestText\").GetComponent<TMP_Text>().text = \"BEST \" + best;";
+const L13a = "        GameObject bestObj = GameObject.Find(\"BestText\");", L14a = "        bestObj.GetComponent<TMP_Text>().text = \"BEST \" + best;";
+const RU_BUG = RU_HEAD.concat([L13], RU_TAIL);
+const RU_SPLIT = RU_HEAD.concat([L13a, "        {{bestObj|v:tok}}.GetComponent<TMP_Text>().text = \"BEST \" + best;"], RU_TAIL);
+const RU_SPLIT_DIFF = RU_HEAD.concat(["-" + L13, "+" + L13a, "+" + L14a], RU_TAIL);
+const RU_FIX_DIFF = ["using UnityEngine;", "using TMPro;", "", "public class ResultUI : MonoBehaviour", "{", "    public TMP_Text titleText;", "    public TMP_Text scoreText;",
+  "+    public TMP_Text bestText;   // Inspector 에 BestLabel 을 끌어다 놓는다", "", "    void Start()", "    {",
+  "        int best = Mathf.Max(PlayerPrefs.GetInt(\"best\", 0), GameResult.score);", "        PlayerPrefs.SetInt(\"best\", best);", "-" + L13a, "-" + L14a, "+        bestText.text = \"BEST \" + best;"].concat(RU_TAIL);
+const VSR = o => Object.assign({ file: "ResultUI.cs", tabs: ["ResultUI.cs"], code: RU_BUG, side: "sol", sol: { sel: "ResultUI" }, dbg: false, bp: null, cur: null, tip: null, locals: null, wide: false, mid: false, xs: false, small: false }, o || {});
+const VSRC = (chat, o) => VSR(Object.assign({ side: "chat", mid: true, xs: true, chat: chat }, o || {}));
+const ruInsp = best => goHead2("ResultUI") + xform2([0, 0, 0]) + scriptC("Result UI", [["Title Text", "ResultTitle", "i:title"], ["Score Text", "ScoreText", "i:score"]]
+  .concat(best === undefined ? [] : [["Best Text", best, "i:best"]])) + addComp();
+
+const PICKS = ["PickUp", "PickUp (1)", "PickUp (2)", "PickUp (3)", "PickUp (4)", "PickUp (12)", "PickUp (5)", "PickUp (6)", "PickUp (7)", "PickUp (8)", "PickUp (9)", "PickUp (10)", "PickUp (11)"];
+const GAME_H = picks => ["Main Camera", "Directional Light", "Ground", "Player", "Walls ▸", "PickUps ▾"].concat(picks.map(p => "  " + p)).concat(["Enemy", "Canvas ▸", "EventSystem", "EscToTitle"]);
+const PF_RE = "^PickUp( \\(\\d+\\))?$";
+const DLOG = (fr, name, c) => { const t = `${fr} ${name} count ${c}`; return ["info", t, t + "\nUnityEngine.Debug:Log (object,UnityEngine.Object)\nPlayerController:OnTriggerEnter (UnityEngine.Collider) (at Assets/Scripts/PlayerController.cs:61)"]; };
+const LOGS_B = [DLOG(640, "PickUp", 1), DLOG(905, "PickUp (1)", 2), DLOG(1166, "PickUp (2)", 3), DLOG(1388, "PickUp (3)", 4), DLOG(1532, "PickUp (4)", 5), DLOG(1532, "PickUp (12)", 6)];
+const LOGS_OK = LOGS_B.slice(0, 5).concat([DLOG(1611, "PickUp (5)", 6)]);
+const PC_LOG = ["@32", "    void SetCountText()", "    {", "        countText.text = \"Count: \" + count.ToString();", "        if (count >= 12)", "        {", "            EndGame(true);", "        }", "    }", "…",
+  "@55", "    void OnTriggerEnter(Collider other)", "    {", "        if (other.gameObject.CompareTag(\"PickUp\"))", "        {", "            other.gameObject.SetActive(false);", "            count = count + 1;",
+  "+            Debug.Log(Time.frameCount + \" \" + other.name + \" count \" + count, other);", "            SetCountText();", "        }", "    }"];
+const pickInsp = (name, pos, on) => `<div class="ed-goh"><span class="gi" style="color:#6aa6ff">${fa("cube")}</span><span class="uu-chk${on ? " on" : ""}">${on ? "✓" : ""}</span>${f(name, "i:name", "flex:1")}<span class="uu-note">Static</span></div>`
+  + `<div class="ed-goh2"><span class="uu-note">Tag</span>${f("PickUp ▾")}<span class="uu-note">Layer</span>${f("Default ▾")}</div>`
+  + `<div class="ed-pfr"><span class="uu-note">Prefab</span><span class="uu-btn">Open</span><span class="uu-btn">Select</span><span class="uu-f">Overrides ▾</span></div>`
+  + xform2(pos, "i:pos") + comp("Cube (Mesh Filter)", "border-all", null) + comp("Mesh Renderer", "paintbrush", null)
+  + comp("Box Collider", "vector-square", row("Is Trigger", `<span class="uu-chk on">✓</span>`)) + comp("Rotator (Script)", "file-code", null);
+const P4 = [-3, 0.5, 5.2];
+const HDEL = ctx("left:9%;top:120px", [["Cut", "Copy", "Paste", "Paste As Child", "-", "Rename", "Duplicate", "*Delete", "-", "Select Children", "-", "Prefab>", "-", "Create Empty", "3D Object>"]]);
+
+/* --- Copilot 에게 보내는 글 · 받은 글 --- */
+const ASK_BUG = `<div class="ask"><b>- 하려는 것:</b> 결과 화면에 GAME OVER · 점수 · BEST 가 나오게 하고 싶어<br><b>- 완료 기준:</b> Result 씬을 열고 Play 하면 세 글자가 다 바뀐다 · Console 에 빨간 줄이 없다 · 3번 해서 3번<br>`
+  + `<b>- 지금 상황:</b> Result 씬을 열고 Play, 3번 중 3번 이 에러. BEST 는 13번째 줄에 더했어</div><div class="pre">${esc(LOG_A(13)[2])}</div>`
+  + `<div class="ask"><b>- 하지 말 것:</b> 아직 고치지 마. 원인 후보와 확인하는 법을 먼저 알려 줘<br><b>- 고쳐도 되는 파일:</b> ResultUI.cs</div>`;
+const ASK_BUG_SHORT = `<div class="ask"><b>- 하려는 것:</b> 결과 화면에 GAME OVER · 점수 · BEST 가 나오게 …<br><b>- 하지 말 것:</b> 아직 고치지 마. 원인 후보와 확인하는 법을 먼저 알려 줘<br><b>- 고쳐도 되는 파일:</b> ResultUI.cs</div>`;
+const ANS_CAND = `<div class="cand"${K("ai:cand")}><b>원인 후보</b><br>1. <b>GameObject.Find("BestText") 가 null</b> — Result 씬에 그 이름으로 켜져 있는 오브젝트가 없습니다. 이름이 다르거나, 꺼져 있거나, 다른 씬에 있을 때<br>2. 찾았지만 <b>TMP 글자가 아님</b> — 그 오브젝트에 TextMeshPro 가 없어 GetComponent 가 null</div>`
+  + `<div class="howto"${K("ai:chk")}><b>확인하는 법</b><br>· 1번: 13번째 줄을 둘로 나눠 결과를 bestObj 에 담고, 중단점에서 null 인지 봅니다<br>· 2번: 그 오브젝트의 Inspector 에 TextMeshPro - Text (UI) 가 있는지</div>`
+  + `<div${K("ai:split")}>${aiCode("ResultUI.cs — 13번째 줄 자리", [L13a.trim(), L14a.trim()])}</div>` + REFS(false);
+const FIX_REQ = `1번이 맞았어. 중단점에서 bestObj 가 null 이고, Hierarchy 의 글자 이름은 BestLabel 이야. 이름이 바뀌어도 되게 Find 말고 Inspector 칸으로 고쳐 줘. 고쳐도 되는 파일: ResultUI.cs`;
+const FIX_REQ_SHORT = `1번이 맞았어. bestObj 가 null, 글자 이름은 BestLabel … Find 말고 Inspector 칸으로 고쳐 줘. 고쳐도 되는 파일: ResultUI.cs`;
+const FIX_ANS = `<div class="plan"><b>할 일</b><br>1. <b>public TMP_Text bestText</b> 칸을 더합니다<br>2. 나눠 적은 두 줄을 <b>bestText.text</b> 한 줄로 바꿉니다<br>3. 다른 파일은 고치지 않습니다</div>`
+  + aiCode("ResultUI.cs", ["public class ResultUI : MonoBehaviour", "{", "    public TMP_Text titleText;", "    public TMP_Text scoreText;", "    public TMP_Text bestText;", "    …", "        bestText.text = \"BEST \" + best;", "    …"])
+  + `<div${K("ai:list")} style="margin-top:5px"><b>바꾼 파일</b> ResultUI.cs 하나 · <b>새 Inspector 칸</b> Best Text — ResultUI 오브젝트에 BestLabel 을 끌어다 놓으세요</div>` + REFS(false);
+
+const SIMS_BUG = {
+/* ---------- 파트 01 · 결과 화면에 점수가 안 나온다 ---------- */
+console: { base: { scene: "Title", hier: TITLE_H, proj: SCN, view: "scene", sv: sv2d(titleUI({ cv: true })) }, steps: [
+  { cap: "기록지 2번 「결과 화면에 점수가 안 나온다」. 순서를 짧게 — Project 창 Scenes 에서 <b>Result</b> 를 더블클릭", tap: ["p:Result"], psel: ["Result"] },
+  { scene: "Result", hier: RESULT_H, sv: sv2d(R_SCR({ cv: true })), psel: ["Result"], cap: "Result 씬이 열렸습니다. 한 판을 하지 않고 여기서 바로 <b>Play</b>", tap: ["tb:play"] },
+  { playing: true, view: "game", gv: R_SCR(), logs: [LOG_A(13)], cap: "글자가 RESULT · Score · New Text 그대로. 맨 아래 줄에 빨간 글 — 에러가 났습니다", hl: ["gv", "st:msg"], tap: ["tab:console"], note: "기록지에서 본 그 화면" },
+  { bottom: "console", cmenu: true, cap: "Console 탭. 위 <b>Clear ▾</b> 에 Clear on Play 가 켜져 있으면, Play 할 때마다 앞 판 줄이 지워집니다", tap: ["c:clear"], hl: ["cm:Clear on Play"] },
+  { cap: "남은 빨간 줄은 이번 판 것 하나. 줄을 한 번 클릭", tap: ["c:0"] },
+  { logSel: 0, cap: "아래 칸에 전문. 첫 줄이 <b>무엇</b>, ResultUI.Start 가 <b>언제</b>(씬이 시작할 때), 파란 글자가 <b>어디서</b> — 13번째 줄", hl: ["c:det"], tap: ["c:lnk"] },
+  { vs: VSR({ code: RU_BUG, ln: 13 }), cap: "파란 글자를 누르면 Visual Studio 가 ResultUI.cs 13번째 줄을 엽니다. Console 의 줄을 더블클릭해도 같습니다", hl: ["v:l13"], note: "점이 여럿인 줄 — 무엇이 비었나?" },
+]},
+/* ---------- 파트 02 · 코인이 하나 남았는데 CLEAR ---------- */
+logcoin: { base: { scene: "Game", hier: GAME_H(PICKS), hscroll: 5, hpf: PF_RE, proj: SCN, view: "game", gv: roll(null), bottom: "console", logs: [], edCls: "tall", insp: "", hsel: null }, steps: [
+  { vs: VSR({ file: "PlayerController.cs", tabs: ["PlayerController.cs"], code: PC_LOG, sol: { sel: "PlayerController" }, ln: 61 }), cap: "의심되는 곳은 코인을 세는 OnTriggerEnter. count 를 올린 바로 아래 61번째 줄에 <b>Debug.Log</b> 한 줄, Ctrl + S", hl: ["v:l61"] },
+  { vs: null, cap: "유니티로. Console 탭을 열어 둔 채 Game 씬에서 <b>Play</b>. 이 버그는 코인을 먹어야 나니 Game 부터", tap: ["tb:play"] },
+  { playing: true, gv: roll(4), hoff: PICKS.slice(0, 4), logs: LOGS_B.slice(0, 4), cap: "코인을 하나 먹을 때마다 Console 에 한 줄 — 프레임 · 이름 · count. 여기까지는 하나에 1 씩", hl: ["c:3"] },
+  { gv: roll(6, { pu: 5 }), hoff: PICKS.slice(0, 6), logs: LOGS_B, cap: "다음 코인 하나에 Count 가 4 에서 <b>6</b> 으로. 바로 <b>Pause</b>", hl: ["gv"], tap: ["tb:pause"] },
+  { paused: true, cap: "두 줄의 앞 숫자가 같은 <b>1532</b> — 한 프레임에 코인 둘에 닿았습니다. 아래 줄을 클릭", hl: ["c:4", "c:5"], tap: ["c:5"], note: "Pause 중에는 화면이 그대로" },
+  { logSel: 5, hping: "PickUp (12)", cap: "Debug.Log 끝에 넘긴 other 가 Hierarchy 에 노랗게 — <b>PickUp (12)</b>. 코인은 PickUp 부터 (11) 까지 열두 개인데? 클릭", tap: ["h:PickUp (12)"] },
+  { hsel: "PickUp (12)", insp: pickInsp("PickUp (12)", P4, false), cap: "PickUp (12) 의 Position <b>−3 · 0.5 · 5.2</b>. 먹었으니 꺼져 있습니다. 바로 위 <b>PickUp (4)</b> 도 클릭", hl: ["i:pos"], tap: ["h:PickUp (4)"] },
+  { hsel: "PickUp (4)", insp: pickInsp("PickUp (4)", P4, false), cap: "PickUp (4) 도 <b>같은 자리</b>. Ctrl + D 로 복제만 하고 옮기지 않은 코인이 겹쳐 있었습니다. 고치기 전에 <b>Play</b> 를 끕니다", hl: ["i:pos"], tap: ["tb:play"] },
+  { playing: false, paused: false, hoff: [], hsel: "PickUp (12)", insp: pickInsp("PickUp (12)", P4, true), ov: HDEL, cap: "Play 를 끈 다음에 PickUp (12) 를 오른쪽 클릭 → <b>Delete</b>. Play 중에 지우면 끄는 순간 돌아옵니다", tap: ["h:PickUp (12)"] },
+  { hier: GAME_H(PICKS.filter(p => p !== "PickUp (12)")), playing: true, hsel: null, insp: "", gv: roll(6, { pu: 5 }), hoff: PICKS.slice(0, 5).concat(["PickUp (5)"]), logs: LOGS_OK, cap: "다시 Play — 한 프레임에 한 줄, 하나에 1 씩. 같은 순서로 4번 해서 0번이면 끝. Debug.Log 줄은 그다음에 지웁니다", hl: ["c:4", "c:5"] },
+]},
+/* ---------- 파트 03 · Copilot 에게 원인 후보 ---------- */
+askbug: { base: { vs: VSRC({ input: ASK_BUG }) }, steps: [
+  { cap: "Visual Studio 오른쪽 Copilot Chat, <b>Ask</b>. 요청 다섯 칸 — 지금 상황에 원인 칸과 에러 전문을 그대로", tap: ["c:send"], hl: ["c:in"] },
+  { vs: VSRC({ msgs: [["u", ASK_BUG_SHORT], ["a", ANS_CAND]] }), cap: "고친 코드 대신 <b>원인 후보 둘</b>과 확인하는 법이 왔습니다. 「하지 말 것」 칸이 한 일입니다", hl: ["ai:cand"] },
+  { cap: "1번을 보려면 13번째 줄을 둘로 나눠 결과를 <b>bestObj</b> 에 담으라고 합니다. Copy", hl: ["ai:chk"], tap: ["ai:copy"] },
+  { vs: VSR({ code: RU_SPLIT_DIFF, ln: 14 }), cap: "13번째 줄 자리에 붙여 넣고 Ctrl + S. 고친 것이 아니라 <b>들여다볼 자리</b>를 만든 것입니다", hl: ["v:l13", "v:l14"] },
+]},
+/* ---------- 파트 03 · 중단점에서 멈춰 보기 ---------- */
+debugger: { base: { scene: "Result", hier: RESULT_H, proj: SCN, view: "scene", sv: sv2d(R_SCR({ cv: true })), bottom: "console", logs: [] }, steps: [
+  { cap: "디버거를 붙이려면 먼저 유니티를 디버그 모드로. 맨 아래 오른쪽 <b>벌레 아이콘</b>", tap: ["st:bug"] },
+  { ov: COP(false), cap: "Code Optimization 이 지금 Release. <b>Switch to debug mode</b> — 스크립트를 다시 읽는 동안 잠깐 기다립니다", tap: ["cop:sw"], note: "창 글자는 버전마다 조금 다릅니다" },
+  { dbgMode: true, vs: VSR({ code: RU_SPLIT, ln: 14 }), cap: "Visual Studio 에서 14번째 줄 왼쪽 회색 칸을 클릭. 그 줄에서 <b>F9</b> 를 눌러도 됩니다", tap: ["v:m14"] },
+  { vs: VSR({ code: RU_SPLIT, bp: [14], ln: 14 }), cap: "빨간 점이 <b>중단점</b>. 위의 <b>▶ Attach to Unity</b>", tap: ["vs:attach"] },
+  { vs: VSR({ code: RU_SPLIT, bp: [14], dbg: true, ln: 14 }), cap: "유니티에 붙었습니다. 위 단추가 <b>Continue</b> · <b>■</b> 로 바뀝니다", hl: ["vs:cont", "vs:stop"] },
+  { vs: null, cap: "유니티로 가서 <b>Play</b>", tap: ["tb:play"], note: "벌레 아이콘이 디버그 모드" },
+  { playing: true, view: "game", gv: R_SCR(), vs: VSR({ code: RU_SPLIT, bp: [14], dbg: true, cur: 14, ln: 14 }), cap: "14번째 줄에서 멈춥니다. 노란 화살표가 <b>다음에 실행할 줄</b> — 13번째 줄까지는 실행됐습니다", hl: ["v:l14"], note: "이 동안 유니티는 응답 없음" },
+  { vs: VSR({ code: RU_SPLIT, bp: [14], dbg: true, cur: 14, ln: 14, tip: { line: 14, left: "118px", html: `bestObj <span class="v">null</span><span class="pin">${fa("thumbtack")}</span>` } }), cap: "<b>bestObj</b> 위에 마우스를 올리면 값 — <b>null</b>. 13번째 줄의 Find 가 아무것도 못 찾았습니다", tap: ["v:tok"], hl: ["v:tip"] },
+  { vs: VSR({ code: ["@4"].concat(RU_SPLIT.slice(3)), bp: [14], dbg: true, cur: 14, ln: 14, small: true, locals: [["this", "{ResultUI (ResultUI)}", "ResultUI", true], ["best", "0", "int"], ["bestObj", "null", "UnityEngine.GameObject"]] }),
+    cap: "아래 <b>Locals</b> 창에는 이 함수의 변수가 다 있습니다 — best 0 · bestObj null. 다 봤으면 <b>■</b> (Shift + F5)", hl: ["lc:bestObj"], tap: ["vs:stop"] },
+  { vs: null, logs: [LOG_A(14)], cap: "떼면 유니티가 이어서 돌고 14번째 줄에서 같은 에러. Hierarchy 의 글자 이름은 <b>BestLabel</b> — 코드는 BestText 를 찾고 있었습니다", hl: ["h:BestLabel"], note: "원인 칸 · 확인한 방법: 중단점" },
+]},
+/* ---------- 파트 03 · Inspector 칸으로 고치기 ---------- */
+fixbug: { base: { scene: "Result", hier: RESULT_H, proj: SCN, view: "scene", sv: sv2d(R_SCR({ cv: true })), bottom: "console", logs: [], vs: VSRC({ msgs: [["u", FIX_REQ_SHORT], ["a", FIX_ANS]] }, { code: RU_SPLIT, bp: [14] }) }, steps: [
+  { vs: VSRC({ input: FIX_REQ }, { code: RU_SPLIT, bp: [14] }), cap: "확인한 것을 그대로 알려 주고 고치기를 맡깁니다 — 1번이 맞았다 · 글자 이름 · <b>Find 말고 Inspector 칸으로</b>", tap: ["c:send"], hl: ["c:in"] },
+  { vs: VSRC({ msgs: [["u", FIX_REQ_SHORT], ["a", FIX_ANS]] }, { code: RU_SPLIT, bp: [14] }), cap: "할 일 세 줄과 코드. 답 끝에 <b>바꾼 파일 · 새 Inspector 칸</b>. Copy", hl: ["ai:list"], tap: ["ai:copy"] },
+  { vs: VSR({ code: RU_FIX_DIFF, ln: 14 }), cap: "붙여 넣고 Ctrl + S. 나눠 적었던 두 줄이 bestText 한 줄로. 중단점은 <b>F9</b> 로 뺐습니다", hl: ["v:l8", "v:l14"] },
+  { vs: null, hsel: "ResultUI", insp: ruInsp(null), cap: "유니티로. <b>ResultUI</b> 를 고르면 Best Text 칸이 새로 생겼습니다 — None. Hierarchy 의 BestLabel 을 끌어다 놓습니다", drag: ["h:BestLabel", "i:best"] },
+  { insp: ruInsp("BestLabel"), cap: "칸에 BestLabel. 이름이 BestText 가 아니어도, 꺼 두어도 이 칸은 그대로 이어집니다", hl: ["i:best"], tap: ["tb:play"] },
+  { playing: true, view: "game", gv: resultUI3("GAME OVER", "Score: 0", "BEST 0"), cap: "Play — GAME OVER · Score · BEST 가 다 바뀌고 빨간 줄 0. Result 씬만 열었으니 점수는 0 입니다", hl: ["gv", "c:cnt"], note: "기록지 순서로 3번 → 0번" },
+]},
+};
+
 /* ===== 11주차 온라인 — AI 와 팀으로 만들기 · 장면 정의 ===== */
 /* --- 프리팹(파란 이름) · 여러 개 고르기 --- */
 TILE_IC.prefab = fa("cube");
-function hierHTML(s){
+const hierHTML_team = function(s){
   const pf = s.pf || [];
   let h = `<div class="uu-it"${K("h:" + s.scene)}><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>${s.scene}</b><span class="ed-dots">⋮</span></div>`;
   s.hier.forEach(r => {
@@ -1670,9 +2404,9 @@ const TEAM_RULES_M = (mark) => {
   return r.slice(0, i1 + 1).concat([p + PACT_ADD1], r.slice(i1 + 1, i3 + 1), [p + PACT_ADD3], r.slice(i3 + 1));
 };
 const TEAM_RULES = TEAM_RULES_M(false);
-const RULES_TAIL = (mark) => ["…   (우리 게임 · 폴더 · 이름 · 일하는 방식 — 10주차 영상)", ""].concat(TEAM_RULES_M(mark).slice(15));
-const LOG0 = ["날짜 · 누가 · 파일 · 무엇 · 확인한 사람", "", "11/19 · 민준 · .github/copilot-instructions.md · 팀 약속 ① · ③ 에 한 줄씩 (고쳐도 되는 파일 · 새 Tag 는 먼저) · 확인: 하린 · 지호"];
-const LOG_J = "11/20 · 지호 · PatrolSet.prefab, EnemyPatrol.cs · 두 지점을 오가는 적, 넘기기에 올림 (AI 씀) · 확인: 하린";
+const RULES_TAIL = (mark) => ["…   (우리 게임 · 폴더 · 이름 · 일하는 방식 — 앞 편)", ""].concat(TEAM_RULES_M(mark).slice(15));
+const LOG0 = ["날짜 · 누가 · 파일 · 무엇 · 확인한 사람", "", "11/12 · 민준 · .github/copilot-instructions.md · 팀 약속 ① 칸에 ResultUI.cs(지호), ① · ③ 아래에 한 줄씩 (고쳐도 되는 파일 · 새 Tag 는 먼저) · 확인: 하린 · 지호", "11/16 · 지호 · ResultUI.cs · 결과 화면 BEST 고침, Find 대신 Inspector 칸 · 확인: 하린", "11/16 · 지호 · .github/copilot-instructions.md · 일하는 방식에 두 줄 (Point A · B 알려 주기 · Find 쓰지 않기) · 확인: 민준", "11/16 · 민준 · Game.unity · 겹친 코인 PickUp (12) 지움 · 확인: 하린"];
+const LOG_J = "11/20 · 지호 · PatrolSet.prefab, EnemyPatrol.cs · 끝에서 0.5초 멈추는 적, 넘기기에 올림 (Agent 씀) · 확인: 하린";
 const LOG_M = "11/20 · 민준 · Game.unity · Jiho_PatrolSet_1120 합침, 완료 기준 세 줄 ✓ · 확인: 민준";
 
 /* --- Visual Studio Copilot Chat --- */
@@ -1698,11 +2432,11 @@ const PREFABS = more => ({ path: "Prefabs", items: (more ? [["PatrolSet", "prefa
 const SET_H = ["PatrolSet ▾", "  PatrolEnemy", "  PointA", "  PointB"];
 const SET_PF = ["PatrolSet", "PatrolEnemy", "PointA", "PointB"];
 
-const SIMS = {
+const SIMS_TEAM = {
 /* 팀 규칙 파일 */
 teamrules: { base: DESK,
   steps: [
-  { cap: "대표 한 명이 <b>팀 공유 폴더 › .github</b> 의 copilot-instructions.md 원본을 메모장으로 엽니다", ov: exp2("팀 공유 폴더 › .github", [CI_ROW(true)], "left:3%;top:16px;width:44%") + notepad("copilot-instructions.md", RULES_TAIL(), NP_POS), hl: ["x:ci"], note: "10주차 영상에서 만든 파일 — 팀 약속 다섯 칸까지 있습니다" },
+  { cap: "대표 한 명이 <b>팀 공유 폴더 › .github</b> 의 copilot-instructions.md 원본을 메모장으로 엽니다", ov: exp2("팀 공유 폴더 › .github", [CI_ROW(true)], "left:3%;top:16px;width:44%") + notepad("copilot-instructions.md", RULES_TAIL(), NP_POS), hl: ["x:ci"], note: "앞 편에서 만든 파일 — 팀 약속 다섯 칸까지 있습니다" },
   { cap: "팀 약속 ① · ③ 아래에 <b>한 줄씩</b> — 고쳐도 되는 파일만 · 새 Tag · 패키지는 먼저 말하기", ov: exp2("팀 공유 폴더 › .github", [CI_ROW(true)], "left:3%;top:16px;width:44%") + notepad("copilot-instructions.md", RULES_TAIL(true), NP_POS), note: "합칠 때 깨지는 곳을 막는 두 줄 — 이유는 이 편에서" },
   { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀원은 각자 <b>.github 폴더째</b> 내 프로젝트 맨 위(Assets 옆)에 복사해 덮어씁니다", ov: exp2("팀 공유 폴더", TEAM_ROWS({ sel: [".github"] }), "left:3%;top:16px;width:50%") + exp2("RollABall", P_ROWS({ gh: true, sel: [".github"] }), "left:45%;top:96px;width:52%") + REPLACE_DLG, tap: ["d:rep"], note: "처음 받는 팀원은 그냥 붙여 넣기. Mac 은 「대치」" },
   { cap: "<b>지호</b> — Visual Studio Copilot Chat 에서 새 대화. 「나는 누구 · 오늘 고칠 줄」", desk: false, vs: VS_J({ msgs: [["u", U_PACT], ["a", A_PACT + REFS(true)]] }), hl: ["ai:ok", "c:ref1"], note: "규칙 파일은 Copilot 이 알아서 읽습니다" },
@@ -1726,7 +2460,7 @@ handoff: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy", "PointA", "Poin
 /* 가져와서 합치기 */
 merge: { base: { scene: "Game", hier: ROLL_H, sv: sv3d(roll()), proj: PREFABS(false) },
   steps: [
-  { cap: "<b>민준</b> — 받는 날. 합치기 전에 되돌릴 지점부터 · <b>1120_합치기전</b> zip", desk: true, ov: exp2("백업", [[IC_ZIP, "1110_빌드.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1120_합치기전.zip</b>", "압축(ZIP) 폴더", "x:zip", true]], "left:10%;top:40px;width:62%"), hl: ["x:zip"], note: "10주차 영상과 같은 방법" },
+  { cap: "<b>민준</b> — 받는 날. 합치기 전에 되돌릴 지점부터 · <b>1120_합치기전</b> zip", desk: true, ov: exp2("백업", [[IC_ZIP, "1110_빌드.zip", "압축(ZIP) 폴더"], [IC_ZIP, "<b>1120_합치기전.zip</b>", "압축(ZIP) 폴더", "x:zip", true]], "left:10%;top:40px;width:62%"), hl: ["x:zip"], note: "앞 편과 같은 방법" },
   { cap: "Game 씬을 연 채로 맨 위 메뉴 <b>Assets → Import Package → Custom Package...</b>", desk: false, mb: "Assets", mbm: ASSETS_IMPORT },
   { cap: "팀 공유 폴더 <b>넘기기</b> 에서 <b>Jiho_PatrolSet_1120</b> → 열기", ov: fileDlg("Import package ...", "팀 공유 폴더 › 넘기기", [PKG_H, PKG_J(true, "fd:j")], "Jiho_PatrolSet_1120.unitypackage", "열기(O)"), tap: ["fd:ok"], note: "하린 것도 같은 방법으로, 하나씩" },
   { cap: "가져올 목록이 나옵니다. 두 파일 모두 <b>NEW</b> — 새로 생기는 파일입니다", ov: importWin("Jiho_PatrolSet_1120", PK_IMP), hl: ["pk:n1", "pk:n2"], note: "이미 있는 파일을 바꾸는 줄에는 ↻ 가 붙습니다" },
@@ -1734,10 +2468,120 @@ merge: { base: { scene: "Game", hier: ROLL_H, sv: sv3d(roll()), proj: PREFABS(fa
   { cap: "도는 표시가 멈추면 <b>Console</b> 부터. 빨간 줄이 없습니다", proj: PREFABS(true), bottom: "console", tap: ["st:spin"], note: "빨간 줄이 있으면 합치기 전 zip 으로" },
   { cap: "Project 창 Prefabs 의 <b>PatrolSet</b> 을 Hierarchy 빈 곳으로 끌어다 놓습니다", bottom: "project", hier: ROLL_H.concat(["PatrolSet ▸"]), pf: ["PatrolSet"], hsel: "PatrolSet", insp: setInsp(true), sv: sv3dP(), drag: ["p:PatrolSet"], hl: ["h:PatrolSet"], note: "Hierarchy 로 끌면 Test 씬에서 놓았던 자리 그대로" },
   { cap: "펼쳐서 <b>PatrolEnemy</b> — Point A · B 칸이 채워져 있고 Tag 는 Enemy 입니다", hier: ROLL_H.concat(SET_H), pf: SET_PF, hsel: "PatrolEnemy", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC2()), hl: ["i:pa", "i:pb", "i:tag"], note: "묶어서 넘긴 덕분입니다" },
-  { cap: "<b>Play</b> — 10주차 영상의 완료 기준 세 줄을 Game 씬에서 다시 봅니다", playing: true, view: "game", gv: rollP({ move: true, count: 0 }), ov: CHECK(3), tap: ["tb:play"], note: "Test 씬에서 되던 것이 합친 씬에서도" },
+  { cap: "<b>Play</b> — 지호가 Agent 로 고친 완료 기준 세 줄을 Game 씬에서 다시 봅니다", playing: true, view: "game", gv: rollP({ move: true, count: 0 }), ov: CHECK2(3), tap: ["tb:play"], note: "Test 씬에서 되던 것이 합친 씬에서도" },
   { cap: "Play 를 끄고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀 기록에 <b>합친 줄</b>", playing: false, view: "scene", desk: true, ov: exp2("팀 공유 폴더", TEAM_ROWS({ sel: ["팀기록.txt"] }), "left:3%;top:18px;width:52%") + notepad("팀기록.txt", LOG0.concat([LOG_J, "+" + LOG_M]), "left:22%;right:4%;top:120px;bottom:46px"), note: "받는 날마다 한 줄" },
   { cap: "합친 프로젝트를 zip 으로 묶어 팀 공유 폴더에 — <b>모두의 새 시작점</b>", desk: true, ov: exp2("팀 공유 폴더", TEAM_ROWS({ extra: [[IC_ZIP, "<b>1120_합침.zip</b>", "압축(ZIP) 폴더", "x:mz", true]] }), "left:10%;top:40px;width:62%"), hl: ["x:mz"], note: "Library · Logs · Temp 는 빼고 묶습니다" },
 ]},
+};
+
+/* ===== 11주차 온라인 편 2 — 앞 편 장면을 이 편에 맞춘 것 · 도구 연결(MCP) 보기 ===== */
+
+/* --- Hierarchy: 버그 편(hpf · hoff · hping · hscroll)과 팀 편(pf 배열)을 함께 --- */
+hierHTML = function(s){
+  const sel = [].concat(s.hsel || []), off = s.hoff || [], pfa = s.pf || [], pf = s.hpf ? new RegExp(s.hpf) : null, sc = s.hscroll || 0;
+  let h = sc ? "" : `<div class="uu-it"${K("h:" + s.scene)}><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>${s.scene}</b><span class="ed-dots">⋮</span></div>`;
+  s.hier.slice(sc).forEach(r => {
+    const m = r.match(/^( *)(.*?)( [▸▾])?$/), d = m[1].length / 2 + 1, name = m[2];
+    const tri = m[3] ? (m[3].trim() === "▾" ? "▼" : "▶") : "";
+    const ico = /Camera/.test(name) ? "video" : /Light/.test(name) ? "sun" : "cube";
+    const isPf = (pf && pf.test(name)) || pfa.includes(name);
+    const cls = (sel.includes(name) ? " sel" : "") + (off.includes(name) ? " off" : "") + (isPf ? " pf" : "") + (s.hping === name ? " ping" : "");
+    h += `<div class="uu-it${cls}"${K("h:" + name)} style="padding-left:${6 + d * 13}px"><span class="tri">${tri}</span><span class="ico">${fa(ico)}</span>${s.hedit === name ? `<span class="ed-edit">${name}</span>` : name}</div>`;
+  });
+  return h;
+};
+
+/* --- 규칙 파일에 두 줄 (앞 편의 Point A · B, 이 편의 BestText) --- */
+const FIND_LINE = "- 씬의 오브젝트는 GameObject.Find 로 찾지 않고 Inspector 칸으로 받는다";
+/* 나눌 때(팀 기록 11/12) 팀 약속 ① 에 ResultUI.cs, ① · ③ 아래에 한 줄씩 — 파트 03 의 그 두 줄 */
+const RULES_PACT = (() => {
+  const r = RULES.slice(), i1 = r.findIndex(l => l.startsWith("- ① "));
+  r[i1] = r[i1].replace("EnemyPatrol.cs.", "EnemyPatrol.cs · ResultUI.cs.");
+  const i3 = r.findIndex(l => l.startsWith("- ③ "));
+  return r.slice(0, i1 + 1).concat([PACT_ADD1], r.slice(i1 + 1, i3 + 1), [PACT_ADD3], r.slice(i3 + 1));
+})();
+const RULES3 = (mark) => RULES_PACT.slice(0, 13).concat([(mark ? "+" : "") + NEW_LINE, (mark ? "+" : "") + FIND_LINE]).concat(RULES_PACT.slice(13));
+const npXS = (h) => h.replace('class="np-b sm"', 'class="np-b sm xs"');
+const NPP = "left:16%;right:5%;top:10px;bottom:40px";
+const BK = (rows, k, pos) => exp2("백업", rows.map((n, i) => i === rows.length - 1 && k ? [IC_ZIP, `<b>${n}</b>`, "압축(ZIP) 폴더", k, true] : [IC_ZIP, n, "압축(ZIP) 폴더"]), pos || "left:12%;top:40px;width:62%");
+const SIM_ADDLINE = { base: DESK,
+  steps: [
+  { cap: "메모장으로 <b>.github › copilot-instructions.md</b> 를 엽니다", ov: exp2(GH_PATH, [CI_ROW(true)]) + npXS(notepad("copilot-instructions.md", RULES_PACT, NPP)), note: "앞 편에서 만든 팀 규칙 파일" },
+  { cap: "「일하는 방식」 아래에 <b>두 줄</b> — 앞 편의 Point A · B, 이 편의 BestText", ov: exp2(GH_PATH, [CI_ROW(true)]) + npXS(notepad("copilot-instructions.md", RULES3(true), NPP)), note: "AI 가 틀린 곳 = 장치를 고칠 곳" },
+  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>. 팀 공유 폴더의 원본도 같이 바꾸고 팀에 알립니다", ov: exp2(GH_PATH, [CI_ROW(true)]) + npXS(notepad("copilot-instructions.md", RULES3(false), NPP)), note: "다음 대화부터 Copilot 이 이 두 줄도 읽습니다" },
+  { cap: "잘 되는 지금이 다음 되돌릴 지점입니다. 앞 편과 같은 방법으로 <b>1116_결과화면고침</b> zip", ov: BK(["1104_적순찰완료.zip", "1116_결과화면고침.zip"], "x:zip3"), hl: ["x:zip3"], note: "깃을 쓰는 팀은 커밋" },
+]};
+
+/* --- Agent — 기록지 4번(규칙) 「끝에 닿자마자 돌아와 틈이 없다」 --- */
+const ASK2B = `<div class="ask"><b>- 하려는 것:</b> PatrolEnemy 가 끝에 닿으면 잠깐 멈췄다가 돌아가게<br><b>- 완료 기준:</b> Play 하면 끝에서 0.5초 멈췄다가 돌아간다 · 부딪히면 지금처럼 게임 오버 · Console 에 빨간 줄이 없다<br>`
+  + `<b>- 지금 상황:</b> 상호 테스트에서 「끝에 닿자마자 돌아와 틈이 없다」. EnemyPatrol.cs 로 두 지점을 오가고, Point A · B 는 Inspector 에 연결되어 있어<br><b>- 하지 말 것:</b> 이름 바꾸기 · 씬 파일 고치기<br><b>- 고쳐도 되는 파일:</b> EnemyPatrol.cs</div>`;
+const AG_BASE = { scene: "Test_Jiho", hier: H_T(["PatrolEnemy", "PointA", "PointB"]), hsel: "PatrolEnemy", sv: sv3dP(), proj: SCRIPTS(["EnemyPatrol"]), insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC("PointA", "PointB")), desk: true };
+const AG_DONE = (o) => VSC(Object.assign({ mode: "Agent", msgs: [["u", ASK2B], ["a", A_AGENT]], changes: [["EnemyPatrol.cs", 8, 0]] }, o || {}), { code: PATROL_WAIT, small: true });
+const SIM_AGENT = { base: AG_BASE,
+  steps: [
+  { cap: "<b>지호</b> — Agent 는 파일을 직접 고칩니다. 시키기 전에 되돌릴 지점부터 · <b>1117_멈춤전</b> zip", ov: BK(["1104_적순찰완료.zip", "1116_결과화면고침.zip", "1117_멈춤전.zip"], "x:zip4"), hl: ["x:zip4"], note: "Test_Jiho 씬 · 내 작업 폴더에서" },
+  { cap: "Copilot Chat 입력 칸 아래 <b>Ask</b> 를 눌러 <b>Agent</b> 로 바꿉니다", desk: false, vs: VSC({ modeOpen: "Agent" }, { code: PATROL }), tap: ["c:m:Agent"] },
+  { cap: "요청 다섯 칸 — <b>고쳐도 되는 파일</b>은 EnemyPatrol.cs 하나", vs: VSC({ mode: "Agent", input: ASK2B }, { code: PATROL }), hl: ["c:in"], tap: ["c:send"], note: "기록지 4번 「틈이 없다」를 숫자로 — 끝에서 0.5초" },
+  { cap: "Agent 가 <b>EnemyPatrol.cs 를 직접 고칩니다</b>. 바뀐 줄이 초록으로 보입니다", vs: AG_DONE(), hl: ["vs:code"], note: "규칙 파일의 「끝나면 바꾼 파일 목록」 대로" },
+  { cap: "<b>Total changes</b> — 바뀐 파일이 EnemyPatrol.cs 하나인지, 고쳐도 되는 파일 안인지 봅니다", vs: AG_DONE(), hl: ["c:chg", "ai:list"], note: "모르는 파일 · .unity · ProjectSettings 가 있으면 Undo" },
+  { cap: "읽고 나서 <b>Keep</b>. 아니면 <b>Undo</b>", vs: AG_DONE({ msgs: [["u", RESTORE + ASK2B], ["a", A_AGENT]] }), tap: ["c:keep"], hl: ["c:restore"], note: "요청 전으로 통째로 돌리려면 그 요청 위 Restore" },
+  { cap: "유니티로 돌아와 도는 표시가 멈추면 <b>Play</b> — 완료 기준을 한 줄씩 봅니다", vs: null, playing: true, view: "game", gv: rollP({ move: true, count: 0 }), insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC2()), ov: CHECK2(3), tap: ["tb:play"] },
+  { cap: "Inspector 에 새 칸 <b>Wait Time</b> — AI 가 말한 그대로입니다. Play 를 끄고 저장", playing: false, view: "scene", insp: cubeInsp("PatrolEnemy", "Enemy", [0, 0.5, 6], patrolC2()), hl: ["i:wait"], note: "잘 되면 이때가 다음 되돌릴 지점" },
+]};
+
+/* --- 도구 연결(MCP) 보기 — 유니티 Project Settings › AI › Unity MCP --- */
+function mcpPS(o){
+  o = o || {};
+  const L = [["Adaptive Performance", 0], ["AI", 0, "▾"], ["Unity MCP", 1], ["Audio", 0], ["Editor", 0], ["Graphics", 0], ["Input System Package", 0], ["Package Manager", 0], ["Physics", 0], ["Player", 0], ["Quality", 0], ["Tags and Layers", 0], ["Time", 0], ["Version Control", 0]];
+  const left = L.map(([n, d, t]) => `<div class="uu-it${n === "Unity MCP" ? " sel" : ""}"${K("ps:" + n)} style="padding-left:${6 + d * 14}px">${t ? `<span class="tri">▼</span>` : ""}${n}</div>`).join("");
+  const integ = ["Claude Code", "Cursor", "VS Code", "Windsurf"].map(n => `<div class="mcp-int"><span>${n}</span><span class="uu-btn">Configure</span></div>`).join("");
+  const con = o.pending
+    ? `<div class="mcp-pend"${K("mcp:pend")}><span class="dot"></span><span class="nm">Visual Studio</span><span class="uu-note">연결 요청</span><span class="uu-btn acc"${K("mcp:accept")}>Accept</span><span class="uu-btn"${K("mcp:deny")}>Deny</span></div>`
+    : o.accepted ? `<div class="mcp-pend ok"${K("mcp:pend")}><span class="dot"></span><span class="nm">Visual Studio</span><span class="uu-note">Connected</span></div>` : `<div class="uu-note" style="padding:3px 2px">연결된 AI 도구 없음</div>`;
+  const right = `<div style="font-weight:800;color:#e6e6e6;margin-bottom:8px">Unity MCP</div>`
+    + `<div class="mcp-row"${K("mcp:bridge")}><span class="uu-lb">Unity Bridge</span><span class="mcp-run"><span class="dot"></span>Running</span><span class="uu-btn" style="margin-left:auto">Stop</span></div>`
+    + `<div class="uu-sub">Integrations</div>${integ}<div class="uu-sub">Connections</div>${con}`;
+  return win("Project Settings", `<div style="display:grid;grid-template-columns:27% 73%;height:100%"><div class="uu-tree" style="border-right:1px solid #232323">${left}</div><div class="uu-body ed-insp" style="padding:10px 14px">${right}</div></div>`, "left:9%;top:30px;width:82%;height:430px");
+}
+
+/* --- Visual Studio Copilot Chat: 도구 단추 · 도구 목록 --- */
+const _vsChatP1 = vsChat;
+vsChat = function(c){
+  c = c || {};
+  let h = _vsChatP1(c);
+  if (c.tools) h = h.replace(`<span class="vc-model">`, `<span class="vc-tools"${K("c:tools")}>${fa("screwdriver-wrench")}</span><span class="vc-model">`);
+  if (c.toolsOpen) h = h.replace(/<\/div><\/div>$/, c.toolsOpen + `</div></div>`);
+  return h;
+};
+const MCP_TOOLS = ["Unity_ReadConsole", "Unity_ManageScene", "Unity_ManageGameObject"];
+const TOOLS_DD = (on) => `<div class="vc-tl"><div class="h">Tools<span class="add"${K("tl:add")}>${fa("plus")}</span></div>`
+  + `<div class="r"><span class="ck on">✓</span>Built-in<span class="n">${fa("chevron-right")}</span></div>`
+  + `<div class="r"${K("tl:srv")}><span class="ck${on ? " on" : ""}">${on ? "✓" : ""}</span><b>unity-mcp</b><span class="n">MCP</span></div>`
+  + MCP_TOOLS.map(t => `<div class="r sub"${K("tl:" + t)}><span class="ck${on ? " on" : ""}">${on ? "✓" : ""}</span>${t}</div>`).join("")
+  + `<div class="r sub" style="color:#8a8a8a">…</div></div>`;
+const MCP_ASK = `<div class="ask"><b>- 하려는 것:</b> 코인이 하나 남았는데 CLEAR 가 뜨는 원인을 찾고 싶어<br><b>- 완료 기준:</b> 원인 후보와, 씬에서 본 근거(오브젝트 이름 · 위치)를 말한다<br>`
+  + `<b>- 지금 상황:</b> Game 씬. Title → START → 코인을 다 먹으면 4번 중 3번 이렇게 돼. Console 에 빨간 줄은 없어<br><b>- 하지 말 것:</b> 씬 · 파일을 바꾸지 마. 읽기만 해<br><b>- 고쳐도 되는 파일:</b> 없음</div>`;
+const MCP_ASK_SHORT = `<div class="ask"><b>- 하려는 것:</b> 코인이 하나 남았는데 CLEAR 가 뜨는 원인 …<br><b>- 하지 말 것:</b> 씬 · 파일을 바꾸지 마. 읽기만 해</div>`;
+const MCP_PLAN = `<div class="plan"><b>할 일</b><br>1. Game 씬의 오브젝트 목록과 위치를 읽습니다.<br>2. 코인을 세는 코드와 대어 원인 후보를 말합니다.<br>3. 씬과 파일은 바꾸지 않습니다.</div>`;
+const MCP_CALL = (done) => `<div class="mcp-call"${K("ai:call")}><div class="h">${fa("screwdriver-wrench")} <b>unity-mcp</b> · Unity_ManageScene</div><div class="d">Game 씬의 오브젝트 목록과 위치를 읽습니다</div>`
+  + (done ? `<div class="ok">${fa("check")} Ran Unity_ManageScene</div>` : `<div class="b"><span class="al"${K("c:allow")}>Allow ▾</span><span class="dn">Deny</span></div>`) + `</div>`;
+const MCP_ANS = `<div class="mcp-ans"${K("ai:mcp")}>PickUps 아래 코인은 <b>13개</b>입니다. <b>PickUp (4)</b> 와 <b>PickUp (12)</b> 가 같은 자리 <b>−3 · 0.5 · 5.2</b> 에 겹쳐 있습니다.<br><b>원인 후보</b> — 그 자리에서 두 코인에 함께 닿아 count 가 한 번에 2 오릅니다. CLEAR 는 count 12 라서 코인이 하나 남은 채 뜹니다.<br><b>확인하는 법</b> — Hierarchy 에서 두 코인의 Position 을 봅니다. 그 자리 코인을 먹을 때 Count 가 2 오르는지도 봅니다.<br>씬과 파일은 바꾸지 않았습니다.</div>`;
+const VSM = (chat) => VSB({ side: "chat", wide: true, chat: Object.assign({ mode: "Agent", tools: true }, chat || {}) });
+const SIM_MCP = { base: { scene: "Game", hier: GAME_H(PICKS), hscroll: 5, hpf: PF_RE, proj: SCN, view: "scene", sv: sv3d(roll()), bottom: "console", logs: [], edCls: "tall", insp: "", hsel: null },
+  steps: [
+  { cap: "유니티 공식 길로 연결한 화면입니다. Edit → Project Settings → AI → <b>Unity MCP</b> — Unity Bridge 가 <b>Running</b>", ov: mcpPS(), hl: ["mcp:bridge"], note: "Unity AI 이용 권한이 있어야 보입니다 · 글자는 버전마다 다릅니다" },
+  { cap: "Visual Studio — Copilot Chat 을 <b>Agent</b> 로 두고 도구 단추. 등록해 둔 <b>unity-mcp</b> 를 켭니다", vs: VSM({ toolsOpen: TOOLS_DD(true) }), tap: ["tl:srv"], hl: ["tl:Unity_ReadConsole", "tl:Unity_ManageScene", "tl:Unity_ManageGameObject"], note: "등록은 한 번 — 도구 단추의 + 또는 .mcp.json" },
+  { cap: "처음 붙을 때 유니티가 묻습니다 — Connections 에 Visual Studio · <b>Accept</b>", vs: null, ov: mcpPS({ pending: true }), tap: ["mcp:accept"], hl: ["mcp:pend"], note: "모르는 연결이면 Deny" },
+  { cap: "<b>민준</b> — Game 씬 주인. 요청 다섯 칸, 하지 말 것에 <b>「씬 · 파일을 바꾸지 마. 읽기만」</b>", vs: VSM({ input: MCP_ASK }), hl: ["c:in"], tap: ["c:send"], note: "처음에는 읽기부터 맡깁니다" },
+  { cap: "도구를 부르기 전에 묻습니다. 무엇을 읽는 도구인지 보고 <b>Allow</b>", vs: VSM({ msgs: [["u", MCP_ASK_SHORT], ["a", MCP_PLAN + MCP_CALL(false)]] }), hl: ["ai:call"], tap: ["c:allow"], note: "Allow 옆 목록의 「항상 허용」은 켜지 않습니다" },
+  { cap: "AI 가 씬을 직접 읽고 답합니다 — 코인 13개, <b>PickUp (4) 와 (12) 가 같은 자리</b>", vs: VSM({ msgs: [["u", MCP_ASK_SHORT], ["a", MCP_CALL(true) + MCP_ANS]] }), hl: ["ai:mcp"], note: "파트 01 에서 Debug.Log 로 찾은 그 두 코인" },
+  { cap: "확인은 우리가 — PickUp (12) 와 (4) 를 눌러 Position 을 봅니다. 지우기는 파트 01 처럼 Play 를 끈 다음 사람이", vs: null, hsel: "PickUp (12)", insp: pickInsp("PickUp (12)", P4, true), hl: ["i:pos"], tap: ["h:PickUp (4)"], note: "바꾸기도 맡길 수 있지만 Allow 한 번에 씬이 바뀝니다" },
+]};
+
+const SIMS = {
+  console: SIMS_BUG.console, logcoin: SIMS_BUG.logcoin, askbug: SIMS_BUG.askbug, debugger: SIMS_BUG.debugger, fixbug: SIMS_BUG.fixbug,
+  addline: SIM_ADDLINE, agent: SIM_AGENT, mcp: SIM_MCP,
+  handoff: SIMS_TEAM.handoff, merge: SIMS_TEAM.merge,
 };
 
 const slides = document.querySelectorAll(".slide");
@@ -1745,7 +2589,7 @@ const progressBar = document.getElementById("progress-bar");
 const currentSlideLabel = document.getElementById("current-slide");
 const totalSlidesLabel = document.getElementById("total-slides");
 const partLabel = document.getElementById("part-label");
-const PART_NAMES = {"0":"11주차 온라인","1":"AI 가 모르는 연결","2":"넘기고 합치기","3":"도구가 달라도 · 정리"};
+const PART_NAMES = {"0":"11주차 온라인","1":"01 · 버그 잡기","2":"02 · AI 에게 더 맡기기","3":"03 · 나눠 고치고 합치기","e":"정리"};
 let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
 totalSlidesLabel.textContent = slides.length;
 
