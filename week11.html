@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게임 개발 실습 · 11주차 — 알파 상호 테스트 · 방향 정하기</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  dev:{50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81"},
+  flame:{50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412"}
+}}}}
+</script>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0}
+body{
+  font-family:"Pretendard",sans-serif;overflow:hidden;color:#1e293b;word-break:keep-all;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,.10), transparent 38%),
+    radial-gradient(circle at 88% 88%, rgba(249,115,22,.09), transparent 38%),
+    #f8fafc;
+}
+/* SLIDES */
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;
+  display:flex;justify-content:center;align-items:center;align-items:safe center;
+  padding:4.5rem 2.5rem 5.5rem;overflow-y:auto;
+  transform:translateX(36px) scale(.99);transition:opacity .42s ease, transform .42s ease;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:10;transform:translateX(0) scale(1)}
+.slide.prev-slide{transform:translateX(-36px) scale(.99)}
+#progress-bar{transition:width .3s ease}
+/* CARDS */
+.glass-card{background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);
+  box-shadow:0 18px 50px rgba(15,23,42,.08),0 3px 10px rgba(15,23,42,.04);backdrop-filter:blur(10px)}
+.soft-card{background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.06);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.soft-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,23,42,.10);border-color:#a5b4fc}
+/* FLOW */
+.flow-line{position:relative}
+.flow-line::after{content:"→";position:absolute;right:-26px;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:800;font-size:1.3rem}
+.flow-line:last-child::after{display:none}
+/* TABLE */
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem}
+.cmp-table th,.cmp-table td{padding:.9rem 1rem;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:middle}
+.cmp-table thead th{background:#0f172a;color:#fff;font-weight:800;white-space:nowrap}
+.cmp-table thead th:first-child{border-top-left-radius:.75rem}
+.cmp-table thead th:last-child{border-top-right-radius:.75rem}
+.cmp-table td:first-child{font-weight:700;color:#64748b;white-space:nowrap}
+.cmp-table tbody tr{background:rgba(255,255,255,.85)}
+.cmp-table.tight th,.cmp-table.tight td{padding:.6rem .9rem}
+/* KEYCAP */
+.kbd{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:1px 7px;
+  box-shadow:0 2px 0 #cbd5e1;font-size:.75rem;font-weight:700;color:#64748b}
+.tagchip{display:inline-flex;align-items:center;gap:.4rem;font-size:12px;font-weight:900;
+  letter-spacing:.06em;border-radius:999px;padding:.28rem .7rem}
+.no{width:36px;height:36px;border-radius:10px;background:#0f172a;color:#fff;
+  font-size:16px;font-weight:900;display:grid;place-items:center;flex:none}
+.chk{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;font-size:13px;margin-top:2px}
+/* FigJam mocks */
+.stk{border-radius:4px;box-shadow:0 8px 18px rgba(15,23,42,.12);padding:16px 18px;font-weight:700;line-height:1.45}
+.st-green{background:#B3EFBD}.st-yellow{background:#FFE299}.st-violet{background:#D3BDFF}.st-orange{background:#FFD3A8}.st-red{background:#FFB8A8}.st-blue{background:#A8DAFF}
+.t1{background:#F5FBFF}.t2{background:#FFF7F0}.t3{background:#FFF0FA}.t4{background:#F1FEFD}
+.blank{display:inline-block;min-width:200px;border-bottom:4px solid #0f172a;margin:0 .4rem;height:1em;vertical-align:-4px}
+/* REPORT FORM */
+.doc{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:22px 26px;
+  box-shadow:0 18px 50px rgba(15,23,42,.08);font-size:16px;line-height:1.55}
+.doc-title{font-size:22px;font-weight:900;color:#0f172a}
+.doc-h{font-size:16.5px;font-weight:900;color:#4338ca;margin:12px 0 4px}
+.doc-h:first-child{margin-top:0}
+.doc-li{color:#475569;font-weight:600}
+.doc-li b{color:#0f172a;font-weight:700}
+.shot{display:flex;align-items:center;gap:8px;margin-top:6px;border:2px dashed #cbd5e1;border-radius:10px;
+  padding:10px 12px;color:#64748b;font-size:14px;font-weight:700;background:#f8fafc}
+/* PORTFOLIO MOCK */
+.browser{background:#fff;border:1px solid #cbd5e1;border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(15,23,42,.10)}
+.browser-bar{display:flex;align-items:center;gap:7px;padding:9px 14px;background:#f1f5f9;border-bottom:1px solid #e2e8f0}
+.browser-bar .dot{width:11px;height:11px;border-radius:50%}
+.browser-bar .title{margin-left:10px;font-size:13px;font-weight:800;color:#64748b}
+.vid{background:#0f172a;border-radius:12px;color:#cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:150px;font-size:14px;font-weight:700}
+.vid i{width:52px;height:52px;border-radius:50%;background:#f97316;color:#fff;display:grid;place-items:center;font-size:18px}
+.pf{border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;background:#f8fafc;font-size:14.5px;line-height:1.5;color:#475569}
+.pf-h{font-size:12px;font-weight:900;letter-spacing:.05em;color:#4f46e5;margin-bottom:4px}
+.pn{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#f97316;color:#fff;font-size:11.5px;font-weight:900;margin-right:6px;vertical-align:1px;letter-spacing:0}
+.dl-btn{display:inline-flex;align-items:center;gap:8px;background:#0f172a;color:#fff;border-radius:10px;padding:7px 14px;font-size:14px;font-weight:800}
+/* MAPPING */
+.mp{border-radius:10px;padding:9px 12px;font-size:15px;line-height:1.35}
+.mp b{display:block;font-weight:900;font-size:15.5px}
+.mp span:not(.pn){color:#475569;font-weight:600;font-size:13.5px}
+.map-row{display:grid;grid-template-columns:1fr 48px 1fr;align-items:center}
+.map-l{background:#fff;border:2px solid #0f172a;border-radius:14px;padding:11px 16px;font-weight:800}
+.map-r{background:#eef2ff;border:2px solid #a5b4fc;border-radius:14px;padding:11px 16px;font-weight:800;color:#3730a3}
+.map-a{text-align:center;color:#94a3b8;font-size:20px}
+/* FOLDER TREE */
+.tree{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;box-shadow:0 12px 34px rgba(15,23,42,.08);font-size:15.5px;font-weight:600;color:#334155}
+.tree .tr{display:flex;align-items:center;gap:9px;padding:4px 0}
+.tree .tr i{width:18px;text-align:center;flex:none}
+.tree .l1{padding-left:22px}.tree .l2{padding-left:44px}.tree .l3{padding-left:66px}
+.tree .fd{color:#f59e0b}
+/* FORM MOCK */
+.form{background:#fff;border:1px solid #e2e8f0;border-top:8px solid #4f46e5;border-radius:14px;padding:14px 18px;box-shadow:0 12px 34px rgba(15,23,42,.08)}
+.fq{padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:15px}
+.fq:last-child{border-bottom:0}
+.fq-t{font-weight:800;color:#0f172a}
+.fq-a{display:flex;align-items:center;gap:10px;margin-top:5px;color:#64748b;font-size:13.5px;font-weight:600;flex-wrap:wrap}
+.rd{width:16px;height:16px;border-radius:50%;border:2px solid #94a3b8;display:inline-block;flex:none}
+.line-in{flex:1;min-width:120px;border-bottom:2px solid #cbd5e1;height:14px}
+/* Unity editor mimic */
+.uu{background:#383838;border:1px solid #232323;border-radius:7px;color:#c4c4c4;
+  font-family:"Pretendard",sans-serif;font-size:13.5px;line-height:1.45;overflow:hidden;
+  box-shadow:0 12px 34px rgba(15,23,42,.24)}
+.uu-bar{background:#3c3c3c;border-bottom:1px solid #232323;padding:7px 11px;
+  display:flex;align-items:center;gap:8px;font-weight:800;color:#d8d8d8;font-size:13px}
+.uu-body{padding:9px 11px 11px}
+.uu-comp{border:1px solid #2b2b2b;border-radius:4px;margin-bottom:6px;background:#3f3f3f}
+.uu-comp-h{display:flex;align-items:center;gap:8px;padding:6px 9px;background:#434343;
+  border-bottom:1px solid #2b2b2b;font-weight:800;color:#e0e0e0}
+.uu-comp-h .tri{color:#9a9a9a;font-size:9px;width:9px;flex:none}
+.uu-comp-h .ico{color:#9fb6c8;width:14px;text-align:center;flex:none}
+.uu-comp-b{padding:8px 9px 9px}
+.uu-row{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.uu-row:last-child{margin-bottom:0}
+.uu-lb{width:94px;flex:none;color:#b4b4b4}
+.uu-f{background:#2a2a2a;border:1px solid #1f1f1f;border-radius:3px;padding:3px 8px;
+  color:#d8d8d8;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uu-f.obj{display:flex;align-items:center;gap:6px}
+.uu-f.obj i{color:#9fb6c8;font-size:10px}
+.uu-chk{width:14px;height:14px;border:1px solid #6b6b6b;border-radius:2px;background:#2a2a2a;
+  display:grid;place-items:center;font-size:9px;color:#fff;flex:none}
+.uu-chk.on{background:#4a78a8;border-color:#4a78a8}
+.uu-tree{padding:7px 6px}
+.uu-it{display:flex;align-items:center;gap:7px;padding:4px 7px;border-radius:3px;color:#cfcfcf}
+.uu-it.sel{background:#2c5d87;color:#fff}
+.uu-it .tri{width:10px;color:#9a9a9a;font-size:9px;flex:none}
+.uu-it .ico{color:#9fb6c8;width:14px;text-align:center;font-size:11px;flex:none}
+.uu-hl{outline:2px solid #a3e635;outline-offset:1px;border-radius:4px}
+.uu-note{color:#8d8d8d;font-size:12px}
+.uu-btn{background:#4b4b4b;border:1px solid #2b2b2b;border-radius:3px;padding:3px 11px;
+  color:#e0e0e0;font-weight:800;font-size:12px;display:inline-block}
+.uu-con{background:#2c2c2c;padding:7px 11px}
+.uu-log{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #333;color:#d0d0d0}
+.uu-log:last-child{border-bottom:0}
+.uu-log i{width:14px;text-align:center;flex:none;margin-top:3px}
+.uu-log.err{color:#ff8f7a}
+.uu-cap{font-size:13px;color:#64748b;margin-top:7px}
+/* 제작 기록 이미지 */
+.ph{background:#0f172a;border-radius:12px;overflow:hidden;aspect-ratio:16/10;position:relative}
+.ph img{position:relative;width:100%;height:100%;object-fit:cover;display:block;color:transparent}
+.ph::before{content:"\f03e";font-family:"Font Awesome 6 Free";font-weight:400;position:absolute;inset:0;display:grid;place-items:center;color:#475569;font-size:30px}
+.ph-cap{font-size:13.5px;font-weight:800;color:#334155;margin-top:7px;line-height:1.35}
+.ph-cap span{display:block;font-size:12px;font-weight:600;color:#94a3b8}
+.credit{font-size:12.5px;color:#94a3b8;font-weight:600}
+/* 시트 모사 */
+.sheet{background:#fff;border:1px solid #cbd5e1;border-radius:12px;overflow:hidden;box-shadow:0 18px 50px rgba(15,23,42,.10)}
+.sheet-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-size:13px;font-weight:800;color:#475569}
+.sheet table{width:100%;border-collapse:collapse;font-size:14.5px}
+.sheet th{background:#f8fafc;color:#64748b;font-weight:800;text-align:left;padding:7px 10px;border:1px solid #e2e8f0;font-size:13px}
+.sheet td{padding:8px 10px;border:1px solid #e2e8f0;color:#334155;vertical-align:top;line-height:1.45}
+.sheet td.n{color:#94a3b8;font-weight:700;width:34px;text-align:center;background:#f8fafc}
+.frame{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+.frame-t{font-size:12.5px;font-weight:900;color:#64748b;margin-bottom:6px}
+/* 투사용 확대 */
+@media (min-width:1600px) and (min-height:900px){html{font-size:19px}}
+@media (min-width:2200px) and (min-height:1200px){html{font-size:23px}}
+@media (min-width:1800px) and (min-height:1000px){.slide > div{zoom:1.2}}
+@media (min-width:1500px) and (max-width:1799px) and (min-height:840px){.slide > div{zoom:1.08}}
+@media (min-width:769px) and (max-height:800px){.slide > div{zoom:.93}}
+@media (min-width:769px) and (max-height:740px){.slide > div{zoom:.86}}
+.slide.wk{font-size:19px}
+.slide.wk h2{letter-spacing:-.03em}
+@media (max-width:768px){
+  .slide{padding:4rem 1rem 5.5rem;align-items:flex-start}
+  .flow-line::after{display:none}
+  .map-row{grid-template-columns:1fr 28px 1fr}
+}
+@media print{
+  body{overflow:visible;height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:auto;min-height:90vh;padding:2rem}
+  #progress-bar,.navbar-fixed{display:none!important}
+}
+/* 복사 상자 — 활동지 · 프롬프트 (10주차와 같은 모양) */
+.cp{border:1px solid #c7d2fe;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 12px 30px -20px rgba(79,70,229,.45)}
+.cp-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px 8px 16px;background:#eef2ff;border-bottom:1px solid #c7d2fe;font-weight:800;font-size:14px;color:#3730a3}
+.cp-bar i{margin-right:6px}
+.cp-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:999px;background:#4f46e5;color:#fff;font-weight:800;font-size:14px;border:0;cursor:pointer;white-space:nowrap;transition:background .15s}
+.cp-btn i{margin:0}
+.cp-btn:hover{background:#4338ca}
+.cp-btn.ok{background:#059669}
+.cp-body{margin:0;padding:12px 18px;max-height:min(58vh,480px);overflow:auto;white-space:pre-wrap;overflow-wrap:break-word;font-family:inherit;font-size:13px;line-height:1.6;color:#334155;background:#fff}
+.cp-foot{padding:8px 16px;border-top:1px dashed #c7d2fe;font-size:14px;font-weight:700;color:#475569;background:#f8fafc}
+.cp-foot i{color:#4f46e5;margin-right:6px}
+/* 구글 폼 응답 탭 모사 */
+.gf{background:#f0ebf8;border:1px solid #d9cfee;border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(15,23,42,.10);font-size:13px;color:#202124}
+.gf-top{display:flex;align-items:center;gap:8px;background:#fff;border-bottom:1px solid #e0e0e0;padding:0 14px;height:38px}
+.gf-top .ico{width:20px;height:20px;border-radius:4px;background:#673ab7;color:#fff;display:grid;place-items:center;font-size:10px;flex:none}
+.gf-top .nm{font-weight:800;font-size:13px;color:#202124;white-space:nowrap}
+.gf-tabs{display:flex;gap:20px;margin-left:auto;margin-right:auto;height:100%}
+.gf-tabs span{display:flex;align-items:center;font-weight:800;color:#5f6368;font-size:13px;border-bottom:3px solid transparent;padding-top:3px}
+.gf-tabs span.on{color:#673ab7;border-bottom-color:#673ab7}
+.gf-tabs b{display:inline-grid;place-items:center;min-width:20px;height:17px;border-radius:9px;background:#673ab7;color:#fff;font-size:10.5px;margin-left:5px;padding:0 5px}
+.gf-in{padding:9px 12px 10px;display:flex;flex-direction:column;gap:7px}
+.gf-card{background:#fff;border:1px solid #dadce0;border-radius:8px;padding:9px 14px}
+.gf-big{font-size:17px;font-weight:800;color:#202124}
+.gf-sheets{display:inline-flex;align-items:center;gap:6px;border:1px solid #dadce0;border-radius:6px;padding:3px 9px;font-weight:800;font-size:12px;color:#188038}
+.gf-sub{display:flex;justify-content:center;gap:34px;margin-top:6px;border-bottom:1px solid #eceff1}
+.gf-sub span{font-weight:800;color:#5f6368;font-size:12.5px;padding:3px 2px 5px;border-bottom:3px solid transparent}
+.gf-sub span.on{color:#673ab7;border-bottom-color:#673ab7}
+.gf-q{font-weight:800;font-size:13.5px;color:#202124}
+.gf-n{font-size:11.5px;color:#5f6368;margin-top:1px}
+.gf-cols{display:flex;align-items:flex-end;justify-content:center;gap:22px;height:110px;border-bottom:1px solid #9aa0a6;margin-top:6px;position:relative}
+.gf-col{display:flex;flex-direction:column;align-items:center;gap:3px;width:52px}
+.gf-col i{font-style:normal;font-size:11px;font-weight:700;color:#5f6368;white-space:nowrap}
+.gf-col div{width:38px;background:#7e57c2;border-radius:1px}
+.gf-x{display:flex;justify-content:center;gap:22px;margin-top:3px}
+.gf-x span{width:52px;text-align:center;font-size:11.5px;font-weight:700;color:#5f6368}
+.gf-mark{position:absolute;bottom:-1px;height:105px;border:2.5px dashed #f97316;border-radius:8px}
+.gf-mark b{position:absolute;top:-12px;right:-6px;transform:translateY(-100%);background:#f97316;color:#fff;font-size:11.5px;font-weight:900;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.gf-pie{display:flex;align-items:center;gap:16px;margin-top:6px;position:relative}
+.gf-leg{font-size:12px;color:#3c4043;font-weight:600;line-height:1.75}
+.gf-leg span{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px}
+.gf-tip{position:absolute;left:-6px;top:58px;background:#fff;border:1px solid #dadce0;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.18);padding:4px 9px;font-size:11.5px;line-height:1.35;color:#3c4043;font-weight:600;white-space:nowrap}
+.gf-tip b{color:#202124;font-weight:900}
+.gf-cap{font-size:12.5px;color:#64748b;font-weight:600;margin-top:7px}
+/* 원인 셋 · 갈래 셋 */
+.cz-q{font-size:17px;font-weight:900;color:#0f172a;line-height:1.4}
+.cz-ex{font-size:15px;color:#475569;font-weight:600;line-height:1.5}
+.cz-fix{font-size:15px;color:#334155;line-height:1.5;border-top:1px dashed #cbd5e1;padding-top:8px;margin-top:auto}
+.cz-row{display:grid;grid-template-columns:96px 1fr;gap:8px;padding:9px 0;border-top:1px dashed #e2e8f0;font-size:15.5px;line-height:1.5;color:#334155}
+.cz-row:first-of-type{border-top:0}
+.cz-row > b{font-size:13.5px;font-weight:900;color:#64748b;padding-top:2px}
+.gal-tag{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:900;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.cases td{vertical-align:top;line-height:1.5}
+.cases td b.k{display:block;color:#0f172a}
+.cases .sm{display:block;font-size:12.5px;color:#64748b;font-weight:600}
+
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .no{width:30px;height:30px;border-radius:9px;font-size:15px;flex:none;margin-top:1px}
+.mono{font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace}
+</style>
+</head>
+<body>
+
+<div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 z-[130]">
+  <div id="progress-bar" class="h-full bg-gradient-to-r from-dev-500 via-indigo-400 to-flame-500" style="width:0%"></div>
+</div>
+<div id="part-label" class="navbar-fixed fixed top-5 left-6 z-[130] text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200 hidden md:block">게임 개발 실습 · 11주차</div>
+<div class="navbar-fixed fixed top-5 right-6 z-[130] flex items-center gap-2">
+  <div class="text-xs font-bold text-slate-400 bg-white/80 backdrop-blur px-3 py-1.5 rounded-full border border-slate-200">
+    <span id="current-slide">1</span><span class="mx-1 text-slate-300">/</span><span id="total-slides">1</span>
+  </div>
+</div>
+
+<main id="slides-container" class="relative w-full h-screen">
+
+<!-- 1 COVER -->
+<section class="slide wk active" data-part="0">
+  <div class="max-w-5xl w-full text-center">
+    <svg class="mx-auto mb-8" width="520" height="150" viewBox="0 0 520 150" aria-hidden="true">
+      <line x1="30" y1="104" x2="462" y2="104" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round"></line>
+      <line x1="30" y1="104" x2="174" y2="104" stroke="#6366f1" stroke-width="8" stroke-linecap="round"></line>
+      <g fill="#fff" stroke="#cbd5e1" stroke-width="4">
+        <circle cx="30" cy="104" r="8"></circle><circle cx="102" cy="104" r="8"></circle><circle cx="246" cy="104" r="8"></circle><circle cx="390" cy="104" r="8"></circle>
+      </g>
+      <g stroke="#0f172a" stroke-width="4" stroke-linecap="round">
+        <line x1="174" y1="90" x2="174" y2="38"></line><line x1="318" y1="104" x2="318" y2="38"></line><line x1="462" y1="104" x2="462" y2="38"></line>
+      </g>
+      <g stroke="#0f172a" stroke-width="3" stroke-linejoin="round">
+        <polygon points="176,38 216,50 176,62" fill="#f97316"></polygon>
+        <polygon points="320,38 360,50 320,62" fill="#6366f1"></polygon>
+        <polygon points="464,38 504,50 464,62" fill="#B3EFBD"></polygon>
+      </g>
+      <circle cx="174" cy="104" r="14" fill="#f97316" stroke="#0f172a" stroke-width="4"></circle>
+      <g font-family="Pretendard,sans-serif" font-weight="900" font-size="17" text-anchor="middle">
+        <text x="190" y="27" fill="#ea580c">알파 · 지금</text>
+        <text x="334" y="27" fill="#0f172a">베타</text>
+        <text x="478" y="27" fill="#0f172a">완성</text>
+      </g>
+      <g font-family="Pretendard,sans-serif" font-weight="800" font-size="15" fill="#94a3b8" text-anchor="middle">
+        <text x="30" y="142">9</text><text x="102" y="142">10</text><text x="174" y="142" fill="#ea580c">11</text><text x="246" y="142">12</text><text x="318" y="142">13</text><text x="390" y="142">14</text><text x="462" y="142">15</text>
+      </g>
+    </svg>
+    <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-flame-600 bg-flame-50 border border-flame-200 rounded-full px-5 py-2">
+      게임 개발 실습 · 11주차
+    </div>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">알파 <span class="text-flame-600">상호 테스트</span></h1>
+    <p class="text-xl md:text-2xl text-slate-500">한 바퀴 돌면서 <b class="text-slate-700">모든 팀의 게임</b>을 한 판씩 하고,<br>본 것과 모인 답으로 <b class="text-slate-700">우리 게임이 갈 방향</b>을 정합니다</p>
+  </div>
+</section>
+
+<!-- 2 ORDER -->
+<section class="slide wk" data-part="order">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">여섯 단계로 진행합니다</h2>
+    <p class="text-lg text-slate-500 mb-8 text-center">팀을 반으로 나눠 <b class="text-slate-700">전반 · 후반</b>을 바꿔 맡고, 끝나면 팀이 다시 모여 <b class="text-slate-700">방향</b>을 정합니다</p>
+    <div class="grid md:grid-cols-6 gap-3">
+      <div class="soft-card rounded-2xl p-4 flex flex-col">
+        <div class="text-5xl font-black text-dev-200 mb-2">1</div>
+        <div class="text-lg font-black mb-2">자리 차리기</div>
+        <p class="text-[14.5px] text-slate-600 mb-4">컴퓨터 두 대에 빌드 · 조작키 · QR · 기록지, 반 나누기</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-4 flex flex-col">
+        <div class="text-5xl font-black text-dev-200 mb-2">2</div>
+        <div class="text-lg font-black mb-2">지켜보는 법</div>
+        <p class="text-[14.5px] text-slate-600 mb-4">무엇을 말하고, 무엇을 적는지</p>
+        <span class="tagchip bg-slate-100 text-slate-600 border border-slate-200 mt-auto self-start">같이 듣기</span>
+      </div>
+      <div class="soft-card rounded-2xl p-4 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="text-5xl font-black text-flame-300 mb-2">3</div>
+        <div class="text-lg font-black mb-2">전반 — 세 자리</div>
+        <p class="text-[14.5px] text-slate-600 mb-4">「나」 반이 돌고, 「가」 반이 지킵니다</p>
+        <span class="tagchip bg-flame-600 text-white mt-auto self-start">한 바퀴</span>
+      </div>
+      <div class="soft-card rounded-2xl p-4 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="text-5xl font-black text-flame-300 mb-2">4</div>
+        <div class="text-lg font-black mb-2">후반 — 세 자리</div>
+        <p class="text-[14.5px] text-slate-600 mb-4">바꿔서 「가」 반이 돌고, 「나」 반이 지킵니다</p>
+        <span class="tagchip bg-flame-600 text-white mt-auto self-start">한 바퀴</span>
+      </div>
+      <div class="soft-card rounded-2xl p-4 flex flex-col" style="background:#eef2ff;border-color:#c7d2fe">
+        <div class="text-5xl font-black text-dev-200 mb-2">5</div>
+        <div class="text-lg font-black mb-2">답 모으기</div>
+        <p class="text-[14.5px] text-slate-600 mb-4">기록지 두 장과 폼 응답을 세고, 확인 기준과 대어 봅니다</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">팀</span>
+      </div>
+      <div class="soft-card rounded-2xl p-4 flex flex-col" style="background:#eef2ff;border-color:#c7d2fe">
+        <div class="text-5xl font-black text-dev-200 mb-2">6</div>
+        <div class="text-lg font-black mb-2">방향 정하기</div>
+        <p class="text-[14.5px] text-slate-600 mb-4">막힌 곳의 원인을 나누고 세 갈래 중 하나를 고릅니다. 활동지 · 한 줄 공유</p>
+        <span class="tagchip bg-dev-600 text-white mt-auto self-start">팀 토의 · 활동지</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 HOW ROTATION WORKS -->
+<section class="slide wk" data-part="rot">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">팀을 반으로 나누면, 모두가 모든 게임을 합니다</h2>
+    <p class="text-lg text-slate-500 mb-7">한 반은 우리 자리를 지키고, 한 반은 다른 팀 자리를 한 바퀴 돕니다. 그리고 바꿉니다</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-3"><span class="tagchip bg-flame-600 text-white">전반</span><span class="text-xl font-black">「나」 반이 돕니다</span></div>
+        <div class="flex gap-3 items-start mb-2"><i class="fa-solid fa-person-walking text-flame-500 mt-1 w-5"></i><p class="text-[16px] text-slate-600"><b class="text-slate-800">나 반</b> — 다른 세 팀 자리를 차례로 가서 한 판씩 하고 설문에 답합니다</p></div>
+        <div class="flex gap-3 items-start"><i class="fa-solid fa-eye text-dev-500 mt-1 w-5"></i><p class="text-[16px] text-slate-600"><b class="text-slate-800">가 반</b> — 우리 자리에서 찾아온 세 팀을 맞이하고, 지켜보고, 적습니다</p></div>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-3"><span class="tagchip bg-flame-600 text-white">후반</span><span class="text-xl font-black">바꿔서 「가」 반이 돕니다</span></div>
+        <div class="flex gap-3 items-start mb-2"><i class="fa-solid fa-person-walking text-flame-500 mt-1 w-5"></i><p class="text-[16px] text-slate-600"><b class="text-slate-800">가 반</b> — 같은 순서로 다른 세 팀 자리를 돕니다</p></div>
+        <div class="flex gap-3 items-start"><i class="fa-solid fa-eye text-dev-500 mt-1 w-5"></i><p class="text-[16px] text-slate-600"><b class="text-slate-800">나 반</b> — 이번에는 우리 자리를 지킵니다</p></div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-4 text-[16px] text-slate-700">
+      그래서 모두가 <b class="text-flame-600">다른 세 팀 게임을 한 판씩</b> 하고, 모두가 <b class="text-dev-600">우리 게임을 하는 사람을 한 번씩</b> 지켜봅니다. 우리 게임은 다른 팀 사람 모두가 한 판씩 하게 됩니다.
+    </div>
+  </div>
+</section>
+
+<!-- 4 ROTATION TABLE -->
+<section class="slide wk" data-part="rot">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">순환표 — 한 칸씩 옆 자리로</h2>
+    <p class="text-lg text-slate-500 mb-6">도는 반이 갈 자리입니다. 전반과 후반에 <b class="text-slate-700">같은 표</b>를 씁니다</p>
+    <div class="grid md:grid-cols-[1.5fr_1fr] gap-6 items-start">
+      <table class="cmp-table" style="font-size:1.05rem">
+        <thead><tr><th>도는 반</th><th>1번 자리 팀</th><th>2번 자리 팀</th><th>3번 자리 팀</th><th>4번 자리 팀</th></tr></thead>
+        <tbody>
+          <tr><td>첫째 자리</td><td><b>2번</b> 자리</td><td><b>3번</b> 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td></tr>
+          <tr><td>둘째 자리</td><td><b>3번</b> 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td><td><b>2번</b> 자리</td></tr>
+          <tr><td>셋째 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td><td><b>2번</b> 자리</td><td><b>3번</b> 자리</td></tr>
+        </tbody>
+      </table>
+      <div class="space-y-4">
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">자리마다 한 반씩</div><p class="text-[15.5px] text-slate-600">어느 자리에서 보든 한 번에 한 팀의 반만 옵니다. 두 팀이 한 자리에 겹치지 않습니다.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">우리 자리는 건너뜁니다</div><p class="text-[15.5px] text-slate-600">셋째 자리가 끝나면 한 바퀴입니다. 도는 반은 우리 자리로 돌아옵니다. 두 분반 모두 같은 표입니다.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 SET UP TABLE -->
+<section class="slide wk" data-part="setup">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">우리 자리부터 차립니다</h2>
+    <p class="text-lg text-slate-500 mb-6">찾아온 사람이 <b class="text-slate-700">묻지 않고</b> 시작할 수 있게</p>
+    <div class="grid md:grid-cols-5 gap-4 mb-6">
+      <div class="soft-card rounded-2xl p-5 text-center"><div class="text-3xl text-dev-500 mb-3"><i class="fa-solid fa-laptop"></i><i class="fa-solid fa-desktop ml-2"></i></div><div class="font-black mb-1">빌드를 연 두 대</div><div class="text-[14px] text-slate-500">노트북 두 대나 학교 컴퓨터. 전날 만든 exe 폴더 · Title 화면 · 충전기</div></div>
+      <div class="soft-card rounded-2xl p-5 text-center"><i class="fa-solid fa-keyboard text-3xl text-dev-500 mb-3"></i><div class="font-black mb-1">조작키 한 줄</div><div class="text-[14px] text-slate-500">대마다. 화면 안이든 종이든</div></div>
+      <div class="soft-card rounded-2xl p-5 text-center"><i class="fa-solid fa-qrcode text-3xl text-flame-500 mb-3"></i><div class="font-black mb-1">설문 QR</div><div class="text-[14px] text-slate-500">두 대 옆에 하나씩 세워 둡니다</div></div>
+      <div class="soft-card rounded-2xl p-5 text-center"><i class="fa-solid fa-clipboard-list text-3xl text-flame-500 mb-3"></i><div class="font-black mb-1">관찰 기록지</div><div class="text-[14px] text-slate-500">한 대에 한 장. 종이나 휴대폰 메모</div></div>
+      <div class="soft-card rounded-2xl p-5 text-center"><i class="fa-solid fa-hand text-3xl text-slate-500 mb-3"></i><div class="font-black mb-1">빌드는 고치지 않습니다</div><div class="text-[14px] text-slate-500">두 대 모두 같은 빌드. 수업 중에 다시 빌드하지 않습니다</div></div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-4 text-[16px] text-slate-700">
+      시작 전에 <b>두 대 모두</b>에서 <b>점검표 A1 ~ A6</b> 을 한 번 봅니다. 한 대만 안 열리면 한 대로 하고, 한 판이 안 돌면 돌던 이전 빌드 zip 을 두 대 모두에 엽니다.
+    </div>
+  </div>
+</section>
+
+<!-- 6 SPLIT TEAM -->
+<section class="slide wk" data-part="setup">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">팀을 「가」 · 「나」 로 나눕니다</h2>
+    <p class="text-lg text-slate-500 mb-6">지키는 반 안에서 <b class="text-slate-700">컴퓨터마다 적는 사람</b> 한 명, 남는 사람이 <b class="text-slate-700">맞이하는 사람</b>입니다</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-2xl font-black mb-1">가 <span class="text-base text-slate-400 font-bold">— 전반 지킴 · 후반 돎</span></div>
+        <div class="flex gap-2 mt-4"><span class="stk st-blue" style="padding:10px 14px">맞이하는 사람</span><span class="stk st-blue" style="padding:10px 14px">적는 사람 · 1번</span><span class="stk st-blue" style="padding:10px 14px">적는 사람 · 2번</span></div>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-2xl font-black mb-1">나 <span class="text-base text-slate-400 font-bold">— 전반 돎 · 후반 지킴</span></div>
+        <div class="flex gap-2 mt-4"><span class="stk st-orange" style="padding:10px 14px">적는 사람 · 1번</span><span class="stk st-orange" style="padding:10px 14px">적는 사람 · 2번</span></div>
+        <p class="text-[14px] text-slate-500 mt-3">두 명인 반은 적는 사람이 맞이하기도 같이 합니다</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="glass-card rounded-2xl p-5"><div class="font-black mb-1">맞이하는 사람</div><p class="text-[15.5px] text-slate-600">조작키 한 줄을 가리키고, 끝나면 QR 을 건넵니다. 기다리는 사람은 먼저 빈 대로 안내하고, 끝난 대는 Title 로 돌려 둡니다.</p></div>
+      <div class="glass-card rounded-2xl p-5"><div class="font-black mb-1">적는 사람</div><p class="text-[15.5px] text-slate-600">자기 컴퓨터 한 대만 봅니다. 해 보는 사람 옆이 아니라 <b>뒤</b>에, 화면과 손이 같이 보이는 자리에 섭니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 WATCH: WHAT TO SAY -->
+<section class="slide wk" data-part="watch">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">지키는 반이 하는 말은 세 마디입니다</h2>
+    <p class="text-lg text-slate-500 mb-6">설명하고 싶은 곳이 바로 <b class="text-slate-700">알파에서 찾으려는 곳</b>입니다</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-6">
+      <div class="soft-card rounded-2xl p-6"><span class="no mb-3">1</span><div class="text-xl font-black">「조작키는 이것입니다」</div><p class="text-[15px] text-slate-500 mt-1">시작 전에 한 줄만 가리킵니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><span class="no mb-3">2</span><div class="text-xl font-black">「끝까지 해 보세요」</div><p class="text-[15px] text-slate-500 mt-1">게임 설명 · 목표 설명은 하지 않습니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><span class="no mb-3">3</span><div class="text-xl font-black">「설문 QR 입니다」</div><p class="text-[15px] text-slate-500 mt-1">끝나면 바로 휴대폰으로</p></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="glass-card rounded-2xl p-5"><div class="font-black mb-1">「이거 어떻게 해요?」 라고 물으면</div><p class="text-[15.5px] text-slate-600">「어떻게 하면 될 것 같아요?」 하고 되묻습니다. 그 질문 자체를 기록지에 적습니다.</p></div>
+      <div class="glass-card rounded-2xl p-5"><div class="font-black mb-1">진행이 완전히 막히면</div><p class="text-[15.5px] text-slate-600">그때만 한 마디 돕고, 어디서 막혔는지와 무엇을 알려 줬는지 적습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 WATCH: WHAT TO WRITE -->
+<section class="slide wk" data-part="watch">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">적을 때는 본 그대로</h2>
+    <p class="text-lg text-slate-500 mb-6">짐작이 아니라 <b class="text-slate-700">손 · 화면 · 말</b>을 적습니다</p>
+    <table class="cmp-table mb-6" style="font-size:1rem">
+      <thead><tr><th>적을 것</th><th>짐작으로 쓴 것</th><th>본 그대로 쓴 것</th></tr></thead>
+      <tbody>
+        <tr><td>손</td><td class="text-slate-400">조작을 어려워함</td><td><b>점프를 세 번 눌렀는데 첫 벽을 못 넘음</b></td></tr>
+        <tr><td>화면</td><td class="text-slate-400">게임이 좀 길다</td><td><b>코인 12개 중 9개에서 게임 오버, 다시 하지 않음</b></td></tr>
+        <tr><td>말 · 표정</td><td class="text-slate-400">재미없어 보임</td><td><b>「이거 끝이에요?」 라고 물음</b></td></tr>
+        <tr><td>확인할 장면</td><td class="text-slate-400">아슬아슬해 보임</td><td><b>적이 지나간 틈에 코인 쪽으로 뛰어듦 — 두 번</b></td></tr>
+      </tbody>
+    </table>
+    <div class="glass-card rounded-2xl px-6 py-4 text-[16px] text-slate-700">
+      마지막 줄이 가장 중요합니다. 알파 한 문장의 뒤 칸, <b class="text-flame-600">확인하려던 장면이 나왔는지</b>를 한 사람마다 적습니다.
+    </div>
+  </div>
+</section>
+
+<!-- 9 OBSERVATION SHEET -->
+<section class="slide wk" data-part="watch">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">「관찰 기록지」 — 한 사람에 한 줄</h2>
+    <p class="text-lg text-slate-500 mb-6">해 본 사람 이름은 쓰지 않습니다. 번호로 적습니다</p>
+    <div class="grid md:grid-cols-[1.6fr_1fr] gap-6 items-start">
+      <div class="sheet">
+        <div class="sheet-bar"><i class="fa-solid fa-clipboard-list"></i> 관찰 기록지 · 예시 · 코인 러너 · 1번 컴퓨터 · 확인할 장면: 적 사이로 코인을 노린다</div>
+        <table>
+          <thead><tr><th>번호</th><th>어디까지</th><th>막힌 곳 · 그때 한 것</th><th>말 · 표정</th><th>장면</th></tr></thead>
+          <tbody>
+            <tr><td class="n">1</td><td>클리어</td><td>첫 적에게 두 번 닿음</td><td>「아 잠깐만」</td><td class="text-green-600 font-black">✓</td></tr>
+            <tr><td class="n">2</td><td>코인 7개 · 게임 오버</td><td>적이 움직이는 줄 모르고 정면으로 감</td><td>「저게 적이에요?」</td><td class="text-red-600 font-black">✗</td></tr>
+            <tr><td class="n">3</td><td>클리어</td><td>막힌 곳 없음. 끝나고 RETRY 를 눌러 한 판 더 함</td><td>웃음</td><td class="text-green-600 font-black">✓</td></tr>
+            <tr><td class="n">4</td><td>코인 10개 · 게임 오버</td><td>Esc 를 눌러 Title 로 나감, 다시 START</td><td>—</td><td class="text-green-600 font-black">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="space-y-4">
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">장면 칸은 ✓ 아니면 ✗</div><p class="text-[15.5px] text-slate-600">확인하려던 장면이 한 번이라도 나왔으면 ✓. 나중에 「몇 명 중 몇 명」으로 셉니다.</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">한 대에 한 장, 전반 · 후반 같은 종이에</div><p class="text-[15.5px] text-slate-600">맨 위에 1번 · 2번 컴퓨터를 적습니다. 후반에 지키는 반은 그 종이에 이어서 번호를 적습니다.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 PLAYER ROLE -->
+<section class="slide wk" data-part="watch">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">다른 팀 자리에서는 해 보는 사람입니다</h2>
+    <p class="text-lg text-slate-500 mb-6">우리가 받고 싶은 답을 다른 팀에게 그대로 줍니다</p>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="soft-card rounded-2xl px-6 py-5 flex gap-5 items-center"><span class="no">1</span><div><div class="text-xl font-black">한 대에 한 사람, 한 판 끝까지</div><div class="text-[15px] text-slate-500">두 사람이 같이 하고, 남은 사람은 뒤에서 기다립니다. 훈수는 하지 않습니다</div></div></div>
+      <div class="soft-card rounded-2xl px-6 py-5 flex gap-5 items-center"><span class="no">2</span><div><div class="text-xl font-black">하려는 것을 소리 내어</div><div class="text-[15px] text-slate-500">「저 코인 먹으려고요」 「이건 뭐지」 처럼 짧게</div></div></div>
+      <div class="soft-card rounded-2xl px-6 py-5 flex gap-5 items-center"><span class="no">3</span><div><div class="text-xl font-black">끝나면 바로 설문</div><div class="text-[15px] text-slate-500">다음 자리로 가기 전에, 그 게임이 기억날 때</div></div></div>
+      <div class="soft-card rounded-2xl px-6 py-5 flex gap-5 items-center"><span class="no">4</span><div><div class="text-xl font-black">숫자는 느낀 그대로</div><div class="text-[15px] text-slate-500">친한 팀이라고 5 를 주면 그 팀이 고칠 곳을 못 찾습니다</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 ONE STOP FLOW -->
+<section class="slide wk" data-part="watch">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">한 자리에서는 이렇게 돕니다</h2>
+    <p class="text-lg text-slate-500 mb-8">이동은 <b class="text-slate-700">모든 자리</b>가 손을 든 다음에 같이 합니다</p>
+    <div class="grid md:grid-cols-5 gap-3 items-stretch">
+      <div class="soft-card rounded-2xl p-5"><div class="text-3xl font-black text-dev-300 mb-1">1</div><div class="font-black">도착</div><div class="text-[14px] text-slate-500 mt-1">맞이하는 사람이 조작키 한 줄을 가리킴</div></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-3xl font-black text-dev-300 mb-1">2</div><div class="font-black">두 대에서 한 판씩</div><div class="text-[14px] text-slate-500 mt-1">적는 사람은 한 사람에 한 줄</div></div>
+      <div class="soft-card rounded-2xl p-5"><div class="text-3xl font-black text-dev-300 mb-1">3</div><div class="font-black">모두 설문</div><div class="text-[14px] text-slate-500 mt-1">QR 로 한 사람에 한 번</div></div>
+      <div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa"><div class="text-3xl font-black text-flame-300 mb-1">4</div><div class="font-black">지키는 반이 손을 듦</div><div class="text-[14px] text-slate-500 mt-1">Title 로 돌려 두고</div></div>
+      <div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa"><div class="text-3xl font-black text-flame-300 mb-1">5</div><div class="font-black">다음 자리로</div><div class="text-[14px] text-slate-500 mt-1">「이동」 신호에 순환표대로</div></div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-4 text-[16px] text-slate-700 mt-6">
+      두 대에서 두 사람이 같이 합니다. 세 명이 왔으면 세 번째 사람은 <b>먼저 끝난 대</b>에서 이어서 합니다. 적는 사람은 자기 컴퓨터 기록지에 적습니다.
+    </div>
+  </div>
+</section>
+
+<!-- 12 FIRST HALF -->
+<section class="slide wk" data-part="first">
+  <div class="max-w-6xl w-full text-center">
+    <span class="tagchip bg-flame-600 text-white mb-5">전반</span>
+    <h2 class="text-5xl font-black mb-4">「나」 반이 돕니다</h2>
+    <p class="text-xl text-slate-500 mb-8">「가」 반은 우리 자리에서 맞이하고, 지켜보고, 적습니다</p>
+    <div class="max-w-4xl mx-auto text-left"><table class="cmp-table" style="font-size:1.05rem">
+        <thead><tr><th>도는 반</th><th>1번 자리 팀</th><th>2번 자리 팀</th><th>3번 자리 팀</th><th>4번 자리 팀</th></tr></thead>
+        <tbody>
+          <tr><td>첫째 자리</td><td><b>2번</b> 자리</td><td><b>3번</b> 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td></tr>
+          <tr><td>둘째 자리</td><td><b>3번</b> 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td><td><b>2번</b> 자리</td></tr>
+          <tr><td>셋째 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td><td><b>2번</b> 자리</td><td><b>3번</b> 자리</td></tr>
+        </tbody>
+      </table></div>
+  </div>
+</section>
+
+<!-- 13 SWITCH BRIEF -->
+<section class="slide wk" data-part="switch">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">바꾸기 전에 — 팀끼리 한 마디</h2>
+    <p class="text-lg text-slate-500 mb-6">돌아온 반과 지킨 반이 우리 자리에서 잠깐 모입니다</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="soft-card rounded-2xl p-6"><div class="text-xl font-black mb-2"><i class="fa-solid fa-eye text-dev-500 mr-2"></i>지킨 반이 말합니다</div><p class="text-[16px] text-slate-600">「우리 게임에서 가장 많이 막힌 곳은 ___ 였어요.」<br>후반에 지킬 반이 그곳을 더 잘 보게 됩니다.</p></div>
+      <div class="soft-card rounded-2xl p-6"><div class="text-xl font-black mb-2"><i class="fa-solid fa-person-walking text-flame-500 mr-2"></i>돈 반이 말합니다</div><p class="text-[16px] text-slate-600">「다른 팀 자리에서 잘 된 것 하나는 ___ 였어요.」<br>조작키 안내, QR 두는 곳처럼 바로 따라 할 수 있는 것.</p></div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-4 text-[16px] text-slate-700">
+      빌드는 그대로 둡니다. 막힌 곳은 고치지 않고 <b>기록지에만</b> 남깁니다. 후반 사람들도 같은 게임을 해야 앞뒤를 비교할 수 있습니다.
+    </div>
+  </div>
+</section>
+
+<!-- 14 SECOND HALF -->
+<section class="slide wk" data-part="second">
+  <div class="max-w-6xl w-full text-center">
+    <span class="tagchip bg-flame-600 text-white mb-5">후반</span>
+    <h2 class="text-5xl font-black mb-4">바꿔서 「가」 반이 돕니다</h2>
+    <p class="text-xl text-slate-500 mb-8">「나」 반이 우리 자리를 지킵니다. 순환표는 전반과 같습니다</p>
+    <div class="max-w-4xl mx-auto text-left"><table class="cmp-table" style="font-size:1.05rem">
+        <thead><tr><th>도는 반</th><th>1번 자리 팀</th><th>2번 자리 팀</th><th>3번 자리 팀</th><th>4번 자리 팀</th></tr></thead>
+        <tbody>
+          <tr><td>첫째 자리</td><td><b>2번</b> 자리</td><td><b>3번</b> 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td></tr>
+          <tr><td>둘째 자리</td><td><b>3번</b> 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td><td><b>2번</b> 자리</td></tr>
+          <tr><td>셋째 자리</td><td><b>4번</b> 자리</td><td><b>1번</b> 자리</td><td><b>2번</b> 자리</td><td><b>3번</b> 자리</td></tr>
+        </tbody>
+      </table></div>
+  </div>
+</section>
+
+<!-- 15 GATHER -->
+<section class="slide wk" data-part="gather">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">팀이 모여 본 것을 셉니다</h2>
+    <p class="text-lg text-slate-500 mb-6">1번 · 2번 컴퓨터 기록지 두 장과 폼 응답 탭을 같이 펴 놓습니다</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-6">
+      <div class="soft-card rounded-2xl p-6"><span class="no mb-3">1</span><div class="text-xl font-black mb-1">몇 명이 했나</div><p class="text-[15px] text-slate-500">두 장의 줄 수를 합친 것과 폼 응답 수. 다르면 빠진 사람이 있습니다</p></div>
+      <div class="soft-card rounded-2xl p-6"><span class="no mb-3">2</span><div class="text-xl font-black mb-1">장면이 몇 명에게 나왔나</div><p class="text-[15px] text-slate-500">장면 칸의 ✓ 를 셉니다. 「___명 중 ___명」</p></div>
+      <div class="soft-card rounded-2xl p-6"><span class="no mb-3">3</span><div class="text-xl font-black mb-1">어디서 많이 막혔나</div><p class="text-[15px] text-slate-500">막힌 곳 칸에서 두 번 이상 나온 곳을 세 개까지</p></div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-4 text-[16px] text-slate-700">
+      세는 동안에는 <b>「왜」를 아직 말하지 않습니다.</b> 숫자를 다 센 다음에 원인을 나누고, 그 숫자로 방향을 정합니다.
+    </div>
+  </div>
+</section>
+
+<!-- 16 FORM RESPONSES -->
+<section class="slide wk" data-part="gather">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">폼 응답은 세어서 읽습니다</h2>
+    <p class="text-lg text-slate-500 mb-5">구글 폼 <b class="text-slate-700">응답 탭</b>의 요약을 팀 노트북 한 대에 띄웁니다. 평균이 아니라 <b class="text-slate-700">몇 명</b>을 봅니다</p>
+    <div class="grid md:grid-cols-[1.1fr_1fr] gap-5 items-start">
+      <div>
+        <div class="gf">
+          <div class="gf-top"><span class="ico"><i class="fa-solid fa-list-check"></i></span><span class="nm">코인 러너 · 알파 설문</span>
+            <div class="gf-tabs"><span>질문</span><span class="on">응답<b>15</b></span><span>설정</span></div></div>
+          <div class="gf-in">
+            <div class="gf-card">
+              <div class="flex items-center justify-between"><span class="gf-big">응답 15개</span><span class="gf-sheets"><i class="fa-solid fa-table-cells"></i> Sheets 에 연결</span></div>
+              <div class="gf-sub"><span class="on">요약</span><span>질문</span><span>개별 보기</span></div>
+            </div>
+            <div class="gf-card">
+              <div class="gf-q">1. 적 사이로 코인을 먹을 때 얼마나 아슬아슬했나요?</div>
+              <div class="gf-n">응답 15개</div>
+              <div class="gf-cols">
+            <div class="gf-col"><i>1 (6.7%)</i><div style="height:15px"></div></div>
+            <div class="gf-col"><i>2 (13.3%)</i><div style="height:30px"></div></div>
+            <div class="gf-col"><i>3 (20%)</i><div style="height:45px"></div></div>
+            <div class="gf-col"><i>5 (33.3%)</i><div style="height:75px"></div></div>
+            <div class="gf-col"><i>4 (26.7%)</i><div style="height:60px"></div></div>
+                <div class="gf-mark" style="left:calc(50% + 37px);width:148px"><b>4 · 5 → 5 + 4 = 9명</b></div>
+              </div>
+              <div class="gf-x"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+            <div class="gf-card">
+              <div class="gf-q">2. 게임 오버는 주로 왜 났나요?</div>
+              <div class="gf-n">응답 15개</div>
+              <div class="gf-pie"><svg width="92" height="92" viewBox="0 0 92 92" aria-hidden="true" style="flex:none"><path d="M46,46 L46.00,0.00 A46,46 0 0 1 85.84,69.00 Z" fill="#3366cc" stroke="#fff" stroke-width="1"></path><path d="M46,46 L85.84,69.00 A46,46 0 0 1 36.44,90.99 Z" fill="#dc3912" stroke="#fff" stroke-width="1"></path><path d="M46,46 L36.44,90.99 A46,46 0 0 1 27.29,3.98 Z" fill="#ff9900" stroke="#fff" stroke-width="1"></path><path d="M46,46 L27.29,3.98 A46,46 0 0 1 46.00,0.00 Z" fill="#109618" stroke="#fff" stroke-width="1"></path><text x="70.7" y="35.7" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">33.3%</text><text x="57.6" y="76.1" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">20%</text><text x="17.6" y="53.0" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">40%</text></svg><div class="gf-leg"><div><span style="background:#3366cc"></span>적이 오는 걸 못 봤다</div><div><span style="background:#dc3912"></span>봤는데 피할 틈이 없었다</div><div><span style="background:#ff9900"></span>코인을 노리다 닿았다</div><div><span style="background:#109618"></span>게임 오버 없음</div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="gf-cap">「Sheets 에 연결」 → 한 줄에 한 사람씩 시트로. 화면 이름은 폼 버전에 따라 조금 다릅니다</div>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">1번 · 1~5</span><span class="font-black">4 · 5 를 더합니다</span></div><p class="text-[14px] text-slate-600 leading-relaxed">막대 위 숫자가 명수입니다. 4 는 5명, 5 는 4명 → <b>15명 중 9명</b>. 10주차에 쓴 확인 기준의 그 숫자입니다</p></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">2번 · 고르기</span><span class="font-black">가장 많은 보기가 첫 단서</span></div><p class="text-[14px] text-slate-600 leading-relaxed">원형은 % 로 나오고, 조각에 마우스를 올리면 명수가 보입니다. 「코인을 노리다 닿았다」 6명은 바란 행동, 「적이 오는 걸 못 봤다」 5명은 막힌 곳 후보</p></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">3번 · 어디까지</span><span class="font-black">앞 칸까지 간 사람부터</span></div><p class="text-[14px] text-slate-600 leading-relaxed">앞 칸까지 못 간 사람은 1 · 2번에 답할 장면을 못 봤습니다. 그런 사람이 많으면 그곳이 먼저 막힌 곳입니다</p></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="flex items-center gap-2 mb-1"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">4 · 5 · 6번 · 쓰기</span><span class="font-black">같은 말끼리 묶어 셉니다</span></div><p class="text-[14px] text-slate-600 leading-relaxed">「개별 보기」나 시트에서 한 줄씩 읽습니다. 「적이 움직이는 줄 몰랐다」와 「저게 적이에요?」는 같은 곳 → 하나로 묶어 셉니다</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 RESULT SENTENCE -->
+<section class="slide wk" data-part="gather">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-2">알파 한 문장에 답을 붙입니다</h2>
+    <p class="text-lg text-slate-500 mb-6">9주차에 쓴 문장 아래에 오늘 숫자를 쓰고, 10주차에 정한 확인 기준과 대어 봅니다</p>
+    <div class="glass-card rounded-3xl px-8 py-6 mb-5">
+      <div class="text-sm font-black text-slate-400 mb-2">9주차에 쓴 것</div>
+      <p class="text-[20px] font-bold text-slate-600">11주차 알파에서 우리는 <u>코인 12개를 모으는 데</u>까지 플레이하게 해서, <u>적이 지나간 틈을 노려 코인 쪽으로 움직이는지</u> 확인한다.</p>
+    </div>
+    <div class="soft-card rounded-3xl px-8 py-6" style="background:#fff7ed;border-color:#fed7aa">
+      <div class="text-sm font-black text-flame-600 mb-2">오늘 본 것</div>
+      <p class="text-[20px] font-black text-slate-800 leading-[2]">해 본 <span class="text-flame-600">15</span>명 중 <span class="text-flame-600">11</span>명이 그렇게 움직였다.<br>가장 많이 막힌 곳은 <span class="text-flame-600">적을 움직이지 않는 장애물로 봄 (5명)</span> 이었다.</p>
+    </div>
+    <div class="soft-card rounded-3xl px-8 py-5 mt-4" style="background:#ecfdf5;border-color:#a7f3d0">
+      <div class="text-sm font-black text-emerald-700 mb-1">10주차에 정한 「확인 기준」과 대어 봅니다</div>
+      <p class="text-[17px] text-slate-700">「1번에서 4~5 가 절반 이상, 그리고 지켜본 사람의 절반 이상에게 장면」 → 응답 탭 <b>9 / 15</b> · 기록지 <b>11 / 15</b> → <b class="text-emerald-700">확인됨</b>. 못 미쳤다면 「못 미침」. 왜인지는 이어지는 장에서 막힌 곳과 2번으로 읽습니다</p>
+    </div>
+  </div>
+</section>
+
+<!-- 18 CAUSES -->
+<section class="slide wk" data-part="decide">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">막힌 곳마다 원인을 셋 중 하나로 나눕니다</h2>
+    <p class="text-lg text-slate-500 mb-5">1번부터 차례로 묻고, 처음 <b class="text-slate-700">「예」</b>가 나온 칸이 그 막힌 곳의 원인입니다</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div class="soft-card rounded-2xl p-5 flex flex-col gap-3">
+        <div class="flex items-center gap-3"><span class="no" style="background:#dc2626">1</span><span class="text-2xl font-black">버그</span></div>
+        <div class="cz-q">「만든 대로 움직이지 않았나?」</div>
+        <div class="cz-ex">RETRY 뒤 공이 안 움직임 · 벽을 뚫고 떨어짐 · 코인을 먹어도 숫자가 그대로</div>
+        <div class="cz-fix"><b>고치는 곳</b> — 다시 나게 하는 순서를 적고 코드를 고칩니다. 규칙은 그대로</div>
+      </div>
+      <div class="soft-card rounded-2xl p-5 flex flex-col gap-3">
+        <div class="flex items-center gap-3"><span class="no" style="background:#2563eb">2</span><span class="text-2xl font-black">안내</span></div>
+        <div class="cz-q">「설명을 한 줄 들었다면 안 막혔을까?」</div>
+        <div class="cz-ex">적이 움직이는 줄 몰랐다 · 점프 키를 몰랐다 · 끝난 줄 모르고 기다렸다</div>
+        <div class="cz-fix"><b>고치는 곳</b> — 말 대신 화면이 알려 주게 합니다. 첫 적이 움직이는 길 · 조작키 한 줄 · 끝 화면. 규칙은 그대로</div>
+      </div>
+      <div class="soft-card rounded-2xl p-5 flex flex-col gap-3">
+        <div class="flex items-center gap-3"><span class="no" style="background:#ea580c">3</span><span class="text-2xl font-black">규칙</span></div>
+        <div class="cz-q">「알고 해도 그렇게 될까?」</div>
+        <div class="cz-ex">피할 틈이 없었다 · 아무 상자나 밀어도 풀렸다 · 화살 탑만 지어도 이겼다</div>
+        <div class="cz-fix"><b>고치는 곳</b> — 숫자 · 배치 · 규칙을 바꿉니다. 속도 · 개수 · 순서 · 값</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-3.5 text-[16px] text-slate-700">
+      같은 「어려웠다」도 원인마다 고치는 곳이 다릅니다. <b>안내</b> 문제를 적 속도로 고치면, 막힌 곳은 사라져도 확인하려던 장면까지 같이 사라집니다.
+    </div>
+  </div>
+</section>
+
+<!-- 19 THREE WAYS -->
+<section class="slide wk" data-part="decide">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">세 갈래 중 하나를 고릅니다</h2>
+    <p class="text-lg text-slate-500 mb-5">갈래는 의견이 아니라 <b class="text-slate-700">오늘 센 숫자</b>로 고릅니다</p>
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div class="soft-card rounded-2xl p-5">
+        <span class="gal-tag mb-2" style="background:#dcfce7;color:#166534"><i class="fa-solid fa-arrow-right"></i> 그대로 간다</span>
+        <div class="cz-row"><b>언제</b><span>확인 기준을 넘었다. 막힌 곳은 버그 · 안내</span></div>
+        <div class="cz-row"><b>베타 한 문장</b><span>뒤 칸은 그대로, 앞 칸을 넓힙니다 — 다음 판 · 다음 방까지</span></div>
+        <div class="cz-row"><b>할 일</b><span>막힌 곳만 고치고, 다음 범위를 만듭니다</span></div>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <span class="gal-tag mb-2" style="background:#dbeafe;color:#1e40af"><i class="fa-solid fa-wrench"></i> 고쳐서 간다</span>
+        <div class="cz-row"><b>언제</b><span>못 미쳤다. 2번 · 막힌 곳이 숫자 · 배치 · 안내를 가리킨다</span></div>
+        <div class="cz-row"><b>베타 한 문장</b><span>뒤 칸은 그대로. 같은 것을 다시 확인합니다</span></div>
+        <div class="cz-row"><b>할 일</b><span>속도 · 개수 · 순서 · 안내 중 원인 쪽만 고칩니다</span></div>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <span class="gal-tag mb-2" style="background:#ffedd5;color:#9a3412"><i class="fa-solid fa-shuffle"></i> 방향을 바꾼다 · 피벗</span>
+        <div class="cz-row"><b>언제</b><span>못 미쳤는데, 해 본 사람이 <b>다른 행동</b>을 즐겼다 — 기록지 말 · 표정 칸과 5번에 몰림</span></div>
+        <div class="cz-row"><b>베타 한 문장</b><span>뒤 칸을 그 행동으로 바꿉니다</span></div>
+        <div class="cz-row"><b>할 일</b><span>그 행동을 키우는 규칙만 남기고, 나머지는 자릅니다</span></div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="glass-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">근거는 「몇 명 중 몇 명」</div><p class="text-[15px] text-slate-600">「다들 재미있어했다」는 근거가 아닙니다. 기록지 · 응답에서 센 숫자를 하나 이상 붙입니다</p></div>
+      <div class="glass-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">베타까지 두 주</div><p class="text-[15px] text-slate-600">방향을 바꿔도 남은 주는 같습니다. 바꾸는 팀일수록 「하지 않을 것」을 먼저 정합니다</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 FOUR CASES -->
+<section class="slide wk" data-part="decide">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">10주차 네 사례 · 숫자는 예시</span></div>
+    <h2 class="text-4xl font-black mb-2">같은 「못 미침」도 갈래는 다릅니다</h2>
+    <p class="text-lg text-slate-500 mb-4">10주차에 본 네 게임이 알파에서 이런 숫자를 받았다면</p>
+    <table class="cmp-table tight cases" style="font-size:.84rem">
+      <thead><tr><th style="width:21%">게임 · 확인하려던 것</th><th style="width:25%">센 숫자</th><th style="width:27%">막힌 곳 · 원인</th><th>갈래 · 베타까지</th></tr></thead>
+      <tbody>
+        <tr><td><b class="k">코인 러너</b><span class="sm">적이 지나간 틈을 노려 코인 쪽으로 움직이는지</span></td>
+          <td>1번 4~5 <b class="whitespace-nowrap">9 / 15</b> · 장면 <b class="whitespace-nowrap">11 / 15</b> → <b class="text-emerald-700">확인됨</b></td>
+          <td>「적이 움직이는 줄 몰랐다」 5명 → <b>안내</b></td>
+          <td><span class="gal-tag" style="background:#dcfce7;color:#166534">그대로 간다</span><div class="mt-1">첫 적이 나올 때 움직이는 길을 한 번 보여 주고, 베타는 두 번째 판까지</div></td></tr>
+        <tr><td><b class="k">두 번 뛰는 고양이</b><span class="sm">설명 없이 이중 점프를 찾아내는지</span></td>
+          <td>1번 「알려 줘서 · 끝까지 몰랐다」 <b class="whitespace-nowrap">7 / 14</b> → <b class="text-red-600">못 미침</b><span class="sm">기준은 3분의 1 이하</span></td>
+          <td>첫 높은 발판 앞에서 다섯 번 넘게 뛴 사람 8명. 이중 점프가 필요한 첫 곳이 가장 어려운 발판 → <b>규칙 · 배치</b></td>
+          <td><span class="gal-tag" style="background:#dbeafe;color:#1e40af">고쳐서 간다</span><div class="mt-1">이중 점프가 꼭 필요한 낮은 발판을 맨 앞에. 뒤 칸 그대로 다시 확인</div></td></tr>
+        <tr><td><b class="k">상자 밀기 창고</b><span class="sm">밀기 전에 멈춰서 순서를 생각하는지</span></td>
+          <td>2번 「아무 상자나 밀어 봤다」 <b class="whitespace-nowrap">9 / 13</b> · 1번 4~5 <b class="whitespace-nowrap">3 / 13</b> → <b class="text-red-600">못 미침</b></td>
+          <td>로그 RESTART 가 두 번째 방에 몰림. 상자가 넷이라 순서를 따져 볼 엄두가 안 남 → <b>규칙 · 배치</b></td>
+          <td><span class="gal-tag" style="background:#dbeafe;color:#1e40af">고쳐서 간다</span><div class="mt-1">두 번째 방 상자 넷 → 둘, 쉬운 방을 앞에</div></td></tr>
+        <tr><td><b class="k">세 갈래 성벽</b><span class="sm">적에 맞춰 탑을 바꿔 짓는지</span></td>
+          <td>1번 화살 탑 <b class="whitespace-nowrap">10 / 12</b> · 2번 4~5 <b class="whitespace-nowrap">2 / 12</b> → <b class="text-red-600">못 미침</b></td>
+          <td>기록지 말 · 표정 — 적이 성문 앞에 몰렸다가 폭탄 한 번에 사라질 때 웃음 · 「와」 <b class="whitespace-nowrap">7 / 12</b></td>
+          <td><span class="gal-tag" style="background:#ffedd5;color:#9a3412">방향을 바꾼다</span><div class="mt-1">뒤 칸을 「적을 길목에 모아 폭탄으로 한꺼번에 잡는지」로. 얼음 탑은 베타에서 뺌</div></td></tr>
+      </tbody>
+    </table>
+    <div class="glass-card rounded-2xl px-6 py-3 text-[15.5px] text-slate-700 mt-4">
+      성벽 팀은 확인하려던 행동은 안 나왔지만, 해 본 사람이 <b>다른 행동을 즐긴 숫자</b>가 있었습니다. 그 숫자가 없었다면 방향을 바꾸지 않고 고쳐서 갑니다.
+    </div>
+  </div>
+</section>
+
+<!-- 21 TEAM DISCUSSION -->
+<section class="slide wk" data-part="decide">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 토의</span></div>
+    <h2 class="text-4xl font-black mb-2">이 순서로 정합니다</h2>
+    <p class="text-lg text-slate-500 mb-5">정한 것은 바로 「방향 정하기 활동지」에 한 줄씩 적습니다</p>
+    <div class="grid md:grid-cols-[1.65fr_1fr] gap-5 items-start">
+      <div class="space-y-2">
+        <div class="soft-card rounded-2xl px-5 py-2.5 flex gap-4 items-center"><span class="no">1</span><div><div class="font-black text-[17px]">숫자 읽기</div><div class="text-[14.5px] text-slate-600">해 본 사람 · 장면이 나온 사람 · 확인 기준 · 많이 막힌 곳 세 개</div></div></div>
+        <div class="soft-card rounded-2xl px-5 py-2.5 flex gap-4 items-center"><span class="no">2</span><div><div class="font-black text-[17px]">원인 나누기</div><div class="text-[14.5px] text-slate-600">막힌 곳마다 버그 · 안내 · 규칙 중 하나</div></div></div>
+        <div class="soft-card rounded-2xl px-5 py-2.5 flex gap-4 items-center"><span class="no">3</span><div><div class="font-black text-[17px]">순간 둘</div><div class="text-[14.5px] text-slate-600">반응이 밋밋했던 순간 하나, 가장 즐긴 순간 하나. 기록지 말 · 표정 칸과 5번에서</div></div></div>
+        <div class="soft-card rounded-2xl px-5 py-2.5 flex gap-4 items-center"><span class="no">4</span><div><div class="font-black text-[17px]">갈래 고르기</div><div class="text-[14.5px] text-slate-600">그대로 간다 · 고쳐서 간다 · 방향을 바꾼다. 근거 숫자 하나 이상</div></div></div>
+        <div class="soft-card rounded-2xl px-5 py-2.5 flex gap-4 items-center"><span class="no">5</span><div><div class="font-black text-[17px]">베타까지</div><div class="text-[14.5px] text-slate-600">바꿀 것 세 개(순서대로 · 누가), 하지 않을 것 하나</div></div></div>
+        <div class="soft-card rounded-2xl px-5 py-2.5 flex gap-4 items-center"><span class="no">6</span><div><div class="font-black text-[17px]">베타 한 문장</div><div class="text-[14.5px] text-slate-600">「13주차 베타에서 우리는 ___까지 플레이하게 해서, ___인지 확인한다.」</div></div></div>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-2">역할 셋</div><div class="flex flex-wrap gap-2"><span class="stk st-violet" style="padding:8px 12px">응답 탭을 읽는 사람</span><span class="stk st-yellow" style="padding:8px 12px">활동지를 적는 사람</span><span class="stk st-green" style="padding:8px 12px">마지막에 말할 사람</span></div></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">의견이 갈리면</div><p class="text-[15px] text-slate-600">기록지와 응답에서 그 장면을 다시 찾아 셉니다. 목소리 큰 쪽이 아니라 숫자 쪽으로</p></div>
+        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">바꿀 것을 고르는 순서</div><p class="text-[15px] text-slate-600">한 판을 막는 버그 → 장면을 막는 것 → 나머지. 10주차 고칠 순서와 같습니다</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 ACTIVITY SHEET -->
+<section class="slide wk" data-part="sheet">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-flame-600 text-white">과제 · 팀원 중 한 명이 대표로</span></div>
+    <h2 class="text-4xl font-black mb-2">「방향 정하기 활동지」를 과제란에 냅니다</h2>
+    <p class="text-lg text-slate-500 mb-5">사이버캠퍼스 과제란에 <b class="text-slate-700">오늘 11/11(수) 23:59</b> 까지. 토의에서 정한 그대로 냅니다</p>
+    <div class="grid md:grid-cols-[1.15fr_1fr] gap-5 items-start">
+      <div class="cp">
+        <div class="cp-bar"><span><i class="fa-solid fa-file-lines"></i> 과제란에 붙여 넣을 글</span><button class="cp-btn" type="button" data-copy="cp-pivot"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
+        <pre class="cp-body" id="cp-pivot">방향 정하기 활동지
+- 팀:
+- 알파 한 문장:
+- 해 본 사람 (기록지 줄 수 · 폼 응답 수):
+- 장면이 나온 사람 (몇 명 중 몇 명):
+- 확인 기준 (확인됨 · 못 미침, 센 숫자):
+- 많이 막힌 곳 1 (몇 명 · 버그 · 안내 · 규칙):
+- 많이 막힌 곳 2:
+- 많이 막힌 곳 3:
+- 반응이 밋밋했던 순간:
+- 가장 즐긴 순간:
+- 고른 갈래 (그대로 간다 · 고쳐서 간다 · 방향을 바꾼다):
+- 근거 (숫자 하나 이상):
+- 베타까지 바꿀 것 1 (누가 · 무엇을 · 어떻게 되면 끝):
+- 베타까지 바꿀 것 2:
+- 베타까지 바꿀 것 3:
+- 베타까지 하지 않을 것:
+- 베타 한 문장:</pre>
+        <div class="cp-foot"><i class="fa-solid fa-paperclip"></i> 파일 첨부 — 관찰 기록지 두 장 사진 (1번 · 2번 컴퓨터)</div>
+      </div>
+      <div class="space-y-3">
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">숫자는 센 그대로</div><p class="text-[14.5px] text-slate-600">「15명 중 11명」처럼 씁니다. 「대부분」 「꽤 많이」로 쓰면 베타 숫자와 견줄 수 없습니다</p></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">바꿀 것은 한 줄에 하나</div><p class="text-[14.5px] text-slate-600">누가 · 무엇을 · 어떻게 되면 끝. 「적 수정」 대신 「하린 · 첫 적이 움직이는 길을 화살표로 보여 줌 · 처음 하는 사람이 첫 적을 피해 간다」</p></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">방향을 바꾸는 팀</div><p class="text-[14.5px] text-slate-600">베타 한 문장의 뒤 칸이 알파와 달라집니다. 빼기로 한 것은 「하지 않을 것」에 적습니다</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 AI CHECK -->
+<section class="slide wk" data-part="ai">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-800 text-white">하면 좋음 · 활동지를 다 쓴 다음</span></div>
+    <h2 class="text-4xl font-black mb-2">AI 에게 우리 활동지를 응답에 대어 보게 합니다</h2>
+    <p class="text-lg text-slate-500 mb-4">갈래는 팀이 정합니다. AI 에게는 <b class="text-slate-700">다시 세기 · 원인 나누기 · 문장 다듬기</b>만 맡깁니다</p>
+    <div class="grid md:grid-cols-[1fr_1.4fr] gap-5 items-start">
+      <div class="space-y-3">
+        <div class="step"><span class="no">1</span><p class="text-[15.5px] text-slate-700"><b>복사</b> — 팀 노트북에서 이 장을 열고 프롬프트 상자의 <b>복사</b>. 슬라이드 주소 끝에 <span class="mono">#23</span></p></div>
+        <div class="step"><span class="no">2</span><p class="text-[15.5px] text-slate-700"><b>붙여 넣기</b> — 다 쓴 활동지 그대로, 그리고 응답 시트의 문항 열. 이메일처럼 누군지 알 수 있는 열은 빼고</p></div>
+        <div class="step"><span class="no">3</span><p class="text-[15.5px] text-slate-700"><b>AI 채팅에</b> — ChatGPT · Claude · Gemini 같은 AI 채팅 아무거나</p></div>
+        <div class="step"><span class="no">4</span><p class="text-[15.5px] text-slate-700"><b>확인하고 고르기</b> — 다시 센 숫자가 다르면 줄 번호로 직접 세어 봅니다. 맞는 것만 활동지에 받습니다</p></div>
+        <div class="soft-card rounded-2xl px-4 py-3"><div class="font-black mb-0.5">AI 가 돌려주는 여섯 가지</div><p class="text-[14px] text-slate-600">A 다시 센 숫자 · B 원인을 다르게 나눈 곳 · C 갈래와 근거 · D 다듬은 바꿀 것 세 개 · E 베타 한 문장 점검 · F 우리에게 물을 것</p></div>
+        <div class="soft-card rounded-2xl px-4 py-3"><div class="font-black mb-0.5">「개인 기여 보고서」 AI 칸에</div><p class="text-[14px] text-slate-600">무엇을 시켰나 · 그대로 쓴 것 / 고친 것을 한 줄씩</p></div>
+      </div>
+      <div class="cp">
+        <div class="cp-bar"><span><i class="fa-solid fa-wand-magic-sparkles"></i> 활동지 점검 프롬프트</span><button class="cp-btn" type="button" data-copy="cp-pivot-ai"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
+        <pre class="cp-body" id="cp-pivot-ai" style="max-height:min(50vh,430px)">너는 게임 플레이 테스트 결과를 같이 읽는 조교야.
+아래는 우리 팀이 알파 테스트 뒤에 쓴 「방향 정하기 활동지」와, 우리 게임을 해 본 사람들이 남긴 폼 응답이야. 새로 정하지 말고, 우리 활동지가 [규칙]에 맞는지 응답에 대어 봐 줘.
+
+[우리 활동지]
+(활동지를 그대로 붙여 넣기)
+
+[폼 응답]
+(응답 시트에서 문항 열만 복사해 붙여 넣기. 이메일처럼 누군지 알 수 있는 열은 넣지 않는다)
+
+[규칙]
+1. 폼 응답으로 셀 수 있는 숫자는 다시 센다. 우리 숫자와 다르면 몇 번째 줄을 셌는지 줄 번호로 적는다. 관찰 기록지에서 센 숫자(장면이 나온 사람)는 그대로 둔다.
+2. 막힌 곳마다 버그 · 안내 · 규칙 중 하나로 나눈다. 버그는 만든 대로 움직이지 않은 것, 안내는 설명을 한 줄 들었다면 안 막혔을 것, 규칙은 알고 해도 그렇게 되는 것. 우리와 다르게 나눈 곳만 이유와 함께 적는다.
+3. 고른 갈래(그대로 간다 · 고쳐서 간다 · 방향을 바꾼다)는 바꾸지 않는다. 근거 숫자가 그 갈래를 받쳐 주는지만 본다.
+4. 베타까지 바꿀 것 세 개는 한 줄에 하나, 「누가 · 무엇을 · 어떻게 되면 끝」이 보이게 다듬는다. 새 기능을 더하지 않는다.
+5. 베타 한 문장의 뒤 칸(___인지)을 다음 테스트에서 「몇 명 중 몇 명」으로 셀 수 있는지 본다.
+6. 응답에 없는 말을 지어내지 않는다. 우리 게임에 없는 장면을 예로 들지 않는다.
+
+[답 형식]
+A. 다시 센 숫자: 항목 | 우리 숫자 | 다시 센 숫자 | 센 줄 번호
+B. 원인을 다르게 나눈 곳: 막힌 곳 | 우리 | 너 | 이유 한 줄
+C. 갈래와 근거: 「받쳐 준다」 · 「약하다」 중 하나와 이유 한 줄
+D. 다듬은 바꿀 것 세 개
+E. 베타 한 문장 점검
+F. 우리에게 물어볼 것</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 24 SHARE -->
+<section class="slide wk" data-part="share">
+  <div class="max-w-5xl w-full text-center">
+    <h2 class="text-4xl font-black mb-3">팀마다 한 사람이 이 문장으로 말합니다</h2>
+    <p class="text-lg text-slate-500 mb-8">다른 팀은 방금 그 게임을 해 본 사람으로 듣습니다</p>
+    <div class="glass-card rounded-3xl px-8 py-8 mb-6">
+      <p class="text-[24px] font-black text-slate-800 leading-[2.1]">「우리 게임을 해 본 <span class="blank" style="min-width:60px"></span>명 중 <span class="blank" style="min-width:60px"></span>명에게서<br><span class="blank" style="min-width:260px"></span>장면이 나왔습니다.<br>가장 많이 막힌 곳은 <span class="blank" style="min-width:220px"></span>입니다.<br>그래서 우리는 <span class="blank" style="min-width:160px"></span>갑니다.<br>베타까지 가장 먼저 바꿀 것은 <span class="blank" style="min-width:220px"></span>입니다.」</p>
+    </div>
+    <p class="text-[16px] text-slate-500">갈래 칸은 「그대로」 · 「고쳐서」 · 「방향을 바꿔」 중 하나</p>
+  </div>
+</section>
+
+<!-- 25 END -->
+<section class="slide wk" data-part="end">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">오늘 나가기 전에, 그리고 다음 주</h2>
+    <div class="grid md:grid-cols-5 gap-4">
+      <div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa">
+        <span class="tagchip bg-flame-600 text-white mb-3">과제 · 오늘 23:59</span>
+        <div class="text-xl font-black mb-2">「방향 정하기 활동지」</div>
+        <p class="text-[14.5px] text-slate-600">팀원 중 한 명이 대표로 사이버캠퍼스 과제란에. 관찰 기록지 두 장 사진을 첨부</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <span class="tagchip bg-slate-800 text-white mb-3">오늘 · 팀</span>
+        <div class="text-xl font-black mb-2">그대로 남기기</div>
+        <p class="text-[14.5px] text-slate-600">기록지 두 장 사진, 응답 시트, 오늘 쓴 빌드 zip 을 팀 공유 폴더에. 오늘 빌드가 알파 빌드입니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5" style="background:#eef2ff;border-color:#c7d2fe">
+        <span class="tagchip bg-dev-600 text-white mb-3">이번 주 · 온라인 영상</span>
+        <div class="text-xl font-black mb-2">AI 와 함께 고치기</div>
+        <p class="text-[14.5px] text-slate-600">고친 것을 규칙 파일에 한 줄 · Agent 에게 맡기기 · 도구 연결(MCP) · 버그 잡기(Console · Debug.Log · 디버거) · 팀이 나눠 고쳐 합치기</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <span class="tagchip bg-slate-800 text-white mb-3">12주차 · 11/18 · 팀</span>
+        <div class="text-xl font-black mb-2">고칠 목록 · 베타 설문</div>
+        <p class="text-[14.5px] text-slate-600">활동지의 바꿀 것 세 개를 누가 · 파일 · 완료 기준으로 나누고, 베타 한 문장으로 설문을 만듭니다</p>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <span class="tagchip bg-slate-800 text-white mb-3">매주 · 개인</span>
+        <div class="text-xl font-black mb-2">「개인 기여 보고서」</div>
+        <p class="text-[14.5px] text-slate-600">내가 지킬 때 본 것 한 줄, 다른 팀 게임에서 배운 것 한 줄</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="navbar-fixed fixed bottom-5 left-1/2 -translate-x-1/2 z-[130] flex items-center gap-3">
+  <button onclick="prevSlide()" aria-label="이전 슬라이드" class="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:bg-slate-50 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <div class="hidden md:flex items-center gap-2 bg-white/85 backdrop-blur border border-slate-200 shadow-md rounded-full px-4 h-11 text-xs text-slate-400">
+    <span class="kbd">←</span><span class="kbd">→</span><span>이동</span>
+  </div>
+  <button onclick="nextSlide()" aria-label="다음 슬라이드" class="w-12 h-12 rounded-full bg-slate-900 text-white shadow-lg hover:bg-dev-700 hover:scale-105 transition">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll(".slide");
+const progressBar = document.getElementById("progress-bar");
+const currentSlideLabel = document.getElementById("current-slide");
+const totalSlidesLabel = document.getElementById("total-slides");
+const partLabel = document.getElementById("part-label");
+const PART_NAMES = {"0":"게임 개발 실습 · 11주차","order":"오늘 순서","rot":"순환 방식","setup":"1 · 자리 차리기 · 팀","watch":"2 · 지켜보는 법","first":"3 · 전반","switch":"전반 → 후반","second":"4 · 후반","gather":"5 · 답 모으기 · 팀","decide":"6 · 방향 정하기 · 팀 토의","sheet":"6 · 활동지 · 팀 대표","ai":"6 · 하면 좋음 · AI 로 한 번 더","share":"6 · 한 줄 공유 · 팀 대표","end":"오늘 나가기 전에"};
+let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
+totalSlidesLabel.textContent = slides.length;
+
+function updateSlide(){
+  slides.forEach((s,i)=>{
+    s.classList.remove("active","prev-slide");
+    if(i===currentSlide){ s.classList.add("active"); s.scrollTop=0; }
+    else if(i<currentSlide){ s.classList.add("prev-slide"); }
+  });
+  progressBar.style.width = `${((currentSlide+1)/slides.length)*100}%`;
+  currentSlideLabel.textContent = currentSlide+1;
+  partLabel.textContent = PART_NAMES[slides[currentSlide].dataset.part] || "게임 개발 실습 · 11주차";
+  if(history.replaceState) history.replaceState(null,"","#"+(currentSlide+1));
+}
+function nextSlide(){ if(currentSlide<slides.length-1){currentSlide++;updateSlide();} }
+function prevSlide(){ if(currentSlide>0){currentSlide--;updateSlide();} }
+
+document.addEventListener("keydown",(e)=>{
+  const k=e.key;
+  if(k==="ArrowRight"||k==="PageDown"||k===" "){e.preventDefault();nextSlide();}
+  else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();prevSlide();}
+  else if(k==="ArrowDown"){const s=slides[currentSlide];if(s.scrollHeight-s.clientHeight-s.scrollTop<=3){e.preventDefault();nextSlide();}}
+  else if(k==="ArrowUp"){const s=slides[currentSlide];if(s.scrollTop<=0){e.preventDefault();prevSlide();}}
+  else if(k==="Home"){currentSlide=0;updateSlide();}
+  else if(k==="End"){currentSlide=slides.length-1;updateSlide();}
+});
+window.addEventListener("wheel",(e)=>{
+  const s=slides[currentSlide];
+  if(s&&s.scrollHeight>s.clientHeight+3){
+    const atTop=s.scrollTop<=0, atBottom=Math.abs(s.scrollHeight-s.clientHeight-s.scrollTop)<=3;
+    if(e.deltaY>0&&!atBottom)return; if(e.deltaY<0&&!atTop)return;
+  }
+  if(isAnimating)return;
+  if(e.deltaY>0)nextSlide(); else if(e.deltaY<0)prevSlide();
+  isAnimating=true; setTimeout(()=>{isAnimating=false;},520);
+},{passive:true});
+window.addEventListener("touchstart",(e)=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+window.addEventListener("touchend",(e)=>{
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){ dx<0?nextSlide():prevSlide(); }
+},{passive:true});
+
+(function(){
+  const n=parseInt((location.hash||"").replace("#",""),10);
+  if(!isNaN(n)&&n>=1&&n<=slides.length) currentSlide=n-1;
+  updateSlide();
+})();
+</script>
+<script>
+/* 복사 버튼 — 프롬프트 · 과제 글 */
+(function(){
+  function copyText(t){
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(t);
+    return new Promise(function(res, rej){
+      var ta = document.createElement("textarea");
+      ta.value = t; ta.setAttribute("readonly", "");
+      ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+      ok ? res() : rej();
+    });
+  }
+  document.querySelectorAll(".cp-btn").forEach(function(b){
+    var label = b.querySelector("span"), icon = b.querySelector("i"), timer = 0;
+    function reset(){ b.classList.remove("ok"); label.textContent = "복사"; icon.className = "fa-regular fa-copy"; }
+    b.addEventListener("click", function(e){
+      e.stopPropagation();
+      var src = document.getElementById(b.dataset.copy);
+      if (!src) return;
+      copyText(src.textContent.replace(/\s+$/, "") + "\n").then(function(){
+        b.classList.add("ok"); label.textContent = "복사됨"; icon.className = "fa-solid fa-check";
+      }, function(){
+        var r = document.createRange(); r.selectNodeContents(src);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        label.textContent = "Ctrl + C 로 복사";
+      });
+      clearTimeout(timer); timer = setTimeout(reset, 2000);
+    });
+  });
+  /* 상자 안을 휠로 내릴 때는 장이 넘어가지 않게 */
+  document.querySelectorAll(".cp-body").forEach(function(box){
+    box.addEventListener("wheel", function(e){
+      var canDown = box.scrollTop + box.clientHeight < box.scrollHeight - 2;
+      var canUp = box.scrollTop > 0;
+      if ((e.deltaY > 0 && canDown) || (e.deltaY < 0 && canUp)) e.stopPropagation();
+    }, { passive: true });
+  });
+})();
+</script>
+
+</body>
+</html>
