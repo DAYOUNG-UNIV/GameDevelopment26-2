@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>게임 개발 실습 · 10주차 온라인 — AI 와 함께 만들기</title>
+<title>게임 개발 실습 · 10주차 온라인 — 유니티와 AI 함께 쓰기</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
@@ -568,16 +568,15 @@ body{
     <div class="inline-flex items-center gap-3 mb-7 text-sm font-black tracking-widest text-dev-700 bg-dev-50 border border-dev-200 rounded-full px-5 py-2">
       10주차 · 온라인
     </div>
-    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">AI 와 함께<br><span class="text-dev-600">만들기</span></h1>
-    <p class="text-xl md:text-2xl text-slate-500 mb-10">Visual Studio 안의 AI 와 함께, AI 를 바꾸기보다 <b class="text-slate-700">AI 둘레</b>를 바꿉니다.<br>하네스 엔지니어링</p>
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">유니티와 AI<br><span class="text-dev-600">함께 쓰기</span></h1>
+    <p class="text-xl md:text-2xl text-slate-500 mb-10">한 판이 끝까지 돌게 해서 빌드하고, Visual Studio 의 AI 에게 시키고,<br><b class="text-slate-700">확인은 우리가 합니다.</b></p>
     <div class="flex flex-wrap justify-center gap-3">
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">한 판이 끝까지</span>
+      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">빌드 · 다른 컴퓨터에서 열기</span>
       <span class="tagchip bg-violet-50 text-violet-700 border border-violet-200">Visual Studio · Copilot</span>
       <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">규칙 파일</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">완료 기준</span>
-      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">요청 틀</span>
-      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">되돌릴 지점</span>
-      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">확인 루프</span>
-      <span class="tagchip bg-flame-50 text-flame-700 border border-flame-200">도구 연결</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">완료 기준 · 요청 네 칸</span>
+      <span class="tagchip bg-dev-50 text-dev-700 border border-dev-200">되돌릴 지점 · 확인 루프</span>
     </div>
   </div>
 </section>
@@ -588,70 +587,742 @@ body{
     <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">이번 편은 세 부분입니다</h2>
     <div class="grid md:grid-cols-3 gap-5 mb-7">
       <div class="soft-card rounded-3xl p-7">
-        <div class="text-5xl font-black text-violet-600 mb-3">00</div>
-        <div class="text-2xl font-black mb-4">Visual Studio 준비</div>
+        <div class="text-5xl font-black text-flame-600 mb-3">01</div>
+        <div class="text-2xl font-black mb-4">한 판이 끝까지, 빌드로</div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 씬 세 개 · Scene List · 씬 넘기기</li>
+          <li>· 버튼 연결 · 이기는 끝 · 지는 끝</li>
+          <li>· 다시 하기 · Esc · 한 판 점검</li>
+          <li>· 창 · Canvas Scaler · Build Profiles</li>
+          <li>· 폴더째 압축 · 다른 노트북에서 열기</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7">
+        <div class="text-5xl font-black text-violet-600 mb-3">02</div>
+        <div class="text-2xl font-black mb-4">Visual Studio 에 AI 붙이기</div>
         <ul class="text-[17px] text-slate-600 space-y-2">
           <li>· AI 를 쓰는 세 자리 · 무료로 되나</li>
-          <li>· 설치 관리자 — Unity 워크로드 · Copilot</li>
-          <li>· 유니티와 Visual Studio 잇기</li>
-          <li>· Copilot 로그인 · Ask 와 Agent</li>
+          <li>· 설치 관리자 · 유니티와 잇기</li>
+          <li>· Copilot 로그인</li>
+          <li>· Ask 와 Agent</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-7">
-        <div class="text-5xl font-black text-dev-600 mb-3">01</div>
-        <div class="text-2xl font-black mb-4">시키기 전에</div>
+        <div class="text-5xl font-black text-dev-600 mb-3">03</div>
+        <div class="text-2xl font-black mb-4">시키고, 넣고, 확인하기</div>
         <ul class="text-[17px] text-slate-600 space-y-2">
-          <li>· AI 가 유니티에서 자주 틀리는 이유</li>
           <li>· 하네스 — AI 둘레에 두는 장치</li>
-          <li>· 규칙 파일 만들기 · 읽었는지 확인</li>
-          <li>· 완료 기준 · 요청 틀</li>
-          <li>· 받은 코드 읽기</li>
-        </ul>
-      </div>
-      <div class="soft-card rounded-3xl p-7">
-        <div class="text-5xl font-black text-flame-600 mb-3">02</div>
-        <div class="text-2xl font-black mb-4">시킨 다음에</div>
-        <ul class="text-[17px] text-slate-600 space-y-2">
-          <li>· 되돌릴 지점 만들기</li>
-          <li>· 넣고 돌려 보기 — 확인 루프</li>
-          <li>· 에러를 그대로 붙여 넣기</li>
-          <li>· 규칙 파일에 한 줄 더하기</li>
-          <li>· Agent 로 한 번 더 · 도구 연결</li>
+          <li>· 규칙 파일 · 완료 기준 · 요청 네 칸</li>
+          <li>· 되돌릴 지점 · 확인 루프</li>
+          <li>· 에러를 그대로 붙여 고치기</li>
         </ul>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 text-center">
-      <p class="text-[18px] text-slate-700">예제는 <b class="text-dev-700">Roll a Ball</b> 에 두 지점을 오가는 적을 하나 더 넣는 일입니다. <b class="text-violet-700">Visual Studio 의 GitHub Copilot</b> 으로 따라 합니다. 웹 채팅이나 다른 코딩 도구를 써도 하네스는 같습니다.</p>
+      <p class="text-[18px] text-slate-700">예제는 <b class="text-dev-700">Roll a Ball</b> 입니다. 시작 화면 · 게임 · 결과 화면, 씬 세 개로 한 판을 돌게 하고 빌드합니다. 우리 게임의 씬 이름에 맞춰 보면 됩니다. AI 는 <b class="text-violet-700">Visual Studio 의 GitHub Copilot</b> 으로 따라 하고, 웹 채팅이나 다른 코딩 도구를 써도 하는 일은 같습니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 3 시간이 새는 곳 -->
-<section class="slide" data-part="0">
+<!-- 3 파트 01 표지 -->
+<section class="slide" data-part="s">
+  <div class="max-w-4xl w-full text-center">
+    <div class="part-num mb-4">01</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">한 판이 끝까지, 빌드로</h2>
+    <p class="text-xl text-slate-500">시작 화면 → 게임 → 결과 → 다시 하기. 그리고 유니티가 없는 컴퓨터에서 열리게</p>
+  </div>
+</section>
+
+<!-- 흐름 5 씬 세 개로 돈다 -->
+<section class="slide" data-part="s">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">AI 로 빨라져도, 시간이 새는 곳 셋</h2>
-    <p class="text-xl text-slate-500 mb-8">AI 를 쓰면 코드는 금방 나옵니다. 그런데 팀 프로젝트에 넣어 보면 <b class="text-slate-700">세 군데에서 시간이 샙니다.</b></p>
-    <div class="grid md:grid-cols-3 gap-5 mb-7">
-      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3 text-dev-600"><i class="fa-solid fa-repeat"></i></div><div class="text-xl font-black mb-2">같은 실수를 또 합니다</div><p class="text-[16px] text-slate-600">어제 고쳐 준 것을 새 대화에서 다시 틀립니다. 우리 팀 규칙을 매번 처음 듣기 때문입니다.</p></div>
-      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3 text-dev-600"><i class="fa-solid fa-circle-question"></i></div><div class="text-xl font-black mb-2">다 됐다는데 안 됩니다</div><p class="text-[16px] text-slate-600">AI 는 Play 를 눌러 볼 수 없습니다. 「끝났다」를 정하지 않으면 AI 의 끝과 우리의 끝이 다릅니다.</p></div>
-      <div class="soft-card rounded-2xl p-6"><div class="text-4xl mb-3 text-flame-600"><i class="fa-solid fa-rotate-left"></i></div><div class="text-xl font-black mb-2">되돌릴 수 없습니다</div><p class="text-[16px] text-slate-600">여러 파일을 한꺼번에 바꾸고 나서 안 되면, 어디로 돌아가야 할지 모릅니다.</p></div>
+    <h2 class="text-4xl md:text-5xl font-black mb-3">한 판은 씬 세 개로 돕니다</h2>
+    <p class="text-xl text-slate-500 mb-6">씬을 바꾸면 그 씬에 있던 오브젝트가 <b class="text-slate-700">모두 사라지고</b>, 새 씬의 오브젝트로 바뀝니다.</p>
+    <div class="soft-card rounded-3xl p-4 mb-6">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Title에서 Game, Game에서 Result로 넘어가고 Result에서 Game이나 Title로 돌아가는 흐름도" class="w-full h-auto">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#475569"/></marker>
+          <marker id="ahf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ea580c"/></marker>
+        </defs>
+        <g font-family="Pretendard, sans-serif">
+          <rect x="30" y="40" width="230" height="120" rx="22" fill="#eef2ff" stroke="#6366f1" stroke-width="2.5"/>
+          <text x="145" y="92" text-anchor="middle" font-size="34" font-weight="900" fill="#312e81">Title</text>
+          <text x="145" y="128" text-anchor="middle" font-size="19" font-weight="700" fill="#4338ca">시작 화면</text>
+
+          <rect x="385" y="40" width="230" height="120" rx="22" fill="#0f172a"/>
+          <text x="500" y="92" text-anchor="middle" font-size="34" font-weight="900" fill="#fff">Game</text>
+          <text x="500" y="128" text-anchor="middle" font-size="19" font-weight="700" fill="#cbd5e1">플레이</text>
+
+          <rect x="740" y="40" width="230" height="120" rx="22" fill="#fff7ed" stroke="#f97316" stroke-width="2.5"/>
+          <text x="855" y="92" text-anchor="middle" font-size="34" font-weight="900" fill="#9a3412">Result</text>
+          <text x="855" y="128" text-anchor="middle" font-size="19" font-weight="700" fill="#c2410c">결과 화면</text>
+
+          <line x1="266" y1="100" x2="378" y2="100" stroke="#475569" stroke-width="3" marker-end="url(#ah)"/>
+          <text x="322" y="86" text-anchor="middle" font-size="17" font-weight="800" fill="#334155">START</text>
+
+          <line x1="621" y1="100" x2="733" y2="100" stroke="#475569" stroke-width="3" marker-end="url(#ah)"/>
+          <text x="677" y="78" text-anchor="middle" font-size="16" font-weight="800" fill="#334155">클리어</text>
+          <text x="677" y="126" text-anchor="middle" font-size="16" font-weight="800" fill="#334155">게임 오버</text>
+
+          <path d="M820 166 C 800 225, 560 225, 530 170" fill="none" stroke="#ea580c" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#ahf)"/>
+          <text x="675" y="232" text-anchor="middle" font-size="17" font-weight="800" fill="#c2410c">RETRY</text>
+
+          <path d="M890 166 C 880 300, 160 300, 145 170" fill="none" stroke="#ea580c" stroke-width="3" stroke-dasharray="7 5" marker-end="url(#ahf)"/>
+          <text x="500" y="288" text-anchor="middle" font-size="17" font-weight="800" fill="#c2410c">TITLE</text>
+        </g>
+      </svg>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-dev-700 mb-1">Title</div><p class="text-[16px] text-slate-600">게임 이름 · 시작 버튼 · 끝내기 버튼</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">Game</div><p class="text-[16px] text-slate-600">지금까지 만든 바로 그 씬</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-flame-700 mb-1">Result</div><p class="text-[16px] text-slate-600">클리어인지 게임 오버인지 · 점수 · 다시 하기 · 처음으로</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 6 이름과 담당 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">씬 세 개 — 이름과 담당</h2>
+    <p class="text-xl text-slate-500 mb-7">이름은 코드에서 그대로 부릅니다. 처음에 정해 두면 바꿀 일이 없습니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-2">
+        <div class="uu">
+          <div class="uu-bar"><i class="fa-solid fa-folder-tree"></i> Project</div>
+          <div class="uu-tree">
+            <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-folder"></i></span>Assets</div>
+            <div class="uu-it" style="padding-left:24px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-folder-open"></i></span>Scenes</div>
+            <div class="uu-it sel" style="padding-left:44px"><span class="tri"></span><span class="ico"><i class="fa-brands fa-unity"></i></span>Title</div>
+            <div class="uu-it sel" style="padding-left:44px"><span class="tri"></span><span class="ico"><i class="fa-brands fa-unity"></i></span>Game</div>
+            <div class="uu-it sel" style="padding-left:44px"><span class="tri"></span><span class="ico"><i class="fa-brands fa-unity"></i></span>Result</div>
+            <div class="uu-it" style="padding-left:44px"><span class="tri"></span><span class="ico"><i class="fa-brands fa-unity"></i></span>Test_이름</div>
+            <div class="uu-it" style="padding-left:24px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-folder"></i></span>Scripts</div>
+            <div class="uu-it" style="padding-left:24px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-folder"></i></span>Prefabs</div>
+          </div>
+        </div>
+        <div class="uu-menus mt-3">
+          <div class="uu-menu">
+            <div class="uu-mi on">Create<span class="ar">▶</span></div>
+            <div class="uu-mi">Show in Explorer</div>
+            <div class="uu-mi">Open</div>
+            <div class="uu-mi">Delete</div>
+            <div class="uu-mi">Rename</div>
+          </div>
+          <div class="uu-menu">
+            <div class="uu-mi">Folder</div>
+            <div class="uu-msep"></div>
+            <div class="uu-mi">MonoBehaviour Script</div>
+            <div class="uu-mi on">Scene</div>
+            <div class="uu-mi">Material</div>
+          </div>
+        </div>
+        <div class="uu-cap">Scenes 폴더 빈 곳을 우클릭 → Create → Scene. 버전에 따라 Scene 아래에 한 단계가 더 있습니다</div>
+      </div>
+      <div class="md:col-span-3 space-y-4">
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">MiniGame 씬을 고르고 <span class="kbd">F2</span> → <b>Game</b>. 이름은 Project 창 안에서만 바꿉니다. 파일 탐색기에서 바꾸면 .meta 파일이 같이 바뀌지 않아 연결이 끊깁니다</p></div>
+        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">Scenes 폴더에서 <b>Create → Scene</b>. 이름 칸이 열려 있을 때 바로 <b>Title</b></p></div>
+        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">같은 방법으로 <b>Result</b></p></div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">이름은 영문 · 공백 없이</div>
+          <p class="text-[16.5px] text-slate-600"><b class="mono text-slate-800">Title</b> · <b class="mono text-slate-800">Game</b> · <b class="mono text-slate-800">Result</b>. 코드에 적는 이름과 글자 하나까지 같아야 합니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">한 씬은 한 사람만</div>
+          <p class="text-[16.5px] text-slate-600">Game 씬은 지금처럼 <b>합치는 사람</b>이, Title · Result 씬은 <b>UI 담당</b>이 맡으면 자연스럽습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 7 씬 목록 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">씬 목록에 넣어야 넘어갑니다</h2>
+    <p class="text-xl text-slate-500 mb-7">목록에 없는 씬으로는 넘어갈 수 없습니다. <b class="text-slate-700">맨 위 씬이 게임을 켰을 때 첫 화면</b>입니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-3">
+        <div class="uu">
+          <div class="uu-bar"><i class="fa-solid fa-layer-group"></i> Build Profiles</div>
+          <div class="grid" style="grid-template-columns:36% 64%">
+            <div class="uu-tree" style="border-right:1px solid #232323">
+              <div class="uu-it sel"><span class="ico"><i class="fa-solid fa-list"></i></span>Scene List</div>
+              <div class="uu-note" style="padding:8px 7px 3px">Platforms</div>
+              <div class="uu-it"><span class="ico"><i class="fa-brands fa-windows"></i></span>Windows<span class="uu-note" style="margin-left:auto">Active</span></div>
+              <div class="uu-it"><span class="ico"><i class="fa-brands fa-apple"></i></span>macOS</div>
+              <div class="uu-it"><span class="ico"><i class="fa-brands fa-linux"></i></span>Linux</div>
+              <div class="uu-it"><span class="ico"><i class="fa-brands fa-android"></i></span>Android</div>
+              <div class="uu-it"><span class="ico"><i class="fa-solid fa-globe"></i></span>Web</div>
+            </div>
+            <div class="uu-body">
+              <div style="font-weight:800;color:#e6e6e6;margin-bottom:8px">Scene List</div>
+              <div class="uu-comp uu-hl" style="padding:6px 9px">
+                <div class="uu-row"><span class="uu-chk on">✓</span><span style="flex:1">Scenes/Title</span><span class="uu-note">0</span></div>
+                <div class="uu-row"><span class="uu-chk on">✓</span><span style="flex:1">Scenes/Game</span><span class="uu-note">1</span></div>
+                <div class="uu-row"><span class="uu-chk on">✓</span><span style="flex:1">Scenes/Result</span><span class="uu-note">2</span></div>
+              </div>
+              <div style="text-align:right;margin-top:8px"><span class="uu-btn">Add Open Scenes</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="uu-cap">메뉴 이름이 버전마다 다릅니다 — 예전 버전은 File → Build Settings 의 Scenes In Build</div>
+      </div>
+      <div class="md:col-span-2 space-y-4">
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700"><b>File → Build Profiles</b> 를 엽니다</p></div>
+        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">Project 창에서 씬 세 개를 <b>목록으로 끌어다 놓습니다</b>. 씬을 연 상태라면 Add Open Scenes 도 됩니다</p></div>
+        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">끌어서 <b>순서를 맞춥니다</b>. Title 이 0번, 맨 위</p></div>
+        <div class="glass-card rounded-2xl p-4 mt-2">
+          <p class="text-[16px] text-slate-700">에디터에서는 아무 씬이나 열고 Play 를 누를 수 있어서, 목록에 빠진 걸 <b class="text-flame-700">모르고 지나갑니다</b>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 8 씬 넘기는 코드 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">씬을 넘기는 코드는 한 줄입니다</h2>
+    <p class="text-xl text-slate-500 mb-7">씬을 넘기는 일만 하는 스크립트를 하나 만듭니다. 버튼마다 이 스크립트를 부릅니다.</p>
+    <div class="grid md:grid-cols-2 gap-6 items-start">
+      <div>
+        <div class="flex gap-4 items-start mb-5">
+          <div class="uu-menus flex-none">
+            <div class="uu-menu">
+              <div class="uu-mi on">Create<span class="ar">▶</span></div>
+              <div class="uu-mi">Show in Explorer</div>
+              <div class="uu-mi">Open</div>
+            </div>
+            <div class="uu-menu">
+              <div class="uu-mi">Folder</div>
+              <div class="uu-msep"></div>
+              <div class="uu-mi on">MonoBehaviour Script</div>
+              <div class="uu-mi">Scene</div>
+            </div>
+          </div>
+          <p class="text-[15px] text-slate-600 leading-snug">Scripts 폴더 우클릭 → Create. 버전에 따라 <b>C# Script</b> 입니다.<br>이름은 만들 때 바로 <b class="mono text-slate-800">SceneLoader</b>. 파일 이름과 class 이름이 같아야 합니다.</p>
+        </div>
+        <div class="code-cap">SceneLoader.cs</div>
+<div class="code"><span class="kw">using</span> UnityEngine;
+<span class="hl"><span class="kw">using</span> UnityEngine.SceneManagement;</span>
+
+<span class="kw">public class</span> <span class="ty">SceneLoader</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="hl"><span class="kw">public void</span> <span class="fn">LoadGame</span>()</span>
+    {
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Game"</span>);
+    }
+}</div>
+      </div>
+      <div class="space-y-4">
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1 mono">using UnityEngine.SceneManagement;</div>
+          <p class="text-[16.5px] text-slate-600">이 줄이 없으면 SceneManager 에 빨간 밑줄이 생깁니다. <span class="mono">using TMPro;</span> 를 빠뜨렸을 때와 같습니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1 mono">"Game"</div>
+          <p class="text-[16.5px] text-slate-600">씬 이름과 <b>글자 하나, 대문자 소문자까지</b> 같아야 합니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1 mono">public void</div>
+          <p class="text-[16.5px] text-slate-600">버튼에 연결하려면 <b>public</b> 이어야 합니다. 빠지면 버튼 쪽 목록에 함수가 안 보입니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 9 버튼에 연결 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">버튼에 함수를 연결합니다</h2>
+    <p class="text-xl text-slate-500 mb-7">코드에서 버튼을 찾지 않습니다. <b class="text-slate-700">버튼이 함수를 부르게</b> Inspector 에서 연결합니다.</p>
+    <div class="grid md:grid-cols-12 gap-6 items-start">
+      <div class="md:col-span-5 space-y-3.5">
+        <div class="step"><span class="no">1</span><p class="text-[17px] text-slate-700">Title 씬에서 <b>GameObject → UI</b> 의 <b>Text - TextMeshPro</b> 로 게임 이름, <b>Button - TextMeshPro</b> 로 버튼</p></div>
+        <div class="step"><span class="no">2</span><p class="text-[17px] text-slate-700">버튼을 펼쳐 안쪽 <b>Text (TMP)</b> 의 글자를 <b>START</b> 로</p></div>
+        <div class="step"><span class="no">3</span><p class="text-[17px] text-slate-700">빈 오브젝트 <b>SceneLoader</b> 를 만들고 Add Component 로 같은 이름의 스크립트를 붙입니다</p></div>
+        <div class="step"><span class="no">4</span><p class="text-[17px] text-slate-700">버튼을 고르고 Inspector 아래쪽 <b>On Click ()</b> 의 <b>+</b></p></div>
+        <div class="step"><span class="no">5</span><p class="text-[17px] text-slate-700">Hierarchy 의 <b>SceneLoader 오브젝트</b>를 빈칸에 끌어다 놓습니다</p></div>
+        <div class="step"><span class="no">6</span><p class="text-[17px] text-slate-700"><b>No Function → SceneLoader → LoadGame ()</b></p></div>
+        <div class="uu-cap">처음 TextMeshPro 를 쓰면 TMP Importer 창이 뜹니다 → Import TMP Essentials</div>
+      </div>
+      <div class="md:col-span-7 grid gap-3 items-start" style="grid-template-columns:38% 1fr">
+        <div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+            <div class="uu-tree">
+              <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Title</b></div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-video"></i></span>Main Camera</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-sun"></i></span>Directional Light</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+              <div class="uu-it" style="padding-left:36px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>TitleText</div>
+              <div class="uu-it sel" style="padding-left:36px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>StartButton</div>
+              <div class="uu-it" style="padding-left:52px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>Text (TMP)</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
+              <div class="uu-it drag" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>SceneLoader</div>
+            </div>
+          </div>
+          <div class="uu-cap">파란 줄이 지금 고른 버튼, 초록 테두리가 끌어다 놓을 오브젝트</div>
+        </div>
+        <div>
+        <div class="uu">
+          <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector</div>
+          <div class="uu-body">
+            <div class="uu-comp">
+              <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-hand-pointer"></i></span>Button</div>
+              <div class="uu-comp-b">
+                <div class="uu-row"><span class="uu-lb">Interactable</span><span class="uu-chk on">✓</span></div>
+                <div class="uu-row"><span class="uu-lb">Transition</span><span class="uu-f">Color Tint</span></div>
+                <div style="color:#e0e0e0;font-weight:800;margin:10px 0 6px">On Click ()</div>
+                <div style="border:1px solid #2b2b2b;border-radius:4px;background:#353535;padding:8px">
+                  <div class="uu-row">
+                    <span class="uu-f" style="flex:0 0 112px">Runtime Only ▾</span>
+                    <span class="uu-f uu-hl">SceneLoader.LoadGame ▾</span>
+                  </div>
+                  <div class="uu-row"><span class="uu-f obj uu-hl" style="flex:0 0 112px"><i class="fa-solid fa-cube"></i>SceneLoader</span></div>
+                </div>
+                <div style="text-align:right;margin-top:6px"><span class="uu-btn">+</span> <span class="uu-btn">−</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="uu-cap">StartButton 을 고른 상태의 Inspector</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 11 버튼이 말을 안 들을 때 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">버튼이 말을 안 들을 때</h2>
+    <p class="text-xl text-slate-500 mb-7">매 학기 같은 네 가지가 나옵니다.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-lg font-black mb-2">함수 목록에 LoadGame 이 없다</div>
+        <p class="text-[16.5px] text-slate-600 mb-2">public 이 빠졌거나, Project 창의 <b>스크립트 파일</b>을 끌어다 놓았습니다.</p>
+        <p class="text-[16.5px] text-dev-700 font-bold">→ public void 확인 · Hierarchy 의 <u>오브젝트</u>를 끌어다 놓기</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-lg font-black mb-2">눌러도 아무 일이 없다</div>
+        <p class="text-[16.5px] text-slate-600 mb-2">Hierarchy 에 <b>EventSystem</b> 이 없습니다. Canvas 를 다른 씬에서 복사해 오면 자주 빠집니다.</p>
+        <p class="text-[16.5px] text-dev-700 font-bold">→ GameObject → UI → Event System</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-lg font-black mb-2">누르면 빨간 줄이 뜬다</div>
+        <p class="text-[16.5px] text-slate-600 mb-2"><b>couldn't be loaded</b> 라면 앞 장의 두 곳입니다.</p>
+        <p class="text-[16.5px] text-dev-700 font-bold">→ 씬 이름 · Scene List</p>
+      </div>
+      <div class="soft-card rounded-2xl p-6">
+        <div class="text-lg font-black mb-2">글자가 네모(□□)로 나온다</div>
+        <p class="text-[16.5px] text-slate-600 mb-2">TextMeshPro 기본 폰트에는 <b>한글이 없습니다</b>.</p>
+        <p class="text-[16.5px] text-dev-700 font-bold">→ 한글 폰트 파일로 TMP Font Asset 을 만들어 글자에 넣습니다. 폰트 파일 우클릭 → Create → TextMeshPro</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 12 끝 정하기 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">끝을 정합니다 — 이기는 끝, 지는 끝</h2>
+    <p class="text-xl text-slate-500 mb-7">끝나는 곳이 여러 군데여도 <b class="text-slate-700">함수는 하나</b>로 모읍니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-2 space-y-4">
+        <div class="soft-card rounded-2xl p-5">
+          <div class="tagchip bg-dev-600 text-white mb-3">🏁 이기는 끝</div>
+          <p class="text-[17px] text-slate-700">12개를 다 모으면</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="tagchip bg-flame-600 text-white mb-3">💥 지는 끝</div>
+          <p class="text-[17px] text-slate-700">적에 닿으면 · 바닥 아래로 떨어지면</p>
+        </div>
+        <div class="glass-card rounded-2xl p-5">
+          <p class="text-[16px] text-slate-700">우리 게임의 끝은 <b>🏁 목표 · 승리 조건</b>에 이미 있습니다 — 시간이 다 되면, 체력이 0이 되면, 목표 지점에 닿으면.</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="code-cap">PlayerController.cs — 더하는 부분만</div>
+<div class="code"><span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="kw">void</span> <span class="fn">EndGame</span>(<span class="kw">bool</span> cleared)
+{
+    <span class="ty">GameResult</span>.cleared = cleared;   <span class="cm">// 다음 장</span>
+    <span class="ty">GameResult</span>.score = count;
+    <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Result"</span>);
+}
+
+<span class="cm">// SetCountText 안 — 다 모았을 때</span>
+<span class="kw">if</span> (count >= <span class="nu">12</span>) { <span class="fn">EndGame</span>(<span class="kw">true</span>); }
+
+<span class="cm">// OnCollisionEnter 안 — 적에 닿았을 때</span>
+<span class="fn">EndGame</span>(<span class="kw">false</span>);
+
+<span class="cm">// 떨어졌을 때</span>
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="kw">if</span> (transform.position.y < <span class="nu">-10f</span>) { <span class="fn">EndGame</span>(<span class="kw">false</span>); }
+}</div>
+        <div class="uu-cap">원래 You Win · You Lose 글자를 띄우던 줄을 지우고 그 자리에 EndGame. Start 의 <span class="mono">winTextObject.SetActive(false)</span> 는 그대로 둡니다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 13 결과 넘기기 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">결과를 다음 씬으로 넘깁니다</h2>
+    <p class="text-xl text-slate-500 mb-7">씬을 바꾸면 그 씬의 오브젝트는 전부 사라집니다. count 도 같이 사라집니다. <b class="text-slate-700">static 변수는 남습니다.</b></p>
+    <div class="grid md:grid-cols-2 gap-6 items-start">
+      <div class="space-y-4">
+        <div>
+          <div class="code-cap">GameResult.cs — 오브젝트에 붙이지 않습니다</div>
+<div class="code"><span class="kw">public static class</span> <span class="ty">GameResult</span>
+{
+    <span class="kw">public static bool</span> cleared;
+    <span class="kw">public static int</span> score;
+}</div>
+          <div class="uu-cap">점수가 없는 게임이면 cleared 하나만. 넘길 게 없으면 이 장은 필요 없습니다</div>
+        </div>
+        <div class="grid gap-3 items-start" style="grid-template-columns:40% 1fr">
+          <div>
+            <div class="uu">
+              <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+              <div class="uu-tree">
+                <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Result</b></div>
+                <div class="uu-it" style="padding-left:20px"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+                <div class="uu-it drag" style="padding-left:36px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-font"></i></span>ResultTitle</div>
+                <div class="uu-it drag" style="padding-left:36px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-font"></i></span>ScoreText</div>
+                <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
+                <div class="uu-it sel" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>ResultUI</div>
+              </div>
+            </div>
+            <div class="uu-cap">글자는 UI → Text - TextMeshPro 로 두 개</div>
+          </div>
+          <div>
+            <div class="uu">
+              <div class="uu-bar"><i class="fa-solid fa-circle-info"></i> Inspector — ResultUI</div>
+              <div class="uu-body">
+                <div class="uu-comp">
+                  <div class="uu-comp-h"><span class="tri">▼</span><span class="ico"><i class="fa-solid fa-file-code"></i></span>Result UI (Script)</div>
+                  <div class="uu-comp-b">
+                    <div class="uu-row"><span class="uu-lb" style="width:74px">Title Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ResultTitle (TextMeshProUGUI)</span></div>
+                    <div class="uu-row"><span class="uu-lb" style="width:74px">Score Text</span><span class="uu-f obj uu-hl"><i class="fa-solid fa-font"></i>ScoreText (TextMeshProUGUI)</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="uu-cap">초록 테두리 글자를 칸에 끌어다 놓습니다. 비어 있으면 NullReferenceException</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="code-cap">ResultUI.cs — Result 씬의 오브젝트에 붙입니다</div>
+<div class="code"><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> TMPro;
+
+<span class="kw">public class</span> <span class="ty">ResultUI</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public</span> <span class="ty">TMP_Text</span> titleText;
+    <span class="kw">public</span> <span class="ty">TMP_Text</span> scoreText;
+
+    <span class="kw">void</span> <span class="fn">Start</span>()
+    {
+        <span class="kw">if</span> (<span class="ty">GameResult</span>.cleared) { titleText.text = <span class="st">"CLEAR!"</span>; }
+        <span class="kw">else</span> { titleText.text = <span class="st">"GAME OVER"</span>; }
+        scoreText.text = <span class="st">"Score: "</span> + <span class="ty">GameResult</span>.score;
+    }
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 14 다시 하기 -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">다시 하기 — 시간부터 되돌립니다</h2>
+    <p class="text-xl text-slate-500 mb-7"><b class="text-slate-700">다시 시작했더니 공이 멈춰서 안 움직이는</b> 문제가 자주 나옵니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-2 space-y-4">
+        <div class="soft-card rounded-2xl p-5">
+          <p class="text-[16.5px] text-slate-700 mb-2">끝날 때 <b class="mono">Time.timeScale = 0</b> 으로 멈춰 두었다면, 그 값은 <b>씬을 다시 불러와도 그대로</b>입니다.</p>
+          <p class="text-[15.5px] text-slate-600">timeScale 을 쓰지 않았다면 이 줄은 있어도 아무 해가 없습니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black mb-2">버튼 연결</div>
+          <p class="text-[16px] text-slate-600 mb-1">Title — <b>START</b> → LoadGame · <b>QUIT</b> → Quit</p>
+          <p class="text-[16px] text-slate-600">Result — <b>RETRY</b> → LoadGame · <b>TITLE</b> → LoadTitle</p>
+        </div>
+        <div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+            <div class="uu-tree">
+              <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Result</b></div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EventSystem</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>ResultUI</div>
+              <div class="uu-it drag" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>SceneLoader</div>
+            </div>
+          </div>
+          <div class="uu-cap">Result 씬에도 SceneLoader 를 따로 만듭니다. Title 씬의 오브젝트는 여기로 끌어다 놓을 수 없습니다</div>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="code-cap">SceneLoader.cs — 완성</div>
+<div class="code"><span class="kw">using</span> UnityEngine;
+<span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="kw">public class</span> <span class="ty">SceneLoader</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">public void</span> <span class="fn">LoadGame</span>()
+    {
+        <span class="hl"><span class="ty">Time</span>.timeScale = <span class="nu">1f</span>;</span>   <span class="cm">// 멈춘 시간을 먼저 되돌린다</span>
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Game"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">LoadTitle</span>()
+    {
+        <span class="hl"><span class="ty">Time</span>.timeScale = <span class="nu">1f</span>;</span>
+        <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Title"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">Quit</span>()
+    {
+        <span class="ty">Application</span>.<span class="fn">Quit</span>();   <span class="cm">// 빌드에서만 동작</span>
+    }
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 15 Esc 로 Title -->
+<section class="slide" data-part="s">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">Esc 를 누르면 Title 로 돌아가게 합니다</h2>
+    <p class="text-xl text-slate-500 mb-7">빌드는 처음 설정대로면 <b class="text-slate-700">전체 화면</b>으로 열립니다. 창 닫기 버튼이 안 보이니, 게임 안에 끝내는 방법을 하나 둡니다.</p>
+    <div class="grid md:grid-cols-5 gap-6 items-start">
+      <div class="md:col-span-2 space-y-4">
+        <div>
+          <div class="uu">
+            <div class="uu-bar"><i class="fa-solid fa-list"></i> Hierarchy</div>
+            <div class="uu-tree">
+              <div class="uu-it"><span class="tri">▼</span><span class="ico"><i class="fa-brands fa-unity"></i></span><b>Game</b></div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-video"></i></span>Main Camera</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-sun"></i></span>Directional Light</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>Player</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-cube"></i></span>PickUps</div>
+              <div class="uu-it" style="padding-left:20px"><span class="tri">▶</span><span class="ico"><i class="fa-solid fa-cube"></i></span>Canvas</div>
+              <div class="uu-it sel" style="padding-left:20px"><span class="tri"></span><span class="ico"><i class="fa-solid fa-cube"></i></span>EscToTitle</div>
+            </div>
+          </div>
+          <div class="uu-cap">Game 씬에 빈 오브젝트를 하나 만들어 스크립트를 붙입니다. 에디터에서는 Game 창을 한 번 클릭해야 Esc 가 들어갑니다</div>
+        </div>
+        <div class="soft-card rounded-2xl p-5 space-y-1.5">
+          <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Title</b>QUIT 버튼으로 끝내기</p>
+          <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Game</b><span class="kbd">Esc</span> 로 Title 에</p>
+          <p class="text-[16.5px] text-slate-700"><b class="inline-block w-16">Result</b>RETRY · TITLE 버튼</p>
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <div class="code-cap">EscToTitle.cs</div>
+<div class="code"><span class="kw">using</span> UnityEngine;
+<span class="hl"><span class="kw">using</span> UnityEngine.InputSystem;</span>
+<span class="kw">using</span> UnityEngine.SceneManagement;
+
+<span class="kw">public class</span> <span class="ty">EscToTitle</span> : <span class="ty">MonoBehaviour</span>
+{
+    <span class="kw">void</span> <span class="fn">Update</span>()
+    {
+        <span class="kw">if</span> (<span class="hl"><span class="ty">Keyboard</span>.current.escapeKey.wasPressedThisFrame</span>)
+        {
+            <span class="ty">Time</span>.timeScale = <span class="nu">1f</span>;
+            <span class="ty">SceneManager</span>.<span class="fn">LoadScene</span>(<span class="st">"Title"</span>);
+        }
+    }
+}</div>
+        <div class="uu-cap">입력 설정이 옛 방식(Input Manager)인 프로젝트는 if 안을 <span class="mono">Input.GetKeyDown(KeyCode.Escape)</span> 로 씁니다</div>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5 mt-6">
+      <p class="text-[17px] text-slate-700">처음에는 Esc 하나면 됩니다. 일시 정지 · 소리 크기 같은 <b class="text-dev-700">설정 화면</b>은 한 판이 돈 다음에 더합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 흐름 16 한 판 점검 -->
+<section class="slide" data-part="s">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">한 판 점검 — Title 에서 Play</h2>
+    <p class="text-xl text-slate-500 mb-7">Game 씬을 연 채 Play 를 누르면 Title 을 건너뜁니다. Project 창에서 <b class="text-slate-700">Title 을 더블클릭해 열고</b> 누르세요.</p>
+    <div class="soft-card rounded-3xl p-7 mb-6 space-y-4">
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700"><b>START</b> 를 누르면 Game 으로 넘어간다</p></div>
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">다 모으면 Result 에 <b>CLEAR!</b> 와 점수가 보인다</p></div>
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">지면 Result 에 <b>GAME OVER</b> 가 보인다</p></div>
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700"><b>RETRY</b> 를 누르면 처음 상태로 돌아가고, 공이 움직인다</p></div>
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700"><b>TITLE</b> 을 누르면 시작 화면으로 돌아간다</p></div>
+      <div class="flex items-center gap-4"><span class="chk"><i class="fa-solid fa-check"></i></span><p class="text-[19px] text-slate-700">하는 중에 <span class="kbd">Esc</span> 를 누르면 시작 화면으로 돌아간다</p></div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">이번 편은 이 셋을 막는 장치를 하나씩 만듭니다. 장치를 만드는 일을 <b class="text-dev-700">하네스 엔지니어링</b>이라고 부릅니다.</p>
+      <p class="text-[18px] text-slate-700">이 여섯 줄이 되면 <b class="text-dev-700">에디터 안에서는</b> 한 판이 끝까지 돕니다. 이제 빌드해서 에디터 없이 실행해 봅니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 3a 파트 00 표지 -->
+<!-- 4 빌드란 -->
+<section class="slide" data-part="b">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">프로젝트는 만드는 사람용, 빌드는 하는 사람용</h2>
+    <p class="text-xl text-slate-500 mb-7">빌드는 게임에 필요한 것만 골라 <b class="text-slate-700">더블클릭으로 실행되는 폴더</b>로 만드는 일입니다.</p>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="soft-card rounded-3xl p-7">
+        <div class="flex items-center gap-3 mb-4"><i class="fa-brands fa-unity text-3xl text-slate-700"></i><div class="text-2xl font-black">프로젝트 폴더</div></div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 유니티가 있어야 열립니다</li>
+          <li>· Assets · Library · ProjectSettings …</li>
+          <li>· Library 까지 합치면 몇 GB</li>
+          <li>· <b>만드는 사람</b>이 씁니다</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-7 border-flame-200">
+        <div class="flex items-center gap-3 mb-4"><i class="fa-solid fa-box-open text-3xl text-flame-600"></i><div class="text-2xl font-black">빌드 폴더</div></div>
+        <ul class="text-[17px] text-slate-600 space-y-2">
+          <li>· 더블클릭하면 실행됩니다</li>
+          <li>· 게임에 쓰이는 것만 들어 있습니다</li>
+          <li>· 유니티가 없는 노트북에서도</li>
+          <li>· <b>하는 사람</b>이 씁니다</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[18px] text-slate-700">에디터에서 잘 되던 게 빌드에서만 안 되는 경우가 있습니다. 그래서 다른 사람에게 보내기 전에 <b class="text-flame-700">빌드가 다른 노트북에서 실행되는지</b>를 봅니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 창으로 열리게 -->
+<section class="slide" data-part="b" data-sim="player">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>창으로 열리게</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 화면 크기가 달라도 — Canvas Scaler -->
+<section class="slide" data-part="b" data-sim="scaler">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>화면 크기가 달라도 — Canvas Scaler</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 따라 하기 · Build Profiles 에서 빌드 -->
+<section class="slide" data-part="b" data-sim="build">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>Build Profiles 에서 빌드</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 8 빌드 폴더는 통째로 -->
+<section class="slide" data-part="b">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3">빌드 폴더는 통째로 보냅니다</h2>
+    <p class="text-xl text-slate-500 mb-7"><b class="text-slate-700">exe 하나만 보내면 실행되지 않습니다.</b> 게임 데이터는 옆의 _Data 폴더에 들어 있습니다.</p>
+    <div class="grid md:grid-cols-2 gap-7 items-start">
+      <div>
+        <div class="win">
+          <div class="win-bar"><i class="fa-solid fa-folder-open text-amber-500"></i> Builds › 1027</div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span><b>RollABall_Data</b><span class="kind">파일 폴더</span></div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-folder text-amber-500"></i></span>MonoBleedingEdge<span class="kind">파일 폴더</span></div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-gamepad text-dev-600"></i></span><b>RollABall.exe</b><span class="kind">응용 프로그램</span></div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-gear text-slate-400"></i></span>UnityPlayer.dll<span class="kind">응용 프로그램 확장</span></div>
+          <div class="win-row"><span class="ico"><i class="fa-solid fa-gear text-slate-400"></i></span>UnityCrashHandler64.exe<span class="kind">응용 프로그램</span></div>
+        </div>
+        <div class="uu-cap">버전에 따라 폴더가 몇 개 더 있을 수 있습니다. 이름에 DoNotShip 이 붙은 폴더는 빼도 됩니다</div>
+      </div>
+      <div class="space-y-4">
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">압축 전에 한 판</div>
+          <p class="text-[16.5px] text-slate-600">exe 를 더블클릭해 <b>1280 × 720 창</b>으로 열리는지, <b>QUIT</b> 으로 꺼지는지 봅니다.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">폴더째 압축합니다</div>
+          <p class="text-[16.5px] text-slate-600">폴더를 우클릭해 ZIP 으로. 이름에 팀 · 게임 · 날짜 — <span class="mono text-slate-800 whitespace-nowrap">팀명_게임명_1027.zip</span></p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">팀 공유 폴더에 올립니다</div>
+          <p class="text-[16.5px] text-slate-600">깃 저장소에는 올리지 않습니다. 빌드 결과물은 팀 드라이브로.</p>
+        </div>
+        <div class="soft-card rounded-2xl p-5">
+          <div class="font-black text-lg mb-1">덮어쓰지 않습니다</div>
+          <p class="text-[16.5px] text-slate-600">날짜가 다른 빌드는 다른 폴더에. 새 빌드에 문제가 생기면 어제 빌드를 그대로 쓸 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 빌드 폴더 확인과 압축 -->
+<section class="slide" data-part="b" data-sim="folder">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>빌드 폴더 확인과 압축</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 따라 하기 · 다른 노트북에서 열기 -->
+<section class="slide" data-part="b" data-sim="other">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>다른 노트북에서 열기</h2>
+    <div class="ed"></div>
+    <div class="ed-cap"></div>
+  </div>
+</section>
+
+<!-- 11 빌드에서 자주 나는 문제 -->
+<section class="slide" data-part="b">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-6">빌드에서 자주 나는 문제</h2>
+    <div class="soft-card rounded-2xl overflow-hidden mb-5">
+      <table class="cmp-table">
+        <thead><tr><th>이럴 때</th><th>이것부터 봅니다</th></tr></thead>
+        <tbody>
+          <tr><td>빌드하면 첫 화면이 아니라 게임부터 시작한다</td><td>Scene List 순서 — 첫 화면 씬을 맨 위(0번)로</td></tr>
+          <tr><td>작은 화면에서 버튼이 잘린다</td><td>Canvas Scaler — Scale With Screen Size, Canvas 마다</td></tr>
+          <tr><td>전체 화면으로만 열린다</td><td><span class="kbd">Alt</span> + <span class="kbd">Enter</span>. 그 노트북이 지난번 실행 상태를 기억한 것일 수 있습니다</td></tr>
+          <tr><td>QUIT 을 눌러도 안 꺼진다</td><td>에디터에서는 원래 안 꺼집니다. 빌드에서 확인합니다</td></tr>
+          <tr><td>Build 가 실패한다</td><td>Console 맨 위 한 줄. <span class="mono">UnityEditor</span> 를 쓰는 코드는 빌드에 못 들어갑니다</td></tr>
+          <tr><td>에디터에서는 되는데 빌드에서만 이상하다</td><td>Build Profiles 의 <b>Development Build</b> 를 켜고 빌드하면 에러가 화면에 뜹니다</td></tr>
+          <tr><td>다른 노트북에서 안 열린다</td><td>압축을 풀었는지 · exe 만 가져가지 않았는지 · 폴더 경로에 한글이 있는지</td></tr>
+          <tr><td>Windows 를 고르면 설치 버튼만 보인다</td><td>Unity Hub 에서 Windows Build Support 모듈 추가 — 주로 Mac 에서</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass-card rounded-2xl p-5">
+      <p class="text-[17px] text-slate-700">그래도 안 되면 <b class="text-dev-700">에러 전문 · 코드 전체 · 무엇을 하려 했는지</b> 세 가지를 붙여서 물어봅니다. AI 에게도, 질문 게시판에도 같습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12 파트 02 표지 -->
 <section class="slide" data-part="p">
   <div class="max-w-4xl w-full text-center">
-    <div class="part-num mb-4">00</div>
+    <div class="part-num mb-4">02</div>
     <h2 class="text-5xl md:text-6xl font-black mb-5">Visual Studio 에 AI 붙이기</h2>
     <p class="text-xl text-slate-500">설치 · 연결 · 로그인 — 처음 한 번만 합니다</p>
   </div>
 </section>
 
-<!-- 3b AI 를 쓰는 세 자리 -->
+<!-- 13 AI 를 쓰는 세 자리 -->
 <section class="slide" data-part="p">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">AI 를 쓰는 세 자리</h2>
@@ -674,7 +1345,7 @@ body{
   </div>
 </section>
 
-<!-- 3c 무료로 되나 -->
+<!-- 14 무료로 되나 -->
 <section class="slide" data-part="p">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">무료로 되나</h2>
@@ -693,44 +1364,7 @@ body{
     </div>
     <div class="grid md:grid-cols-2 gap-4">
       <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">다 쓰면</div><p class="text-[16px] text-slate-600">Copilot Free 는 다음 달에 다시 찹니다. 남은 양은 Copilot 아이콘 → Copilot Usage. 급하면 웹 채팅에 같은 규칙 파일 · 요청 틀을 붙여 씁니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">학생 인증</div><p class="text-[16px] text-slate-600">GitHub Education 에 학교 메일 · 재학 증명으로 신청합니다. 승인까지 며칠 걸릴 수 있으니, 이번 주는 Free 로 따라 합니다.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 3d 유니티와 Visual Studio -->
-<section class="slide" data-part="p">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">유니티와 Visual Studio 는 일을 나눕니다</h2>
-    <p class="text-xl text-slate-500 mb-5">코드는 Visual Studio 에서, 나머지는 모두 유니티에서. Copilot 은 <b class="text-slate-700">Visual Studio 쪽</b>에 있습니다.</p>
-    <div class="soft-card rounded-3xl p-4 mb-5">
-      <svg viewBox="0 0 1000 250" role="img" aria-label="왼쪽 유니티에는 씬, Hierarchy, Inspector, Play, Console, 빌드가 있고 오른쪽 Visual Studio 에는 C# 스크립트와 Copilot Chat 이 있다. 스크립트를 더블클릭하면 Visual Studio 에서 열리고, 저장하고 유니티로 돌아오면 유니티가 다시 읽는다" class="w-full h-auto">
-        <defs>
-          <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#475569"/></marker>
-        </defs>
-        <g font-family="Pretendard, sans-serif">
-          <rect x="20" y="20" width="360" height="210" rx="22" fill="#1f2937"/>
-          <text x="48" y="62" font-size="26" font-weight="900" fill="#fff">유니티</text>
-          <text x="48" y="104" font-size="19" font-weight="700" fill="#e5e7eb">씬 · Hierarchy · Inspector</text>
-          <text x="48" y="138" font-size="19" font-weight="700" fill="#e5e7eb">Play · Console · 빌드</text>
-          <text x="48" y="196" font-size="16" font-weight="700" fill="#9ca3af">확인은 모두 여기서</text>
-          <rect x="620" y="20" width="360" height="210" rx="22" fill="#3b0764"/>
-          <text x="648" y="62" font-size="26" font-weight="900" fill="#fff">Visual Studio</text>
-          <text x="648" y="104" font-size="19" font-weight="700" fill="#ede9fe">C# 스크립트</text>
-          <text x="648" y="138" font-size="19" font-weight="700" fill="#ede9fe">Copilot Chat — Ask · Agent</text>
-          <text x="648" y="196" font-size="16" font-weight="700" fill="#c4b5fd">규칙 파일을 읽는 곳</text>
-          <line x1="388" y1="88" x2="612" y2="88" stroke="#475569" stroke-width="3" marker-end="url(#pa)"/>
-          <text x="500" y="74" text-anchor="middle" font-size="16.5" font-weight="800" fill="#334155">스크립트 더블클릭 → 열림</text>
-          <line x1="612" y1="168" x2="388" y2="168" stroke="#475569" stroke-width="3" marker-end="url(#pa)"/>
-          <text x="500" y="154" text-anchor="middle" font-size="16.5" font-weight="800" fill="#334155">Ctrl + S → 유니티가 다시 읽음</text>
-          <text x="500" y="196" text-anchor="middle" font-size="14.5" font-weight="700" fill="#64748b">오른쪽 아래 도는 표시가 멈출 때까지</text>
-        </g>
-      </svg>
-    </div>
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">Visual Studio 가 없으면</div><p class="text-[15.5px] text-slate-600">Unity Hub → 설치 → 에디터 옆 톱니 → 모듈 추가 → <b>Microsoft Visual Studio Community</b>. visualstudio.microsoft.com 에서 Community 를 받아도 됩니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">Mac 이라면</div><p class="text-[15.5px] text-slate-600">Mac 용 Visual Studio 는 지원이 끝났습니다. <b>VS Code</b> + Unity 확장 + GitHub Copilot 을 씁니다. 화면은 달라도 Chat · Agent · 규칙 파일은 같습니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">메뉴 이름이 다르면</div><p class="text-[15.5px] text-slate-600">영상의 Visual Studio 는 영어 메뉴입니다. 한국어 화면이면 Tools 는 도구, Options 는 옵션, View 는 보기. 버전마다 다른 이름은 맨 위 검색 칸에 칩니다.</p></div>
+      <div class="soft-card rounded-2xl p-5"><div class="font-black text-lg mb-1">학생 인증</div><p class="text-[16px] text-slate-600">GitHub Education 에 학교 메일 · 재학 증명으로 신청합니다. 승인까지 며칠 걸릴 수 있으니, 처음에는 Free 로 따라 합니다.</p></div>
     </div>
   </div>
 </section>
@@ -762,7 +1396,7 @@ body{
   </div>
 </section>
 
-<!-- 3e Ask 와 Agent -->
+<!-- 18 Ask 와 Agent -->
 <section class="slide" data-part="p">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">Ask 와 Agent — 누가 파일을 고치나</h2>
@@ -774,7 +1408,7 @@ body{
         <ul class="text-[17px] text-slate-600 space-y-2">
           <li>· 코드를 읽고, 우리가 복사해 넣습니다</li>
           <li>· 무엇이 바뀌는지 우리 눈에 다 보입니다</li>
-          <li>· 처음에는 이것으로. 01 · 02 를 Ask 로 따라 합니다</li>
+          <li>· 처음에는 이것으로. 이 편은 Ask 로 따라 합니다</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-7">
@@ -788,21 +1422,21 @@ body{
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">둘 다 규칙 파일을 읽고, 둘 다 <b class="text-dev-700">Play 는 못 누릅니다</b>. 02 끝에서 같은 적에 기능 하나를 Agent 로 더해 봅니다.</p>
+      <p class="text-[18px] text-slate-700">둘 다 규칙 파일을 읽고, 둘 다 <b class="text-dev-700">Play 는 못 누릅니다</b>. Agent 로 기능을 더하는 것은 다음 편에서 봅니다.</p>
     </div>
   </div>
 </section>
 
-<!-- 4 파트 01 표지 -->
+<!-- 19 파트 03 표지 -->
 <section class="slide" data-part="1">
   <div class="max-w-4xl w-full text-center">
-    <div class="part-num mb-4">01</div>
-    <h2 class="text-5xl md:text-6xl font-black mb-5">시키기 전에</h2>
-    <p class="text-xl text-slate-500">규칙 파일 · 완료 기준 · 요청 틀</p>
+    <div class="part-num mb-4">03</div>
+    <h2 class="text-5xl md:text-6xl font-black mb-5">시키고, 넣고, 확인하기</h2>
+    <p class="text-xl text-slate-500">하네스 — AI 둘레에 두는 장치</p>
   </div>
 </section>
 
-<!-- 5 AI 가 유니티에서 틀리는 이유 -->
+<!-- 20 AI 가 유니티에서 틀리는 이유 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">AI 가 유니티에서 자주 틀리는 이유</h2>
@@ -819,7 +1453,7 @@ body{
   </div>
 </section>
 
-<!-- 6 하네스 -->
+<!-- 21 하네스 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">하네스 — AI 둘레에 두는 장치</h2>
@@ -857,7 +1491,7 @@ body{
   </div>
 </section>
 
-<!-- 7 규칙 파일이란 -->
+<!-- 22 규칙 파일이란 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">규칙 파일 — AI 에게 먼저 주는 글</h2>
@@ -892,7 +1526,7 @@ body{
       </div>
       <div class="md:col-span-4 space-y-3">
         <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">우리 게임</div><p class="text-[15.5px] text-slate-600">게임을 한 줄로. 씬 이름, 입력 방식처럼 AI 가 코드를 쓸 때 꼭 알아야 하는 것.</p></div>
-        <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">폴더 · 이름</div><p class="text-[15.5px] text-slate-600">7주차 다섯 줄 규칙이 그대로 들어갑니다.</p></div>
+        <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">폴더 · 이름</div><p class="text-[15.5px] text-slate-600">팀이 정한 폴더 · 이름 규칙이 그대로 들어갑니다.</p></div>
         <div class="soft-card rounded-2xl p-4"><div class="font-black text-lg mb-1 text-dev-700">일하는 방식 · 하지 말 것</div><p class="text-[15.5px] text-slate-600">AI 가 어떤 순서로, 얼마만큼 일할지. 고칠 범위를 좁힙니다.</p></div>
         <div class="soft-card rounded-2xl p-4 border-lime-300"><div class="font-black text-lg mb-1 text-lime-700">팀 약속</div><p class="text-[15.5px] text-slate-600">대면 수업에서 정한 「팀 AI 약속」 다섯 칸을 AI 가 읽는 말로 옮깁니다. 이름 · 파일은 우리 팀 것으로.</p></div>
       </div>
@@ -900,31 +1534,7 @@ body{
   </div>
 </section>
 
-<!-- 8 짧게, 실수할 때마다 한 줄 -->
-<section class="slide" data-part="1">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">짧게 시작해서, 실수할 때마다 한 줄</h2>
-    <p class="text-xl text-slate-500 mb-7">처음부터 완벽한 규칙 파일은 없습니다. <b class="text-slate-700">한 화면에 들어오는 길이</b>로 시작합니다.</p>
-    <div class="soft-card rounded-2xl overflow-hidden mb-6">
-      <table class="cmp-table">
-        <thead><tr><th>AI 가 이렇게 틀렸다</th><th>규칙 파일에 더한 줄</th></tr></thead>
-        <tbody>
-          <tr><td><span class="mono">Input.GetKey</span> 로 키를 받아서 에러가 났다</td><td>입력은 Input System (<span class="mono">Keyboard.current</span>) 을 쓴다</td></tr>
-          <tr><td>스크립트 세 개를 한꺼번에 줬다</td><td>한 번에 스크립트 하나만 만들거나 고친다</td></tr>
-          <tr><td>파일 이름과 class 이름이 달라서 안 붙었다</td><td>파일 이름 = class 이름</td></tr>
-          <tr><td>안 시킨 점수 저장 기능까지 넣었다</td><td>묻지 않은 기능을 덧붙이지 않는다</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">같은 실수가 나오면</div><p class="text-[16px] text-slate-600">그 실수를 막는 한 줄을 더합니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">안 지켜지는 줄은</div><p class="text-[16px] text-slate-600">더 구체적으로 바꿉니다. 「잘 정리해서」 대신 「한 번에 스크립트 하나」.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">너무 길어지면</div><p class="text-[16px] text-slate-600">AI 도 사람도 놓칩니다. 이제 안 쓰는 줄은 지웁니다.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 9 어디에 두고 어떻게 주나 -->
+<!-- 23 어디에 두고 어떻게 주나 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">어디에 두고, 어떻게 주나</h2>
@@ -975,7 +1585,7 @@ body{
   </div>
 </section>
 
-<!-- 10 완료 기준 -->
+<!-- 25 완료 기준 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">완료 기준부터 적습니다</h2>
@@ -1003,27 +1613,7 @@ body{
   </div>
 </section>
 
-<!-- 11 팀 목표 한 문장에서 -->
-<section class="slide" data-part="1">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">팀 목표 한 문장에서 꺼냅니다</h2>
-    <p class="text-xl text-slate-500 mb-6">팀이 정한 「무엇까지 플레이하게 해서, 무엇을 확인한다」 한 문장이 가장 큰 완료 기준입니다.</p>
-    <div class="glass-card rounded-2xl p-6 mb-6">
-      <div class="text-[15px] font-black text-slate-400 mb-2">팀 목표 한 문장</div>
-      <p class="text-[21px] text-slate-800 font-bold">「다음 테스트에서 우리는 <span class="text-dev-700 underline decoration-dev-300 underline-offset-4">코인을 다 모아 클리어</span>까지 플레이하게 해서, <span class="text-flame-700 underline decoration-flame-300 underline-offset-4">움직이는 적을 피하는 게 긴장되는지</span> 확인한다.」</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-5 mb-6 items-stretch">
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">1</span><div class="text-lg font-black">아직 안 되는 것</div></div><p class="text-[16px] text-slate-600">적이 가만히 있습니다. 「움직이는 적」이 없으면 확인할 수가 없습니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">2</span><div class="text-lg font-black">작게 자른 일</div></div><p class="text-[16px] text-slate-600">두 지점을 오가는 적 하나. 쫓아오는 적 · 여러 종류는 지금 시키지 않습니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">3</span><div class="text-lg font-black">그 일의 완료 기준</div></div><p class="text-[16px] text-slate-600">앞 장의 세 줄. 이 세 줄이 맞으면 그 일은 끝입니다.</p></div>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">이 문장에 없는 일은 그 테스트 뒤로 미룹니다. AI 가 빨리 만들어 준다고 범위가 늘어나면, <b class="text-dev-700">한 판이 끝까지 도는 것</b>이 늦어집니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 12 요청 틀 -->
+<!-- 26 요청 틀 -->
 <section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">요청은 네 칸으로</h2>
@@ -1043,7 +1633,7 @@ body{
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5">
-      <p class="text-[17px] text-slate-700">7주차에 본 <b class="text-dev-700">에러 전문 · 코드 전체 · 무엇을 하려 했는지</b>와 같은 생각입니다. 규칙 파일은 매번 같은 것, 요청 틀은 이번 일만의 것입니다.</p>
+      <p class="text-[17px] text-slate-700">질문할 때 붙이는 세 가지, <b class="text-dev-700">에러 전문 · 코드 전체 · 무엇을 하려 했는지</b>와 같은 생각입니다. 규칙 파일은 매번 같은 것, 요청 틀은 이번 일만의 것입니다.</p>
     </div>
   </div>
 </section>
@@ -1057,63 +1647,8 @@ body{
   </div>
 </section>
 
-<!-- 13 받은 코드 읽기 -->
+<!-- 28 되돌릴 지점 -->
 <section class="slide" data-part="1">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">받은 코드, 넣기 전에 읽습니다</h2>
-    <p class="text-xl text-slate-500 mb-6">한 줄씩 다 이해하지 않아도 됩니다. 네 가지만 봅니다.</p>
-    <div class="grid md:grid-cols-5 gap-6 items-start">
-      <div class="md:col-span-3">
-        <div class="code-cap">EnemyPatrol.cs</div>
-        <div class="code" style="font-size:12.5px"><span class="kw">using</span> <span class="ty">UnityEngine</span>;
-
-<span class="kw">public class</span> <span class="ty hl">EnemyPatrol</span> : <span class="ty">MonoBehaviour</span>
-{
-    <span class="kw">public</span> <span class="ty">Transform</span> pointA;   <span class="cm">// 왕복할 두 지점</span>
-    <span class="kw">public</span> <span class="ty">Transform</span> pointB;
-    <span class="kw">public float</span> speed = <span class="nu">3f</span>;
-
-    <span class="ty">Transform</span> target;          <span class="cm">// 지금 가는 쪽</span>
-
-    <span class="kw">void</span> <span class="fn">Start</span>()
-    {
-        target = pointB;
-    }
-
-    <span class="kw">void</span> <span class="fn">Update</span>()
-    {
-        transform.position = <span class="ty">Vector3</span>.<span class="fn hl">MoveTowards</span>(
-            transform.position, target.position, speed * <span class="ty">Time</span>.deltaTime);
-
-        <span class="kw">if</span> (<span class="ty">Vector3</span>.<span class="fn">Distance</span>(transform.position, target.position) &lt; <span class="nu">0.05f</span>)
-        {
-            target = (target == pointA) ? pointB : pointA;   <span class="cm">// 도착하면 방향을 바꾼다</span>
-        }
-    }
-}</div>
-      </div>
-      <div class="md:col-span-2 space-y-3">
-        <div class="rule-card"><span class="no">1</span>스크립트가 몇 개인가</div>
-        <div class="rule-card"><span class="no">2</span>class 이름이 무엇인가</div>
-        <div class="rule-card"><span class="no">3</span>다른 파일을 고치라고 하는가</div>
-        <div class="rule-card"><span class="no">4</span>모르는 줄이 있는가</div>
-        <div class="soft-card rounded-2xl p-5 mt-2"><p class="text-[16px] text-slate-600">모르는 줄은 그 줄을 붙여 「이 줄이 하는 일을 한 줄로」 묻습니다. <b>이해 못 한 코드는 팀에 넘기지 않습니다.</b></p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 14 파트 02 표지 -->
-<section class="slide" data-part="2">
-  <div class="max-w-4xl w-full text-center">
-    <div class="part-num mb-4">02</div>
-    <h2 class="text-5xl md:text-6xl font-black mb-5">시킨 다음에</h2>
-    <p class="text-xl text-slate-500">되돌릴 지점 · 확인 루프 · 규칙 파일에 한 줄 · Agent</p>
-  </div>
-</section>
-
-<!-- 15 되돌릴 지점 -->
-<section class="slide" data-part="2">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">넣기 전에, 되돌릴 지점</h2>
     <p class="text-xl text-slate-500 mb-7">AI 코드를 넣다가 꼬이면 <b class="text-slate-700">넣기 전으로</b> 돌아갈 수 있어야 합니다. Agent 가 파일을 직접 고칠 때는 더욱 그렇습니다.</p>
@@ -1142,16 +1677,16 @@ body{
 </section>
 
 <!-- 따라 하기 · 되돌릴 지점 만들기 -->
-<section class="slide" data-part="2" data-sim="backup">
+<section class="slide" data-part="1" data-sim="backup">
   <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>되돌릴 지점 만들기</h2>
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>되돌릴 지점 만들기</h2>
     <div class="ed"></div>
     <div class="ed-cap"></div>
   </div>
 </section>
 
-<!-- 16 확인 루프 -->
-<section class="slide" data-part="2">
+<!-- 30 확인 루프 -->
+<section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">확인 루프 — 넣고, 보고, 다시</h2>
     <p class="text-xl text-slate-500 mb-5">AI 는 Play 를 못 누릅니다. 확인하는 손은 우리입니다.</p>
@@ -1197,25 +1732,25 @@ body{
 </section>
 
 <!-- 따라 하기 · Test 씬에 적과 스크립트 넣기 -->
-<section class="slide" data-part="2" data-sim="place">
+<section class="slide" data-part="1" data-sim="place">
   <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>Test 씬에 적과 스크립트 넣기</h2>
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>Test 씬에 적과 스크립트 넣기</h2>
     <div class="ed"></div>
     <div class="ed-cap"></div>
   </div>
 </section>
 
 <!-- 따라 하기 · 붙이고 돌려 보기 -->
-<section class="slide" data-part="2" data-sim="run">
+<section class="slide" data-part="1" data-sim="run">
   <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>붙이고 돌려 보기</h2>
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>붙이고 돌려 보기</h2>
     <div class="ed"></div>
     <div class="ed-cap"></div>
   </div>
 </section>
 
-<!-- 17 에러는 그대로 -->
-<section class="slide" data-part="2">
+<!-- 33 에러는 그대로 -->
+<section class="slide" data-part="1">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-3">에러는 그대로, 맨 위 한 줄부터</h2>
     <p class="text-xl text-slate-500 mb-6">「안 돼요」 대신 Console 의 글을 그대로 줍니다. 에러 전문이 AI 에게는 유니티 화면입니다.</p>
@@ -1245,104 +1780,15 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
 </section>
 
 <!-- 따라 하기 · 에러를 붙여 넣고 고치기 -->
-<section class="slide" data-part="2" data-sim="fix">
+<section class="slide" data-part="1" data-sim="fix">
   <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>에러를 붙여 넣고 고치기</h2>
+    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-dev-600 text-white align-middle mr-2">따라 하기</span>에러를 붙여 넣고 고치기</h2>
     <div class="ed"></div>
     <div class="ed-cap"></div>
   </div>
 </section>
 
-<!-- 18 규칙 파일에 한 줄 -->
-<section class="slide" data-part="2">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">고쳤으면, 규칙 파일에 한 줄</h2>
-    <p class="text-xl text-slate-500 mb-6">이번에 AI 는 Inspector 에 끌어다 놓을 칸을 말해 주지 않았습니다. 다음에도 그럴 수 있습니다.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-6">
-      <div class="soft-card rounded-3xl p-6">
-        <div class="tagchip bg-slate-100 text-slate-500 mb-3">대화에서 「다음부터 그렇게 해」</div>
-        <p class="text-[17px] text-slate-600">대부분 그 대화 안에서만 남습니다. 새 대화, 다른 팀원의 AI 는 모릅니다.</p>
-      </div>
-      <div class="soft-card rounded-3xl p-6 border-dev-200">
-        <div class="tagchip bg-dev-600 text-white mb-3">규칙 파일에 한 줄</div>
-        <p class="text-[17px] text-slate-700 mb-3">copilot-instructions.md 에 남아서 다음 대화마다, 팀 전체에 갑니다.</p>
-        <div class="mono text-[14px] bg-green-50 border border-green-300 rounded-xl px-4 py-3 text-slate-800">- Inspector 에 끌어다 놓을 칸이 생기면, 무엇을 어디에 놓는지 같이 알려 준다</div>
-      </div>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">코드를 고치는 것은 이번 한 번, 규칙 파일을 고치는 것은 <b class="text-dev-700">다음부터 계속</b>입니다. 이것이 하네스 엔지니어링의 거의 전부입니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 따라 하기 · 규칙 파일에 한 줄 더하기 -->
-<section class="slide" data-part="2" data-sim="addline">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>규칙 파일에 한 줄 더하기</h2>
-    <div class="ed"></div>
-    <div class="ed-cap"></div>
-  </div>
-</section>
-
-<!-- 18a Agent 에게 맡길 때 -->
-<section class="slide" data-part="2">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">Agent 에게 맡길 때 — 장치가 더 필요합니다</h2>
-    <p class="text-xl text-slate-500 mb-6">Agent 는 우리 손을 거치지 않고 파일을 고칩니다. 그래서 <b class="text-slate-700">시키기 전과 끝난 뒤</b>가 더 중요합니다.</p>
-    <div class="grid md:grid-cols-4 gap-4 mb-6">
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">1</span><div class="text-lg font-black">시키기 전</div></div><p class="text-[15.5px] text-slate-600">되돌릴 지점 zip · 커밋. 이름에 무엇을 하기 전인지 — <span class="mono whitespace-nowrap">1104_멈춤전</span></p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">2</span><div class="text-lg font-black">시킬 때</div></div><p class="text-[15.5px] text-slate-600">요청 네 칸 그대로. <b>하지 말 것</b>에 고쳐도 되는 파일을 적어, 팀 약속 ① 작업 칸 안으로 좁힙니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">3</span><div class="text-lg font-black">하는 동안</div></div><p class="text-[15.5px] text-slate-600">명령을 실행하려 하면 <b>Allow</b> 를 묻습니다. 무엇을 하는지 모르면 누르지 않고 묻습니다.</p></div>
-      <div class="soft-card rounded-2xl p-5"><div class="step mb-2"><span class="no">4</span><div class="text-lg font-black">끝난 뒤</div></div><p class="text-[15.5px] text-slate-600"><b>Total changes</b> 의 파일 목록부터. 작업 칸 밖 · .unity · ProjectSettings 가 있으면 <b>Undo</b>.</p></div>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700"><b>Keep</b> 을 눌러도 끝이 아닙니다. 유니티로 돌아와 Console · Play · 완료 기준까지 봐야 끝입니다. <b class="text-dev-700">확인 루프는 같습니다.</b></p>
-    </div>
-  </div>
-</section>
-
-<!-- 따라 하기 · Agent 로 한 번 더 — 끝에서 멈추기 -->
-<section class="slide" data-part="2" data-sim="agent">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-3xl md:text-4xl font-black mb-4"><span class="tagchip bg-flame-600 text-white align-middle mr-2">따라 하기</span>Agent 로 한 번 더 — 끝에서 멈추기</h2>
-    <div class="ed"></div>
-    <div class="ed-cap"></div>
-  </div>
-</section>
-
-<!-- 19 도구 연결 -->
-<section class="slide" data-part="2">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">도구 연결 — AI 가 유니티를 직접 볼 때</h2>
-    <p class="text-xl text-slate-500 mb-7">오늘 손으로 옮긴 것을 도구가 대신 옮겨 주는 방법도 있습니다. <b class="text-slate-700">MCP</b> 라고 부릅니다.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-6">
-      <div class="soft-card rounded-3xl p-7">
-        <div class="tagchip bg-dev-600 text-white mb-4">오늘 한 방법</div>
-        <div class="text-xl font-black mb-3">Copilot 은 코드를, 우리는 유니티를</div>
-        <ul class="text-[17px] text-slate-600 space-y-2">
-          <li>· Copilot 은 코드 · 규칙 파일을 읽고, Agent 는 파일도 고칩니다</li>
-          <li>· 씬 · Inspector · 에러 전문은 우리가 보고 글로 옮깁니다</li>
-          <li>· Play 도, 완료 기준 확인도 우리가 합니다</li>
-        </ul>
-      </div>
-      <div class="soft-card rounded-3xl p-7">
-        <div class="tagchip bg-slate-800 text-white mb-4">연결하면</div>
-        <div class="text-xl font-black mb-3">AI 가 직접 읽고 바꿉니다</div>
-        <ul class="text-[17px] text-slate-600 space-y-2">
-          <li>· Console · Hierarchy · Inspector 값을 AI 가 읽습니다</li>
-          <li>· 오브젝트를 만들고 칸을 채우는 일까지 할 수 있습니다</li>
-          <li>· Visual Studio 의 Agent 모드에도 MCP 서버를 붙일 수 있습니다</li>
-          <li>· 유니티 공식 연결은 최신 버전 유니티 · AI Assistant 패키지 · Unity AI 이용 권한(체험 · 구독)이 있어야 씁니다</li>
-        </ul>
-      </div>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[18px] text-slate-700">연결해도 고리는 같습니다. 규칙 파일 · 완료 기준 · 확인 루프는 그대로 필요하고, AI 가 씬을 직접 바꿀 수 있으니 <b class="text-flame-700">되돌릴 지점은 더 중요해집니다.</b></p>
-    </div>
-  </div>
-</section>
-
-<!-- 20a Visual Studio · Copilot 에서 막힐 때 -->
+<!-- 35 막힐 때 -->
 <section class="slide" data-part="3">
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-6">Visual Studio · Copilot 에서 막힐 때</h2>
@@ -1365,92 +1811,45 @@ EnemyPatrol.Update () (at Assets/Scripts/EnemyPatrol.cs:18)</div>
   </div>
 </section>
 
-<!-- 20 자주 나는 문제 -->
-<section class="slide" data-part="3">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-6">AI 코드를 넣을 때 자주 나는 문제</h2>
-    <div class="soft-card rounded-2xl overflow-hidden mb-5">
-      <table class="cmp-table">
-        <thead><tr><th>이럴 때</th><th>이것부터 봅니다</th></tr></thead>
-        <tbody>
-          <tr><td>스크립트가 오브젝트에 안 붙는다</td><td>파일 이름과 class 이름이 같은지 · Console 에 다른 빨간 줄이 있는지</td></tr>
-          <tr><td>이름에 빨간 밑줄 (CS0246)</td><td>맨 위 <span class="mono">using</span> 줄이 빠졌는지. AI 에게 「using 까지 전부」 달라고 합니다</td></tr>
-          <tr><td>Input 에러 (InvalidOperationException)</td><td>프로젝트는 Input System 인데 <span class="mono">Input.GetKey</span> 를 썼는지 → 규칙 파일에 입력 방식</td></tr>
-          <tr><td>UnassignedReference · NullReference</td><td>Inspector 의 칸이 비었는지 · 끌어다 놓은 것이 맞는 오브젝트인지</td></tr>
-          <tr><td>AI 가 말한 메뉴가 없다</td><td>버전마다 메뉴 이름이 다릅니다. 내 화면에 보이는 메뉴 이름을 그대로 알려 줍니다</td></tr>
-          <tr><td>고칠 때마다 다른 데가 망가진다</td><td>되돌릴 지점으로 돌아가서 한 번에 하나씩 · 「지금처럼」 기준을 더합니다</td></tr>
-          <tr><td>같은 실수가 또 나온다</td><td>References 에 규칙 파일이 있는지 · 그 실수를 막는 줄이 있는지</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="glass-card rounded-2xl p-5">
-      <p class="text-[17px] text-slate-700">빨간 줄이 여러 개면 <b class="text-dev-700">맨 위 한 줄부터</b> 고칩니다. 아래 줄은 위 줄 때문에 같이 나는 경우가 많습니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 21 기록으로 남기기 -->
-<section class="slide" data-part="3">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3">AI 를 쓴 것도 기록입니다</h2>
-    <p class="text-xl text-slate-500 mb-7">AI 를 쓰는 것은 숨길 일이 아닙니다. 무엇을 시키고, 무엇을 고쳤는지가 내 기여입니다.</p>
-    <div class="grid md:grid-cols-2 gap-6 mb-6 items-start">
-      <div class="soft-card rounded-2xl p-6">
-        <div class="text-[15px] font-black text-slate-400 mb-3">「개인 기여 보고서」 의 한 칸</div>
-        <div class="text-[17px] text-slate-700 space-y-2">
-          <p class="font-black">## AI를 쓴 곳</p>
-          <p>- 무엇을 시켰나: Visual Studio Copilot 에게 두 지점을 오가는 적 스크립트 EnemyPatrol (Ask), 끝에서 잠깐 멈추기 (Agent)</p>
-          <p>- 그대로 쓴 것 / 고친 것: 코드는 그대로. Point A · B 칸이 비어 UnassignedReference 에러 → 빈 오브젝트 두 개를 만들어 연결. 규칙 파일에 Inspector 칸 안내 줄 추가</p>
-        </div>
-      </div>
-      <div class="space-y-4">
-        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">숫자 · 파일 이름 · 증상</div><p class="text-[16px] text-slate-600">러프해도 이 셋이 있으면 나중에 포트폴리오로 쓸 수 있습니다.</p></div>
-        <div class="soft-card rounded-2xl p-5"><div class="font-black mb-1">규칙 파일에 더한 줄</div><p class="text-[16px] text-slate-600">「AI 의 실수를 보고 팀의 일하는 방식을 고쳤다」는 가장 좋은 기록입니다.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 22 정리 -->
+<!-- 36 정리 -->
 <section class="slide" data-part="3">
   <div class="max-w-7xl w-full">
     <h2 class="text-4xl md:text-5xl font-black mb-7 text-center">한 장으로 정리하면</h2>
     <div class="grid md:grid-cols-3 gap-5 mb-6">
       <div class="soft-card rounded-3xl p-6">
-        <div class="tagchip bg-violet-600 text-white mb-4">00 준비</div>
+        <div class="tagchip bg-flame-600 text-white mb-4">01 한 판이 끝까지, 빌드로</div>
         <ul class="text-[16px] text-slate-700 space-y-2">
+          <li>· Title · Game · Result, Scene List 의 <b>0번</b>이 첫 화면</li>
+          <li>· 씬 넘기기는 <span class="mono text-[14px]">LoadScene</span> 한 줄, 버튼은 On Click 에</li>
+          <li>· 끝은 EndGame 하나로, 다시 하기 전에 <span class="mono text-[14px] whitespace-nowrap">timeScale = 1</span></li>
+          <li>· Windowed 1280 × 720 · Canvas Scaler</li>
+          <li>· exe 하나가 아니라 <b>폴더째</b> zip, 다른 노트북에서 압축 풀고 실행</li>
+        </ul>
+      </div>
+      <div class="soft-card rounded-3xl p-6">
+        <div class="tagchip bg-violet-600 text-white mb-4">02 Visual Studio 에 AI</div>
+        <ul class="text-[16px] text-slate-700 space-y-2">
+          <li>· 세 자리 — 웹 채팅 · 편집기 안 AI · 코딩 에이전트</li>
           <li>· 설치 관리자 — <b>Unity 워크로드</b> · GitHub Copilot</li>
           <li>· 유니티 Preferences → External Tools → Visual Studio</li>
           <li>· GitHub 로 로그인, <b>Copilot Free</b> 로 시작</li>
           <li>· Ask 는 우리가 넣고, Agent 는 AI 가 고칩니다</li>
-          <li>· 웹 채팅 · Claude Code · Codex 도 하네스는 같습니다</li>
         </ul>
       </div>
       <div class="soft-card rounded-3xl p-6">
-        <div class="tagchip bg-dev-600 text-white mb-4">01 시키기 전에</div>
+        <div class="tagchip bg-dev-600 text-white mb-4">03 시키고, 넣고, 확인하기</div>
         <ul class="text-[16px] text-slate-700 space-y-2">
           <li>· AI 는 씬 · Inspector · Play 를 <b>못 봅니다</b></li>
-          <li>· 규칙 파일 <span class="mono text-[14px]">.github/copilot-instructions.md</span> — 팀에 하나, 팀 약속까지</li>
-          <li>· 답 아래 <b>References</b> 로 읽었는지 확인</li>
-          <li>· 완료 기준 — 눈으로 · 숫자로 · 「지금처럼」</li>
-          <li>· 요청 네 칸 — 하려는 것 · 완료 기준 · 지금 상황 · 하지 말 것</li>
-          <li>· 받은 코드 — 몇 개 · class 이름 · 다른 파일 · 모르는 줄</li>
-        </ul>
-      </div>
-      <div class="soft-card rounded-3xl p-6">
-        <div class="tagchip bg-flame-600 text-white mb-4">02 시킨 다음에</div>
-        <ul class="text-[16px] text-slate-700 space-y-2">
-          <li>· 넣기 전에 zip · 커밋, <b>Test 씬</b>에서, 한 번에 하나</li>
-          <li>· 확인 루프 — 넣는다 → Console → Play → 기준</li>
+          <li>· 규칙 파일 <span class="mono text-[14px]">.github/copilot-instructions.md</span> — 팀에 하나</li>
+          <li>· 완료 기준 · 요청 네 칸 — 하려는 것 · 완료 기준 · 지금 상황 · 하지 말 것</li>
+          <li>· 넣기 전에 zip, <b>Test 씬</b>에서, 한 번에 하나</li>
+          <li>· 넣고 → Console → Play → 기준 한 줄씩</li>
           <li>· 에러는 <b>전문 그대로</b> + 그때 한 일</li>
-          <li>· 고쳤으면 규칙 파일에 <b>한 줄</b>, 팀에 알리기</li>
-          <li>· Agent 는 Total changes 부터. Keep 다음에도 확인 루프</li>
-          <li>· 도구 연결(MCP)도 같은 고리</li>
         </ul>
       </div>
     </div>
     <div class="glass-card rounded-2xl p-5 text-center">
-      <p class="text-[19px] text-slate-700">AI 가 틀릴 때마다 <b class="text-dev-700">장치를 한 줄씩</b> 고칩니다. 그러면 같은 실수가 줄어듭니다.</p>
+      <p class="text-[18px] text-slate-700">다음 편에서는 <b class="text-dev-700">고친 것을 규칙 파일에 남기기</b> · Agent 와 도구 연결(MCP) · 버그 찾기(Console · Debug.Log · 디버거) · 팀이 나눠 고칠 때를 봅니다.</p>
     </div>
   </div>
 </section>
@@ -1985,7 +2384,7 @@ copilot: { base: { vs: VSB({ badge: "off" }) },
   { cap: "Visual Studio 로 돌아오면 <b>Copilot 아이콘이 켜집니다</b>. 채팅에 한마디 보내 봅니다", vs: VSB({ side: "chat", chat: { msgs: [["u", "안녕"], ["a", "안녕하세요. 무엇을 도와드릴까요?"]] } }), hl: ["vs:badge"] },
   { cap: "아이콘 → <b>Copilot Usage</b> 에서 이번 달 남은 양을 봅니다", ov: vsMenu(["Open Chat Window", "*Copilot Usage", "Settings"], "right:42px;top:28px"), tap: ["vs:badge", "vmi:Copilot Usage"], note: "Free 는 매달 정해진 양. 다 쓰면 다음 달에 다시 찹니다" },
   { cap: "<b>Tools → Options</b> → GitHub › Copilot › Copilot Chat — 두 칸이 켜져 있는지", vs: VSB({ side: "chat", chat: {} }), ov: vsOptions(), hl: ["vo:ci", "vo:agent"], note: "규칙 파일 읽기 · Agent 모드. 보통 처음부터 켜져 있습니다" },
-  { cap: "채팅 창 한눈에 — <b>+</b> 새 대화 · 입력 칸 · 모드 <b>Ask</b> · 모델 <b>Auto</b>", vs: VSB({ side: "chat", wide: true, chat: {} }), hl: ["c:new", "c:in", "c:mode"], note: "이 영상은 Ask 로 따라 하고, Agent 는 02 끝에서 봅니다" },
+  { cap: "채팅 창 한눈에 — <b>+</b> 새 대화 · 입력 칸 · 모드 <b>Ask</b> · 모델 <b>Auto</b>", vs: VSB({ side: "chat", wide: true, chat: {} }), hl: ["c:new", "c:in", "c:mode"], note: "이 편은 Ask 로 따라 합니다. Agent 는 다음 편에서" },
 ]},
 /* 규칙 파일 만들기 */
 rulefile: { base: { scene: "Game", hier: ROLL_H, sv: sv3dP(), proj: { path: "Assets", items: [["Materials", "folder"], ["Prefabs", "folder"], ["Scenes", "folder"], ["Scripts", "folder"], ["Settings", "folder"]] } },
@@ -2082,12 +2481,301 @@ agent: { base: { scene: "Test_Jiho", hier: H_T(["PatrolEnemy", "PointA", "PointB
 ]},
 };
 
+/* ===== 빌드 장면 — 9주차 영상의 빌드 부분을 그대로 가져옴 ===== */
+const SIMS9 = (function(){
+/* --- 자주 쓰는 상태 --- */
+const ROLL_H = ["Main Camera", "Directional Light", "Ground", "Player", "Walls ▸", "PickUps ▸", "Enemy", "Canvas ▸", "EventSystem"];
+const TITLE_H = ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "EventSystem", "SceneLoader"];
+const TITLE_H2 = ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "  QuitButton ▸", "EventSystem", "SceneLoader"];
+const RESULT_H = ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  RetryButton ▸", "  TitleButton ▸", "EventSystem", "ResultUI", "SceneLoader"];
+const SCRIPTS = n => ({ path: "Scripts", items: [["CameraController", "script"], ["PlayerController", "script"], ["Rotator", "script"]].concat(n.map(x => [x, "script"])) });
+const SCENES = { path: "Scenes", items: [["Game", "scene"], ["Result", "scene"], ["Title", "scene"]] };
+const PROJ_CTX = (hi) => ctx("left:24%;top:118px", [["*Create>", "Show in Explorer", "Open", "Delete", "Rename", "Copy Path", "-", "Import New Asset...", "Import Package>", "Export Package...", "-", "Refresh"],
+  ["Folder", "-", (hi === "script" ? "*" : "") + "MonoBehaviour Script", "Scripting>", "Shader>", "-", (hi === "scene" ? "*" : "") + "Scene", "Prefab", "-", "Material"]]);
+const FILE_M = ["New Scene", "Open Scene", "Open Recent Scene>", "-", "Save", "Save As...", "-", "New Project...", "Open Project...", "Save Project", "-", "*Build Profiles", "Build And Run", "-", "Exit"];
+const GO_M = (hi) => [["Create Empty", "Create Empty Child", "3D Object>", "2D Object>", "Effects>", "Light>", "Audio>", "Video>", "*UI>", "UI Toolkit>", "Camera"],
+  ["Image", (hi === "text" ? "*" : "") + "Text - TextMeshPro", "Raw Image", "Panel", "Toggle", "Slider", "Scrollbar", "Scroll View", (hi === "button" ? "*" : "") + "Button - TextMeshPro", "Dropdown - TextMeshPro", "Input Field - TextMeshPro", "Canvas", "Event System", "Legacy>"]];
+const HIER_CTX = ctx("left:3%;top:150px", [["Copy", "Paste", "-", "Rename", "Duplicate", "Delete", "-", "*Create Empty", "3D Object>", "Effects>", "Light>", "Audio>", "Video>", "UI>", "UI Toolkit>", "Camera"]]);
+const searchOv = (q, res) => `<div class="ed-search" style="top:178px"><div class="q">${q}</div><div class="uu-it sel"${K("i:res")}><span class="ico">${fa("file-code")}</span>${res}</div></div>`;
+const dlg = (title, body, pos) => `<div class="ed-ov ed-dlg" style="${pos}"><div class="ed-wt">${title}<span class="x">✕</span></div><div class="in">${body}</div></div>`;
+const btnInsp = (name, y, oc) => goHead(name, "UI") + rectT(0, y, 400, 100) + comp("Canvas Renderer", "paintbrush", null) + imageC() + buttonC(oc);
+const textInsp = (name, x, y, w, h, text, size, al) => goHead(name, "UI") + rectT(x, y, w, h) + comp("Canvas Renderer", "paintbrush", null) + tmpC(text, size, al);
+const emptyInsp = (name, script, fields) => goHead(name) + xform() + (script ? scriptC(script, fields) : "") + addComp();
+
+/* --- 코드 --- */
+const SL_TEMPLATE = ["using UnityEngine;", "", "public class SceneLoader : MonoBehaviour", "{",
+  "-    // Start is called once before the first execution of Update after the MonoBehaviour is created", "-    void Start()", "-    {", "-", "-    }", "-",
+  "-    // Update is called once per frame", "-    void Update()", "-    {", "-", "-    }", "}"];
+const SL_LOAD = (q, mark) => ["using UnityEngine;", (mark === "using" ? "+" : "") + "using UnityEngine.SceneManagement;", "", "public class SceneLoader : MonoBehaviour", "{",
+  "    public void LoadGame()", "    {", (mark === "name" ? "+" : "") + `        SceneManager.LoadScene("${q}");`, "    }", "}"];
+const SL_FULL = ["using UnityEngine;", "using UnityEngine.SceneManagement;", "", "public class SceneLoader : MonoBehaviour", "{",
+  "    public void LoadGame()", "    {", "+        Time.timeScale = 1f;   // 멈춘 시간을 먼저 되돌린다", '        SceneManager.LoadScene("Game");', "    }", "",
+  "+    public void LoadTitle()", "+    {", "+        Time.timeScale = 1f;", '+        SceneManager.LoadScene("Title");', "+    }", "",
+  "+    public void Quit()", "+    {", "+        Application.Quit();   // 빌드에서만 동작", "+    }", "}"];
+const RESULTUI_CODE = ["using UnityEngine;", "using TMPro;", "", "public class ResultUI : MonoBehaviour", "{",
+  "    public TMP_Text titleText;", "    public TMP_Text scoreText;", "", "    void Start()", "    {",
+  '        if (GameResult.cleared) { titleText.text = "CLEAR!"; }', '        else { titleText.text = "GAME OVER"; }',
+  '        scoreText.text = "Score: " + GameResult.score;', "    }", "}"];
+const ESC_CODE = ["using UnityEngine;", "using UnityEngine.InputSystem;", "using UnityEngine.SceneManagement;", "", "public class EscToTitle : MonoBehaviour", "{",
+  "    void Update()", "    {", "        if (Keyboard.current.escapeKey.wasPressedThisFrame)", "        {",
+  "            Time.timeScale = 1f;", '            SceneManager.LoadScene("Title");', "        }", "    }", "}"];
+
+/* --- Project Settings --- */
+function ps(o){
+  const L = ["Adaptive Performance", "Audio", "Editor", "Graphics", "Input System Package", "Package Manager", "Physics", "Physics 2D", "Player", "Quality", "Scene Template", "Script Execution Order", "Tags and Layers", "Time", "UI Toolkit", "Version Control"];
+  const lrow = (lb, v) => `<div class="uu-row"><span class="uu-lb" style="width:170px">${lb}</span>${v}</div>`;
+  const chk = (on, k) => `<span class="uu-chk${on ? " on" : ""}"${K(k)}>${on ? "✓" : ""}</span>`;
+  const rp = o.exp
+    ? `<div class="uu-sub">Resolution</div>` + lrow("Fullscreen Mode", f(o.win ? "Windowed ▾" : "Fullscreen Window ▾", "ps:fm"))
+      + (o.win ? lrow("Default Screen Width", f(1280, "ps:w")) + lrow("Default Screen Height", f(720, "ps:h")) : "")
+      + `<div class="uu-sub">Standalone Player Options</div>` + lrow("Resizable Window", chk(o.rs, "ps:rs")) + lrow("Allow Fullscreen Switch", chk(true, "ps:afs"))
+    : null;
+  const right = `<div style="font-weight:800;color:#e6e6e6;margin-bottom:6px">Player</div>`
+    + lrow("Company Name", f("DefaultCompany")) + lrow("Product Name", f("RollABall", "ps:prod"))
+    + `<div class="uu-tabs" style="margin:6px 0 0"><span class="on"><i class="fa-brands fa-windows"></i></span><span><i class="fa-brands fa-android"></i></span><span>${fa("globe")}</span></div>`
+    + comp("Icon", "image", null) + `<div${K("ps:rp")}>${comp("Resolution and Presentation", "display", rp)}</div>` + comp("Splash Image", "image", null) + comp("Other Settings", "gear", null);
+  return win("Project Settings", `<div style="display:grid;grid-template-columns:24% 76%;height:100%"><div class="uu-tree" style="border-right:1px solid #232323">`
+    + L.map(n => `<div class="uu-it${n === "Player" ? " sel" : ""}"${K("ps:" + n)}>${n}</div>`).join("")
+    + `</div><div class="uu-body ed-insp" style="padding:8px 12px">${right}</div></div>`, "left:6%;top:30px;width:88%;height:452px");
+}
+
+/* --- 빌드 폴더 고르기 · 진행 --- */
+const pick = (path, rows, k) => `<div class="ed-ov win" style="left:18%;top:46px;width:62%"><div class="win-bar">${fa("folder-open", "#f59e0b")} 빌드할 폴더 선택 — ${path}<span style="margin-left:auto;font-weight:600"${K("pk:new")}>${fa("folder-plus")} 새 폴더</span></div>`
+  + (rows.length ? winRows(rows) : `<div class="win-row" style="color:#a1a1aa">이 폴더는 비어 있습니다.</div>`)
+  + `<div class="win-row" style="justify-content:flex-end;gap:8px;background:#fafafa"><span style="margin-right:auto;color:#52525b">폴더: ${k}</span><span class="ss btn"${K("pk:ok")} style="background:#2563eb;color:#fff;border:0;padding:3px 14px;border-radius:4px;box-shadow:none;font-size:13px">폴더 선택</span><span style="border:1px solid #d4d4d8;padding:3px 14px;border-radius:4px">취소</span></div></div>`;
+const PROJ_ROWS = (extra) => [[IC_DIR, "Assets", "파일 폴더"]].concat(extra || []).concat([[IC_DIR, "Library", "파일 폴더"], [IC_DIR, "Logs", "파일 폴더"], [IC_DIR, "Packages", "파일 폴더"], [IC_DIR, "ProjectSettings", "파일 폴더"], [IC_DIR, "UserSettings", "파일 폴더"]]);
+
+/* --- 바탕 화면 조각 --- */
+const SS = (more) => `<div class="ed-ov ss" style="left:24%;top:70px;width:52%">`
+  + `<div class="font-black text-[17px] mb-2">Windows의 PC 보호</div><p class="opacity-90 mb-3 text-[13px]">Microsoft Defender SmartScreen에서 인식할 수 없는 앱의 시작을 차단했습니다.</p>`
+  + (more ? `<p class="text-[13px] mb-1">앱: RollABall.exe</p><p class="text-[13px] mb-3">게시자: 알 수 없는 게시자</p>` : `<p class="underline font-bold mb-3"${K("ss:more")} style="display:inline-block">추가 정보</p>`)
+  + `<div class="text-right">${more ? `<span class="btn"${K("ss:run")} style="background:rgba(255,255,255,.15);margin-right:6px">실행</span>` : ""}<span class="btn">실행 안 함</span></div></div>`;
+const ZIP_ICON = (sel) => `<div class="dk-ico${sel ? " sel" : ""}"${K("d:zip")} style="left:14px;top:12px"><i class="fa-solid fa-file-zipper" style="color:#fcd34d"></i><span>팀명_게임명_1027.zip</span></div>`;
+const DIR_ICON = `<div class="dk-ico" style="left:14px;top:96px"><i class="fa-solid fa-folder" style="color:#fcd34d"></i><span>팀명_게임명_1027</span></div>`;
+
+const SIMS = {
+/* 6 뒤 — 씬 세 개 만들기 */
+scenes: { base: { scene: "MiniGame", hier: ROLL_H, sv: sv3d(roll(null)), proj: { path: "Assets", items: [["Materials", "folder"], ["Prefabs", "folder"], ["Scenes", "folder"], ["Scripts", "folder"], ["Settings", "folder"]] } },
+  steps: [
+  { cap: "Project 창에서 Assets → <b>Scenes</b> 폴더를 엽니다", tap: ["pt:Scenes"], note: "지금은 씬이 MiniGame 하나뿐입니다" },
+  { cap: "<b>MiniGame</b> 을 한 번 클릭 → <span class=\"kbd\">F2</span>", proj: { path: "Scenes", items: [["MiniGame", "scene"]] }, psel: ["MiniGame"], tap: ["p:MiniGame"] },
+  { cap: "<b>Game</b> 을 입력하고 <span class=\"kbd\">Enter</span>", proj: { path: "Scenes", items: [["Game", "scene"]] }, pedit: "Game", note: "이름은 Project 창 안에서만 바꿉니다" },
+  { cap: "Scenes 폴더 빈 곳을 우클릭 → <b>Create → Scene</b>", scene: "Game", psel: [], ov: PROJ_CTX("scene"), note: "버전에 따라 Scene 아래에 한 단계가 더 있습니다" },
+  { cap: "이름 칸이 열린 채로 <b>Title</b> 을 입력하고 <span class=\"kbd\">Enter</span>", proj: { path: "Scenes", items: [["Game", "scene"], ["Title", "scene"]] }, pedit: "Title" },
+  { cap: "같은 방법으로 <b>Result</b>", proj: SCENES, pedit: "Result" },
+  { cap: "<b>Title</b> 을 더블클릭해 엽니다", psel: ["Title"], tap: ["p:Title"] },
+  { cap: "새 씬에는 카메라와 조명 정도만 있습니다", scene: "Title", hier: ["Main Camera", "Directional Light"], sv: sv3d(), hl: ["h:Main Camera", "h:Directional Light"], note: "여기에 시작 화면을 만듭니다" },
+]},
+/* 7 뒤 — 씬 목록 */
+scenelist: { base: { proj: SCENES },
+  steps: [
+  { cap: "맨 위 메뉴 <b>File → Build Profiles</b>", mb: "File", mbm: [FILE_M], note: "예전 버전은 File → Build Settings" },
+  { cap: "왼쪽 위 <b>Scene List</b> 를 누릅니다", ov: bp("scenes", [["Scenes/Game", true]]), tap: ["bp:list"], note: "6주차에 빌드해 봤다면 Game 이 하나 들어 있습니다" },
+  { cap: "Project 창에서 <b>Result</b> 와 <b>Title</b> 을 <span class=\"kbd\">Ctrl</span> 로 함께 골라 목록으로 끌어다 놓습니다", ov: bp("scenes", [["Scenes/Game", true]]), psel: ["Result", "Title"], tap: ["p:Result", "p:Title"], hl: ["bp:rows"] },
+  { cap: "<b>Title</b> 을 끌어 맨 위로 올립니다", ov: bp("scenes", [["Scenes/Game", true], ["Scenes/Result", true], ["Scenes/Title", true, "bp:t"]]), psel: [], tap: ["bp:t"] },
+  { cap: "체크 세 개, <b>Title 0 · Game 1 · Result 2</b> 이면 창을 닫습니다", ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", true], ["Scenes/Result", true]]), hl: ["bp:rows"], tap: ["w:x"], note: "창을 닫아도 그대로 남습니다" },
+]},
+/* 8 뒤 — SceneLoader */
+script: { base: { proj: SCRIPTS([]) },
+  steps: [
+  { cap: "Scripts 폴더 빈 곳을 우클릭 → <b>Create → MonoBehaviour Script</b>", ov: PROJ_CTX("script"), note: "버전에 따라 C# Script" },
+  { cap: "이름 칸이 열린 채로 <b>SceneLoader</b> 를 입력하고 <span class=\"kbd\">Enter</span>", proj: SCRIPTS(["SceneLoader"]), pedit: "SceneLoader", note: "파일 이름과 class 이름이 같아야 합니다" },
+  { cap: "<b>SceneLoader</b> 를 더블클릭하면 코드 편집기가 열립니다", psel: ["SceneLoader"], tap: ["p:SceneLoader"] },
+  { cap: "처음 들어 있는 <b>Start</b> 와 <b>Update</b> 를 지웁니다", ov: code("SceneLoader.cs", SL_TEMPLATE), note: "빨간 줄이 지울 곳입니다" },
+  { cap: "<b>LoadGame</b> 함수를 입력합니다. <b>SceneManager</b> 에 빨간 밑줄이 생깁니다", ov: code("SceneLoader.cs", ["using UnityEngine;", "", "public class SceneLoader : MonoBehaviour", "{",
+      "+    public void LoadGame()", "+    {", '+        ~SceneManager~.LoadScene("Game");', "+    }", "}"]) },
+  { cap: "맨 위에 <b>using UnityEngine.SceneManagement;</b> → 밑줄이 사라집니다 → <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>", ov: code("SceneLoader.cs", SL_LOAD("Game", "using")) },
+  { cap: "유니티로 돌아옵니다. 오른쪽 아래 도는 표시가 멈추고 Console 이 비어 있으면 됩니다", bottom: "console", tap: ["st:spin"] },
+]},
+/* 9 뒤 — 시작 화면과 버튼 */
+button: { base: {},
+  steps: [
+  { cap: "맨 위 메뉴 <b>GameObject → UI → Text - TextMeshPro</b>", mb: "GameObject", mbm: GO_M("text"), note: "버전에 따라 UI (Canvas)" },
+  { cap: "TMP Importer 창이 뜨면 <b>Import TMP Essentials</b> → 창을 닫습니다", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  Text (TMP)", "EventSystem"],
+    ov: dlg("TMP Importer", `<div style="font-weight:800;color:#e6e6e6;margin-bottom:4px">TMP Essentials</div><div class="uu-note" style="margin-bottom:10px">처음 한 번, TextMesh Pro 에 필요한 파일을 프로젝트에 넣습니다.</div><div style="text-align:center;margin-bottom:14px"><span class="uu-btn"${K("d:ess")}>Import TMP Essentials</span></div><div style="font-weight:800;color:#e6e6e6;margin-bottom:4px">TMP Examples &amp; Extras</div><div style="text-align:center"><span class="uu-btn">Import TMP Examples &amp; Extras</span></div>`, "left:30%;top:110px;width:40%"),
+    tap: ["d:ess"], note: "처음 한 번만 뜹니다" },
+  { cap: "Hierarchy 에 <b>Canvas · Text (TMP) · EventSystem</b> 이 생겼습니다", hsel: "Text (TMP)", hl: ["h:Canvas", "h:Text (TMP)", "h:EventSystem"],
+    insp: textInsp("Text (TMP)", 0, 0, 200, 50, "New Text", 36, "left"), note: "Canvas 는 UI 를 모아 그리고, EventSystem 은 클릭을 받습니다" },
+  { cap: "Scene 창 위쪽 <b>2D</b> 를 켜고, Hierarchy 에서 <b>Canvas</b> 를 더블클릭", tap: ["sv:2d", "h:Canvas"] },
+  { cap: "이름을 <b>TitleText</b> 로 바꾸고, Text Input 에 <b>ROLL A BALL</b>", two: true, hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "EventSystem"], hsel: "TitleText",
+    sv: sv2d(U([["tl", "ROLL A BALL", 0, 200, 50, 36]], { cv: true })), insp: textInsp("TitleText", 0, 0, 200, 50, "ROLL A BALL", 36, "left"), hl: ["i:name", "i:text"] },
+  { cap: "Font Size <b>120</b> · 가운데 정렬 · Width <b>1200</b> · Height <b>160</b> · Pos Y <b>200</b>", sv: sv2d(U([TITLE_T], { cv: true })),
+    insp: textInsp("TitleText", 0, 200, 1200, 160, "ROLL A BALL", 120, "center"), hl: ["i:size", "i:align", "i:w", "i:h", "i:py"], note: "숫자는 Game 창 Full HD 기준입니다" },
+  { cap: "맨 위 메뉴 <b>GameObject → UI → Button - TextMeshPro</b>", mb: "GameObject", mbm: GO_M("button") },
+  { cap: "이름을 <b>StartButton</b> 으로 · Width <b>400</b> · Height <b>100</b> · Pos Y <b>-150</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "EventSystem"], hsel: "StartButton",
+    sv: sv2d(U([TITLE_T, ["b", "Button", -150, 400, 100, 24]], { cv: true })), insp: btnInsp("StartButton", -150), hl: ["i:name", "i:w", "i:h", "i:py"] },
+  { cap: "StartButton 왼쪽 삼각형을 펼쳐 안쪽 <b>Text (TMP)</b> → 글자 <b>START</b> · Font Size <b>48</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▾", "    Text (TMP)", "EventSystem"], hsel: "Text (TMP)",
+    sv: sv2d(U([TITLE_T, ["b", "START", -150, 400, 100, 48]], { cv: true })), insp: textInsp("Text (TMP)", 0, 0, 0, 0, "START", 48, "center"), hl: ["i:text", "i:size"], note: "한글은 네모로 나옵니다. 지금은 영어로" },
+  { cap: "Hierarchy 빈 곳을 우클릭 → <b>Create Empty</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  TitleText", "  StartButton ▸", "EventSystem"], hsel: null, insp: "", ov: HIER_CTX },
+  { cap: "이름을 <b>SceneLoader</b> 로 → Inspector 맨 아래 <b>Add Component</b> → SceneLoader 를 찾아 붙입니다", hier: TITLE_H, hsel: "SceneLoader", hedit: "SceneLoader",
+    insp: emptyInsp("SceneLoader"), inspOv: searchOv("SceneLoader", "Scene Loader"), tap: ["i:res"] },
+  { cap: "<b>StartButton</b> 을 고르고, Inspector 아래쪽 On Click () 의 <b>+</b>", hsel: "StartButton", insp: btnInsp("StartButton", -150), tap: ["h:StartButton", "i:plus"] },
+  { cap: "Hierarchy 의 <b>SceneLoader 오브젝트</b>를 <b>None (Object)</b> 칸으로 끌어다 놓습니다", insp: btnInsp("StartButton", -150, {}), drag: ["h:SceneLoader"], tap: ["i:obj"], note: "Project 창의 스크립트 파일이 아닙니다" },
+  { cap: "<b>No Function → SceneLoader → LoadGame ()</b>", insp: btnInsp("StartButton", -150, { obj: "SceneLoader" }), tap: ["i:fn"],
+    ov: ctx("right:2%;top:262px", [["No Function", "-", "GameObject>", "Transform>", "*SceneLoader>"], ["bool enabled", "string name", "string tag", "-", "*LoadGame ()", "CancelInvoke ()"]], true) },
+  { cap: "<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span> 로 저장 → <b>Play</b> → <b>START</b>", insp: btnInsp("StartButton", -150, { obj: "SceneLoader", fn: "LoadGame" }), hl: ["i:obj", "i:fn"],
+    playing: true, view: "game", gv: titleUI({}, false), tap: ["u:start"] },
+  { cap: "Game 으로 넘어갔으면 <b>Play</b> 를 다시 눌러 끕니다", scene: "Game", hier: ROLL_H, hsel: null, insp: "", gv: roll(0), tap: ["tb:play"] },
+]},
+/* 10 뒤 — 일부러 틀려 보기 */
+typo: { base: { hier: TITLE_H, view: "game", gv: titleUI({}, false) },
+  steps: [
+  { cap: "SceneLoader 코드의 \"Game\" 을 <b>\"Gmae\"</b> 로 바꾸고 저장", ov: code("SceneLoader.cs", SL_LOAD("Gmae", "name")), note: "따옴표 안은 틀려도 빨간 밑줄이 없습니다" },
+  { cap: "유니티로 돌아와 <b>Play → START</b>", playing: true, tap: ["u:start"] },
+  { cap: "Console 의 빨간 줄을 눌러 전문을 봅니다 → Play 를 끕니다", bottom: "console", logs: [["err", "Scene 'Gmae' couldn't be loaded because it has not been added to the …", "Scene 'Gmae' couldn't be loaded because it has not been added to the …\n원인 ① 이름 오타"]], logSel: 0, tap: ["c:0", "tb:play"] },
+  { cap: "\"Game\" 으로 고쳐 저장 → <b>File → Build Profiles → Scene List</b> 에서 <b>Game</b> 의 체크를 끕니다", playing: false, logs: [],
+    ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", false, "bp:g"], ["Scenes/Result", true]]), tap: ["bp:gc"] },
+  { cap: "<b>Play → START</b> → 같은 에러가 납니다", playing: true, logs: [["err", "Scene 'Game' couldn't be loaded because it has not been added to the …", "Scene 'Game' couldn't be loaded because it has not been added to the …\n원인 ② 목록에 없음"]], logSel: 0, hl: ["c:0"] },
+  { cap: "Play 를 끄고 <b>Game</b> 의 체크를 다시 켭니다", playing: false, logs: [], ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", true, "bp:g"], ["Scenes/Result", true]]), tap: ["bp:gc"] },
+  { cap: "<b>Play → START</b> → Game 으로 넘어가면 됩니다", playing: true, scene: "Game", hier: ROLL_H, gv: roll(0), bottom: "console", note: "couldn't be loaded 는 이름과 Scene List 두 곳" },
+]},
+/* 12 뒤 — 끝 정하기 */
+endgame: { base: { hier: TITLE_H, proj: SCRIPTS(["SceneLoader"]) },
+  steps: [
+  { cap: "Project 창 Scripts 에서 <b>PlayerController</b> 를 더블클릭", psel: ["PlayerController"], tap: ["p:PlayerController"] },
+  { cap: "맨 위 using 줄들 아래에 <b>using UnityEngine.SceneManagement;</b>", ov: code("PlayerController.cs", ["using UnityEngine;", "using UnityEngine.InputSystem;", "+using UnityEngine.SceneManagement;", "using TMPro;", "", "public class PlayerController : MonoBehaviour", "{", "    public float speed = 0;", "    public TextMeshProUGUI countText;", "    public GameObject winTextObject;", "…"]) },
+  { cap: "클래스 맨 아래에 <b>EndGame</b> 함수. 지금은 LoadScene 한 줄만", ov: code("PlayerController.cs", ["…", "@58", "    void OnCollisionEnter(Collision collision)", "    {", "        …", "    }", "",
+      "+    void EndGame(bool cleared)", "+    {", '+        SceneManager.LoadScene("Result");', "+    }", "}"]), note: "결과를 적는 두 줄은 다음 장에서" },
+  { cap: "SetCountText 안 — You Win 을 띄우던 줄을 지우고 <b>EndGame(true);</b>", ov: code("PlayerController.cs", ["…", "@33", "    void SetCountText()", "    {", '        countText.text = "Count: " + count.ToString();', "        if (count >= 12)", "        {",
+      "-            winTextObject.SetActive(true);", '-            Destroy(GameObject.FindGameObjectWithTag("Enemy"));', "+            EndGame(true);", "        }", "    }", "…"]), note: "6주차 코드와 달라도 You Win 을 띄우던 줄을 바꿉니다" },
+  { cap: "OnCollisionEnter 안 — You Lose 를 띄우던 줄을 지우고 <b>EndGame(false);</b>", ov: code("PlayerController.cs", ["…", "@58", "    void OnCollisionEnter(Collision collision)", "    {", '        if (collision.gameObject.CompareTag("Enemy"))', "        {",
+      "-            Destroy(gameObject);", "-            winTextObject.gameObject.SetActive(true);", '-            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";', "+            EndGame(false);", "        }", "    }", "…"]) },
+  { cap: "FixedUpdate 아래에 <b>Update</b> — y 가 -10 보다 낮으면 <b>EndGame(false);</b>", ov: code("PlayerController.cs", ["…", "@40", "    void FixedUpdate()", "    {", "        Vector3 movement = new Vector3(movementX, 0.0f, movementY);", "        rb.AddForce(movement * speed);", "    }", "",
+      "+    void Update()", "+    {", "+        if (transform.position.y < -10f)", "+        {", "+            EndGame(false);", "+        }", "+    }", "…"]), note: "바닥 아래로 떨어졌을 때" },
+  { cap: "Start 의 <b>winTextObject.SetActive(false);</b> 는 그대로 두고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">S</span>", ov: code("PlayerController.cs", ["…", "@18", "    void Start()", "    {", "        rb = GetComponent<Rigidbody>();", "        count = 0;", "        SetCountText();", ">        winTextObject.SetActive(false);", "    }", "…"]), note: "빼면 시작부터 글자가 떠 있습니다" },
+  { cap: "유니티로 돌아와 <b>Play → START</b> → 적에 부딪힙니다", playing: true, view: "game", scene: "Game", hier: ROLL_H, gv: roll(2), tap: ["u:enemy"] },
+  { cap: "Result 씬이 빈 화면으로 열립니다 → <b>Play</b> 를 끕니다", scene: "Result", hier: ["Main Camera", "Directional Light"], gv: emptyScr(), tap: ["tb:play"], note: "아직 아무 오브젝트도 넣지 않았습니다" },
+]},
+/* 13 뒤 — 결과 넘기기 */
+result: { base: { hier: TITLE_H, proj: SCRIPTS(["SceneLoader"]) },
+  steps: [
+  { cap: "Scripts 에 새 스크립트 <b>GameResult</b> → 안을 모두 지우고 다섯 줄 → 저장", proj: SCRIPTS(["GameResult", "SceneLoader"]), ov: code("GameResult.cs", ["+public static class GameResult", "+{", "+    public static bool cleared;", "+    public static int score;", "+}"]), note: "오브젝트에 붙이지 않습니다" },
+  { cap: "PlayerController 의 EndGame 에 <b>GameResult 두 줄</b> → 저장", ov: code("PlayerController.cs", ["…", "@73", "    void EndGame(bool cleared)", "    {", "+        GameResult.cleared = cleared;", "+        GameResult.score = count;", '        SceneManager.LoadScene("Result");', "    }", "}"]) },
+  { cap: "새 스크립트 <b>ResultUI</b> → 코드 입력 → 저장", proj: SCRIPTS(["GameResult", "ResultUI", "SceneLoader"]), ov: code("ResultUI.cs", RESULTUI_CODE) },
+  { cap: "Project 창 Scenes 에서 <b>Result</b> 를 더블클릭. 저장하겠냐고 물으면 <b>Save</b>", proj: SCENES, psel: ["Result"], tap: ["p:Result", "d:save"],
+    ov: dlg("Scene(s) Have Been Modified", `<div style="margin-bottom:12px">Do you want to save the changes you made in the scenes:<br>Assets/Scenes/Title.unity</div><div style="text-align:right"><span class="uu-btn"${K("d:save")} style="background:#2c5d87;color:#fff">Save</span> <span class="uu-btn">Don't Save</span> <span class="uu-btn">Cancel</span></div>`, "left:28%;top:120px;width:44%") },
+  { cap: "UI → Text - TextMeshPro 로 <b>ResultTitle</b> · 글자 RESULT · 크기 · 위치는 TitleText 와 같게", scene: "Result", psel: [],
+    hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "EventSystem"], hsel: "ResultTitle", two: true,
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120]], { cv: true })), insp: textInsp("ResultTitle", 0, 200, 1200, 160, "RESULT", 120, "center"), hl: ["i:name", "i:text", "i:size", "i:align", "i:w", "i:h", "i:py"], note: "Legacy 의 Text 로 만들면 칸에 들어가지 않습니다" },
+  { cap: "한 번 더 <b>ScoreText</b> · 글자 Score · Font Size <b>60</b> · Width 800 · Height 80 · Pos Y <b>40</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "EventSystem"], hsel: "ScoreText",
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60]], { cv: true })), insp: textInsp("ScoreText", 0, 40, 800, 80, "Score", 60, "center"), hl: ["i:name", "i:text", "i:size", "i:align", "i:w", "i:h", "i:py"] },
+  { cap: "Create Empty → 이름 <b>ResultUI</b> → Add Component → <b>ResultUI</b>. 빈칸 두 개가 생깁니다", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "EventSystem", "ResultUI"], hsel: "ResultUI",
+    insp: emptyInsp("ResultUI", "Result UI", [["Title Text", null, "i:t1"], ["Score Text", null, "i:t2"]]), hl: ["i:t1", "i:t2"] },
+  { cap: "칸을 채우기 전에 저장 → <b>Play</b> → Console 에 <b>NullReferenceException</b> → Play 를 끕니다", playing: true, view: "game", gv: U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60]]), bottom: "console",
+    logs: [["err", "NullReferenceException: Object reference not set to an instance of an object", "NullReferenceException: Object reference not set to an instance of an object\nResultUI.Start () (at Assets/Scripts/ResultUI.cs:12)"]], logSel: 0, tap: ["c:0"], note: "비어 있는 칸을 읽으려 했다는 뜻입니다" },
+  { cap: "Hierarchy 의 <b>ResultTitle</b> 을 Title Text 칸에, <b>ScoreText</b> 를 Score Text 칸에 끌어다 놓습니다", playing: false, logs: [], view: "scene",
+    insp: emptyInsp("ResultUI", "Result UI", [["Title Text", "ResultTitle", "i:t1"], ["Score Text", "ScoreText", "i:t2"]]), drag: ["h:ResultTitle", "h:ScoreText"], hl: ["i:t1", "i:t2"] },
+  { cap: "<b>Play</b> → GAME OVER 와 Score 가 보입니다 → Play 를 끕니다", playing: true, view: "game", gv: U([["t", "GAME OVER", 200, 1200, 160, 120], ["t", "Score: 0", 40, 800, 80, 60]]), note: "Result 씬만 바로 Play 해도 칸 연결을 볼 수 있습니다" },
+  { cap: "저장 → <b>Title</b> 씬을 열고 Play → START → 코인 몇 개 → 적에 부딪힙니다", gv: U([["t", "GAME OVER", 200, 1200, 160, 120], ["t", "Score: 3", 40, 800, 80, 60]]), note: "모은 개수가 그대로 넘어옵니다" },
+]},
+/* 14 뒤 — 다시 하기 */
+retry: { base: { scene: "Result", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "EventSystem", "ResultUI"], proj: SCRIPTS(["GameResult", "ResultUI", "SceneLoader"]), two: true,
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60]], { cv: true })) },
+  steps: [
+  { cap: "SceneLoader 를 열어 완성합니다 — <b>timeScale</b> 줄, <b>LoadTitle</b>, <b>Quit</b> → 저장", ov: code("SceneLoader.cs", SL_FULL, "left:10%;right:3%;top:30px;bottom:22px") },
+  { cap: "Result 씬 · GameObject → UI → Button - TextMeshPro → 이름 <b>RetryButton</b> · 글자 <b>RETRY</b> · Width 400 · Height 100 · Pos Y -150", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  RetryButton ▸", "EventSystem", "ResultUI"], hsel: "RetryButton",
+    sv: sv2d(U([["t", "RESULT", 200, 1200, 160, 120], ["t", "Score", 40, 800, 80, 60], ["b", "RETRY", -150, 400, 100, 48]], { cv: true })), insp: btnInsp("RetryButton", -150), hl: ["i:name", "i:w", "i:h", "i:py"] },
+  { cap: "RetryButton 을 고르고 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">D</span> → 이름 <b>TitleButton</b> · 글자 <b>TITLE</b> · Pos Y <b>-300</b>", hier: ["Main Camera", "Directional Light", "Canvas ▾", "  ResultTitle", "  ScoreText", "  RetryButton ▸", "  TitleButton ▸", "EventSystem", "ResultUI"], hsel: "TitleButton",
+    sv: sv2d(resultUI("RESULT", "Score", { cv: true })), insp: btnInsp("TitleButton", -300), hl: ["i:name", "i:py"] },
+  { cap: "Hierarchy 빈 곳 우클릭 → Create Empty → 이름 <b>SceneLoader</b> → Add Component → <b>SceneLoader</b>", hier: RESULT_H, hsel: "SceneLoader", insp: emptyInsp("SceneLoader", "Scene Loader"), hl: ["h:SceneLoader"], note: "Title 씬의 SceneLoader 는 여기로 끌어올 수 없습니다" },
+  { cap: "<b>RetryButton</b> · On Click + → SceneLoader 오브젝트 → <b>LoadGame</b>", hsel: "RetryButton", insp: btnInsp("RetryButton", -150, { obj: "SceneLoader", fn: "LoadGame" }), hl: ["i:obj", "i:fn"], drag: ["h:SceneLoader"] },
+  { cap: "<b>TitleButton</b> · 같은 방법으로 <b>LoadTitle</b> → 저장", hsel: "TitleButton", insp: btnInsp("TitleButton", -300, { obj: "SceneLoader", fn: "LoadTitle" }), hl: ["i:obj", "i:fn"], drag: ["h:SceneLoader"] },
+  { cap: "Title 씬 · StartButton 을 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">D</span> → 이름 <b>QuitButton</b> · 글자 <b>QUIT</b> · Pos Y <b>-400</b> · 함수만 <b>Quit</b> 으로 → 저장", scene: "Title", hier: TITLE_H2, hsel: "QuitButton",
+    sv: sv2d(titleUI({ cv: true })), insp: btnInsp("QuitButton", -400, { obj: "SceneLoader", fn: "Quit" }), hl: ["i:name", "i:py", "i:fn"], note: "복제하면 연결도 같이 복제됩니다" },
+  { cap: "<b>Play → START</b> → 적에 부딪힘 → <b>RETRY</b>", playing: true, view: "game", scene: "Result", hier: RESULT_H, hsel: null, insp: "", gv: resultUI("GAME OVER", "Score: 1"), tap: ["u:retry"] },
+  { cap: "처음 상태로 돌아가고 공이 움직입니다 → 다시 적에 부딪힙니다", scene: "Game", hier: ROLL_H, gv: roll(0), tap: ["u:enemy"] },
+  { cap: "<b>TITLE</b> 을 누르면 시작 화면으로", scene: "Result", hier: RESULT_H, gv: resultUI("GAME OVER", "Score: 0"), tap: ["u:title"] },
+  { cap: "Title 에서 <b>QUIT</b> → 아무 일도 없습니다 → Play 를 끕니다", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["u:quit"], note: "Quit 은 빌드에서만 동작합니다" },
+]},
+/* 15 뒤 — Esc */
+esc: { base: { proj: SCRIPTS(["GameResult", "ResultUI", "SceneLoader"]), hier: TITLE_H2 },
+  steps: [
+  { cap: "Scripts 에 새 스크립트 <b>EscToTitle</b> → 코드 입력 → 저장", proj: SCRIPTS(["EscToTitle", "GameResult", "ResultUI", "SceneLoader"]), ov: code("EscToTitle.cs", ESC_CODE), note: "Input Manager 프로젝트는 Input.GetKeyDown(KeyCode.Escape)" },
+  { cap: "<b>Game</b> 씬 · Create Empty → 이름 <b>EscToTitle</b> → Add Component → <b>EscToTitle</b> → 저장", scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), hsel: "EscToTitle", sv: sv3d(roll(null)),
+    insp: emptyInsp("EscToTitle", "Esc To Title"), hl: ["h:EscToTitle"] },
+  { cap: "<b>Title</b> 씬을 열고 <b>Play → START</b> → Game 창을 한 번 클릭 → <span class=\"kbd\">Esc</span>", playing: true, view: "game", hsel: null, insp: "", gv: roll(1), tap: ["gv"], note: "에디터에서는 Game 창을 클릭해야 키가 들어갑니다" },
+  { cap: "Title 로 돌아왔습니다 → Play 를 끕니다", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["tb:play"] },
+]},
+/* 16 뒤 — 한 판 점검 */
+check: { base: { scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), sv: sv3d(roll(null)), proj: SCENES },
+  steps: [
+  { cap: "Project 창에서 <b>Title</b> 을 더블클릭해 열고 <b>Play</b>", psel: ["Title"], tap: ["p:Title", "tb:play"], note: "Game 씬에서 Play 하면 Title 을 건너뜁니다" },
+  { cap: "① <b>START</b> 를 누르면 Game 으로", playing: true, view: "game", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["u:start"] },
+  { cap: "② 다 모으면 Result 에 <b>CLEAR!</b> 와 점수", scene: "Result", hier: RESULT_H, gv: resultUI("CLEAR!", "Score: 12"), hl: ["gv"] },
+  { cap: "④ <b>RETRY</b> 를 누르면", gv: resultUI("CLEAR!", "Score: 12"), tap: ["u:retry"] },
+  { cap: "처음 상태로 돌아가고 공이 움직입니다. ③ 이번에는 적에 부딪힙니다", scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), gv: roll(0), tap: ["u:enemy"], note: "코인도 다시 다 놓여 있습니다" },
+  { cap: "<b>GAME OVER</b>. ⑤ <b>TITLE</b> 을 누르면", scene: "Result", hier: RESULT_H, gv: resultUI("GAME OVER", "Score: 0"), tap: ["u:title"] },
+  { cap: "⑥ 시작 화면에서 <b>START</b>", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["u:start"] },
+  { cap: "Game 창을 한 번 클릭 → <span class=\"kbd\">Esc</span>", scene: "Game", hier: ROLL_H.concat(["EscToTitle"]), gv: roll(1), tap: ["gv"] },
+  { cap: "시작 화면으로 돌아오면 여섯 줄 끝 → Play 를 끕니다", scene: "Title", hier: TITLE_H2, gv: titleUI(), tap: ["tb:play"] },
+]},
+/* 19 뒤 — 창 모양 */
+player: { base: { hier: TITLE_H2, proj: SCENES },
+  steps: [
+  { cap: "맨 위 메뉴 <b>Edit → Project Settings</b>", mb: "Edit", mbm: [["Undo", "Redo", "-", "Select All", "Deselect All", "-", "Cut", "Copy", "Paste", "Duplicate", "Delete", "-", "Play", "Pause", "-", "*Project Settings...", "Preferences...", "Shortcuts..."]] },
+  { cap: "왼쪽 목록에서 <b>Player</b>. 위쪽 <b>Product Name</b> 이 창 제목과 exe 이름이 됩니다", ov: ps({}), tap: ["ps:Player", "ps:prod"] },
+  { cap: "Windows 탭에서 <b>Resolution and Presentation</b> 을 펼칩니다", ov: ps({}), tap: ["ps:rp"] },
+  { cap: "Fullscreen Mode 를 <b>Windowed</b> 로 → 생긴 칸에 너비 <b>1280</b> · 높이 <b>720</b>", ov: ps({ exp: true, win: true }), hl: ["ps:fm", "ps:w", "ps:h"], note: "웬만한 노트북 화면에 다 들어가는 크기" },
+  { cap: "<b>Resizable Window</b> 를 켜고, <b>Allow Fullscreen Switch</b> 가 켜져 있는지 봅니다", ov: ps({ exp: true, win: true, rs: true }), hl: ["ps:rs", "ps:afs"], note: "창 ↔ 전체 화면은 Alt + Enter" },
+  { cap: "창을 닫습니다. 바꾸는 순간 저장됩니다", ov: ps({ exp: true, win: true, rs: true }), tap: ["w:x"] },
+]},
+/* 20 뒤 — 화면 크기 */
+scaler: { base: { hier: TITLE_H2, view: "game", gv: titleUI(), proj: SCENES },
+  steps: [
+  { cap: "Game 창 위쪽 해상도 메뉴(지금은 Full HD)를 엽니다", tap: ["g:res"], ov: ctx("left:30%;top:104px", [["Free Aspect", "16:9 Aspect", "Full HD (1920x1080)", "-", "*+"]]), note: "맨 아래 + 로 목록에 없는 크기를 넣습니다" },
+  { cap: "<b>+</b> → Label 1366x768 · Type Fixed Resolution · Width <b>1366</b> · Height <b>768</b> → OK",
+    ov: dlg("Add", `<div class="ed-insp" style="padding:0">${row("Label", f("1366x768"))}${row("Type", f("Fixed Resolution ▾"))}${row("Width & Height", f(1366, "r:w") + f(768, "r:h"))}</div><div style="text-align:right;margin-top:8px"><span class="uu-btn"${K("r:ok")}>OK</span> <span class="uu-btn">Cancel</span></div>`, "left:30%;top:110px;width:34%"), hl: ["r:w", "r:h"], tap: ["r:ok"] },
+  { cap: "<b>1366x768</b> 을 고르면 QUIT 이 아래로 잘립니다", res: "1366x768", gv: titleUI({ scale: 1.4 }), hl: ["g:res"], tap: ["u:quit"] },
+  { cap: "Hierarchy 에서 <b>Canvas</b> → Inspector 의 <b>Canvas Scaler</b>", hsel: "Canvas", insp: canvasInsp(false), tap: ["h:Canvas", "i:mode"] },
+  { cap: "UI Scale Mode → <b>Scale With Screen Size</b> · Reference Resolution <b>1920 × 1080</b> · Match <b>0.5</b>", insp: canvasInsp(true), hl: ["i:mode", "i:ref", "i:match"] },
+  { cap: "QUIT 이 화면 안으로 들어옵니다. Full HD 와 1366x768 을 오가며 봅니다", gv: titleUI(), hl: ["gv"] },
+  { cap: "저장 → <b>다른 씬의 Canvas</b> 도 같은 값으로 바꾸고 저장", scene: "Result", hier: RESULT_H, gv: resultUI("RESULT", "Score"), insp: canvasInsp(true), hl: ["i:mode", "i:ref", "i:match"], note: "처음부터 Scale With Screen Size 면 Reference Resolution 만" },
+]},
+/* 21 뒤 — 빌드 */
+build: { base: { hier: TITLE_H2, proj: SCENES },
+  steps: [
+  { cap: "맨 위 메뉴 <b>File → Build Profiles</b>", mb: "File", mbm: [FILE_M] },
+  { cap: "왼쪽 Platforms 에서 <b>Windows</b>. 이름 옆에 Active 가 있으면 그대로", ov: bp("win"), tap: ["bp:win"], note: "다른 플랫폼은 Switch Platform 이 필요하고 오래 걸립니다" },
+  { cap: "<b>Scene List</b> — 게임에 쓰는 씬이 모두 체크되어 있고, <b>첫 화면 씬이 0번</b>인지 봅니다 → 다시 Windows", ov: bp("scenes", [["Scenes/Title", true], ["Scenes/Game", true], ["Scenes/Result", true]]), hl: ["bp:rows"], tap: ["bp:win"], note: "목록에 없는 씬은 빌드에 들어가지 않습니다. 순서는 끌어서 바꿉니다" },
+  { cap: "오른쪽 아래 <b>Build</b>", ov: bp("win"), tap: ["bp:build"], note: "Build And Run 은 끝나면 바로 실행까지" },
+  { cap: "프로젝트 폴더(Assets 가 보이는 곳)에서 <b>새 폴더</b> → 이름 <b>Builds</b>", ov: pick("RollABall", PROJ_ROWS([[IC_DIR, "<b>Builds</b>", "파일 폴더", "pk:builds", true]]), "Builds"), tap: ["pk:new"], hl: ["pk:builds"], note: "Assets 안에는 만들지 않습니다" },
+  { cap: "Builds 안에 새 폴더 <b>1027</b> → 들어가서 <b>폴더 선택</b>", ov: pick("RollABall › Builds › 1027", [], "1027"), tap: ["pk:ok"], note: "날짜로 폴더를 하나씩" },
+  { cap: "진행 막대가 끝나면 빌드 폴더가 열립니다", busy: true, ov: dlg("Build Player", `<div style="margin-bottom:8px">Building scene 1: Game</div><div class="ed-bar"><span style="width:62%"></span></div><div style="text-align:right;margin-top:10px"><span class="uu-btn">Cancel</span></div>`, "left:30%;top:150px;width:40%"), note: "첫 빌드는 오래 걸립니다" },
+]},
+/* 22 뒤 — 빌드 폴더 */
+folder: { base: { desk: true },
+  steps: [
+  { cap: "<b>1027</b> 폴더 안 — <b>RollABall_Data</b> 와 <b>RollABall.exe</b> 가 같이 있어야 돕니다", ov: explorer("Builds › 1027", BUILD_ROWS, "left:5%;top:30px;width:56%"), hl: ["x:data", "x:exe"], note: "DoNotShip 이 붙은 폴더는 빼도 됩니다" },
+  { cap: "<b>RollABall.exe</b> 를 더블클릭 → 1280 × 720 창으로 열립니다", ov: explorer("Builds › 1027", BUILD_ROWS, "left:5%;top:30px;width:56%") + gameWin(titleUI(), "left:36%;top:46px;width:56%") },
+  { cap: "<span class=\"kbd\">Alt</span> + <span class=\"kbd\">Enter</span> 로 전체 화면 ↔ 창", ov: `<div class="gw" style="inset:0;z-index:40;border-radius:0;display:flex;justify-content:center;background:#000"><div style="height:100%;aspect-ratio:16/9">${titleUI()}</div></div>` },
+  { cap: "한 판 끝까지 해 보고, <b>QUIT</b> 으로 창이 닫히는지 봅니다", ov: explorer("Builds › 1027", BUILD_ROWS, "left:5%;top:30px;width:56%") + gameWin(titleUI(), "left:36%;top:46px;width:56%"), tap: ["u:quit"], note: "Application.Quit 은 빌드에서만 동작합니다" },
+  { cap: "한 단계 위 <b>Builds</b> 에서 1027 폴더를 우클릭 → <b>압축 대상 → ZIP 파일</b>", ov: explorer("Builds", [[IC_DIR, "1027", "파일 폴더", "x:1027", true]], "left:5%;top:30px;width:56%") + dkMenu("left:28%;top:84px", [{ items: ["열기", "새 창에서 열기", "-", "*압축 대상>", "경로로 복사", "속성"] }, { off: 84, items: ["*ZIP 파일", "7z 파일", "TAR 파일"] }]), note: "Windows 버전에 따라 메뉴 이름이 조금 다릅니다" },
+  { cap: "이름을 <b>팀명_게임명_1027</b> 로 → 팀 공유 폴더에 올립니다", ov: explorer("Builds", [[IC_DIR, "1027", "파일 폴더"], [IC_ZIP, `<span class="ed-edit" style="background:#fff;color:#111">팀명_게임명_1027.zip</span>`, "압축(ZIP) 폴더", "x:zip", true]], "left:5%;top:30px;width:56%"), hl: ["x:zip"], note: "깃 저장소에는 올리지 않습니다" },
+]},
+/* 23 뒤 — 다른 노트북 */
+other: { base: { desk: true },
+  steps: [
+  { cap: "다른 노트북에서 압축 파일을 받아 바탕 화면에 둡니다", dk: ZIP_ICON(false), hl: ["d:zip"] },
+  { cap: "압축 파일을 더블클릭해 안으로 들어가 <b>RollABall.exe</b> 를 바로 더블클릭하면", dk: ZIP_ICON(false), ov: explorer("팀명_게임명_1027.zip › 1027", BUILD_ROWS, "left:16%;top:30px;width:56%"), tap: ["x:exe"] },
+  { cap: "이 창이 뜹니다 → 닫습니다", dk: ZIP_ICON(false), ov: explorer("팀명_게임명_1027.zip › 1027", BUILD_ROWS, "left:16%;top:30px;width:56%")
+      + `<div class="ed-ov win" style="left:26%;top:150px;width:48%"><div class="win-bar">RollABall</div><div class="win-row" style="font-size:13px"><span class="ico">${fa("circle-xmark", "#ef4444")}</span><span class="mono">There should be 'RollABall_Data' folder next to the executable</span></div><div class="win-row" style="justify-content:flex-end"><span${K("e:ok")} style="border:1px solid #d4d4d8;padding:2px 16px;border-radius:4px">확인</span></div></div>`, tap: ["e:ok"], note: "압축 안에서는 exe 만 꺼내 실행해서 그렇습니다" },
+  { cap: "압축 파일을 우클릭 → <b>모두 압축 풀기</b> → 풀린 폴더의 <b>RollABall.exe</b>", dk: ZIP_ICON(true), ov: dkMenu("left:96px;top:30px", [{ items: ["열기", "*모두 압축 풀기...", "-", "공유", "복사", "이름 바꾸기", "삭제", "속성"] }]) },
+  { cap: "<b>Windows의 PC 보호</b> 창이 뜨면 <b>추가 정보</b>", dk: ZIP_ICON(false) + DIR_ICON, ov: SS(false), tap: ["ss:more"], note: "우리가 만든 파일이라 서명이 없어서 뜹니다" },
+  { cap: "<b>실행</b>", dk: ZIP_ICON(false) + DIR_ICON, ov: SS(true), tap: ["ss:run"] },
+  { cap: "끝낼 때는 게임의 <b>QUIT</b> 버튼. 없거나 안 되면 <span class=\"kbd\">Alt</span> + <span class=\"kbd\">F4</span>", dk: ZIP_ICON(false) + DIR_ICON, ov: gameWin(titleUI(), "left:20%;top:30px;width:60%"), tap: ["u:quit"] },
+]},
+};
+
+return SIMS;
+})();
+Object.assign(SIMS, { player: SIMS9.player, scaler: SIMS9.scaler, build: SIMS9.build, folder: SIMS9.folder, other: SIMS9.other });
+
 const slides = document.querySelectorAll(".slide");
 const progressBar = document.getElementById("progress-bar");
 const currentSlideLabel = document.getElementById("current-slide");
 const totalSlidesLabel = document.getElementById("total-slides");
 const partLabel = document.getElementById("part-label");
-const PART_NAMES = {"0":"10주차 온라인","p":"Visual Studio 준비","1":"시키기 전에","2":"시킨 다음에","3":"정리"};
+const PART_NAMES = {"0":"10주차 온라인","s":"한 판이 끝까지","b":"빌드","p":"Visual Studio 에 AI 붙이기","1":"시키고, 넣고, 확인하기","3":"정리"};
 let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
 totalSlidesLabel.textContent = slides.length;
 
