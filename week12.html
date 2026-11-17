@@ -402,6 +402,109 @@ body{
 .ck-k{font-weight:900;color:#4338ca;min-width:62px;font-family:"JetBrains Mono",Consolas,monospace;font-size:13px}
 .ck-t{flex:1;color:#1e293b;font-weight:600}
 .ck-b{width:30px;height:24px;border:2px solid #cbd5e1;border-radius:6px;flex:none}
+/* ── 12주차 2판: 처음 보는 사람 · 게임 느낌 ───────────── */
+/* 게임 화면 모사 */
+.gm{position:relative;background:linear-gradient(180deg,#1e293b,#0f172a);border:3px solid #0f172a;border-radius:14px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 10px 26px rgba(15,23,42,.14)}
+.gm-g{position:absolute;left:0;right:0;bottom:0;height:18%;background:#334155;border-top:3px solid #64748b}
+.gm-pit{position:absolute;bottom:0;height:18.5%;background:#0b1120}
+.gm-spk{position:absolute;bottom:0;height:9%;display:flex;justify-content:space-around;color:#f43f5e;font-size:12px;line-height:1;align-items:flex-end}
+.gm-p{position:absolute;width:8%;aspect-ratio:1;background:#f97316;border:3px solid #fff7ed;border-radius:6px}
+.gm-e{position:absolute;width:7.5%;aspect-ratio:1;background:#ef4444;border:3px solid #fecaca;border-radius:6px}
+.gm-c{position:absolute;width:4%;aspect-ratio:1;background:#facc15;border:2px solid #fef9c3;border-radius:50%}
+.gm-pl{position:absolute;height:5%;background:#475569;border-top:3px solid #94a3b8;border-radius:3px}
+.gm-hud{position:absolute;top:5%;font-weight:900;color:#fff;font-size:13px;display:flex;gap:6px;align-items:center}
+.gm-hud b{background:rgba(255,255,255,.12);border-radius:7px;padding:2px 8px}
+.gm-tip{position:absolute;background:#fff;color:#0f172a;font-weight:800;font-size:12px;border-radius:8px;padding:3px 8px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.gm-tip::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:6px solid transparent;border-bottom:0;border-top-color:#fff}
+.gm-txt{position:absolute;color:#cbd5e1;font-size:11.5px;line-height:1.45;font-family:"Times New Roman",serif}
+.gm-flag{position:absolute;color:#4ade80;font-size:26px;filter:drop-shadow(0 0 10px #4ade80)}
+.gm-arrow{position:absolute;color:#fde047;font-size:22px;animation:gmPulse 1s ease-in-out infinite}
+@keyframes gmPulse{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.gm-path{position:absolute;height:0;border-top:3px dashed #fde047;opacity:.9}
+.gm-n{position:absolute;top:6px;left:8px;width:24px;height:24px;border-radius:7px;background:#f97316;color:#fff;font-weight:900;font-size:13px;display:grid;place-items:center;z-index:2}
+.gm-lb{font-size:13px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.gm-lb.bad{color:#64748b}.gm-lb.good{color:#ea580c}
+.kc{display:inline-block;background:#fff;color:#0f172a;border:2px solid #0f172a;border-bottom-width:4px;border-radius:6px;padding:0 6px;font-weight:900;font-size:11px;line-height:1.5;font-family:"JetBrains Mono",Consolas,monospace}
+/* 등급 */
+.g1,.g2,.g3{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:9px;font-weight:900;font-size:15px;padding:0 6px}
+.g1{background:#f97316;color:#fff}.g2{background:#6366f1;color:#fff}.g3{background:#e2e8f0;color:#475569}
+.gk{background:#0f172a;color:#fff;display:inline-grid;place-items:center;height:26px;border-radius:8px;font-weight:900;font-size:12.5px;padding:0 8px}
+.mx td,.mx th{text-align:center;vertical-align:middle}
+.mx td:first-child{text-align:left}
+/* 세기 눈금 */
+.mt{display:inline-flex;gap:3px;vertical-align:middle}
+.mt i{width:10px;height:10px;border-radius:50%;background:#e2e8f0;display:inline-block}
+.mt i.on{background:#f97316}
+/* 타격 순간 시간선 */
+.ht{position:relative;display:grid;grid-template-columns:.7fr .9fr 1.1fr 1.5fr 1.6fr 1fr;gap:6px}
+.ht-c{border-radius:12px;padding:9px 10px;font-size:13.5px;line-height:1.4;color:#1e293b;border:2px solid #0f172a;background:#fff}
+.ht-c b{display:block;font-size:14.5px;margin-bottom:2px}
+.ht-ax{display:grid;grid-template-columns:.7fr .9fr 1.1fr 1.5fr 1.6fr 1fr;gap:6px;margin-top:6px;font-size:12px;font-weight:800;color:#64748b}
+/* 느낌 데모 */
+#fd-cv{width:100%;display:block;border-radius:14px;background:#0f172a;border:3px solid #0f172a;aspect-ratio:2/1}
+.fd-tg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.fd-t{display:flex;align-items:center;gap:8px;border:2px solid #cbd5e1;background:#fff;border-radius:12px;padding:6px 10px;font-weight:800;font-size:14px;color:#64748b;cursor:pointer;text-align:left}
+.fd-t i{width:16px;text-align:center}
+.fd-t.on{border-color:#4f46e5;background:#eef2ff;color:#312e81}
+.fd-go{width:100%;border-radius:14px;background:#f97316;color:#fff;font-weight:900;font-size:20px;padding:10px 0;border:3px solid #0f172a;box-shadow:0 4px 0 #0f172a;cursor:pointer}
+.fd-go:active{transform:translateY(3px);box-shadow:0 1px 0 #0f172a}
+.fd-sm{border-radius:10px;border:2px solid #cbd5e1;background:#fff;font-weight:800;font-size:13px;padding:5px 0;color:#334155;cursor:pointer}
+/* 작은 움직이는 그림 */
+.fx{width:58px;height:58px;border-radius:12px;background:#0f172a;position:relative;overflow:hidden;flex:none}
+.fx>span{position:absolute;left:21px;top:21px;width:16px;height:16px;border-radius:4px;background:#ef4444}
+.fx-flash>span{animation:fxFlash 1.6s steps(1) infinite}
+@keyframes fxFlash{0%,80%{background:#ef4444}82%,90%{background:#fff}92%,100%{background:#ef4444}}
+.fx-stop>span{left:4px;background:#f97316;animation:fxStop 1.6s linear infinite}
+@keyframes fxStop{0%{left:4px}30%{left:30px}55%{left:30px}70%{left:40px}100%{left:40px}}
+.fx-knock>span{animation:fxKnock 1.6s ease-out infinite}
+@keyframes fxKnock{0%,40%{transform:translateX(-8px)}48%{transform:translateX(14px)}100%{transform:translateX(-8px)}}
+.fx-squash>span{top:auto;bottom:6px;transform-origin:50% 100%;animation:fxSq 1.6s ease-out infinite}
+@keyframes fxSq{0%,40%{transform:scale(1,1)}46%{transform:scale(1.45,.6)}56%{transform:scale(.85,1.2)}66%,100%{transform:scale(1,1)}}
+.fx-shake>span{animation:fxShake 1.6s linear infinite}
+@keyframes fxShake{0%,40%,62%,100%{transform:translate(0,0)}44%{transform:translate(-4px,2px)}48%{transform:translate(4px,-3px)}52%{transform:translate(-3px,-2px)}56%{transform:translate(2px,3px)}60%{transform:translate(-1px,1px)}}
+.fx-part>span{background:#facc15;border-radius:50%;width:6px;height:6px;left:26px;top:26px;animation:fxPart 1.6s ease-out infinite;box-shadow:0 0 0 #facc15}
+@keyframes fxPart{0%,40%{box-shadow:0 0 0 #facc15,0 0 0 #facc15,0 0 0 #facc15,0 0 0 #facc15,0 0 0 #facc15,0 0 0 #facc15;opacity:1}90%{box-shadow:18px -14px 0 #facc15,-18px -12px 0 #facc15,14px 14px 0 #fde047,-14px 16px 0 #fde047,0 -22px 0 #fbbf24,2px 20px 0 #fbbf24;opacity:0}100%{opacity:0}}
+.fx-pop>span{background:none;width:auto;height:auto;left:14px;top:30px;color:#fde047;font-weight:900;font-size:14px;animation:fxPop 1.6s ease-out infinite}
+@keyframes fxPop{0%,30%{transform:translateY(0);opacity:0}38%{opacity:1}100%{transform:translateY(-22px);opacity:0}}
+/* 기법 카드 */
+.tk{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:12px 14px;box-shadow:0 8px 24px rgba(15,23,42,.06);display:flex;gap:12px}
+.tk h4{font-weight:900;font-size:17px;margin-bottom:2px}
+.tk p{font-size:13.5px;color:#475569;line-height:1.5}
+.tk .v{color:#c2410c;font-weight:800}
+.tk .u{font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;color:#334155;background:#f1f5f9;border-radius:6px;padding:1px 5px}
+/* 소리 세 겹 */
+.snd{position:relative;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px 16px 10px}
+.snd-r{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:10px;margin-bottom:9px}
+.snd-n{font-weight:900;font-size:14px}
+.snd-t{position:relative;height:30px;background:repeating-linear-gradient(90deg,#f8fafc 0,#f8fafc 49px,#e2e8f0 49px,#e2e8f0 50px);border-radius:6px}
+.snd-b{position:absolute;top:4px;bottom:4px;border-radius:5px}
+.snd-ax{display:grid;grid-template-columns:96px 1fr;gap:10px;font-size:11.5px;color:#94a3b8;font-weight:700}
+.sb{border-radius:12px;border:2px solid #0f172a;background:#fff;font-weight:900;font-size:14px;padding:7px 12px;box-shadow:0 3px 0 #0f172a;cursor:pointer;display:flex;align-items:center;gap:7px}
+.sb:active{transform:translateY(2px);box-shadow:0 1px 0 #0f172a}
+.sb.hot{background:#fff7ed;border-color:#ea580c;box-shadow:0 3px 0 #ea580c;color:#9a3412}
+/* UI 전 · 후 */
+.uim{border-radius:14px;overflow:hidden;aspect-ratio:16/10;position:relative;border:3px solid #0f172a}
+.ui-old{background:#fff;font-family:Arial,sans-serif}
+.ui-old .t{position:absolute;left:8px;top:6px;font-size:14px;color:#111}
+.ui-old .bt{position:absolute;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#f0f0f0;border:1px solid #9a9a9a;border-radius:3px;font-size:12px;color:#222;display:grid;place-items:center}
+.ui-new{background:radial-gradient(circle at 50% 35%,#334155,#0f172a 70%)}
+.ui-new .t{position:absolute;left:0;right:0;top:20%;text-align:center;font-weight:900;font-size:34px;color:#fff;letter-spacing:.02em;text-shadow:0 4px 0 #ea580c}
+.ui-new .st{position:absolute;left:0;right:0;top:40%;text-align:center;font-weight:700;font-size:12px;color:#fdba74;letter-spacing:.2em}
+.ui-btn{position:absolute;left:50%;transform:translateX(-50%);width:150px;height:36px;border-radius:12px;background:#f97316;border:3px solid #fff7ed;color:#fff;font-weight:900;font-size:15px;display:grid;place-items:center;letter-spacing:.08em;cursor:pointer;transition:transform .06s,background .1s;box-shadow:0 4px 0 #9a3412}
+.ui-btn.q{background:transparent;border-color:#64748b;color:#cbd5e1;box-shadow:none}
+.ui-btn:hover{background:#fb923c;transform:translateX(-50%) scale(1.05)}
+.ui-btn.q:hover{background:rgba(255,255,255,.08);color:#fff}
+.ui-btn:active{transform:translateX(-50%) scale(.95)}
+.st4{display:flex;gap:6px}
+.st4>div{flex:1;text-align:center;font-size:11.5px;font-weight:800;color:#64748b}
+.st4 .b{height:26px;border-radius:9px;border:2px solid #fff7ed;margin-bottom:3px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:11.5px}
+/* 첫 방 세 칸 */
+.rm3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.rm3 .gm{aspect-ratio:16/10}
+.rm3-c{font-size:14px;font-weight:900;margin:6px 0 1px}
+.rm3-p{font-size:13px;color:#475569;line-height:1.45}
+/* 기록지 머리 */
+.rec th.new{background:#fff7ed;color:#9a3412}
 </style>
 </head>
 <body>
@@ -449,45 +552,52 @@ body{
       게임 개발 실습 · 12주차
     </div>
     <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">베타 <span class="text-flame-600">준비</span></h1>
-    <p class="text-xl md:text-2xl text-slate-500">알파에서 정한 방향을 <b class="text-slate-700">베타 빌드</b>로 옮기는 날.<br>씬 흐름과 빌드를 맞추고 반응 하나를 다듬고 베타 설문을 냅니다</p>
+    <p class="text-xl md:text-2xl text-slate-500">알파에서 정한 방향을 <b class="text-slate-700">베타 빌드</b>로 옮기는 날.<br>피드백을 할 일로 나누고 처음 보는 사람이 혼자 하게 만들고 게임 느낌을 다듬어요</p>
   </div>
 </section>
 <section class="slide wk" data-part="order">
   <div class="max-w-7xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">오늘 진행 순서</h2>
-    <p class="text-lg text-slate-500 mb-8 text-center">짧게 같이 듣고 팀 노트북으로 바로 해 보는 순서를 번갈아 해요</p>
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">오늘 목표와 순서</h2>
+    <p class="text-lg text-slate-500 mb-5 text-center">베타 기준 중 세 가지를 오늘 깊게 다뤄요. 수업이 끝나면 팀 노트북에 네 가지가 남아요</p>
+    <div class="flex flex-wrap justify-center gap-2 mb-6">
+      <span class="gk" style="height:32px;font-size:14px;padding:0 12px">「할 일 보드」 · 「못 고친 것」</span>
+      <span class="gk" style="height:32px;font-size:14px;padding:0 12px">「첫 화면 설계」</span>
+      <span class="gk" style="height:32px;font-size:14px;padding:0 12px">「애셋 목록」 · 다듬을 순간 하나</span>
+      <span class="gk" style="height:32px;font-size:14px;padding:0 12px;background:#ea580c">「베타 설문 · 계획 제출」</span>
+    </div>
     <div class="grid md:grid-cols-5 gap-3">
       <div class="soft-card rounded-2xl p-5 flex flex-col">
         <div class="text-5xl font-black text-dev-200 mb-2">1</div>
         <div class="text-xl font-black mb-2">알파에서 베타로</div>
-        <p class="text-[15px] text-slate-600 mb-4">베타 기준 네 가지, 남은 날, 지난주 결정 다시 열기</p>
-        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span><span class="tagchip bg-dev-600 text-white">팀</span></div>
+        <p class="text-[15px] text-slate-600 mb-4">베타 기준 · 알파와 다른 점 · 남은 날과 잠그는 날</p>
+        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span></div>
       </div>
       <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
         <div class="text-5xl font-black text-flame-300 mb-2">2</div>
-        <div class="text-xl font-black mb-2">씬 흐름 · 다시 시작</div>
-        <p class="text-[15px] text-slate-600 mb-4">Scene List · 씬 넘기는 스크립트 · 버튼 연결 · RETRY 점검</p>
-        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span><span class="tagchip bg-emerald-600 text-white">팀 노트북</span></div>
+        <div class="text-xl font-black mb-2">알파 피드백 반영</div>
+        <p class="text-[15px] text-slate-600 mb-4">지난주 결정 다시 열기 → 등급 매기기 → 할 일 보드 · 못 고친 것</p>
+        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span><span class="tagchip bg-dev-600 text-white">팀</span></div>
       </div>
       <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
         <div class="text-5xl font-black text-flame-300 mb-2">3</div>
-        <div class="text-xl font-black mb-2">빌드 · 넘겨주기</div>
-        <p class="text-[15px] text-slate-600 mb-4">Player 설정 · Canvas Scaler · 빌드 폴더 · zip · 다른 컴퓨터에서 열기</p>
-        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span><span class="tagchip bg-emerald-600 text-white">팀 노트북</span></div>
+        <div class="text-xl font-black mb-2">처음 보는 사람이 혼자</div>
+        <p class="text-[15px] text-slate-600 mb-4">조작 안내 · 첫 방 튜토리얼 · 목표 보이기 · 막힌 곳 고치기 → 첫 화면 설계</p>
+        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span><span class="tagchip bg-dev-600 text-white">팀</span></div>
       </div>
-      <div class="soft-card rounded-2xl p-5 flex flex-col">
-        <div class="text-5xl font-black text-dev-200 mb-2">4</div>
-        <div class="text-xl font-black mb-2">반응 하나 다듬기</div>
-        <p class="text-[15px] text-slate-600 mb-4">알파에서 밋밋했던 순간 하나를 분해표로 · 고치기 전 녹화</p>
-        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-dev-600 text-white">팀</span></div>
+      <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="text-5xl font-black text-flame-300 mb-2">4</div>
+        <div class="text-xl font-black mb-2">게임 느낌</div>
+        <p class="text-[15px] text-slate-600 mb-4">반응 켜 보기 · 기법 · 세기 · 소리 · UI → 애셋 목록 · 다듬을 순간</p>
+        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이 듣기</span><span class="tagchip bg-dev-600 text-white">팀</span></div>
       </div>
       <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#eef2ff;border-color:#c7d2fe">
         <div class="text-5xl font-black text-dev-200 mb-2">5</div>
-        <div class="text-xl font-black mb-2">베타 설문 · 점검표</div>
-        <p class="text-[15px] text-slate-600 mb-4">베타 한 문장 → 설문 고치기 → 확인 기준 → 베타 점검표 → 과제 제출</p>
+        <div class="text-xl font-black mb-2">베타 설문 · 베타 날</div>
+        <p class="text-[15px] text-slate-600 mb-4">베타 한 문장 · 설문 · 관찰 · 빌드 점검 · 역할 → 과제</p>
         <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-dev-600 text-white">팀</span><span class="tagchip bg-flame-600 text-white">과제</span></div>
       </div>
     </div>
+    <p class="text-[15px] text-slate-500 mt-5 text-center">씬 넘기기 · 다시 시작 · 빌드 · 넘겨주기 따라 하기는 맨 뒤 <b class="text-slate-700">부록</b>에 있어요. 점검에서 막힌 팀만 펴요</p>
   </div>
 </section>
 <section class="slide wk" data-part="beta">
@@ -510,7 +620,7 @@ body{
   <div class="max-w-6xl w-full">
     <h2 class="text-4xl font-black mb-2">알파와 베타, 무엇이 달라지나</h2>
     <p class="text-lg text-slate-500 mb-5">같은 상호 테스트지만 테스터가 혼자 할 수 있는 만큼이 늘어나요</p>
-    <table class="cmp-table" style="font-size:1rem">
+    <table class="cmp-table" style="font-size:.95rem">
       <thead><tr><th style="width:16%">칸</th><th style="width:38%">알파 · 지난주</th><th>베타 · 다음 주</th></tr></thead>
       <tbody>
         <tr><td>범위</td><td class="text-slate-500">알파 한 문장의 앞 칸까지 한 판</td><td><b class="text-slate-800">넣을 기능 · 스테이지 전부</b></td></tr>
@@ -518,6 +628,7 @@ body{
         <tr><td>처음 시작</td><td class="text-slate-500">지킴이가 조작키 한 줄을 가리킴</td><td><b class="text-slate-800">지킴이는 말하지 않음. 조작키 · 목표가 화면 안에</b></td></tr>
         <tr><td>버그</td><td class="text-slate-500">한 판이 끝까지 돌면 됨</td><td><b class="text-slate-800">멈춤 · 진행 막힘이 0</b></td></tr>
         <tr><td>빌드</td><td class="text-slate-500">다른 노트북에서 열림</td><td><b class="text-slate-800">+ 게임 이름 · 창 크기 · 글자 안 잘림</b></td></tr>
+        <tr><td>느낌</td><td class="text-slate-500">없어도 됨</td><td><b class="text-slate-800">주 행동 · 얻기 · 맞기에 소리와 반응 · 임시 UI 없음</b></td></tr>
         <tr><td>설문</td><td class="text-slate-500">확인하려던 장면이 나오는지</td><td><b class="text-slate-800">+ 알파에서 막힌 곳을 고친 것이 통했는지</b></td></tr>
       </tbody>
     </table>
@@ -526,22 +637,24 @@ body{
 </section>
 <section class="slide wk" data-part="beta">
   <div class="max-w-6xl w-full">
-    <h2 class="text-4xl font-black mb-2">베타까지 남은 날</h2>
-    <p class="text-lg text-slate-500 mb-5">마지막 빌드는 전날 만들어요. 베타 날 아침에는 고치지 않고 전날 빌드로 테스트해요</p>
-    <div class="tl">
-      <div class="tl-it"><span class="tl-dot" style="background:#6366f1"></span><div class="tl-d">오늘 · 11/18 (수)</div><div class="tl-t">씬 흐름 · 빌드를 한 번 맞추고 베타 한 문장 · 베타 설문을 만들어요</div></div>
-      <div class="tl-it"><span class="tl-dot" style="background:#94a3b8"></span><div class="tl-d">~ 11/23 (월)</div><div class="tl-t">할 것 셋 · 넣을 것 마무리. 팀원 작업을 합쳐서 한 프로젝트로</div></div>
-      <div class="tl-it"><span class="tl-dot" style="background:#f97316"></span><div class="tl-d">11/24 (화) · 베타 전날</div><div class="tl-t">마지막 빌드 → 두 대에서 압축 풀고 열기 → 베타 점검표. 과제 마감 23:59</div></div>
+    <h2 class="text-4xl font-black mb-2">베타까지 남은 날 · 잠그는 날</h2>
+    <p class="text-lg text-slate-500 mb-5">게임 회사도 출시 전에 「여기부터는 넣지 않는다」는 날을 정해요. 늦게 넣은 기능이 합치기 · 빌드에서 가장 많이 터지거든요</p>
+    <div class="tl" style="grid-template-columns:repeat(6,1fr)">
+      <div class="tl-it"><span class="tl-dot" style="background:#6366f1"></span><div class="tl-d">오늘 · 11/18 (수)</div><div class="tl-t">할 일 보드 · 첫 화면 설계 · 애셋 목록 · 베타 설문</div></div>
+      <div class="tl-it"><span class="tl-dot" style="background:#94a3b8"></span><div class="tl-d">11/22 (일) · 기능 잠금</div><div class="tl-t">새 기능 · 새 스테이지는 여기까지. 그 뒤로는 고치고 다듬기만</div></div>
+      <div class="tl-it"><span class="tl-dot" style="background:#94a3b8"></span><div class="tl-d">11/23 (월) · 합치기</div><div class="tl-t">팀원 작업을 한 프로젝트로 합치고 A1 ~ A6 한 바퀴</div></div>
+      <div class="tl-it"><span class="tl-dot" style="background:#f97316"></span><div class="tl-d">11/24 (화) · 베타 전날</div><div class="tl-t">마지막 빌드 → 두 대에서 열기 → 베타 점검표. 과제 마감 23:59</div></div>
       <div class="tl-it"><span class="tl-dot" style="background:#f97316"></span><div class="tl-d">11/25 (수) · 베타</div><div class="tl-t">상호 테스트 · 폼 응답 · 관찰 기록지. 수업 중에는 빌드하지 않아요</div></div>
       <div class="tl-it"><span class="tl-dot" style="background:#94a3b8"></span><div class="tl-d">그 뒤</div><div class="tl-t">새 기능 없음. 멈추거나 막히는 버그만 고치고 영상 만들기</div></div>
     </div>
-    <div class="grid md:grid-cols-2 gap-4 mt-5">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">전날 빌드 · exe 폴더째</div><p class="text-[14.5px] text-slate-600">수업 중에는 빌드하지 않아요. 전날 만든 빌드 폴더를 zip 으로 두 대에 옮겨 와서 압축을 풀어 둬요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">이전 빌드도 같이</div><p class="text-[14.5px] text-slate-600">오늘 빌드 · 알파 빌드 zip 을 지우지 않고 둬요. 베타 빌드가 안 열리면 그걸로 테스트해요</p></div>
+    <div class="grid md:grid-cols-3 gap-4 mt-6">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">기능 잠금</div><p class="text-[14.5px] text-slate-600">11/22 (일) 밤까지 들어가지 않은 기능은 「못 고친 것」으로 옮겨요. 이유 칸에 「기능 잠금」</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">합치기 하루</div><p class="text-[14.5px] text-slate-600">팀원마다 따로 만든 씬 · 스크립트를 한 프로젝트로. 합친 다음에는 A1 ~ A6 를 처음부터 다시</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">이전 빌드도 같이</div><p class="text-[14.5px] text-slate-600">알파 빌드 zip 을 지우지 않고 둬요. 베타 빌드가 안 열리면 그걸로 테스트해요</p></div>
     </div>
   </div>
 </section>
-<section class="slide wk" data-part="beta">
+<section class="slide wk" data-part="fix">
   <div class="max-w-6xl w-full">
     <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
     <h2 class="text-4xl font-black mb-2">지난주 결정 다시 열기</h2>
@@ -551,22 +664,811 @@ body{
 <div class="step"><span class="no">1</span><p class="text-[15.5px] text-slate-700"><b>결정</b> — 유지 · 보완 · 피벗 중 무엇이었는지 소리 내어 읽기</p></div>
 <div class="step"><span class="no">2</span><p class="text-[15.5px] text-slate-700"><b>베타까지 바꿀 것 1 ~ 3</b> — 지금 상태를 <b>✓ 끝 · △ 하는 중 · ✗ 아직</b>으로</p></div>
 <div class="step"><span class="no">3</span><p class="text-[15.5px] text-slate-700"><b>넣을 기능 · 스테이지</b> — 아직 안 들어간 것을 적고 베타 기준 1 에 대어 「꼭 · 뺄 것」으로 다시 나누기</p></div>
-<div class="step"><span class="no">4</span><p class="text-[15.5px] text-slate-700"><b>할 것 셋</b> — 남은 것을 한 줄에 하나, 누가 · 무엇을 · 어떻게 되면 끝</p></div>
-        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">뺄 것부터</div><p class="text-[14.5px] text-slate-600">남은 날은 엿새예요. 「할 것」이 넷 이상이면 하나를 뺄 것으로 옮겨요</p></div>
+<div class="step"><span class="no">4</span><p class="text-[15.5px] text-slate-700"><b>남은 것 모으기</b> — △ · ✗ 와 아직 안 들어간 것을 한 목록에. 다음 장에서 등급을 매겨요</p></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">남은 날은 엿새</div><p class="text-[14.5px] text-slate-600">기능 잠금까지는 나흘이에요. 다 넣을 수 없다는 걸 먼저 받아들이고 시작해요</p></div>
       </div>
       <div>
         <div class="text-[14px] font-black text-slate-500 mb-2">예시 · 코인 러너 · 결정 유지</div>
         <table class="cmp-table tight" style="font-size:.92rem">
-          <thead><tr><th>지난주에 적은 것</th><th>지금</th><th>베타까지</th></tr></thead>
+          <thead><tr><th>지난주에 적은 것</th><th>지금</th><th>남은 것</th></tr></thead>
           <tbody>
             <tr><td>첫 적의 이동 경로를 화살표로</td><td>✓</td><td class="text-slate-500">—</td></tr>
-            <tr><td>두 번째 판 만들기</td><td>△</td><td><b>할 것 1</b> · 지호 · 판 2 적 셋 배치 · 클리어까지 이어진다</td></tr>
-            <tr><td>RETRY 뒤 공이 안 움직임</td><td>✗</td><td><b>할 것 2</b> · 민준 · timeScale · RETRY 두 번 연달아 된다</td></tr>
-            <tr><td>코인 소리 · 그림 넣기</td><td>✗</td><td><b>할 것 3</b> · 하린 · 코인 반응 · 출처 목록 한 줄씩</td></tr>
-            <tr><td>판 3 · 보스</td><td>✗</td><td><b class="text-flame-700">뺄 것</b></td></tr>
+            <tr><td>두 번째 판 만들기</td><td>△</td><td>베타 기준 1</td></tr>
+            <tr><td>RETRY 뒤 공이 안 움직임</td><td>✗</td><td>막힘 · 2명</td></tr>
+            <tr><td>코인 소리 · 그림 넣기</td><td>✗</td><td>베타 기준 2</td></tr>
+            <tr><td>판 3 · 보스</td><td>✗</td><td>새 아이디어</td></tr>
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="fix">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
+    <h2 class="text-4xl font-black mb-2">막힌 곳에 등급 매기기</h2>
+    <p class="text-lg text-slate-500 mb-4">다 고칠 시간은 없어요. 「얼마나 막혔나」와 「몇 명이 막혔나」 두 가지로 고칠 순서를 정해요</p>
+    <div class="grid md:grid-cols-[1fr_1.15fr] gap-6 items-start">
+      <div>
+        <table class="cmp-table tight mx" style="font-size:.95rem">
+          <thead><tr><th>얼마나</th><th>여럿<br><span style="font-weight:600;font-size:12px">해 본 사람의 3분의 1 이상</span></th><th>몇 명</th></tr></thead>
+          <tbody>
+            <tr><td><b style="color:#0f172a">막힘 · 멈춤</b><div class="text-[12.5px] text-slate-500 font-normal">끝까지 못 감 · 진행이 끊김</div></td><td><span class="g1">1</span></td><td><span class="g1">1</span></td></tr>
+            <tr><td><b style="color:#0f172a">헷갈림</b><div class="text-[12.5px] text-slate-500 font-normal">지킴이에게 묻거나 오래 헤맴</div></td><td><span class="g1">1</span></td><td><span class="g2">2</span></td></tr>
+            <tr><td><b style="color:#0f172a">아쉬움</b><div class="text-[12.5px] text-slate-500 font-normal">끝까지 갔지만 밋밋 · 어색</div></td><td><span class="g2">2</span></td><td><span class="g3">3</span></td></tr>
+          </tbody>
+        </table>
+        <div class="space-y-2 mt-3">
+          <div class="flex items-center gap-3 text-[14.5px]"><span class="g1">1</span><span class="text-slate-700"><b>전부 할 일로.</b> 막힘은 한 명이어도 1등급</span></div>
+          <div class="flex items-center gap-3 text-[14.5px]"><span class="g2">2</span><span class="text-slate-700"><b>남는 칸만큼.</b> 1등급이 다 들어간 다음에</span></div>
+          <div class="flex items-center gap-3 text-[14.5px]"><span class="g3">3</span><span class="text-slate-700"><b>「못 고친 것」으로.</b> 새 아이디어도 여기에, 이유와 함께</span></div>
+          <div class="flex items-center gap-3 text-[14.5px]"><span class="gk">꼭</span><span class="text-slate-700">베타 기준 1 · 2 에 걸리는 것은 등급 없이 꼭</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="text-[14px] font-black text-slate-500 mb-2">예시 · 코인 러너 · 알파 테스터 15명</div>
+        <table class="cmp-table tight" style="font-size:.9rem">
+          <thead><tr><th>무엇</th><th>얼마나</th><th>몇 명</th><th>원인</th><th>등급</th></tr></thead>
+          <tbody>
+            <tr><td style="color:#0f172a;white-space:normal">RETRY 뒤 공이 안 움직임</td><td>막힘</td><td>2 / 15</td><td class="text-slate-500">버그</td><td><span class="g1">1</span></td></tr>
+            <tr><td style="color:#0f172a;white-space:normal">두 번째 판이 없음</td><td>베타 기준 1</td><td>—</td><td class="text-slate-500">—</td><td><span class="gk">꼭</span></td></tr>
+            <tr><td style="color:#0f172a;white-space:normal">코인 소리 · 그림이 임시</td><td>베타 기준 2</td><td>—</td><td class="text-slate-500">—</td><td><span class="gk">꼭</span></td></tr>
+            <tr><td style="color:#0f172a;white-space:normal">코인을 먹었는지 몰랐다</td><td>헷갈림</td><td>3 / 15</td><td class="text-slate-500">안내</td><td><span class="g2">2</span></td></tr>
+            <tr><td style="color:#0f172a;white-space:normal">점프 소리가 작다</td><td>아쉬움</td><td>1 / 15</td><td class="text-slate-500">—</td><td><span class="g3">3</span></td></tr>
+            <tr><td style="color:#0f172a;white-space:normal">판 3 · 보스가 있으면</td><td>새 아이디어</td><td>2 / 15</td><td class="text-slate-500">—</td><td><span class="g3">3</span></td></tr>
+          </tbody>
+        </table>
+        <p class="text-[14px] text-slate-500 mt-3">원인 칸은 지난주에 나눈 버그 · 안내 · 규칙 그대로예요. 안내는 화면 글 한 줄로 고쳐지는 일이 많아서 품이 적게 들어요</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="fix">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
+    <h2 class="text-4xl font-black mb-2">「할 일 보드」와 「못 고친 것」</h2>
+    <p class="text-lg text-slate-500 mb-4">1등급부터 위로 써요. 못 고친 것도 지우지 않고 이유를 남겨요. 15주차 회고와 기록 영상에서 그대로 쓰여요</p>
+    <div class="grid md:grid-cols-[1.45fr_1fr] gap-5 items-start">
+      <div>
+        <div class="text-[14px] font-black text-slate-500 mb-2">「할 일 보드」 · 코인 러너</div>
+        <table class="cmp-table tight" style="font-size:.88rem">
+          <thead><tr><th>등급</th><th>할 것</th><th>누가</th><th>언제까지</th><th>어떻게 되면 끝</th><th>지금</th></tr></thead>
+          <tbody>
+            <tr><td><span class="gk">꼭</span></td><td style="color:#0f172a"><b>판 2 · 적 셋 배치</b></td><td>지호</td><td>11/22</td><td>판 2 클리어까지 이어진다</td><td>△</td></tr>
+            <tr><td><span class="g1">1</span></td><td style="color:#0f172a"><b>RETRY 뒤 공이 멈춤</b></td><td>민준</td><td>11/20</td><td>RETRY 두 번 연달아 된다</td><td>✗</td></tr>
+            <tr><td><span class="gk">꼭</span></td><td style="color:#0f172a"><b>코인 소리 · 그림</b></td><td>하린</td><td>11/22</td><td>임시 없음 · 출처 목록 한 줄씩</td><td>✗</td></tr>
+            <tr><td><span class="g2">2</span></td><td style="color:#0f172a"><b>코인 먹는 반응</b></td><td>하린</td><td>11/23</td><td>처음 하는 사람이 「먹었다」를 안다</td><td>✗</td></tr>
+          </tbody>
+        </table>
+        <div class="grid grid-cols-2 gap-3 mt-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">한 사람에 할 것 하나</div><p class="text-[14.5px] text-slate-600">다른 과목 · 일정이 있어요. 한 사람이 둘 이상이면 2등급부터 뺄 수 있는지 봐요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">중간 점검 한 번</div><p class="text-[14.5px] text-slate-600">11/21 (토) 팀 대화방에 할 것마다 ✓ · △ · ✗ 한 줄. 막혔으면 그때 옮겨요</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="text-[14px] font-black text-slate-500 mb-2">「못 고친 것」</div>
+        <table class="cmp-table tight" style="font-size:.88rem">
+          <thead><tr><th>무엇</th><th>왜</th><th>언제 다시</th></tr></thead>
+          <tbody>
+            <tr><td style="color:#0f172a;white-space:normal">판 3 · 보스</td><td>기능 잠금 · 베타 기준에 없음</td><td class="text-slate-500">하지 않음</td></tr>
+            <tr><td style="color:#0f172a;white-space:normal">점프 소리가 작다</td><td>3등급 · 칸이 없음</td><td class="text-slate-500">14주차 버그 고칠 때</td></tr>
+          </tbody>
+        </table>
+        <div class="soft-card rounded-2xl px-5 py-3 mt-3"><div class="font-black mb-1">이유는 셋 중 하나</div><p class="text-[14px] text-slate-600 leading-relaxed"><b>시간</b> — 기능 잠금 · 칸이 없음<br><b>범위</b> — 베타 기준 밖<br><b>일부러</b> — 우리 베타 한 문장과 방향이 달라서</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ob">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">테스터는 설명을 읽지 않아요</h2>
+    <p class="text-lg text-slate-500 mb-5">베타에서는 지킴이도 말하지 않아요. 게임이 알려 주는 길은 세 가지예요</p>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div><div class="gm"><div class="gm-n">1</div>
+          <div class="gm-g"></div><div class="gm-p" style="left:22%;bottom:18%"></div>
+          <div class="gm-tip" style="left:15%;bottom:38%"><span class="kc">←</span> <span class="kc">→</span> 이동</div>
+          <div class="gm-c" style="left:62%;bottom:24%"></div>
+        </div><div class="rm3-c">화면 글 · 키 그림</div><p class="rm3-p">조작키를 처음 필요한 순간, 캐릭터 옆에. 한 번 해 내면 사라져요</p></div>
+      <div><div class="gm"><div class="gm-n">2</div>
+          <div class="gm-g" style="right:58%"></div><div class="gm-g" style="left:62%"></div>
+          <div class="gm-pit" style="left:42%;width:20%"></div>
+          <div class="gm-g" style="left:42%;width:20%;height:6%;background:#1e293b;border-top-color:#475569"></div>
+          <div class="gm-p" style="left:26%;bottom:18%"></div>
+          <div class="gm-tip" style="left:20%;bottom:38%"><span class="kc">Space</span> 점프</div>
+        </div><div class="rm3-c">첫 방에서 해 보기</div><p class="rm3-p">새 행동을 위험 없이 한 번 해 보게 놓아요. 떨어져도 바로 다시 해요</p></div>
+      <div><div class="gm"><div class="gm-n">3</div>
+          <div class="gm-g"></div><div class="gm-hud" style="left:4%"><b><i class="fa-solid fa-coins" style="color:#facc15"></i> 3 / 10</b></div>
+          <div class="gm-hud" style="right:4%"><b>판 1</b></div>
+          <div class="gm-p" style="left:18%;bottom:18%"></div>
+          <div class="gm-flag" style="left:78%;bottom:19%"><i class="fa-solid fa-flag"></i></div>
+          <div class="gm-arrow" style="left:62%;bottom:24%"><i class="fa-solid fa-angles-right"></i></div>
+        </div><div class="rm3-c">목표 보이기</div><p class="rm3-p">무엇을 모으고 어디로 가면 이기는지 늘 화면에 보여요</p></div>
+    </div>
+    <div class="glass-card rounded-2xl px-6 py-4 mt-5 flex items-center gap-4">
+      <i class="fa-solid fa-eye text-2xl text-flame-600"></i>
+      <p class="text-[16px] text-slate-700"><b>해 보게 하고 → 됐다고 알려 주고 → 다음으로.</b> 긴 설명 글은 마지막 수단이에요. 읽는 사람은 적고 읽어도 해 보기 전에는 잘 안 남아요</p>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ob">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">조작 안내는 필요한 순간, 캐릭터 옆에</h2>
+    <p class="text-lg text-slate-500 mb-5">알파 때 지킴이가 말해 준 조작키 한 줄을 이제 게임 화면이 말해요</p>
+    <div class="grid md:grid-cols-[1fr_1fr_1fr] gap-5 items-start">
+      <div><div class="gm-lb bad"><i class="fa-solid fa-xmark"></i> 처음에 글 한 덩어리</div><div class="gm">
+          <div class="gm-txt" style="left:5%;top:7%;right:5%">조작법: 방향키로 이동합니다. 스페이스바를 누르면 점프하며 공중에서 한 번 더 누르면 이중 점프가 됩니다. Shift 는 대시, E 는 상호작용입니다. 코인을 10개 모으면 문이 열리고 적에게 닿으면 목숨이 하나 줄어듭니다. 목숨이 0 이 되면 게임 오버입니다. 행운을 빕니다!</div>
+          <div class="gm-tip" style="left:50%;bottom:10%;transform:translateX(-50%)">아무 키나 누르세요</div>
+        </div><p class="text-[13.5px] text-slate-500 mt-2">대부분 넘겨요. 이중 점프 · 대시는 쓸 때가 되면 이미 잊었어요</p></div>
+      <div><div class="gm-lb good"><i class="fa-solid fa-check"></i> 처음 필요한 곳에서 하나씩</div><div class="gm">
+          <div class="gm-g" style="right:56%"></div><div class="gm-g" style="left:64%"></div>
+          <div class="gm-pit" style="left:44%;width:20%"></div>
+          <div class="gm-p" style="left:30%;bottom:18%"></div>
+          <div class="gm-tip" style="left:25%;bottom:38%"><span class="kc">Space</span> 점프</div>
+          <div class="gm-c" style="left:52%;bottom:46%"></div>
+          <div class="gm-hud" style="left:4%"><b><i class="fa-solid fa-coins" style="color:#facc15"></i> 0 / 10</b></div>
+        </div><p class="text-[13.5px] text-slate-500 mt-2">첫 구덩이 앞에서 점프 하나만. 이중 점프는 그게 꼭 필요한 첫 발판 앞에서</p></div>
+      <div class="space-y-2.5">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">언제</div><p class="text-[14.5px] text-slate-600">그 행동이 처음 필요해지기 바로 앞. 시작 화면에 몰아 두지 않기</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">어디에</div><p class="text-[14.5px] text-slate-600">캐릭터 · 물건 옆, 눈이 가 있는 곳. 화면 구석은 잘 안 봐요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">얼마나</div><p class="text-[14.5px] text-slate-600">한 번에 하나, 키 그림 + 두세 글자</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">언제 사라지나</div><p class="text-[14.5px] text-slate-600">한 번 해 내면 끄기. 같은 곳에서 두 번 지면 다시 켜기</p></div>
+      </div>
+    </div>
+    <p class="text-[14.5px] text-slate-500 mt-3">유니티에서는 캐릭터 자식으로 <b class="text-slate-700">World Space Canvas</b> 와 글자 하나. 그 행동을 처음 해 낸 순간 <span class="mono">SetActive(false)</span></p>
+  </div>
+</section>
+<section class="slide wk" data-part="ob">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">첫 방이 튜토리얼이에요</h2>
+    <p class="text-lg text-slate-500 mb-5">새 행동은 「안전하게 한 번 → 살짝 위험하게 → 섞어서」 순서로 놓아요. 글 없이도 배워요</p>
+    <div class="rm3">
+      <div><div class="gm"><div class="gm-n">1</div>
+          <div class="gm-g" style="right:60%"></div><div class="gm-g" style="left:60%"></div>
+          <div class="gm-pit" style="left:40%;width:20%"></div><div class="gm-g" style="left:40%;width:20%;height:7%;background:#1e293b;border-top-color:#475569"></div>
+          <div class="gm-p" style="left:22%;bottom:18%"></div><div class="gm-tip" style="left:16%;bottom:38%"><span class="kc">Space</span> 점프</div></div>
+        <div class="rm3-c">안전하게 한 번</div><p class="rm3-p">떨어져도 바로 아래 바닥. 다시 올라와서 또 해 봐요</p></div>
+      <div><div class="gm"><div class="gm-n">2</div>
+          <div class="gm-g" style="right:60%"></div><div class="gm-g" style="left:60%"></div>
+          <div class="gm-pit" style="left:40%;width:20%"></div><div class="gm-spk" style="left:40%;width:20%">▲▲▲▲▲</div>
+          <div class="gm-p" style="left:22%;bottom:18%"></div><div class="gm-c" style="left:48%;bottom:44%"></div></div>
+        <div class="rm3-c">살짝 위험하게</div><p class="rm3-p">같은 넓이의 구덩이에 가시. 이제 안내는 없어요</p></div>
+      <div><div class="gm"><div class="gm-n">3</div>
+          <div class="gm-g" style="right:64%"></div><div class="gm-g" style="left:56%"></div>
+          <div class="gm-pit" style="left:36%;width:20%"></div><div class="gm-spk" style="left:36%;width:20%">▲▲▲▲▲</div>
+          <div class="gm-p" style="left:16%;bottom:18%"></div><div class="gm-e" style="left:72%;bottom:18%"></div>
+          <div class="gm-path" style="left:62%;width:26%;bottom:36%"></div></div>
+        <div class="rm3-c">섞어서</div><p class="rm3-p">점프 바로 뒤에 움직이는 적. 이미 아는 두 가지를 같이 써요</p></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4 mt-5">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">새 행동 하나에 방 하나</div><p class="text-[14.5px] text-slate-600">점프 · 이중 점프 · 대시를 한 방에서 같이 처음 보여 주지 않기</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">처음 실패는 싸게</div><p class="text-[14.5px] text-slate-600">떨어져도 바로 앞에서 다시. 멀리 돌아가거나 처음부터면 거기서 그만둬요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">지난주 사례</div><p class="text-[14.5px] text-slate-600">「두 번 뛰는 고양이」는 이중 점프가 필요한 첫 곳이 가장 어려운 발판이었어요. 낮은 발판을 맨 앞에 두는 것이 이 장의 1번 칸이에요</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ob">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">목표가 늘 보이게</h2>
+    <p class="text-lg text-slate-500 mb-5">「무엇을 하면 이기나」를 테스터가 묻지 않게. 숫자 · 색 · 화살표로 보여 줘요</p>
+    <div class="grid md:grid-cols-[1fr_1fr_1.05fr] gap-5 items-start">
+      <div><div class="gm-lb bad"><i class="fa-solid fa-xmark"></i> 알파</div><div class="gm">
+          <div class="gm-g"></div><div class="gm-p" style="left:14%;bottom:18%"></div>
+          <div class="gm-c" style="left:40%;bottom:26%"></div><div class="gm-e" style="left:58%;bottom:18%"></div>
+        </div><p class="text-[13.5px] text-slate-500 mt-2">코인을 몇 개 모아야 하는지, 어디로 가는지 모름</p></div>
+      <div><div class="gm-lb good"><i class="fa-solid fa-check"></i> 베타</div><div class="gm">
+          <div class="gm-g"></div>
+          <div class="gm-hud" style="left:4%"><b><i class="fa-solid fa-coins" style="color:#facc15"></i> 3 / 10</b><b><i class="fa-solid fa-heart" style="color:#f43f5e"></i> 2</b></div>
+          <div class="gm-hud" style="right:4%"><b>판 1 · 문까지 코인 7개</b></div>
+          <div class="gm-p" style="left:14%;bottom:18%"></div>
+          <div class="gm-c" style="left:40%;bottom:26%;box-shadow:0 0 14px #facc15"></div>
+          <div class="gm-e" style="left:58%;bottom:18%"></div><div class="gm-path" style="left:50%;width:22%;bottom:34%;border-top-color:#f43f5e"></div>
+          <div class="gm-arrow" style="right:3%;bottom:24%"><i class="fa-solid fa-angles-right"></i></div>
+        </div><p class="text-[13.5px] text-slate-500 mt-2">남은 양 · 목숨 · 다음 목표가 위에, 화면 밖 목표는 화살표</p></div>
+      <div class="space-y-2.5">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">숫자로 남은 양</div><p class="text-[14.5px] text-slate-600">3 / 10 · 남은 적 2. 「얼마나 남았나」가 보이면 끝까지 가요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">색 약속 하나</div><p class="text-[14.5px] text-slate-600">위험은 빨강, 얻는 것은 노랑, 갈 곳은 밝게. 게임 전체에서 같게</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">졌을 때 이유 한 줄</div><p class="text-[14.5px] text-slate-600">Result 에 「적에 닿았어요」. 이유를 알면 RETRY 를 눌러요</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ob">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">알파에서 막힌 곳, 원인별로 고치기</h2>
+    <p class="text-lg text-slate-500 mb-5">지난주에 나눈 원인 셋이 그대로 고칠 방향이에요</p>
+    <table class="cmp-table" style="font-size:.95rem">
+      <thead><tr><th>원인</th><th>바꾸는 것</th><th>예</th><th>고쳤는지 보는 법</th></tr></thead>
+      <tbody>
+        <tr><td><b style="color:#0f172a">안내</b></td><td>화면 글 · 키 그림 · 화살표 · 색</td><td style="color:#0f172a">적이 움직이는 줄 몰랐다 → 첫 적 앞에 이동 경로 점선</td><td class="text-slate-600">처음 하는 사람이 말없이 첫 적을 피한다</td></tr>
+        <tr><td><b style="color:#0f172a">규칙</b></td><td>배치 · 수치 · 순서</td><td style="color:#0f172a">이중 점프를 못 찾았다 → 이중 점프가 꼭 필요한 낮은 발판을 맨 앞에</td><td class="text-slate-600">그 발판에서 다섯 번 넘게 뛰는 사람이 없다</td></tr>
+        <tr><td><b style="color:#0f172a">버그</b></td><td>코드 · 씬 설정</td><td style="color:#0f172a">RETRY 뒤 공이 안 움직임 → 씬을 부르기 전 timeScale 을 1 로</td><td class="text-slate-600">RETRY 두 번 연달아 된다</td></tr>
+      </tbody>
+    </table>
+    <div class="grid md:grid-cols-2 gap-4 mt-5">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">고친 뒤에는 처음 보는 사람에게</div><p class="text-[14.5px] text-slate-600">우리 팀은 이미 답을 알아서 막히지 않아요. 다른 팀 한 명 · 룸메이트 · 가족에게 Title 부터 말없이 시켜 봐요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">베타에서 다시 세요</div><p class="text-[14.5px] text-slate-600">알파에서 막힌 그 자리를 혼자 지나갔는지 기록지 「고친 곳」 칸과 설문 4번 · 확인 기준 2 로 세요</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ob">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
+    <h2 class="text-4xl font-black mb-2">「첫 화면 설계」</h2>
+    <p class="text-lg text-slate-500 mb-5">START 를 누른 뒤 첫 위험을 만날 때까지, 테스터가 알아야 할 것을 한 줄씩 적어요</p>
+    <div class="grid md:grid-cols-[1.5fr_1fr] gap-6 items-start">
+      <table class="cmp-table tight" style="font-size:.92rem">
+        <thead><tr><th>알아야 할 것</th><th>알파에서는</th><th>베타에서는</th><th>어디서</th></tr></thead>
+        <tbody>
+          <tr><td style="color:#0f172a">움직이기</td><td></td><td></td><td></td></tr>
+          <tr><td style="color:#0f172a">주 행동 (점프 · 쏘기 · 놓기 …)</td><td></td><td></td><td></td></tr>
+          <tr><td style="color:#0f172a">목표 (무엇을 하면 이기나)</td><td></td><td></td><td></td></tr>
+          <tr><td style="color:#0f172a">위험 (무엇에 지나)</td><td></td><td></td><td></td></tr>
+          <tr><td style="color:#0f172a">알파에서 막힌 곳</td><td></td><td></td><td></td></tr>
+          <tr class="row-now"><td>예 · 코인 러너</td><td>지킴이가 「방향키」</td><td>첫 코인 위 <span class="kc">←</span><span class="kc">→</span></td><td>판 1 시작</td></tr>
+        </tbody>
+      </table>
+      <div class="space-y-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">「지킴이가 말해 줌」이 고칠 곳</div><p class="text-[14.5px] text-slate-600">알파에서는 칸에 그 말이 있으면 베타에서는 화면 글 · 배치 · 목표 표시 중 하나로 바꿔요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">「어디서」는 장면으로</div><p class="text-[14.5px] text-slate-600">「판 1 첫 구덩이 앞」처럼. 만드는 사람이 바로 찾아갈 수 있게</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">바꿀 것은 할 일 보드로</div><p class="text-[14.5px] text-slate-600">안내 고치기는 대부분 2등급 이상이에요. 누가 · 언제까지를 붙여 보드에 올려요</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">게임 느낌은 사건마다 돌려주는 반응이에요</h2>
+    <p class="text-lg text-slate-500 mb-5">같은 규칙도 반응에 따라 「묵직하다 · 가볍다 · 밋밋하다」가 갈려요. 칼 한 번 맞히는 순간을 잘게 나누면 이래요</p>
+    <div class="ht">
+      <div class="ht-c" style="background:#e2e8f0"><b>입력</b>키를 누른 그 프레임</div>
+      <div class="ht-c" style="background:#fde68a"><b>소리 · 번쩍</b>앞소리 「딱」, 맞은 쪽이 하얗게</div>
+      <div class="ht-c" style="background:#fecaca"><b>멈춤</b>아주 잠깐 화면이 멈춰요</div>
+      <div class="ht-c" style="background:#fed7aa"><b>밀림 · 흔들림</b>맞은 쪽이 밀리고 화면이 떨려요</div>
+      <div class="ht-c" style="background:#c7d2fe"><b>파티클 · 숫자</b>조각이 튀고 +10 이 떠올라요</div>
+      <div class="ht-c" style="background:#e2e8f0"><b>원래대로</b>다음 입력을 받을 준비</div>
+    </div>
+    <div class="ht-ax"><span>0</span><span>바로</span><span>0.05 ~ 0.1초</span><span>그 뒤 0.2초쯤</span><span>0.5초 안에</span><span></span></div>
+    <div class="grid md:grid-cols-3 gap-4 mt-6">
+      <div class="soft-card rounded-2xl p-4"><div class="text-lg font-black mb-1"><i class="fa-solid fa-eye text-dev-600 mr-1"></i> 눈</div><p class="text-[14.5px] text-slate-600">번쩍임 · 찌그러짐 · 파티클 · 숫자 · 화면 흔들림</p></div>
+      <div class="soft-card rounded-2xl p-4"><div class="text-lg font-black mb-1"><i class="fa-solid fa-volume-high text-dev-600 mr-1"></i> 귀</div><p class="text-[14.5px] text-slate-600">효과음 겹치기 · 배경음 · 음 높이를 조금씩 다르게</p></div>
+      <div class="soft-card rounded-2xl p-4"><div class="text-lg font-black mb-1"><i class="fa-solid fa-hand text-dev-600 mr-1"></i> 손</div><p class="text-[14.5px] text-slate-600">멈춤 · 밀림 · 조작이 바로 먹는 것. 늦게 나는 소리 하나가 전체를 둔하게 해요</p></div>
+    </div>
+    <p class="text-[13px] text-slate-400 mt-4">더 알아보기 · Steve Swink 『Game Feel』 · Martin Jonasson · Petri Purho 「Juice it or lose it」 · Jan Willem Nijman 「The Art of Screenshake」</p>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-flame-600 text-white">눌러 보기</span></div>
+    <h2 class="text-4xl font-black mb-2">반응을 하나씩 켜 보기</h2>
+    <p class="text-lg text-slate-500 mb-4">같은 「맞히기」예요. 아래 버튼으로 하나씩 켜고 「때리기」를 눌러 봐요. 다 끄면 체력 막대만 줄어요</p>
+    <div class="grid md:grid-cols-[1.65fr_1fr] gap-5 items-start" id="fd">
+      <div><canvas id="fd-cv" width="800" height="400"></canvas><p class="text-[13px] text-slate-500 mt-2">소리는 컴퓨터 스피커를 켜 두세요. 데모 소리는 이 페이지가 바로 만들어 내는 소리예요</p></div>
+      <div>
+        <div class="fd-tg mb-3">
+          <button type="button" class="fd-t" data-k="snd"><i class="fa-solid fa-volume-high"></i>소리</button>
+          <button type="button" class="fd-t" data-k="flash"><i class="fa-solid fa-sun"></i>번쩍임</button>
+          <button type="button" class="fd-t" data-k="stop"><i class="fa-solid fa-pause"></i>히트스톱</button>
+          <button type="button" class="fd-t" data-k="knock"><i class="fa-solid fa-right-long"></i>넉백</button>
+          <button type="button" class="fd-t" data-k="shake"><i class="fa-solid fa-video"></i>화면 흔들림</button>
+          <button type="button" class="fd-t" data-k="part"><i class="fa-solid fa-burst"></i>파티클</button>
+          <button type="button" class="fd-t" data-k="squash"><i class="fa-solid fa-compress"></i>찌그러짐</button>
+          <button type="button" class="fd-t" data-k="num"><i class="fa-solid fa-1"></i>숫자</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mb-3"><button type="button" class="fd-sm" id="fd-none">모두 끄기</button><button type="button" class="fd-sm" id="fd-all">모두 켜기</button></div>
+        <button type="button" class="fd-go" id="fd-go"><i class="fa-solid fa-hand-fist"></i> 때리기</button>
+        <p class="text-[13.5px] text-slate-600 mt-3">순서대로 하나씩 더해 봐요. 소리 → 번쩍임 → 히트스톱까지만 켜도 「맞았다」가 달라져요</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">손맛을 만드는 기법 ① 맞은 쪽</h2>
+    <p class="text-lg text-slate-500 mb-4">데모에서 켜 본 것을 하나씩. 「얼마나」의 숫자는 처음 넣어 볼 값이에요. 해 보고 줄이거나 늘려요</p>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="tk"><div class="fx fx-stop"><span></span></div><div><h4>히트스톱</h4><p>맞는 순간 화면을 아주 잠깐 멈춰요. 「걸렸다」는 손맛</p><p class="mt-1">얼마나 · 작은 타격 <span class="v">0.03 ~ 0.05초</span>, 큰 타격 <span class="v">0.1 ~ 0.15초</span></p><p class="mt-1">유니티 · <span class="u">Time.timeScale = 0</span> → <span class="u">WaitForSecondsRealtime</span> → 1</p><p class="mt-1 text-flame-700">코인처럼 자주 나는 사건에는 쓰지 않기</p></div></div>
+      <div class="tk"><div class="fx fx-flash"><span></span></div><div><h4>번쩍임</h4><p>맞은 쪽이 아주 짧게 색이 바뀌어요. 누가 맞았는지 바로 보여요</p><p class="mt-1">얼마나 · <span class="v">1 ~ 3 프레임</span> (0.05초 안팎)</p><p class="mt-1">유니티 · <span class="u">SpriteRenderer.color</span> 를 빨강 → 원래 색</p><p class="mt-1 text-flame-700">스프라이트 색은 곱하기라 흰색으로는 안 바뀌어요. 하얗게 하려면 흰 그림을 잠깐 겹쳐요</p></div></div>
+      <div class="tk"><div class="fx fx-knock"><span></span></div><div><h4>넉백</h4><p>맞은 쪽을 맞은 방향으로 밀어요. 힘이 어디서 왔는지 보여요</p><p class="mt-1">얼마나 · 밀리는 거리 <span class="v">캐릭터 반 칸 ~ 한 칸</span></p><p class="mt-1">유니티 · <span class="u">AddForce(방향 * 힘, ForceMode2D.Impulse)</span> · 3D 는 ForceMode.Impulse</p><p class="mt-1 text-flame-700">밀리는 동안 0.1 ~ 0.2초 조작을 막아야 밀린 게 보여요</p></div></div>
+      <div class="tk"><div class="fx fx-squash"><span></span></div><div><h4>찌그러짐</h4><p>착지 · 맞음에 가로로 넓게, 뛸 때 세로로 길게. 부피는 그대로</p><p class="mt-1">얼마나 · 가로 <span class="v">1.3배</span>면 세로 <span class="v">0.75배</span></p><p class="mt-1">유니티 · 그림 자식의 <span class="u">localScale</span> 을 바꿨다가 Lerp 로 1 로</p><p class="mt-1 text-flame-700">콜라이더가 있는 부모는 그대로 두고 그림만</p></div></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">손맛을 만드는 기법 ② 화면 · 자리</h2>
+    <p class="text-lg text-slate-500 mb-4">맞은 쪽 다음은 화면 전체와 그 자리예요</p>
+    <div class="grid md:grid-cols-[1fr_1fr] gap-3">
+      <div class="tk"><div class="fx fx-shake"><span></span></div><div><h4>화면 흔들림</h4><p>큰 사건을 화면 전체로 알려요</p><p class="mt-1">얼마나 · <span class="v">0.1 ~ 0.3초</span>, 점점 약하게. 화면 크기의 1% 안팎</p><p class="mt-1">유니티 · 카메라를 빈 오브젝트 아래에 두고 카메라 <span class="u">localPosition</span> 에 작은 흔들림</p><p class="mt-1 text-flame-700">계속 흔들리면 정보가 안 보이고 멀미가 나요. 큰 사건에만</p></div></div>
+      <div class="tk"><div class="fx fx-part"><span></span></div><div><h4>파티클</h4><p>사건이 일어난 자리에서 조각이 튀어요</p><p class="mt-1">얼마나 · 한 번에 <span class="v">10 ~ 30개</span>, 빠르게 퍼졌다가 감속</p><p class="mt-1">유니티 · Particle System · Looping 끔 · Emission 의 <b>Bursts</b> · Stop Action 은 Destroy</p><p class="mt-1 text-flame-700">사건과 같은 색으로. 적 · 길을 가리지 않게</p></div></div>
+      <div class="tk"><div class="fx fx-pop"><span>+10</span></div><div><h4>숫자 · 글자</h4><p>결과를 그 자리에 숫자로. 「얼마나」가 보여요</p><p class="mt-1">얼마나 · 위로 떠오르며 <span class="v">0.5초</span> 안에 사라짐</p><p class="mt-1">유니티 · World Space 글자를 만들고 위로 움직이며 색의 알파를 0 으로</p><p class="mt-1 text-flame-700">많이 겹치면 읽히지 않아요. 큰 숫자는 크게</p></div></div>
+      <div class="soft-card rounded-2xl p-4" style="background:#fff7ed;border-color:#fed7aa"><div class="font-black text-[17px] mb-1">넣는 순서</div><p class="text-[14px] text-slate-700 leading-relaxed">① 소리 → ② 번쩍임 → ③ 히트스톱 → ④ 넉백 · 찌그러짐 → ⑤ 파티클 → ⑥ 흔들림.<br>앞의 셋만으로도 많이 달라져요. 하나 넣을 때마다 Play 해서 「지금이 더 나은가」를 봐요</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">사건 크기에 맞춰 세기를</h2>
+    <p class="text-lg text-slate-500 mb-5">모든 사건에 다 넣으면 다시 밋밋해져요. 자주 일어나는 작은 사건은 작게, 드물고 큰 사건은 크게</p>
+    <table class="cmp-table tight" style="font-size:.9rem">
+      <thead><tr><th>반응</th><th>코인 줍기 · 자주</th><th>적 맞히기 · 가끔</th><th>내가 맞음 · 드묾</th><th>클리어 · 한 번</th></tr></thead>
+      <tbody>
+        <tr><td>소리</td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">짧은 「띵」</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i></i></span> <span class="text-slate-600">「딱」+「퍽」</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">셋을 겹쳐 낮게</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">음악이 바뀜</span></td></tr>
+        <tr><td>번쩍임</td><td><span class="mt"><i></i><i></i><i></i></span> <span class="text-slate-600"></span></td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">적만</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i></i></span> <span class="text-slate-600">나 · 빨강</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">화면 전체</span></td></tr>
+        <tr><td>히트스톱</td><td><span class="mt"><i></i><i></i><i></i></span> <span class="text-slate-600"></span></td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">0.04초</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i></i></span> <span class="text-slate-600">0.1초</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">0.15초 + 느리게</span></td></tr>
+        <tr><td>흔들림</td><td><span class="mt"><i></i><i></i><i></i></span> <span class="text-slate-600"></span></td><td><span class="mt"><i></i><i></i><i></i></span> <span class="text-slate-600"></span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i></i></span> <span class="text-slate-600">짧게</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">크게</span></td></tr>
+        <tr><td>파티클</td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">노란 알 몇 개</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i></i></span> <span class="text-slate-600">맞은 색 조각</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i></i></span> <span class="text-slate-600">빨간 조각</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">많이 · 오래</span></td></tr>
+        <tr><td>숫자 · 글자</td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">+10</span></td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">데미지</span></td><td><span class="mt"><i class="on"></i><i></i><i></i></span> <span class="text-slate-600">-1 목숨</span></td><td><span class="mt"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="text-slate-600">「CLEAR!」</span></td></tr>
+      </tbody>
+    </table>
+    <div class="grid md:grid-cols-3 gap-4 mt-4">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">정보가 먼저</div><p class="text-[14.5px] text-slate-600">반응이 적 · 길 · 다음 코인을 가리면 안 돼요. 파티클 · 흔들림을 줄이는 쪽이 대부분 맞아요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">같은 사건에는 같은 반응</div><p class="text-[14.5px] text-slate-600">다르면 테스터는 「다른 일이 났다」고 읽어요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">「내가 맞음」은 다르게</div><p class="text-[14.5px] text-slate-600">내가 맞았을 때는 빨강 · 낮은 소리. 적을 맞힌 반응과 섞이면 누가 맞았는지 헷갈려요</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북 · 복사해서 쓰기</span></div>
+    <h2 class="text-4xl font-black mb-2">유니티로 넣기 · FeelKit</h2>
+    <p class="text-lg text-slate-500 mb-4">히트스톱 · 흔들림 · 소리를 한 파일에 두고 맞는 쪽 스크립트에서 불러요</p>
+    <div class="grid md:grid-cols-[1.1fr_1fr] gap-5 items-start">
+      <div class="cp">
+        <div class="cp-bar"><span><i class="fa-solid fa-code"></i> Assets/Scripts/FeelKit.cs</span><button class="cp-btn" type="button" data-copy="cp-feel"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
+        <pre class="cp-body" id="cp-feel" style="max-height:min(50vh,420px);font-size:11.5px;line-height:1.4">using System.Collections;
+using UnityEngine;
+
+// 빈 오브젝트 FeelKit 에 붙이고 cam · sfx 칸을 채워요
+public class FeelKit : MonoBehaviour
+{
+    public static FeelKit I;      // 어디서든 FeelKit.I.HitStop(0.06f)
+    public Transform cam;         // 빈 오브젝트 CameraRig 아래 Main Camera
+    public AudioSource sfx;       // 효과음용 AudioSource
+    Vector3 camHome;
+    float shake;                  // 남은 흔들림 세기
+
+    void Awake() { I = this; camHome = cam.localPosition; }
+
+    public void HitStop(float sec) { StartCoroutine(Stop(sec)); }
+    IEnumerator Stop(float sec)
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(sec);
+        Time.timeScale = 1f;
+    }
+
+    public void Shake(float power) { shake = Mathf.Max(shake, power); }
+    void LateUpdate()
+    {
+        cam.localPosition = camHome + (Vector3)(Random.insideUnitCircle * shake);
+        shake = Mathf.MoveTowards(shake, 0f, Time.unscaledDeltaTime * 2f);
+    }
+
+    public void Play(AudioClip clip)
+    {
+        sfx.pitch = Random.Range(0.9f, 1.1f);   // 같은 소리도 조금씩 다르게
+        sfx.PlayOneShot(clip);
+    }
+}</pre>
+      </div>
+      <div>
+        <div class="code-cap">불러 쓰는 쪽 · 적 · 상자 · 플레이어 어디든</div><div class="code" style="font-size:11.5px;line-height:1.38"><span class="cm">// 적 스크립트 · 맞았을 때 (2D 예)</span>
+<span class="kw">public</span> <span class="ty">AudioClip</span> hitClip;
+<span class="kw">public</span> <span class="ty">GameObject</span> hitFx;   <span class="cm">// 파티클 프리팹</span>
+<span class="ty">Rigidbody2D</span> rb; <span class="ty">SpriteRenderer</span> sr;
+
+<span class="kw">public void</span> <span class="fn">OnHit</span>(<span class="ty">Vector2</span> dir)
+{
+    <span class="ty">FeelKit</span>.I.<span class="fn">Play</span>(hitClip);
+    <span class="ty">FeelKit</span>.I.<span class="fn">HitStop</span>(<span class="nu">0.06f</span>);
+    <span class="ty">FeelKit</span>.I.<span class="fn">Shake</span>(<span class="nu">0.15f</span>);
+    rb.<span class="fn">AddForce</span>(dir * <span class="nu">6f</span>, <span class="ty">ForceMode2D</span>.Impulse);
+    <span class="fn">Instantiate</span>(hitFx, transform.position, <span class="ty">Quaternion</span>.identity);
+    <span class="fn">StartCoroutine</span>(<span class="fn">Flash</span>());
+}
+
+<span class="ty">IEnumerator</span> <span class="fn">Flash</span>()
+{
+    sr.color = <span class="ty">Color</span>.red;
+    <span class="kw">yield return new</span> <span class="ty">WaitForSecondsRealtime</span>(<span class="nu">0.06f</span>);
+    sr.color = <span class="ty">Color</span>.white;   <span class="cm">// 원래 색</span>
+}</div>
+        <p class="text-[13.5px] text-slate-600 mt-3"><b>3D 게임은</b> Rigidbody · ForceMode.Impulse, 색은 Renderer 의 material.color. <b>히트스톱 중에 씬을 바꾸면</b> 시간이 멈춘 채예요. 부록 「RETRY 뒤에 남는 것」(#42)</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">효과음은 짧은 소리 셋을 겹쳐요</h2>
+    <p class="text-lg text-slate-500 mb-4">한 소리 안에 앞 · 몸통 · 꼬리가 있어요. 얇은 소리 하나보다 짧은 소리 셋을 겹치면 묵직해져요</p>
+    <div class="grid md:grid-cols-[1.2fr_1fr] gap-6 items-start">
+      <div>
+        <div class="snd">
+          <div class="snd-r"><div class="snd-n">앞 · 「딱」</div><div class="snd-t"><div class="snd-b" style="left:0;width:7%;background:#fbbf24"></div></div></div>
+          <div class="snd-r"><div class="snd-n">몸통 · 「퍽」</div><div class="snd-t"><div class="snd-b" style="left:3%;width:32%;background:#f97316"></div></div></div>
+          <div class="snd-r"><div class="snd-n">꼬리 · 울림</div><div class="snd-t"><div class="snd-b" style="left:10%;width:78%;background:linear-gradient(90deg,#a5b4fc,rgba(165,180,252,.15))"></div></div></div>
+          <div class="snd-ax"><span></span><span class="flex justify-between"><span>0</span><span>0.1초</span><span>0.2초</span><span>0.3초</span><span>0.4초</span></span></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <button type="button" class="sb" data-snd="t"><i class="fa-solid fa-play"></i>앞만</button>
+          <button type="button" class="sb" data-snd="b"><i class="fa-solid fa-play"></i>몸통만</button>
+          <button type="button" class="sb hot" data-snd="all"><i class="fa-solid fa-play"></i>셋 다</button>
+          <button type="button" class="sb" data-snd="same"><i class="fa-solid fa-repeat"></i>같은 소리 세 번</button>
+          <button type="button" class="sb hot" data-snd="vary"><i class="fa-solid fa-shuffle"></i>음 높이 바꿔 세 번</button>
+        </div>
+      </div>
+      <div class="space-y-2.5">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">겹치는 법</div><p class="text-[14.5px] text-slate-600">효과음 파일 두세 개를 같은 순간에 재생해도 되고 무료 편집기 Audacity 에서 한 파일로 합쳐도 돼요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">음 높이는 조금씩</div><p class="text-[14.5px] text-slate-600">같은 소리가 계속 나면 기계 같아요. 0.9 ~ 1.1 사이에서 매번 다르게</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">크기 순서</div><p class="text-[14.5px] text-slate-600">내 행동 · 맞음 소리 &gt; 얻기 소리 &gt; 배경음. 배경음이 효과음을 덮으면 반응이 사라져요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">배경음 둘</div><p class="text-[14.5px] text-slate-600">Title 하나 · Game 하나. AudioSource 의 Loop 를 켜고 끝과 처음이 이어지는 곡으로</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">임시 UI 와 다듬은 UI</h2>
+    <p class="text-lg text-slate-500 mb-4">같은 Title 화면이에요. 바뀐 건 글꼴 · 색 · 여백 · 버튼 상태 네 가지예요. 오른쪽 버튼에 마우스를 올리고 눌러 봐요</p>
+    <div class="grid md:grid-cols-[1fr_1fr_1fr] gap-5 items-start">
+      <div><div class="gm-lb bad"><i class="fa-solid fa-xmark"></i> 임시</div>
+        <div class="uim ui-old"><div class="t">CoinRunner</div><div class="bt" style="top:44%">Button</div><div class="bt" style="top:62%">Quit</div></div>
+        <p class="text-[13.5px] text-slate-500 mt-2">기본 버튼 · 기본 글꼴 · 흰 바탕 · 제목이 구석에</p></div>
+      <div><div class="gm-lb good"><i class="fa-solid fa-check"></i> 다듬음</div>
+        <div class="uim ui-new"><div class="t">COIN RUNNER</div><div class="st">적 사이로 코인을</div><div class="ui-btn" style="top:56%">START</div><div class="ui-btn q" style="top:76%">QUIT</div></div>
+        <p class="text-[13.5px] text-slate-500 mt-2">게임 그림에서 뽑은 색 셋, 가운데 정렬, 같은 간격</p></div>
+      <div class="space-y-2.5">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">글꼴 하나 · 크기 셋</div><p class="text-[14.5px] text-slate-600">제목 · 버튼 · 작은 글. 한글이 되는 글꼴로 Font Asset 을 만들어요(이번 주 영상)</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">색 셋</div><p class="text-[14.5px] text-slate-600">바탕 · 강조 · 글자. 강조색은 「눌러야 할 것」에만</p></div>
+        <div class="soft-card rounded-2xl px-4 py-3"><div class="font-black mb-2">버튼 네 상태 · Button 의 Transition</div>
+          <div class="st4"><div><div class="b" style="background:#f97316">START</div>기본</div><div><div class="b" style="background:#fb923c">START</div>올림</div><div><div class="b" style="background:#c2410c">START</div>누름</div><div><div class="b" style="background:#cbd5e1;color:#64748b">START</div>꺼짐</div></div>
+          <p class="text-[13px] text-slate-600 mt-2">Normal · Highlighted · Pressed · Disabled Color. 누를 때 짧은 소리도 같이</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
+    <h2 class="text-4xl font-black mb-2">「애셋 목록」 · 베타에 꼭 있을 것</h2>
+    <p class="text-lg text-slate-500 mb-4">우리 게임에서 지금 「있음 · 임시 · 없음」을 적고 임시 · 없음에는 구할 곳과 누가를 붙여요</p>
+    <div class="grid md:grid-cols-[1.6fr_1fr] gap-5 items-start">
+      <table class="cmp-table tight" style="font-size:.88rem">
+        <thead><tr><th>종류</th><th>꼭 있을 것</th><th>지금</th><th>구할 곳</th></tr></thead>
+        <tbody>
+          <tr><td>효과음</td><td style="color:#0f172a;white-space:normal">주 행동 · 이동이나 착지 · 얻기 · 맞히기 · 맞기 · 버튼 · 클리어 · 게임 오버</td><td><span class="blank-s"></span></td><td class="text-slate-500" style="white-space:normal">Kenney (CC0) · jsfxr 로 직접 만들기 · freesound</td></tr>
+          <tr><td>배경음</td><td style="color:#0f172a;white-space:normal">Title · Game 두 곡, 이어서 반복되는 곡</td><td><span class="blank-s"></span></td><td class="text-slate-500" style="white-space:normal">YouTube 오디오 보관함 · 무료 음원 (출처 표기 조건 보기)</td></tr>
+          <tr><td>파티클</td><td style="color:#0f172a;white-space:normal">얻기 · 맞히기 · 클리어 세 가지</td><td><span class="blank-s"></span></td><td class="text-slate-500" style="white-space:normal">Particle System 으로 직접</td></tr>
+          <tr><td>UI</td><td style="color:#0f172a;white-space:normal">한글 되는 글꼴 하나 · 버튼 · 패널 · 아이콘</td><td><span class="blank-s"></span></td><td class="text-slate-500" style="white-space:normal">Kenney UI Pack · 눈누 (한글 무료 글꼴, 사용 범위 보기)</td></tr>
+          <tr><td>캐릭터 · 적 · 배경</td><td style="color:#0f172a;white-space:normal">임시 상자 · 기본 큐브가 남지 않게</td><td><span class="blank-s"></span></td><td class="text-slate-500" style="white-space:normal">직접 · Kenney · 에셋 스토어 무료</td></tr>
+        </tbody>
+      </table>
+      <div class="space-y-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">출처는 받는 순간</div><p class="text-[14.5px] text-slate-600">이름 · 만든 사람 · 주소 · 라이선스 한 줄씩. CC0 도 적어 둬요. 15주차 영상 크레딧이 이 목록이에요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">AI 로 만든 그림 · 소리</div><p class="text-[14.5px] text-slate-600">만든 도구 이름을 출처 칸에 적어요. 「개인 기여 보고서」 AI 칸에도 한 줄</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">「임시」를 고르는 기준</div><p class="text-[14.5px] text-slate-600">테스터가 「이건 아직이구나」 하고 알아챌 만한 것. 회색 상자 · 기본 버튼 · 무음이 대표예요</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="feel">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
+    <h2 class="text-4xl font-black mb-2">오늘 다듬을 순간 하나</h2>
+    <p class="text-lg text-slate-500 mb-5">할 일 보드의 「헷갈림 · 아쉬움」 중 하나를 골라 지금과 베타를 나란히 적어요. 1등급이 먼저예요</p>
+    <div class="grid md:grid-cols-[1.2fr_1fr] gap-6 items-start">
+      <div>
+        <div class="text-[14px] font-black text-slate-500 mb-2">우리 게임 · 순간: <span class="blank" style="min-width:160px"></span></div>
+        <table class="cmp-table tight" style="font-size:.9rem">
+          <thead><tr><th></th><th>움직임</th><th>크기</th><th>색 · 빛</th><th>카메라</th><th>멈춤</th><th>파티클</th><th>소리</th></tr></thead>
+          <tbody>
+            <tr><td>지금</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>베타에서</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <div class="glass-card rounded-2xl px-5 py-4 mt-4 text-[16px] text-slate-700 leading-relaxed">「우리 게임에서 <span class="blank" style="min-width:110px"></span> 할 때, 지금은 <span class="blank" style="min-width:110px"></span> 뿐인데, 베타에서는 <span class="blank" style="min-width:110px"></span> 을(를) 더한다.」</div>
+      </div>
+      <div class="space-y-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">고를 순간</div><p class="text-[14.5px] text-slate-600">기록지 · 설문의 「먹었는지 몰랐다」 「맞은 건지 모르겠다」 「눌렀는데 반응이 없다」. 없으면 가장 자주 하는 행동</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">고치기 전에 10초 녹화</div><p class="text-[14.5px] text-slate-600"><span class="kbd">Win</span> + <span class="kbd">Alt</span> + <span class="kbd">R</span> 로 시작 · 멈춤. 동영상 › 캡처 폴더. 14주차 기록 영상의 「전 · 후」가 돼요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">패키지는 팀 전원이 같이</div><p class="text-[14.5px] text-slate-600">FeelKit 처럼 스크립트로 되는 건 패키지 없이. 패키지를 쓸 거면 팀 전원이 같이 설치해요</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="survey">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">베타 한 문장</h2>
+    <p class="text-lg text-slate-500 mb-5">알파 한 문장과 같은 틀이에요. 지난주 결정에 따라 바뀌는 칸이 달라요</p>
+    <div class="glass-card rounded-3xl px-8 py-6 text-center text-2xl font-black leading-relaxed mb-5">「13주차 베타에서 우리는 <span class="qa">앞 칸 ___까지</span> 플레이하게 해서,<br><span class="qb">뒤 칸 ___인지</span> 확인한다.」</div>
+    <div class="grid md:grid-cols-3 gap-4 mb-4">
+      <div class="soft-card rounded-2xl p-5"><span class="gal-tag" style="background:#dcfce7;color:#166534"><i class="fa-solid fa-arrow-right"></i> 유지</span><p class="text-[15px] text-slate-700 mt-2"><b>앞 칸만 넓혀요.</b> 다음 판 · 다음 방까지. 뒤 칸은 그대로 다시 확인</p></div>
+      <div class="soft-card rounded-2xl p-5"><span class="gal-tag" style="background:#dbeafe;color:#1e40af"><i class="fa-solid fa-wrench"></i> 보완</span><p class="text-[15px] text-slate-700 mt-2"><b>둘 다 그대로.</b> 원인을 고친 뒤 같은 것을 다시 확인해요</p></div>
+      <div class="soft-card rounded-2xl p-5"><span class="gal-tag" style="background:#ffedd5;color:#9a3412"><i class="fa-solid fa-shuffle"></i> 피벗</span><p class="text-[15px] text-slate-700 mt-2"><b>뒤 칸을 새로.</b> 테스터가 즐긴 그 행동으로. 앞 칸은 그 행동이 나오는 곳까지</p></div>
+    </div>
+    <div class="soft-card rounded-2xl px-5 py-3"><div class="text-[14px] font-black text-slate-500 mb-0.5">예시 · 코인 러너 · 유지</div><p class="text-[16px] text-slate-800">「13주차 베타에서 우리는 <span class="qa">두 번째 판 클리어까지</span> 플레이하게 해서, <span class="qb">적이 지나간 틈을 노려 코인 쪽으로 움직이는지</span> 확인한다.」</p></div>
+  </div>
+</section>
+<section class="slide wk" data-part="survey">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">알파 설문을 베타 설문으로</h2>
+    <p class="text-lg text-slate-500 mb-5">새로 만들지 않고 <b class="text-slate-700">알파 폼의 사본</b>을 고쳐요. 같은 문항이어야 알파 숫자와 나란히 놓을 수 있어요</p>
+    <table class="cmp-table tight" style="font-size:.92rem">
+      <thead><tr><th>문항</th><th>알파</th><th>베타</th><th>왜</th></tr></thead>
+      <tbody>
+        <tr><td>1. 느낌</td><td class="text-slate-500">적 사이로 코인을 먹을 때 얼마나 아슬아슬했나요?</td><td>그대로</td><td class="text-slate-500">알파와 비교</td></tr>
+        <tr><td>2. 행동</td><td class="text-slate-500">게임 오버는 주로 왜 났나요?</td><td>그대로</td><td class="text-slate-500">알파와 비교</td></tr>
+        <tr><td>3. 어디까지</td><td class="text-slate-500">클리어 전에 게임 오버 · 클리어 · 다시 하기까지</td><td><b>판 1 에서 게임 오버 · 판 2 에서 게임 오버 · 판 2 클리어</b></td><td class="text-slate-500">앞 칸이 넓어짐</td></tr>
+        <tr><td>4. 고친 것</td><td class="text-slate-500">—</td><td><b>첫 적이 움직인다는 걸 언제 알았나요?</b><br>처음 나왔을 때 바로 · 한 번 닿고 나서 · 끝까지 몰랐다</td><td class="text-slate-500">새 문항 · 고르기</td></tr>
+        <tr><td>5 ~ 7. 쓰기</td><td class="text-slate-500">막힌 곳 · 기억에 남는 순간 · 하나만 바꾼다면</td><td>그대로</td><td class="text-slate-500">번호만 하나씩 뒤로</td></tr>
+      </tbody>
+    </table>
+    <div class="grid md:grid-cols-3 gap-4 mt-4">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">사본 만들기</div><p class="text-[14.5px] text-slate-600">알파 폼 편집 화면 오른쪽 위 <b>⋮ → 사본 만들기</b> → 이름 「팀 이름 · 베타 설문」. 응답은 비어 있고 응답 링크는 새로 생겨요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">설정 세 곳 다시</div><p class="text-[14.5px] text-slate-600">사본은 설정이 바뀔 수 있어요. 이메일 수집 안 함 · 응답 1회 제한 끔 · 조직 제한 끔. 시크릿 창에서 한 번 답해 보기</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">피벗한 팀</div><p class="text-[14.5px] text-slate-600">1 · 2번을 새 뒤 칸으로 다시 써요. 9주차 · 10주차 틀 그대로. 4번은 바꾼 규칙이 통했는지</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="survey">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">확인 기준 두 줄</h2>
+    <p class="text-lg text-slate-500 mb-5">답을 받기 전에 정해요. 받은 뒤에 정하면 어떤 답이든 「확인됐다」가 돼요</p>
+    <div class="space-y-4">
+      <div class="glass-card rounded-2xl px-6 py-5">
+        <div class="text-[14px] font-black text-dev-700 mb-1">확인 기준 1 · 베타 한 문장 — 알파와 같은 틀</div>
+        <p class="text-xl font-black text-slate-800">「<span class="blank" style="min-width:50px"></span>번에서 <span class="blank" style="min-width:90px"></span>이(가) 해 본 사람의 <span class="blank" style="min-width:90px"></span>이면 확인된 것으로 본다.」</p>
+        <p class="text-[15px] text-slate-500 mt-2">예) 1번에서 4 ~ 5 가 해 본 사람의 절반 이상이면 확인된 것으로 본다.</p>
+      </div>
+      <div class="glass-card rounded-2xl px-6 py-5" style="border-color:#fed7aa">
+        <div class="text-[14px] font-black text-flame-700 mb-1">확인 기준 2 · 고친 것 — 알파 숫자와 나란히</div>
+        <p class="text-xl font-black text-slate-800">「알파에서 <span class="blank" style="min-width:110px"></span>이(가) <span class="blank" style="min-width:50px"></span>명 중 <span class="blank" style="min-width:50px"></span>명이었다. 베타 <span class="blank" style="min-width:50px"></span>번에서 <span class="blank" style="min-width:110px"></span>이(가) <span class="blank" style="min-width:70px"></span> 이하이면 고친 것이 통한 것으로 본다.」</p>
+        <p class="text-[15px] text-slate-500 mt-2">예) 알파에서 「적이 움직이는 줄 몰랐다」가 15명 중 5명이었다. 베타 4번에서 「한 번 닿고 나서 · 끝까지 몰랐다」가 해 본 사람의 5분의 1 이하이면 고친 것이 통한 것으로 본다.</p>
+      </div>
+    </div>
+    <p class="text-[15px] text-slate-500 mt-4">둘 다 폼에는 넣지 않고 과제 글에만 써요. 베타가 끝나면 이 두 줄에 대어 셉니다</p>
+  </div>
+</section>
+<section class="slide wk" data-part="survey">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">설문보다 관찰</h2>
+    <p class="text-lg text-slate-500 mb-4">설문은 테스터가 기억하는 것, 기록지는 테스터가 한 것이에요. 둘이 다르면 기록지를 믿어요</p>
+    <div class="text-[14px] font-black text-slate-500 mb-2">베타 관찰 기록지 · 알파 기록지에 주황 칸 셋이 더해져요</div>
+    <table class="cmp-table tight rec" style="font-size:.88rem">
+      <thead><tr><th class="">번호</th><th class="">어디까지</th><th class="new">처음 한 행동</th><th class="">막힌 곳 · 그때 한 것</th><th class="new">물어본 말</th><th class="">말 · 표정</th><th class="">장면 ✓ ✗</th><th class="new">고친 곳 ✓ ✗</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>판 2 클리어</td><td>→ 를 먼저 누름</td><td>첫 높은 발판 · 세 번 뜀</td><td>「대시는 어떻게 해요?」</td><td>코인 먹을 때 「오」</td><td>✓</td><td>✓</td></tr>
+        <tr><td>2</td><td>판 1 게임 오버</td><td>가만히 화면을 봄</td><td>첫 적에 두 번 닿음</td><td>—</td><td>「아 이거 움직이네」</td><td>✗</td><td>✗</td></tr>
+      </tbody>
+    </table>
+    <div class="grid md:grid-cols-4 gap-3 mt-4">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">처음 한 행동</div><p class="text-[14.5px] text-slate-600">START 다음 화면에서 무엇부터 했나. 조작 안내가 통했는지 보여요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">물어본 말</div><p class="text-[14.5px] text-slate-600">지킴이에게 한 질문을 그대로. 한 줄이 점검표 D1 의 ✗ 하나예요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">고친 곳 ✓ ✗</div><p class="text-[14.5px] text-slate-600">알파에서 막힌 그 자리를 혼자 지나갔나. 확인 기준 2 와 같이 세요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">말로 생각하기</div><p class="text-[14.5px] text-slate-600">시작할 때 「하면서 생각나는 건 말로 해 주세요」. 혼잣말에 막힌 이유가 나와요</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ai">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-800 text-white">하면 좋음 · 설문 초안을 다 쓴 다음</span></div>
+    <h2 class="text-4xl font-black mb-2">AI 에게 우리 설문을 한 번 더 대어 보기</h2>
+    <p class="text-lg text-slate-500 mb-4">문항과 확인 기준을 우리가 먼저 쓴 다음, 규칙에 맞는지만 AI 에게 봐 달라고 해요</p>
+    <div class="grid md:grid-cols-[1fr_1.4fr] gap-5 items-start">
+      <div class="space-y-3">
+<div class="step"><span class="no">1</span><p class="text-[15.5px] text-slate-700"><b>복사</b> — 팀 노트북에서 이 장을 열고 프롬프트 상자의 <b>복사</b>. 주소 끝에 <span class="mono">#29</span></p></div>
+<div class="step"><span class="no">2</span><p class="text-[15.5px] text-slate-700"><b>빈칸 채우기</b> — 게임 이름 · 한 판 설명 · 고친 것 · 베타 한 문장 · 확인 기준 두 줄 · 알파 문항 · 베타 초안</p></div>
+<div class="step"><span class="no">3</span><p class="text-[15.5px] text-slate-700"><b>AI 채팅에</b> — ChatGPT · Claude · Gemini 중 아무거나</p></div>
+<div class="step"><span class="no">4</span><p class="text-[15.5px] text-slate-700"><b>고르기</b> — 받을지 말지는 팀이 정해요. 알파와 비교할 수 없게 된 문항부터 봐요</p></div>
+        <div class="soft-card rounded-2xl px-4 py-3"><div class="font-black mb-0.5">「개인 기여 보고서」 AI 칸</div><p class="text-[14px] text-slate-600">무엇을 시켰는지, 그대로 쓴 것과 고친 것을 한 줄씩</p></div>
+      </div>
+      <div class="cp">
+        <div class="cp-bar"><span><i class="fa-solid fa-wand-magic-sparkles"></i> 베타 설문 점검 프롬프트</span><button class="cp-btn" type="button" data-copy="cp-ai"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
+        <pre class="cp-body" id="cp-ai" style="max-height:min(52vh,450px)">너는 게임 플레이 테스트 설문을 같이 보는 조교야.
+아래는 우리 팀이 알파 테스트 뒤에 정한 베타 한 문장과, 알파 설문을 고쳐 만든 베타 설문 초안이야. 새로 만들지 말고, 우리 초안이 [규칙]에 맞는지 봐 줘.
+
+[우리 게임]
+- 게임 이름:
+- 한 판 설명 (두 줄):
+- 알파에서 가장 많이 막힌 곳과 베타까지 고친 것:
+
+[베타 한 문장]
+(「13주차 베타에서 우리는 ___까지 플레이하게 해서, ___인지 확인한다.」)
+
+[확인 기준]
+- 확인 기준 1 (베타 한 문장):
+- 확인 기준 2 (고친 것):
+
+[알파 설문]
+(알파 문항과 보기를 그대로 붙여 넣기)
+
+[베타 설문 초안]
+(베타 문항과 보기를 그대로 붙여 넣기)
+
+[규칙]
+1. 질문 하나에 하나만 묻는다.
+2. 「재미있었나요?」 대신 베타 한 문장의 뒤 칸을 그대로 묻는다.
+3. 답을 정해 주는 질문을 쓰지 않는다.
+4. 숫자로 답하는 문항이 하나 이상 있고, 1 ~ 5 는 양 끝에 뜻이 적혀 있다.
+5. 알파와 같은 것을 재는 문항은 문장과 보기가 알파와 똑같다. 다르면 알파와 비교할 수 없다고 적는다.
+6. 고친 것이 통했는지 「몇 명 중 몇 명」으로 셀 수 있는 고르기 문항이 하나 있다.
+7. 어디까지 해 봤는지 묻는 문항의 보기가 베타 한 문장의 앞 칸까지 실제로 갈 수 있는 곳이다.
+8. 문항은 일곱 개 이하이고, 고르는 문항만 필수다.
+9. 확인 기준 두 줄이 문항 번호 · 답 · 몇 명 중 몇 명으로 적혀 있다.
+10. 새 문항을 지어서 더하지 않는다. 고칠 곳만 고친 문장으로 보여 준다. 우리 게임에 없는 장면을 예로 들지 않는다.
+
+[답 형식]
+A. 문항마다: 번호 | 맞음 · 고칠 곳 | 어긋난 규칙 번호 | 고친 문장
+B. 알파와 비교할 수 없게 된 문항
+C. 확인 기준 두 줄 점검
+D. 우리에게 물어볼 것</pre>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ready">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
+    <h2 class="text-4xl font-black mb-2">베타 빌드가 갖출 것 · 엔진 점검</h2>
+    <p class="text-lg text-slate-500 mb-4">방법은 부록에 있어요. 지금 상태만 ✓ · △ · ✗ 로 적고 △ · ✗ 는 할 일 보드에 올려요</p>
+    <div class="grid md:grid-cols-2 gap-5 items-start">
+      <table class="cmp-table tight" style="font-size:.92rem">
+        <thead><tr><th>줄</th><th>씬 흐름 · 한 판</th><th>지금</th><th>부록</th></tr></thead>
+        <tbody>
+          <tr><td>A1</td><td style="color:#0f172a">exe 를 열면 Title 이 먼저</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#38</td></tr>
+          <tr><td>A2</td><td style="color:#0f172a">START 로 게임에 들어간다</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#39 · 40</td></tr>
+          <tr><td>A3 · A4</td><td style="color:#0f172a">이기는 끝 · 지는 끝이 있다</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#37</td></tr>
+          <tr><td>A5</td><td style="color:#0f172a">RETRY 두 번 연달아 처음 상태</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#42</td></tr>
+          <tr><td>A6</td><td style="color:#0f172a">Esc → Title · QUIT 으로 꺼짐</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#41</td></tr>
+        </tbody>
+      </table>
+      <table class="cmp-table tight" style="font-size:.92rem">
+        <thead><tr><th>줄</th><th>빌드 · 넘겨주기</th><th>지금</th><th>부록</th></tr></thead>
+        <tbody>
+          <tr><td>B1</td><td style="color:#0f172a">1280 × 720 창 · 창 제목이 게임 이름</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#43</td></tr>
+          <tr><td>B2</td><td style="color:#0f172a">창 크기에서 글자 · 버튼이 안 잘림</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#44</td></tr>
+          <tr><td>B3</td><td style="color:#0f172a">다른 컴퓨터에서 압축을 풀고 열림</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#45 · 46 · 47</td></tr>
+          <tr><td>B4</td><td style="color:#0f172a">안 열릴 때 원인 찾기</td><td><span class="blank-s"></span></td><td class="text-slate-500 mono">#48</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4 mt-4">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">기억으로 적지 않기</div><p class="text-[14.5px] text-slate-600">알파 때 ✓ 였어도 그 뒤에 바뀐 게 많아요. Title 씬을 열고 Play 해서 확인해요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">✗ 가 둘 이상이면</div><p class="text-[14.5px] text-slate-600">그 팀은 부록부터 같이 봐요. 교수자가 그 팀으로 갑니다</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">번호는 주소 끝</div><p class="text-[14.5px] text-slate-600">팀 노트북에서 이 덱 주소 끝에 #번호. 부록 장으로 바로 가요</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="ready">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">「베타 점검표」</h2>
+    <p class="text-lg text-slate-500 mb-4">알파 점검표에 C3 · D2 · E · F 가 새로 생겼어요. 베타 전날 마지막 빌드로, 처음 보는 사람이 두 대에서 하고 줄마다 ✓ · △ · ✗</p>
+    <div class="grid md:grid-cols-2 gap-4 items-start">
+      <div class="space-y-3"><div class="ck-g"><div class="ck-h">A · 한 판</div><div class="ck-r"><span class="ck-k">A1 ~ A6</span><span class="ck-t">Title → START → 두 끝 → RETRY 두 번 → Esc · QUIT</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">B · 빌드</div><div class="ck-r"><span class="ck-k">B1</span><span class="ck-t">1280 × 720 창 · 창 제목과 exe 이름이 게임 이름</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">B2</span><span class="ck-t">창 크기에서 글자 · 버튼이 안 잘린다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">B3</span><span class="ck-t">베타 날 쓸 두 대에서 압축을 풀고 열린다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">B4</span><span class="ck-t">베타 빌드 zip 과 알파 빌드 zip 이 팀 공유 폴더에</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">D · 처음 보는 사람</div><div class="ck-r"><span class="ck-k">D1</span><span class="ck-t">조작 안내 · 목표가 화면에 · 지킴이가 말하지 않아도 시작</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">D2</span><span class="ck-t">알파에서 막힌 곳을 처음 보는 사람이 혼자 지나간다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">D3</span><span class="ck-t">처음부터 끝까지 세 번, 멈추거나 막히지 않는다</span><span class="ck-b"></span></div></div></div>
+      <div class="space-y-3"><div class="ck-g"><div class="ck-h">C · 베타 한 문장</div><div class="ck-r"><span class="ck-k">C1</span><span class="ck-t">앞 칸 「___까지」 실제로 갈 수 있다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">C2</span><span class="ck-t">뒤 칸에서 확인하려던 장면이 나온다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">C3</span><span class="ck-t">1등급 · 꼭 할 것이 「어떻게 되면 끝」대로 됐다</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">E · 베타 기준</div><div class="ck-r"><span class="ck-k">E1</span><span class="ck-t">넣을 기능 · 스테이지가 다 들어 있다 · 못 고친 것에 이유</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">E2</span><span class="ck-t">임시 그림 · 소리가 없다 · 출처 목록이 있다</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">F · 게임 느낌</div><div class="ck-r"><span class="ck-k">F1</span><span class="ck-t">주 행동 · 얻기 · 맞기에 소리와 반응이 있다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">F2</span><span class="ck-t">배경음 두 곡 · 기본 버튼 · 기본 글꼴이 남지 않았다</span><span class="ck-b"></span></div></div>
+        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">✗ 가 남으면</div><p class="text-[14.5px] text-slate-600">A · B · D3 부터. 한 판이 안 돌거나 안 열리면 베타 날 아무것도 못 해요. F 는 그다음</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="day">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">베타 날 역할과 자리</h2>
+    <p class="text-lg text-slate-500 mb-4">진행은 알파와 같아요. 달라지는 건 지킴이가 하는 말이에요</p>
+    <div class="grid md:grid-cols-[1.15fr_1fr] gap-6 items-start">
+      <div>
+        <table class="cmp-table tight" style="font-size:.92rem">
+          <thead><tr><th>역할</th><th>하는 일</th><th>누가</th></tr></thead>
+          <tbody>
+            <tr><td style="color:#0f172a">빌드 담당</td><td style="white-space:normal">전날 마지막 빌드 · 두 대에 압축 풀기 · 예비 zip</td><td><span class="blank-s" style="width:70px"></span></td></tr>
+            <tr><td style="color:#0f172a">안내 지킴이</td><td style="white-space:normal">전반 · 후반 한 명씩. 두 마디만 하고 지켜보기</td><td><span class="blank-s" style="width:70px"></span></td></tr>
+            <tr><td style="color:#0f172a">기록 지킴이</td><td style="white-space:normal">컴퓨터마다 한 명. 베타 기록지에 본 것을 적기</td><td><span class="blank-s" style="width:70px"></span></td></tr>
+            <tr><td style="color:#0f172a">테스터</td><td style="white-space:normal">나머지 모두. 다른 팀 자리를 돌며 하고 설문에 답하기</td><td><span class="blank-s" style="width:70px"></span></td></tr>
+          </tbody>
+        </table>
+        <div class="grid grid-cols-2 gap-2.5 mt-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-laptop text-dev-600"></i> 빌드를 연 두 대</div><p class="text-[14.5px] text-slate-600">같은 빌드 · Title 화면 · 충전기</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-qrcode text-dev-600"></i> 베타 설문 QR</div><p class="text-[14.5px] text-slate-600">두 대 옆에 하나씩. 알파 QR 이 아닌지</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-clipboard-list text-dev-600"></i> 베타 기록지 두 장</div><p class="text-[14.5px] text-slate-600">컴퓨터마다 한 장</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-box-archive text-dev-600"></i> 예비 빌드</div><p class="text-[14.5px] text-slate-600">알파 빌드 zip</p></div>
+        </div>
+      </div>
+      <div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa">
+        <div class="text-lg font-black mb-3">안내 지킴이의 두 마디</div>
+        <div class="flex items-center gap-3 mb-2"><span class="no">1</span><p class="text-[16px] text-slate-700">「끝까지 해 보세요. 하면서 생각나는 건 말로 해 주세요」</p></div>
+        <div class="flex items-center gap-3"><span class="no">2</span><p class="text-[16px] text-slate-700">「설문 QR이에요」</p></div>
+        <p class="text-[14.5px] text-slate-600 mt-3">알파 때 하던 「조작키는 이거예요」는 하지 않아요. 테스터가 조작키를 물으면 「어떻게 하면 될 것 같아요?」 하고 되묻고 그 질문은 기록지 「물어본 말」에 적어요</p>
+        <div class="soft-card rounded-xl px-4 py-3 mt-3"><div class="font-black mb-0.5">빌드가 안 열리면</div><p class="text-[14px] text-slate-600">한 대만 안 열리면 한 대로. 한 판이 안 돌면 알파 빌드로 하고 기록지 맨 위에 「알파 빌드」</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="task">
+  <div class="max-w-6xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-flame-600 text-white">과제 · 팀원 중 한 명이 대표로 · 11/24(화) 23:59</span></div>
+    <h2 class="text-4xl font-black mb-2">베타 설문 · 계획 제출</h2>
+    <p class="text-lg text-slate-500 mb-5">팀 노트북에서 이 장(주소 끝 <span class="mono">#33</span>)을 열어 복사하고 사이버캠퍼스 과제란에 붙여 넣어요</p>
+    <div class="grid md:grid-cols-[1.15fr_1fr] gap-5 items-start">
+      <div class="cp">
+        <div class="cp-bar"><span><i class="fa-solid fa-file-lines"></i> 과제란에 붙여 넣을 글</span><button class="cp-btn" type="button" data-copy="cp-task"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
+        <pre class="cp-body" id="cp-task" style="max-height:min(46vh,400px)">베타 설문 · 계획 제출
+- 팀:
+- 알파 결정 (유지 · 보완 · 피벗):
+- 베타 한 문장:
+- 베타 설문 응답 링크:
+- 확인 기준 1 (베타 한 문장):
+- 확인 기준 2 (고친 것):
+
+[할 일 보드]
+- 할 것 1 (등급 · 누가 · 무엇을 · 언제까지 · 어떻게 되면 끝):
+- 할 것 2:
+- 할 것 3:
+- 할 것 4:
+- 못 고친 것 (무엇 · 왜):
+
+[처음 보는 사람]
+- 알파에서 막힌 곳과 고칠 방법 (원인 · 바꾸는 것):
+- 화면에 넣을 조작 안내 · 목표 표시:
+
+[게임 느낌]
+- 애셋 목록에서 임시 · 없음 (무엇 · 누가):
+- 다듬을 순간 (순간 · 지금 · 베타에서):
+
+[베타 날]
+- 마지막 빌드 담당:
+- 빌드를 열 두 대 (누구 노트북 · 학교 컴퓨터):
+- 안내 지킴이 · 기록 지킴이 (전반 · 후반):
+- 엔진 점검 △ · ✗ 인 줄 (A1 ~ B4):</pre>
+        <div class="cp-foot"><i class="fa-solid fa-paperclip"></i> 파일 첨부 — 베타 설문 QR 이미지 한 장</div>
+      </div>
+      <div class="space-y-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">응답 링크로</div><p class="text-[14.5px] text-slate-600">게시 · 보내기에서 복사한 짧은 주소. 끝이 /edit 인 편집 화면 주소가 아니에요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">오늘 다 못 채워도</div><p class="text-[14.5px] text-slate-600">할 일 보드 · 첫 화면 · 애셋 목록은 오늘 정한 그대로. 빌드 점검은 전날 마지막 빌드로 다시 해서 고쳐 내도 돼요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">확인 기준은 여기에만</div><p class="text-[14.5px] text-slate-600">폼에는 넣지 않아요. 베타 뒤에 이 글을 열어 두 줄에 대어 셉니다</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="share">
+  <div class="max-w-5xl w-full">
+    <h2 class="text-4xl font-black mb-2">한 줄 공유</h2>
+    <p class="text-lg text-slate-500 mb-8">팀마다 한 사람이 이 틀로 말해요. 다른 팀은 다음 주에 이 게임을 할 테스터로 들어요</p>
+    <div class="glass-card rounded-3xl px-8 py-8 text-2xl font-black leading-[2.2] text-center">
+      「우리 베타 한 문장은 <span class="blank"></span>입니다.<br>알파에서 가장 많이 막힌 <span class="blank"></span>은(는) <span class="blank"></span>(으)로 고치고,<br>오늘 다듬을 순간은 <span class="blank"></span>입니다.」
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="end">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">마무리와 다음 주</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+<div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa"><div class="text-[13px] font-black text-slate-400 mb-1">과제 · 11/24(화) 23:59</div><div class="text-xl font-black mb-1">「베타 설문 · 계획 제출」</div><p class="text-[15px] text-slate-600">팀원 중 한 명이 대표로 사이버캠퍼스 과제란에. 베타 설문 QR 이미지 첨부</p></div>
+<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">11/22 (일) · 11/23 (월)</div><div class="text-xl font-black mb-1">기능 잠금 · 합치기</div><p class="text-[15px] text-slate-600">새 기능은 일요일까지. 월요일에 한 프로젝트로 합치고 A1 ~ A6</p></div>
+<div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa"><div class="text-[13px] font-black text-slate-400 mb-1">11/24 (화) · 베타 전날</div><div class="text-xl font-black mb-1">마지막 빌드 · 베타 점검표</div><p class="text-[15px] text-slate-600">두 대에서 압축 풀고 열기. A ~ F 줄마다 ✓ · △ · ✗</p></div>
+<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">13주차 · 11/25 · 베타 상호 테스트</div><div class="text-xl font-black mb-1">두 대 · 빌드 · QR · 기록지</div><p class="text-[15px] text-slate-600">안내 지킴이는 두 마디만. 기록 지킴이는 베타 기록지</p></div>
+<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">오늘 · 팀 자료 보관</div><div class="text-xl font-black mb-1">보드 · 못 고친 것 · 애셋 목록</div><p class="text-[15px] text-slate-600">팀 공유 폴더에. 고치기 전 10초 녹화도 같이</p></div>
+<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">매주 · 개인</div><div class="text-xl font-black mb-1">「개인 기여 보고서」</div><p class="text-[15px] text-slate-600">내가 맡은 할 것 한 줄, 오늘 보드 · 설문에서 한 일 한 줄</p></div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="apx">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl md:text-5xl font-black mb-3 text-center">부록 · 엔진 따라 하기</h2>
+    <p class="text-lg text-slate-500 mb-8 text-center">「베타 빌드가 갖출 것」에서 △ · ✗ 가 나온 팀만 펴요. 팀 노트북에서 주소 끝에 #번호</p>
+    <div class="grid md:grid-cols-4 gap-3">
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">37</span><span class="font-black text-[15.5px]">씬 흐름</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">38</span><span class="font-black text-[15.5px]">Scene List</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">39</span><span class="font-black text-[15.5px]">SceneLoader</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">40</span><span class="font-black text-[15.5px]">On Click</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">41</span><span class="font-black text-[15.5px]">Esc → Title</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">42</span><span class="font-black text-[15.5px]">RETRY 뒤에 남는 것</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">43</span><span class="font-black text-[15.5px]">Player 설정</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">44</span><span class="font-black text-[15.5px]">Canvas Scaler</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">45</span><span class="font-black text-[15.5px]">빌드 만들기</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">46</span><span class="font-black text-[15.5px]">빌드 폴더</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">47</span><span class="font-black text-[15.5px]">폴더째 넘겨주기</span></div>
+      <div class="soft-card rounded-2xl px-4 py-3 flex items-center gap-3"><span class="no" style="width:auto;min-width:40px;padding:0 6px">48</span><span class="font-black text-[15.5px]">다른 컴퓨터에서 이상할 때</span></div>
     </div>
   </div>
 </section>
@@ -596,7 +1498,7 @@ body{
 </section>
 <section class="slide wk" data-part="scene">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">Scene List 에 씬 올리기</h2>
     <p class="text-lg text-slate-500 mb-5">목록에 없는 씬은 빌드에 들어가지 않고 불러오지도 못해요</p>
     <div class="grid md:grid-cols-[0.62fr_auto_1fr_1fr] gap-4 items-start">
@@ -641,7 +1543,7 @@ body{
 </section>
 <section class="slide wk" data-part="scene">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">씬을 넘기는 SceneLoader 스크립트</h2>
     <p class="text-lg text-slate-500 mb-5">버튼이 부를 함수 셋을 한 파일에 둬요. 함수는 <span class="mono text-slate-700">public void</span> 여야 버튼 목록에 나와요</p>
     <div class="grid md:grid-cols-[1.25fr_1fr] gap-6 items-start">
@@ -677,7 +1579,7 @@ body{
 </section>
 <section class="slide wk" data-part="scene">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">On Click 으로 버튼 연결</h2>
     <p class="text-lg text-slate-500 mb-5">씬마다 SceneLoader 빈 오브젝트를 하나 두고 버튼이 그 함수를 부르게 해요</p>
     <div class="grid md:grid-cols-[0.75fr_1fr_1.15fr] gap-4 items-start">
@@ -729,7 +1631,7 @@ body{
 </section>
 <section class="slide wk" data-part="scene">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">게임 중에 Esc 로 Title 가기</h2>
     <p class="text-lg text-slate-500 mb-5">테스터가 한 판을 그만두고 싶을 때 지킴이를 부르지 않아도 되게. Game 씬의 빈 오브젝트에 붙여요</p>
     <div class="grid md:grid-cols-[1.2fr_1fr] gap-6 items-start">
@@ -769,34 +1671,9 @@ body{
     <div class="glass-card rounded-2xl px-6 py-4 text-[15.5px] text-slate-700"><b>RETRY 는 두 번 연달아</b> 눌러 봐요. 한 번은 되고 두 번째에 터지는 일이 많아요. 베타 날에는 한 컴퓨터에서 테스터 여러 명이 이어서 하니까 RETRY · TITLE 을 열 번 오가도 처음 상태여야 해요</div>
   </div>
 </section>
-<section class="slide wk" data-part="scene">
-  <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
-    <h2 class="text-4xl font-black mb-2">씬 흐름 한 바퀴 점검</h2>
-    <p class="text-lg text-slate-500 mb-5">에디터에서 <b class="text-slate-700">Title 씬을 열고</b> Play. 코드를 덜 만진 팀원이 해요</p>
-    <div class="grid md:grid-cols-[1.35fr_1fr] gap-6 items-start">
-      <table class="cmp-table tight" style="font-size:.95rem">
-        <thead><tr><th>줄</th><th>알파 점검표 A · 한 판</th><th>✓ · △ · ✗</th><th>안 되면 볼 장</th></tr></thead>
-        <tbody>
-          <tr><td>A1</td><td>exe 를 열면 Title 이 먼저 나온다</td><td><span class="blank-s"></span></td><td class="text-slate-500">Scene List 0번</td></tr>
-          <tr><td>A2</td><td>START 로 게임에 들어간다</td><td><span class="blank-s"></span></td><td class="text-slate-500">On Click · 씬 이름</td></tr>
-          <tr><td>A3</td><td>이기는 끝이 있다 (클리어 · Result)</td><td><span class="blank-s"></span></td><td class="text-slate-500"></td></tr>
-          <tr><td>A4</td><td>지는 끝이 있다 (게임 오버 · Result)</td><td><span class="blank-s"></span></td><td class="text-slate-500"></td></tr>
-          <tr><td>A5</td><td>RETRY 로 처음 상태에서 다시 한다 · 두 번 연달아</td><td><span class="blank-s"></span></td><td class="text-slate-500">RETRY 뒤에 남는 것</td></tr>
-          <tr><td>A6</td><td>Esc → Title, QUIT 으로 꺼진다</td><td><span class="blank-s"></span></td><td class="text-slate-500">EscToTitle · Quit 은 빌드에서</td></tr>
-        </tbody>
-      </table>
-      <div class="space-y-3">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">Game 씬에서 Play 하지 않기</div><p class="text-[14.5px] text-slate-600">에디터는 열어 둔 씬부터 시작해요. Title 부터 해야 빌드와 같은 길을 가요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">알파 때 ✓ 였어도 다시</div><p class="text-[14.5px] text-slate-600">알파 뒤에 코드 · 씬이 바뀌었어요. 특히 팀원 작업을 합친 다음에는 꼭</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">△ · ✗ 는 다시 나게 하는 순서를 한 줄로</div><p class="text-[14.5px] text-slate-600">「RETRY 를 두 번 누르면 코인이 0 이 안 된다」처럼. 고칠 사람이 바로 알 수 있게요</p></div>
-      </div>
-    </div>
-  </div>
-</section>
 <section class="slide wk" data-part="build">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">빌드 전에 Player 설정</h2>
     <p class="text-lg text-slate-500 mb-5">맨 위 메뉴 <b class="text-slate-700">Edit → Project Settings → Player</b>. 초록 칸만 바꿔요</p>
     <div class="grid md:grid-cols-[1.2fr_1fr] gap-6 items-start">
@@ -828,7 +1705,7 @@ body{
 </section>
 <section class="slide wk" data-part="build">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">Canvas Scaler 로 UI 자리 잡기</h2>
     <p class="text-lg text-slate-500 mb-5">처음 값은 <b class="text-slate-700">Constant Pixel Size</b> 라서, 작은 창에서는 버튼이 밖으로 밀려나고 큰 화면에서는 글자가 작아져요</p>
     <div class="grid md:grid-cols-[1.1fr_1fr] gap-6 items-start">
@@ -861,7 +1738,7 @@ body{
 </section>
 <section class="slide wk" data-part="build">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">빌드 만들기</h2>
     <p class="text-lg text-slate-500 mb-5">빌드는 매번 <b class="text-slate-700">빈 폴더</b>에. 날짜를 폴더 이름에 넣어 두면 어느 빌드인지 헷갈리지 않아요</p>
     <div class="grid md:grid-cols-[1.05fr_0.85fr_1fr] gap-4 items-start">
@@ -927,7 +1804,7 @@ body{
 </section>
 <section class="slide wk" data-part="build">
   <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">팀 노트북으로 따라 하기</span></div>
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-emerald-600 text-white">부록 · 막힌 팀만 따라 하기</span></div>
     <h2 class="text-4xl font-black mb-2">폴더째 넘겨주기</h2>
     <p class="text-lg text-slate-500 mb-5">만든 노트북에서 받는 컴퓨터까지 네 걸음이에요</p>
     <div class="grid md:grid-cols-[1.25fr_0.9fr] gap-6 items-start">
@@ -974,241 +1851,6 @@ body{
     <p class="text-[15px] text-slate-500 mt-4">Player.log 는 탐색기 주소창에 <span class="mono">%USERPROFILE%\AppData\LocalLow</span> → Company Name → Product Name 폴더. 10주차 슬라이드 12 에 있어요</p>
   </div>
 </section>
-<section class="slide wk" data-part="build">
-  <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
-    <h2 class="text-4xl font-black mb-2">오늘 빌드 한 번</h2>
-    <p class="text-lg text-slate-500 mb-5">베타 전날 처음 빌드하면 막혀도 물어볼 곳이 없어요. 오늘 끝까지 한 번 돌려 봐요</p>
-    <div class="grid md:grid-cols-[1fr_1.1fr] gap-6 items-start">
-      <div class="space-y-3">
-<div class="step"><span class="no">1</span><p class="text-[15.5px] text-slate-700"><b>합친 프로젝트</b>가 있는 노트북 한 대에서 Player 설정 · Canvas Scaler → 빌드</p></div>
-<div class="step"><span class="no">2</span><p class="text-[15.5px] text-slate-700">zip → 팀 공유 폴더 → <b>다른 팀원 노트북</b>에서 모두 압축 풀기</p></div>
-<div class="step"><span class="no">3</span><p class="text-[15.5px] text-slate-700">그 노트북에서 <b>코드를 덜 만진 팀원</b>이 한 판 → 아래 세 줄</p></div>
-<div class="step"><span class="no">4</span><p class="text-[15.5px] text-slate-700">△ · ✗ 는 앞 장 표에서 원인 찾기. 오늘 못 고치면 할 것 목록에</p></div>
-      </div>
-      <div>
-        <table class="cmp-table tight" style="font-size:.95rem">
-          <thead><tr><th>줄</th><th>알파 점검표 B · 빌드</th><th>✓ · △ · ✗</th></tr></thead>
-          <tbody>
-            <tr><td>B1</td><td>1280 × 720 창으로 열린다 · 창 제목이 게임 이름</td><td><span class="blank-s"></span></td></tr>
-            <tr><td>B2</td><td>창 크기에서 글자 · 버튼이 안 잘린다</td><td><span class="blank-s"></span></td></tr>
-            <tr><td>B3</td><td>다른 컴퓨터에서 압축을 풀고 열린다</td><td><span class="blank-s"></span></td></tr>
-          </tbody>
-        </table>
-        <div class="glass-card rounded-2xl px-5 py-3 mt-4 text-[15px] text-slate-700">결과는 과제의 <b>「오늘 빌드 점검 결과」</b> 칸에 적어요. 노트북이 한 대뿐인 팀은 학교 컴퓨터에서 열어 봐요</div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="feel">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl font-black mb-2">밋밋했던 순간을 분해표로</h2>
-    <p class="text-lg text-slate-500 mb-5">지난주 과제의 <b class="text-slate-700">「반응이 밋밋했던 순간」</b>이 출발점이에요. 이번 주 온라인 영상의 분해표 그대로예요</p>
-    <div class="text-[14px] font-black text-slate-500 mb-2">예시 · 코인 러너 · 코인을 먹는 순간</div>
-    <table class="cmp-table tight" style="font-size:.9rem">
-      <thead><tr><th>시간</th><th>움직임</th><th>크기</th><th>색 · 빛</th><th>카메라</th><th>멈춤</th><th>파티클</th><th>소리</th></tr></thead>
-      <tbody>
-        <tr><td>먹는 순간</td><td>—</td><td>1.0 → 1.3배 빠르게</td><td>—</td><td>아주 살짝</td><td>—</td><td>노란 알 30개</td><td>짧은 「띵」</td></tr>
-        <tr><td>직후</td><td>—</td><td>1.3 → 1.0배 튕기며</td><td>—</td><td>—</td><td>—</td><td>떨어지며 사라짐</td><td>—</td></tr>
-        <tr class="row-now"><td>알파 · 지금</td><td colspan="7">코인이 사라지고 숫자만 바뀜 → 「먹었는지 몰랐다」 3명</td></tr>
-      </tbody>
-    </table>
-    <div class="grid md:grid-cols-3 gap-4 mt-5">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">사건 크기에 맞춰</div><p class="text-[14.5px] text-slate-600">자주 · 작은 사건은 작게, 드물고 큰 사건은 크게. 코인은 작은 사건이라 멈춤 · 색은 빈칸</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">정보가 먼저</div><p class="text-[14.5px] text-slate-600">반응이 적 · 길 · 다음 코인을 가리면 안 돼요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">같은 사건에는 같은 반응</div><p class="text-[14.5px] text-slate-600">다르면 테스터는 「다른 일이 났다」고 읽어요</p></div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="feel">
-  <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
-    <h2 class="text-4xl font-black mb-2">반응 하나 고르기</h2>
-    <p class="text-lg text-slate-500 mb-5">순간 하나만 골라요. 베타 기준이 먼저고 반응은 그다음이에요</p>
-    <div class="grid md:grid-cols-[1.2fr_1fr] gap-6 items-start">
-      <div>
-        <div class="text-[14px] font-black text-slate-500 mb-2">우리 게임 · 순간: <span class="blank" style="min-width:160px"></span></div>
-        <table class="cmp-table tight" style="font-size:.9rem">
-          <thead><tr><th></th><th>움직임</th><th>크기</th><th>색 · 빛</th><th>카메라</th><th>멈춤</th><th>파티클</th><th>소리</th></tr></thead>
-          <tbody>
-            <tr><td>지금</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>베타에서</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-          </tbody>
-        </table>
-        <div class="glass-card rounded-2xl px-5 py-4 mt-4 text-[16px] text-slate-700 leading-relaxed">「우리 게임에서 <span class="blank" style="min-width:110px"></span> 할 때, 지금은 <span class="blank" style="min-width:110px"></span> 뿐인데, 베타에서는 <span class="blank" style="min-width:110px"></span> 을(를) 더한다.」</div>
-      </div>
-      <div class="space-y-3">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">고를 순간</div><p class="text-[14.5px] text-slate-600">기록지 · 설문의 「먹었는지 몰랐다」 「맞은 건지 모르겠다」 「눌렀는데 반응이 없다」. 없으면 가장 자주 하는 행동</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">고치기 전에 10초 녹화</div><p class="text-[14.5px] text-slate-600"><span class="kbd">Win</span> + <span class="kbd">Alt</span> + <span class="kbd">R</span> 로 시작 · 멈춤. 동영상 › 캡처 폴더. 14주차 기록 영상의 「전 · 후」가 돼요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">패키지는 팀 전원이 같이</div><p class="text-[14.5px] text-slate-600">무료로 되는 방법은 이번 주 온라인 영상에. 한 명만 패키지를 넣으면 다른 팀원 프로젝트에서 에러가 나요</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="survey">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl font-black mb-2">베타 한 문장</h2>
-    <p class="text-lg text-slate-500 mb-5">알파 한 문장과 같은 틀이에요. 지난주 결정에 따라 바뀌는 칸이 달라요</p>
-    <div class="glass-card rounded-3xl px-8 py-6 text-center text-2xl font-black leading-relaxed mb-5">「13주차 베타에서 우리는 <span class="qa">앞 칸 ___까지</span> 플레이하게 해서,<br><span class="qb">뒤 칸 ___인지</span> 확인한다.」</div>
-    <div class="grid md:grid-cols-3 gap-4 mb-4">
-      <div class="soft-card rounded-2xl p-5"><span class="gal-tag" style="background:#dcfce7;color:#166534"><i class="fa-solid fa-arrow-right"></i> 유지</span><p class="text-[15px] text-slate-700 mt-2"><b>앞 칸만 넓혀요.</b> 다음 판 · 다음 방까지. 뒤 칸은 그대로 다시 확인</p></div>
-      <div class="soft-card rounded-2xl p-5"><span class="gal-tag" style="background:#dbeafe;color:#1e40af"><i class="fa-solid fa-wrench"></i> 보완</span><p class="text-[15px] text-slate-700 mt-2"><b>둘 다 그대로.</b> 원인을 고친 뒤 같은 것을 다시 확인해요</p></div>
-      <div class="soft-card rounded-2xl p-5"><span class="gal-tag" style="background:#ffedd5;color:#9a3412"><i class="fa-solid fa-shuffle"></i> 피벗</span><p class="text-[15px] text-slate-700 mt-2"><b>뒤 칸을 새로.</b> 테스터가 즐긴 그 행동으로. 앞 칸은 그 행동이 나오는 곳까지</p></div>
-    </div>
-    <div class="soft-card rounded-2xl px-5 py-3"><div class="text-[14px] font-black text-slate-500 mb-0.5">예시 · 코인 러너 · 유지</div><p class="text-[16px] text-slate-800">「13주차 베타에서 우리는 <span class="qa">두 번째 판 클리어까지</span> 플레이하게 해서, <span class="qb">적이 지나간 틈을 노려 코인 쪽으로 움직이는지</span> 확인한다.」</p></div>
-  </div>
-</section>
-<section class="slide wk" data-part="survey">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl font-black mb-2">알파 설문을 베타 설문으로</h2>
-    <p class="text-lg text-slate-500 mb-5">새로 만들지 않고 <b class="text-slate-700">알파 폼의 사본</b>을 고쳐요. 같은 문항이어야 알파 숫자와 나란히 놓을 수 있어요</p>
-    <table class="cmp-table tight" style="font-size:.92rem">
-      <thead><tr><th>문항</th><th>알파</th><th>베타</th><th>왜</th></tr></thead>
-      <tbody>
-        <tr><td>1. 느낌</td><td class="text-slate-500">적 사이로 코인을 먹을 때 얼마나 아슬아슬했나요?</td><td>그대로</td><td class="text-slate-500">알파와 비교</td></tr>
-        <tr><td>2. 행동</td><td class="text-slate-500">게임 오버는 주로 왜 났나요?</td><td>그대로</td><td class="text-slate-500">알파와 비교</td></tr>
-        <tr><td>3. 어디까지</td><td class="text-slate-500">클리어 전에 게임 오버 · 클리어 · 다시 하기까지</td><td><b>판 1 에서 게임 오버 · 판 2 에서 게임 오버 · 판 2 클리어</b></td><td class="text-slate-500">앞 칸이 넓어짐</td></tr>
-        <tr><td>4. 고친 것</td><td class="text-slate-500">—</td><td><b>첫 적이 움직인다는 걸 언제 알았나요?</b><br>처음 나왔을 때 바로 · 한 번 닿고 나서 · 끝까지 몰랐다</td><td class="text-slate-500">새 문항 · 고르기</td></tr>
-        <tr><td>5 ~ 7. 쓰기</td><td class="text-slate-500">막힌 곳 · 기억에 남는 순간 · 하나만 바꾼다면</td><td>그대로</td><td class="text-slate-500">번호만 하나씩 뒤로</td></tr>
-      </tbody>
-    </table>
-    <div class="grid md:grid-cols-3 gap-4 mt-4">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">사본 만들기</div><p class="text-[14.5px] text-slate-600">알파 폼 편집 화면 오른쪽 위 <b>⋮ → 사본 만들기</b> → 이름 「팀 이름 · 베타 설문」. 응답은 비어 있고 응답 링크는 새로 생겨요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">설정 세 곳 다시</div><p class="text-[14.5px] text-slate-600">사본은 설정이 바뀔 수 있어요. 이메일 수집 안 함 · 응답 1회 제한 끔 · 조직 제한 끔. 시크릿 창에서 한 번 답해 보기</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">피벗한 팀</div><p class="text-[14.5px] text-slate-600">1 · 2번을 새 뒤 칸으로 다시 써요. 9주차 · 10주차 틀 그대로. 4번은 바꾼 규칙이 통했는지</p></div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="survey">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl font-black mb-2">확인 기준 두 줄</h2>
-    <p class="text-lg text-slate-500 mb-5">답을 받기 전에 정해요. 받은 뒤에 정하면 어떤 답이든 「확인됐다」가 돼요</p>
-    <div class="space-y-4">
-      <div class="glass-card rounded-2xl px-6 py-5">
-        <div class="text-[14px] font-black text-dev-700 mb-1">확인 기준 1 · 베타 한 문장 — 알파와 같은 틀</div>
-        <p class="text-xl font-black text-slate-800">「<span class="blank" style="min-width:50px"></span>번에서 <span class="blank" style="min-width:90px"></span>이(가) 해 본 사람의 <span class="blank" style="min-width:90px"></span>이면 확인된 것으로 본다.」</p>
-        <p class="text-[15px] text-slate-500 mt-2">예) 1번에서 4 ~ 5 가 해 본 사람의 절반 이상이면 확인된 것으로 본다.</p>
-      </div>
-      <div class="glass-card rounded-2xl px-6 py-5" style="border-color:#fed7aa">
-        <div class="text-[14px] font-black text-flame-700 mb-1">확인 기준 2 · 고친 것 — 알파 숫자와 나란히</div>
-        <p class="text-xl font-black text-slate-800">「알파에서 <span class="blank" style="min-width:110px"></span>이(가) <span class="blank" style="min-width:50px"></span>명 중 <span class="blank" style="min-width:50px"></span>명이었다. 베타 <span class="blank" style="min-width:50px"></span>번에서 <span class="blank" style="min-width:110px"></span>이(가) <span class="blank" style="min-width:70px"></span> 이하이면 고친 것이 통한 것으로 본다.」</p>
-        <p class="text-[15px] text-slate-500 mt-2">예) 알파에서 「적이 움직이는 줄 몰랐다」가 15명 중 5명이었다. 베타 4번에서 「한 번 닿고 나서 · 끝까지 몰랐다」가 해 본 사람의 5분의 1 이하이면 고친 것이 통한 것으로 본다.</p>
-      </div>
-    </div>
-    <p class="text-[15px] text-slate-500 mt-4">둘 다 폼에는 넣지 않고 과제 글에만 써요. 베타가 끝나면 이 두 줄에 대어 셉니다</p>
-  </div>
-</section>
-<section class="slide wk" data-part="ai">
-  <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-800 text-white">하면 좋음 · 설문 초안을 다 쓴 다음</span></div>
-    <h2 class="text-4xl font-black mb-2">AI 에게 우리 설문을 한 번 더 대어 보기</h2>
-    <p class="text-lg text-slate-500 mb-4">문항과 확인 기준을 우리가 먼저 쓴 다음, 규칙에 맞는지만 AI 에게 봐 달라고 해요</p>
-    <div class="grid md:grid-cols-[1fr_1.4fr] gap-5 items-start">
-      <div class="space-y-3">
-<div class="step"><span class="no">1</span><p class="text-[15.5px] text-slate-700"><b>복사</b> — 팀 노트북에서 이 장을 열고 프롬프트 상자의 <b>복사</b>. 주소 끝에 <span class="mono">#26</span></p></div>
-<div class="step"><span class="no">2</span><p class="text-[15.5px] text-slate-700"><b>빈칸 채우기</b> — 게임 이름 · 한 판 설명 · 고친 것 · 베타 한 문장 · 확인 기준 두 줄 · 알파 문항 · 베타 초안</p></div>
-<div class="step"><span class="no">3</span><p class="text-[15.5px] text-slate-700"><b>AI 채팅에</b> — ChatGPT · Claude · Gemini 중 아무거나</p></div>
-<div class="step"><span class="no">4</span><p class="text-[15.5px] text-slate-700"><b>고르기</b> — 받을지 말지는 팀이 정해요. 알파와 비교할 수 없게 된 문항부터 봐요</p></div>
-        <div class="soft-card rounded-2xl px-4 py-3"><div class="font-black mb-0.5">「개인 기여 보고서」 AI 칸</div><p class="text-[14px] text-slate-600">무엇을 시켰는지, 그대로 쓴 것과 고친 것을 한 줄씩</p></div>
-      </div>
-      <div class="cp">
-        <div class="cp-bar"><span><i class="fa-solid fa-wand-magic-sparkles"></i> 베타 설문 점검 프롬프트</span><button class="cp-btn" type="button" data-copy="cp-ai"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
-        <pre class="cp-body" id="cp-ai" style="max-height:min(52vh,450px)">{esc('prompt_beta.txt')}</pre>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="survey">
-  <div class="max-w-7xl w-full">
-    <h2 class="text-4xl font-black mb-2">「베타 점검표」</h2>
-    <p class="text-lg text-slate-500 mb-4">알파 점검표에 C3 · E1 · E2 가 새로 생기고 B1 · D1 은 더 엄격해졌어요. 베타 전날 마지막 빌드로, 두 대에서 줄마다 ✓ · △ · ✗</p>
-    <div class="grid md:grid-cols-2 gap-4 items-start">
-      <div class="space-y-3"><div class="ck-g"><div class="ck-h">A · 한 판</div><div class="ck-r"><span class="ck-k">A1 ~ A6</span><span class="ck-t">알파와 같음 · Title → START → 두 끝 → RETRY 두 번 → Esc · QUIT</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">B · 빌드</div><div class="ck-r"><span class="ck-k">B1</span><span class="ck-t">1280 × 720 창 · 창 제목과 exe 이름이 게임 이름</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">B2</span><span class="ck-t">창 크기에서 글자 · 버튼이 안 잘린다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">B3</span><span class="ck-t">베타 날 쓸 두 대에서 압축을 풀고 열린다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">B4</span><span class="ck-t">베타 빌드 zip 과 알파 빌드 zip 이 팀 공유 폴더에</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">D · 처음 하는 사람</div><div class="ck-r"><span class="ck-k">D1</span><span class="ck-t">조작키 · 목표가 게임 화면 안에 있다 · 지킴이가 말하지 않아도 시작</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">D2</span><span class="ck-t">처음부터 끝까지 세 번, 멈추거나 막히지 않는다</span><span class="ck-b"></span></div></div></div>
-      <div class="space-y-3"><div class="ck-g"><div class="ck-h">C · 베타 한 문장</div><div class="ck-r"><span class="ck-k">C1</span><span class="ck-t">앞 칸 「___까지」 실제로 갈 수 있다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">C2</span><span class="ck-t">뒤 칸에서 확인하려던 장면이 나온다</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">C3</span><span class="ck-t">할 것 셋이 「어떻게 되면 끝」대로 됐다</span><span class="ck-b"></span></div></div><div class="ck-g"><div class="ck-h">E · 베타 기준</div><div class="ck-r"><span class="ck-k">E1</span><span class="ck-t">넣을 기능 · 스테이지가 다 들어 있다 · 뺄 것은 뺀 채로</span><span class="ck-b"></span></div><div class="ck-r"><span class="ck-k">E2</span><span class="ck-t">임시 그림 · 소리가 없다 · 출처 목록이 있다</span><span class="ck-b"></span></div></div>
-        <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">✗ 가 남으면</div><p class="text-[14.5px] text-slate-600">A · B · D2 부터. 한 판이 안 돌거나 안 열리면 베타 날 아무것도 못 해요. E 는 그다음</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="task">
-  <div class="max-w-6xl w-full">
-    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-flame-600 text-white">과제 · 팀원 중 한 명이 대표로 · 11/24(화) 23:59</span></div>
-    <h2 class="text-4xl font-black mb-2">베타 설문 · 계획 제출</h2>
-    <p class="text-lg text-slate-500 mb-5">팀 노트북에서 이 장(주소 끝 <span class="mono">#28</span>)을 열어 복사하고 사이버캠퍼스 과제란에 붙여 넣어요</p>
-    <div class="grid md:grid-cols-[1.15fr_1fr] gap-5 items-start">
-      <div class="cp">
-        <div class="cp-bar"><span><i class="fa-solid fa-file-lines"></i> 과제란에 붙여 넣을 글</span><button class="cp-btn" type="button" data-copy="cp-task"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
-        <pre class="cp-body" id="cp-task" style="max-height:min(46vh,400px)">베타 설문 · 계획 제출
-- 팀:
-- 알파 결정 (유지 · 보완 · 피벗):
-- 베타 한 문장:
-- 베타 설문 응답 링크:
-- 확인 기준 1 (베타 한 문장):
-- 확인 기준 2 (고친 것):
-
-[베타까지]
-- 할 것 1 (누가 · 무엇을 · 어떻게 되면 끝):
-- 할 것 2:
-- 할 것 3:
-- 뺄 것:
-- 다듬을 반응 (순간 · 지금 · 베타에서):
-
-[베타 날]
-- 마지막 빌드 담당:
-- 빌드를 열 두 대 (누구 노트북 · 학교 컴퓨터):
-- 오늘 빌드 점검 결과 (B1 · B2 · B3):</pre>
-        <div class="cp-foot"><i class="fa-solid fa-paperclip"></i> 파일 첨부 — 베타 설문 QR 이미지 한 장</div>
-      </div>
-      <div class="space-y-3">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">응답 링크로</div><p class="text-[14.5px] text-slate-600">게시 · 보내기에서 복사한 짧은 주소. 끝이 /edit 인 편집 화면 주소가 아니에요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">오늘 다 못 채워도</div><p class="text-[14.5px] text-slate-600">할 것 · 뺄 것 · 다듬을 반응은 오늘 정한 그대로. 빌드 점검 결과는 전날 마지막 빌드로 다시 해서 고쳐 내도 돼요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">확인 기준은 여기에만</div><p class="text-[14.5px] text-slate-600">폼에는 넣지 않아요. 베타 뒤에 이 글을 열어 두 줄에 대어 셉니다</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="day">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl font-black mb-2">베타 날 우리 자리에 둘 것</h2>
-    <p class="text-lg text-slate-500 mb-5">진행은 알파와 같아요. 달라지는 건 지킴이가 하는 말이에요</p>
-    <div class="grid md:grid-cols-[1.1fr_1fr] gap-6 items-start">
-      <div class="grid grid-cols-2 gap-3">
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-laptop text-dev-600"></i> 빌드를 연 두 대</div><p class="text-[14.5px] text-slate-600">전날 만든 베타 빌드. 두 대 모두 같은 빌드 · Title 화면 · 충전기</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-qrcode text-dev-600"></i> 베타 설문 QR</div><p class="text-[14.5px] text-slate-600">두 대 옆에 하나씩. 알파 QR 이 아닌지 한 번 더</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-clipboard-list text-dev-600"></i> 관찰 기록지 두 장</div><p class="text-[14.5px] text-slate-600">컴퓨터마다 한 장. 칸은 알파와 같아요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-box-archive text-dev-600"></i> 예비 빌드</div><p class="text-[14.5px] text-slate-600">알파 빌드 zip. 베타 빌드가 안 열리면 이걸로</p></div>
-      </div>
-      <div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa">
-        <div class="text-lg font-black mb-3">지킴이의 두 마디</div>
-        <div class="flex items-center gap-3 mb-2"><span class="no">1</span><p class="text-[16px] text-slate-700">「끝까지 해 보세요」</p></div>
-        <div class="flex items-center gap-3"><span class="no">2</span><p class="text-[16px] text-slate-700">「설문 QR이에요」</p></div>
-        <p class="text-[14.5px] text-slate-600 mt-3">알파 때 하던 「조작키는 이거예요」는 하지 않아요. 화면이 알려 줘야 해요. 테스터가 조작키를 물으면 「어떻게 하면 될 것 같아요?」 하고 되묻고 그 질문은 기록지에 적어요. 그 줄 하나하나가 D1 의 ✗ 예요</p>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="share">
-  <div class="max-w-5xl w-full">
-    <h2 class="text-4xl font-black mb-2">한 줄 공유</h2>
-    <p class="text-lg text-slate-500 mb-8">팀마다 한 사람이 이 틀로 말해요. 다른 팀은 다음 주에 이 게임을 할 테스터로 들어요</p>
-    <div class="glass-card rounded-3xl px-8 py-8 text-2xl font-black leading-[2.2] text-center">
-      「우리 베타 한 문장은 <span class="blank"></span>입니다.<br>알파에서 가장 많이 막힌 <span class="blank"></span>은(는) <span class="blank"></span>(으)로 고쳤고,<br>베타 설문 <span class="blank" style="min-width:60px"></span>번으로 통했는지 셉니다.」
-    </div>
-  </div>
-</section>
-<section class="slide wk" data-part="end">
-  <div class="max-w-6xl w-full">
-    <h2 class="text-4xl md:text-5xl font-black mb-8 text-center">마무리와 다음 주</h2>
-    <div class="grid md:grid-cols-3 gap-4">
-<div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa"><div class="text-[13px] font-black text-slate-400 mb-1">과제 · 11/24(화) 23:59</div><div class="text-xl font-black mb-1">「베타 설문 · 계획 제출」</div><p class="text-[15px] text-slate-600">팀원 중 한 명이 대표로 사이버캠퍼스 과제란에. 베타 설문 QR 이미지 첨부</p></div>
-<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">11/24 (화) · 베타 전날</div><div class="text-xl font-black mb-1">마지막 빌드 · 베타 점검표</div><p class="text-[15px] text-slate-600">빌드해서 두 대에서 압축 풀고 열기. exe 가 든 폴더를 통째로 zip 으로</p></div>
-<div class="soft-card rounded-2xl p-5" style="background:#fff7ed;border-color:#fed7aa"><div class="text-[13px] font-black text-slate-400 mb-1">13주차 · 11/25 · 베타 상호 테스트</div><div class="text-xl font-black mb-1">두 대 · 빌드 · QR · 기록지</div><p class="text-[15px] text-slate-600">진행은 알파와 같아요. 지킴이는 「끝까지 해 보세요」 「설문 QR이에요」 두 마디만</p></div>
-<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">이번 주 · 온라인 영상</div><div class="text-xl font-black mb-1">착착 감기는 게임 · 화면 퀄리티</div><p class="text-[15px] text-slate-600">피드백과 역분석, 무료로 반응 넣기 · 포스트 프로세싱 · 빛과 색 · 한글 글꼴</p></div>
-<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">오늘 · 팀 자료 보관</div><div class="text-xl font-black mb-1">오늘 빌드 zip</div><p class="text-[15px] text-slate-600">팀 공유 폴더에. 고치기 전 녹화도 같이</p></div>
-<div class="soft-card rounded-2xl p-5"><div class="text-[13px] font-black text-slate-400 mb-1">매주 · 개인</div><div class="text-xl font-black mb-1">「개인 기여 보고서」</div><p class="text-[15px] text-slate-600">내가 맡은 할 것 한 줄, 오늘 빌드 · 설문에서 한 일 한 줄</p></div>
-    </div>
-  </div>
-</section>
 
 </main>
 
@@ -1230,7 +1872,7 @@ const progressBar = document.getElementById("progress-bar");
 const currentSlideLabel = document.getElementById("current-slide");
 const totalSlidesLabel = document.getElementById("total-slides");
 const partLabel = document.getElementById("part-label");
-const PART_NAMES = {"0":"게임 개발 실습 · 12주차","order":"오늘 진행 순서","beta":"1 · 알파에서 베타로","scene":"2 · 씬 흐름 · 다시 시작","build":"3 · 빌드 · 넘겨주기","feel":"4 · 반응 하나 다듬기","survey":"5 · 베타 설문 · 점검표","task":"5 · 과제 · 팀 대표","ai":"하면 좋음 · AI 점검","day":"베타 날 준비","share":"한 줄 공유","end":"마무리"};
+const PART_NAMES = {"0":"게임 개발 실습 · 12주차","order":"오늘 목표와 순서","beta":"1 · 알파에서 베타로","fix":"2 · 알파 피드백 반영","ob":"3 · 처음 보는 사람이 혼자","feel":"4 · 게임 느낌","survey":"5 · 베타 설문 · 관찰","ai":"하면 좋음 · AI 점검","ready":"6 · 베타 빌드 점검","task":"과제 · 팀 대표","day":"6 · 베타 날 준비","share":"한 줄 공유","end":"마무리","apx":"부록 · 엔진 따라 하기","scene":"부록 · 씬 흐름 · 다시 시작","build":"부록 · 빌드 · 넘겨주기"};
 let currentSlide = 0, isAnimating = false, touchStartX = 0, touchStartY = 0;
 totalSlidesLabel.textContent = slides.length;
 
@@ -1324,5 +1966,176 @@ window.addEventListener("touchend",(e)=>{
 })();
 </script>
 
+<script>
+/* 12주차 — 게임 느낌 데모(켜고 끄는 타격 반응) · 소리 세 겹 버튼. 소리는 Web Audio 로 바로 만든다(파일 없음). */
+(function(){
+  var AC = null;
+  function ac(){
+    if (!AC) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; AC = new C(); }
+    if (AC.state === "suspended") AC.resume();
+    return AC;
+  }
+  function noiseBuf(c, sec){
+    var n = Math.floor(c.sampleRate * sec), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+    for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+  function env(c, g, t0, peak, dur){
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(peak, t0 + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  }
+  /* 앞 · 「딱」: 높은 잡음 아주 짧게 */
+  function layerT(c, t0, p){
+    var s = c.createBufferSource(); s.buffer = noiseBuf(c, 0.05);
+    var f = c.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 2500 * p;
+    var g = c.createGain(); env(c, g, t0, 0.55, 0.035);
+    s.connect(f); f.connect(g); g.connect(c.destination); s.start(t0); s.stop(t0 + 0.05);
+  }
+  /* 몸통 · 「퍽」: 낮은 음이 빠르게 내려감 */
+  function layerB(c, t0, p){
+    var o = c.createOscillator(); o.type = "triangle";
+    o.frequency.setValueAtTime(190 * p, t0); o.frequency.exponentialRampToValueAtTime(55 * p, t0 + 0.14);
+    var g = c.createGain(); env(c, g, t0, 0.9, 0.17);
+    o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0 + 0.2);
+  }
+  /* 꼬리 · 울림: 낮게 거른 잡음이 천천히 사라짐 */
+  function layerL(c, t0, p){
+    var s = c.createBufferSource(); s.buffer = noiseBuf(c, 0.45);
+    var f = c.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 700 * p;
+    var g = c.createGain(); env(c, g, t0 + 0.01, 0.22, 0.42);
+    s.connect(f); f.connect(g); g.connect(c.destination); s.start(t0); s.stop(t0 + 0.46);
+  }
+  function hit(kind, p, at){
+    var c = ac(); if (!c) return;
+    var t0 = c.currentTime + 0.01 + (at || 0); p = p || 1;
+    if (kind === "t") layerT(c, t0, p);
+    else if (kind === "b") layerB(c, t0, p);
+    else { layerT(c, t0, p); layerB(c, t0, p); layerL(c, t0, p); }
+  }
+  window.W12Hit = hit;
+  document.querySelectorAll("[data-snd]").forEach(function(b){
+    b.addEventListener("click", function(e){
+      e.stopPropagation();
+      var k = b.dataset.snd;
+      if (k === "same") { for (var i = 0; i < 3; i++) hit("all", 1, i * 0.32); }
+      else if (k === "vary") { var ps = [1, 0.9, 1.1]; for (var j = 0; j < 3; j++) hit("all", ps[j] * (0.97 + Math.random() * 0.06), j * 0.32); }
+      else hit(k, 1, 0);
+    });
+  });
+
+  /* ── 타격 데모 ── */
+  var cv = document.getElementById("fd-cv"); if (!cv) return;
+  var x = cv.getContext("2d"), sec = cv.closest("section");
+  var W = 800, H = 400, GY = 318, SZ = 64, PX0 = 170, EX0 = 520;
+  var on = {snd:false, flash:false, stop:false, knock:false, shake:false, part:false, squash:false, num:false};
+  var btns = document.querySelectorAll(".fd-t");
+  function paint(){ btns.forEach(function(b){ b.classList.toggle("on", !!on[b.dataset.k]); }); }
+  btns.forEach(function(b){ b.addEventListener("click", function(e){ e.stopPropagation(); on[b.dataset.k] = !on[b.dataset.k]; paint(); }); });
+  document.getElementById("fd-none").addEventListener("click", function(e){ e.stopPropagation(); for (var k in on) on[k] = false; paint(); });
+  document.getElementById("fd-all").addEventListener("click", function(e){ e.stopPropagation(); for (var k in on) on[k] = true; paint(); });
+
+  var px = PX0, phase = "idle", pt = 0;
+  var ex = EX0, evx = 0, hp = 1, hpLag = 1;
+  var flashT = 0, stopT = 0, trauma = 0, sq = 0, sqv = 0;
+  var parts = [], pops = [];
+
+  function impact(){
+    hp -= 0.2; if (hp < 0.01) hp = 1, hpLag = 1;
+    var cx = ex, cy = GY - SZ / 2;
+    if (on.snd) hit("all", 0.94 + Math.random() * 0.12, 0);
+    if (on.flash) flashT = 0.07;
+    if (on.stop) stopT = 0.09;
+    if (on.knock) evx = 780;
+    if (on.shake) trauma = 1;
+    if (on.squash) { sq = 1; sqv = 0; }
+    if (on.part) for (var i = 0; i < 20; i++) {
+      var a = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.3, v = 260 + Math.random() * 380;
+      parts.push({x: cx, y: cy, vx: Math.cos(a) * v + 120, vy: Math.sin(a) * v, life: 0.45 + Math.random() * 0.25, t: 0, r: 4 + Math.random() * 5});
+    }
+    if (on.num) pops.push({x: ex + SZ / 2, y: GY - SZ - 14, t: 0, s: String(10 + Math.floor(Math.random() * 9))});
+  }
+  document.getElementById("fd-go").addEventListener("click", function(e){
+    e.stopPropagation(); ac();
+    if (phase !== "idle") return;
+    phase = "lunge"; pt = 0;
+  });
+
+  function update(dt){
+    if (flashT > 0) flashT -= dt;
+    if (trauma > 0) trauma = Math.max(0, trauma - dt * 3.2);
+    if (stopT > 0) { stopT -= dt; return; }   /* 히트스톱: 움직임 · 파티클이 모두 멈춘다 */
+    pt += dt;
+    if (phase === "lunge") {
+      var k = Math.min(1, pt / 0.08); px = PX0 + (ex - SZ - 2 - PX0) * k * k;
+      if (k >= 1) { impact(); phase = "back"; pt = 0; }
+    } else if (phase === "back") {
+      var b = Math.min(1, pt / 0.22); px = (ex - SZ - 2) + (PX0 - (ex - SZ - 2)) * (1 - Math.pow(1 - b, 3));
+      if (b >= 1) { phase = "idle"; px = PX0; }
+    }
+    /* 넉백 · 되돌아감 */
+    ex += evx * dt; evx *= Math.pow(0.0009, dt);
+    if (Math.abs(evx) < 30) ex += (EX0 - ex) * Math.min(1, dt * 5);
+    /* 찌그러짐: 용수철 */
+    sqv += (-sq * 260 - sqv * 14) * dt; sq += sqv * dt;
+    hpLag += (hp - hpLag) * Math.min(1, dt * 4);
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var q = parts[i]; q.t += dt; q.vy += 1200 * dt; q.vx *= Math.pow(0.2, dt); q.x += q.vx * dt; q.y += q.vy * dt;
+      if (q.y > GY) { q.y = GY; q.vy *= -0.35; }
+      if (q.t > q.life) parts.splice(i, 1);
+    }
+    for (var j = pops.length - 1; j >= 0; j--) { pops[j].t += dt; if (pops[j].t > 0.7) pops.splice(j, 1); }
+  }
+  function rr(x0, y0, w, h, r){ x.beginPath(); x.moveTo(x0 + r, y0); x.arcTo(x0 + w, y0, x0 + w, y0 + h, r); x.arcTo(x0 + w, y0 + h, x0, y0 + h, r); x.arcTo(x0, y0 + h, x0, y0, r); x.arcTo(x0, y0, x0 + w, y0, r); x.closePath(); }
+  function draw(){
+    x.setTransform(1, 0, 0, 1, 0, 0);
+    x.fillStyle = "#0f172a"; x.fillRect(0, 0, W, H);
+    var s = trauma * trauma * 14;
+    x.translate((Math.random() * 2 - 1) * s, (Math.random() * 2 - 1) * s);
+    x.strokeStyle = "rgba(148,163,184,.08)"; x.lineWidth = 1;
+    for (var gx = -40; gx < W + 40; gx += 40) { x.beginPath(); x.moveTo(gx, -20); x.lineTo(gx, GY); x.stroke(); }
+    x.fillStyle = "#334155"; x.fillRect(-30, GY, W + 60, H - GY + 30);
+    x.fillStyle = "#64748b"; x.fillRect(-30, GY, W + 60, 4);
+    /* 플레이어 */
+    x.fillStyle = "#f97316"; rr(px, GY - SZ, SZ, SZ, 10); x.fill();
+    x.strokeStyle = "#fff7ed"; x.lineWidth = 4; x.stroke();
+    /* 적 (찌그러짐은 바닥 가운데 기준) */
+    var sx = 1 + 0.42 * sq, sy = 1 - 0.36 * sq, ew = SZ * sx, eh = SZ * sy;
+    var ex0 = ex + (SZ - ew) / 2;
+    x.fillStyle = flashT > 0 ? "#ffffff" : "#ef4444"; rr(ex0, GY - eh, ew, eh, 10); x.fill();
+    x.strokeStyle = flashT > 0 ? "#ffffff" : "#fecaca"; x.lineWidth = 4; x.stroke();
+    x.fillStyle = "#0f172a"; x.fillRect(ex0 + ew * 0.22, GY - eh * 0.68, 8, 10); x.fillRect(ex0 + ew * 0.62, GY - eh * 0.68, 8, 10);
+    /* 체력 막대 */
+    var bx = ex - 8, by = 92, bw = SZ + 16;
+    x.fillStyle = "#1e293b"; x.fillRect(bx, by, bw, 10);
+    x.fillStyle = "#fde68a"; x.fillRect(bx, by, bw * hpLag, 10);
+    x.fillStyle = "#22c55e"; x.fillRect(bx, by, bw * hp, 10);
+    /* 파티클 */
+    parts.forEach(function(q){ var a = 1 - q.t / q.life; x.globalAlpha = Math.max(0, a); x.fillStyle = q.r > 5 ? "#fde047" : "#fb923c"; x.fillRect(q.x - q.r / 2, q.y - q.r / 2, q.r, q.r); });
+    x.globalAlpha = 1;
+    /* 숫자 */
+    pops.forEach(function(o){
+      var k = o.t / 0.7, sc = k < 0.12 ? 0.6 + k / 0.12 * 0.8 : 1.4 - Math.min(0.4, (k - 0.12) * 1.2);
+      x.globalAlpha = Math.max(0, 1 - Math.max(0, k - 0.45) / 0.55);
+      x.font = "900 " + Math.round(28 * sc) + "px Pretendard, sans-serif"; x.textAlign = "center";
+      x.lineWidth = 6; x.strokeStyle = "#0f172a"; x.strokeText(o.s, o.x, o.y - k * 60);
+      x.fillStyle = "#fde047"; x.fillText(o.s, o.x, o.y - k * 60);
+    });
+    x.globalAlpha = 1;
+    x.setTransform(1, 0, 0, 1, 0, 0);
+    var list = []; ["snd", "flash", "stop", "knock", "shake", "part", "squash", "num"].forEach(function(k, i){ if (on[k]) list.push(["소리", "번쩍임", "히트스톱", "넉백", "흔들림", "파티클", "찌그러짐", "숫자"][i]); });
+    x.font = "800 18px Pretendard, sans-serif"; x.textAlign = "left"; x.fillStyle = "#94a3b8";
+    x.fillText(list.length ? "켠 것 · " + list.join(" · ") : "다 끔 · 체력 막대만 줄어요", 22, 36);
+  }
+  var last = performance.now();
+  function frame(now){
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!sec || sec.classList.contains("active")) { update(dt); draw(); }
+    requestAnimationFrame(frame);
+  }
+  paint(); draw(); requestAnimationFrame(frame);
+})();
+
+</script>
 </body>
 </html>
