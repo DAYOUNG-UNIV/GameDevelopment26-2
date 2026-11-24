@@ -917,6 +917,81 @@ a.lk:hover{background:#4f46e5;color:#fff}
 .trl-ax{display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#94a3b8;margin:4px 2px 12px}
 .trl-d{display:none;grid-template-columns:1fr 1fr;gap:12px}
 .trl-d.on{display:grid;animation:ngIn .3s ease}
+
+/* 3판 */
+.rec-line{position:relative;height:62px;margin:0 20px 6px}
+.rec-ax{position:absolute;left:0;right:0;top:40px;height:6px;border-radius:3px;background:#e2e8f0}
+.rec-ev{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer}
+.rec-ev b{font-size:13px;font-weight:900;color:#64748b;background:#fff;border:1.5px solid #cbd5e1;border-radius:999px;padding:2px 10px}
+.rec-ev::after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid #94a3b8;margin-top:1px}
+.rec-ev.done::after{border-color:#6366f1;background:#6366f1}
+.rec-ev.on b{background:#f97316;border-color:#f97316;color:#fff}
+.rec-ev.on::after{border-color:#f97316;background:#fff;box-shadow:0 0 0 4px #fed7aa}
+.rec-saw{min-height:54px;display:flex;align-items:center;font-size:16px;font-weight:700;color:#0f172a;margin-bottom:12px}
+.rec-s{display:none}.rec-s.on{display:inline}
+.rec-sheet{display:grid;grid-template-columns:.5fr 1fr .9fr 1.2fr 1.6fr 1.2fr 1.2fr .6fr 1.1fr;border:2px solid #0f172a;border-radius:14px;overflow:hidden;background:#fff}
+.rec-c{border-right:1px solid #cbd5e1;min-width:0}
+.rec-c:last-child{border-right:none}
+.rec-h{background:#f1f5f9;font-size:12.5px;font-weight:900;color:#334155;padding:6px 8px;border-bottom:1px solid #cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rec-v{min-height:74px;padding:8px;font-size:14.5px;font-weight:700;color:#1d4ed8;line-height:1.35;font-family:'Nanum Pen Script','Pretendard',sans-serif;transition:background .3s}
+.rec-c.new .rec-v{background:#fff7ed}
+.rec-c.new .rec-h{background:#f97316;color:#fff}
+
+.fn-box{display:none}.fn-box.on{display:block;animation:ngIn .35s ease}
+.fn-n{display:none}.fn-n.on{display:block}
+.fn-r{display:grid;grid-template-columns:130px 1fr 54px;gap:12px;align-items:center;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:8px 14px}
+.fn-l{font-weight:900;font-size:15px}
+.fn-r b{font-size:16px;text-align:right}
+.fn-dots{display:flex;gap:5px;flex-wrap:wrap}
+.fn-dots i{width:20px;height:20px;border-radius:50%;background:#e2e8f0}
+.fn-dots i.on{background:#6366f1}
+.fn-d{font-size:12.5px;font-weight:900;color:#94a3b8;padding:2px 0 2px 150px}
+.fn-d.worst{color:#c2410c;font-size:14px}
+.fn-d.worst::before{content:"▼ 가장 많이 떨어진 곳  "}
+
+.pr-g .hit{outline:3px solid #0f172a;outline-offset:1px;transform:scale(1.04)}
+.pr-ex{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.pr-ex button{display:flex;justify-content:space-between;gap:8px;align-items:center;text-align:left;font-size:13.5px;font-weight:800;border:1.5px solid #e2e8f0;border-radius:10px;padding:5px 10px;background:#fff;cursor:pointer;color:#0f172a}
+.pr-ex button span{font-size:12px;color:#64748b;white-space:nowrap}
+.pr-ex button.on{border-color:#0f172a;background:#f8fafc}
+
+.tsc{width:100%;height:100%;display:block}
+.tst-screen{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:4px solid #0f172a;background:#0f172a;max-height:38vh;margin:0 auto;width:100%}
+.tst-f{position:absolute;inset:0;display:none}
+.tst-f.on{display:block}
+.tst-f.on .shk2{animation:tshk .4s linear infinite}
+@keyframes tshk{0%,100%{transform:translate(0,0)}25%{transform:translate(-3px,2px)}50%{transform:translate(3px,-2px)}75%{transform:translate(-2px,-2px)}}
+.tst-info{background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:14px 18px}
+.tst-d{display:none}.tst-d.on{display:block}
+.tst-p{font-size:12.5px;font-weight:900;color:#fff;border-radius:999px;padding:2px 10px}
+.tst-d dl{display:grid;grid-template-columns:76px 1fr;gap:6px 10px;margin:0}
+.tst-d dt{font-size:13px;font-weight:900;color:#94a3b8;padding-top:2px}
+.tst-d dd{font-size:15.5px;font-weight:700;color:#0f172a;margin:0;line-height:1.4}
+.tst-d dd.why{color:#c2410c}
+.tst-strip{position:relative;display:flex;gap:3px;height:40px;margin-top:12px}
+.tst-b{border:none;border-radius:7px;background:var(--c);color:#fff;font-weight:900;font-size:13px;opacity:.4;cursor:pointer;min-width:0;padding:0}
+.tst-b.on{opacity:1;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--c)}
+.tst-ph{position:absolute;top:-4px;bottom:-46px;width:3px;background:#0f172a;left:0;border-radius:2px;pointer-events:none;display:none}
+#tst.playing .tst-ph{display:block}
+.tst-mu{width:100%;height:36px;display:block;margin-top:4px}
+.tst-lg{display:flex;gap:10px;align-items:center;font-size:12.5px;font-weight:800;color:#475569;margin-left:auto}
+.tst-lg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:-6px}
+
+.ap13{display:flex;flex-direction:column;gap:10px}
+.ap-h,.ap-r{display:grid;grid-template-columns:1fr 28px 1fr;gap:10px;align-items:stretch}
+.ap-h span{font-size:13px;font-weight:900;color:#94a3b8;padding-left:4px}
+.ap-a,.ap-b{border-radius:14px;padding:11px 14px;font-size:15px;font-weight:700;line-height:1.4}
+.ap-a{background:#f1f5f9;color:#334155}
+.ap-a i{color:#6366f1;margin-right:8px}
+.ap-b{background:#fff7ed;border:1.5px solid #fdba74;color:#0f172a}
+.ap-ar{align-self:center;color:#94a3b8}
+.ap-r.apno .ap-b{background:#fff;border-style:dashed;border-color:#94a3b8;color:#475569}
+.ap-r.apno .ap-a i{color:#94a3b8}
+.sl13{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:14.5px;color:#334155}
+.sl13 .no{width:28px;height:28px;font-size:13px;flex:0 0 28px}
+.sl13 small{display:block;font-size:12.5px;color:#64748b}
+a.gnk{display:inline-flex!important;align-items:center;line-height:1.5!important;height:auto!important;min-height:0!important;padding:2px 11px!important;font-size:13.5px;font-weight:800;color:#3730a3;background:#eef2ff;border:1px solid #c7d2fe;border-radius:999px;padding:2px 11px;text-decoration:none}
+a.gnk:hover{background:#e0e7ff}
 </style>
 </head>
 <body>
@@ -978,33 +1053,33 @@ a.lk:hover{background:#4f46e5;color:#fff}
     <div class="grid md:grid-cols-5 gap-3">
       <div class="soft-card rounded-2xl p-5 flex flex-col">
         <div class="text-5xl font-black text-dev-200 mb-2">1</div>
-        <div class="text-xl font-black mb-2">알파와 베타</div>
-        <p class="text-[15px] text-slate-600 mb-4">QuizN 으로 무엇이 달라지는지 먼저 풀어 봐요</p>
-        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-emerald-600 text-white">QuizN</span><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이</span></div>
-      </div>
-      <div class="soft-card rounded-2xl p-5 flex flex-col">
-        <div class="text-5xl font-black text-dev-200 mb-2">2</div>
-        <div class="text-xl font-black mb-2">자리 준비</div>
-        <p class="text-[15px] text-slate-600 mb-4">베타 빌드 2대, 베타 설문 QR, 베타 기록지, 역할</p>
-        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-dev-600 text-white">팀</span></div>
+        <div class="text-xl font-black mb-2">달라지는 것과 준비</div>
+        <p class="text-[15px] text-slate-600 mb-4">알파 날과 다른 5가지, 베타 빌드 2대, 베타 설문 QR, 기록지, 역할</p>
+        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이</span><span class="tagchip bg-dev-600 text-white">팀</span></div>
       </div>
       <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
-        <div class="text-5xl font-black text-flame-300 mb-2">3</div>
+        <div class="text-5xl font-black text-flame-300 mb-2">2</div>
         <div class="text-xl font-black mb-2">전반 테스트</div>
         <p class="text-[15px] text-slate-600 mb-4">가 지킴이, 나 테스터. 3라운드</p>
         <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이</span></div>
       </div>
       <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#fff7ed;border-color:#fed7aa">
-        <div class="text-5xl font-black text-flame-300 mb-2">4</div>
+        <div class="text-5xl font-black text-flame-300 mb-2">3</div>
         <div class="text-xl font-black mb-2">후반 테스트</div>
         <p class="text-[15px] text-slate-600 mb-4">역할을 바꿔서 나 지킴이, 가 테스터. 3라운드</p>
         <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이</span></div>
       </div>
       <div class="soft-card rounded-2xl p-5 flex flex-col" style="background:#eef2ff;border-color:#c7d2fe">
-        <div class="text-5xl font-black text-dev-200 mb-2">5</div>
+        <div class="text-5xl font-black text-dev-200 mb-2">4</div>
         <div class="text-xl font-black mb-2">결과와 버그</div>
         <p class="text-[15px] text-slate-600 mb-4">알파 숫자와 나란히 → 버그 묶기 → 심각성 → 14주차 할 일 → 과제</p>
         <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-dev-600 text-white">팀</span><span class="tagchip bg-flame-600 text-white">과제</span></div>
+      </div>
+      <div class="soft-card rounded-2xl p-5 flex flex-col">
+        <div class="text-5xl font-black text-dev-200 mb-2">5</div>
+        <div class="text-xl font-black mb-2">다음 주 트레일러</div>
+        <p class="text-[15px] text-slate-600 mb-4">예시 트레일러 장면 분석 → 개인 과제</p>
+        <div class="mt-auto flex flex-wrap gap-1.5"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">같이</span><span class="tagchip bg-flame-600 text-white">과제</span></div>
       </div>
     </div>
   </div>
@@ -1080,6 +1155,40 @@ a.lk:hover{background:#4f46e5;color:#fff}
 <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5"><i class="fa-solid fa-pen text-dev-600"></i> 기록 지킴이</div><p class="text-[14.5px] text-slate-600">한 사람에 한 줄. 처음 한 행동, 물어본 말, 시작과 끝 시각, 지도에 × ○</p></div>
         <p class="text-[14px] text-slate-500 px-1">해도 되는 말과 안 되는 말은 지난주에 골라 봤어요 (<a class="lk" href="https://dayoung-univ.github.io/GameDevelopment26-2/week12.html#36" target="_blank" rel="noopener">12주차 #36</a>)</p>
       </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="test">
+  <div class="max-w-7xl w-full">
+    <h2 class="text-4xl font-black mb-2">기록지 한 줄, 이렇게 적어요</h2>
+    <p class="text-lg text-slate-500 mb-4">테스터 한 명의 한 판이에요. 사건을 차례로 누르면 적을 칸이 채워져요</p>
+    <div id="rec" data-ev="[{&quot;no&quot;: &quot;3&quot;, &quot;tm&quot;: &quot;14:05 ~&quot;}, {&quot;first&quot;: &quot;마우스로 화면 클릭&quot;}, {&quot;ask&quot;: &quot;&#x27;점프 어떻게 해요?&#x27;&quot;}, {&quot;fix&quot;: &quot;✓ 3번째에 넘음&quot;}, {&quot;stuck&quot;: &quot;판 2 오른쪽 벽에 낌 → 다시 시작&quot;}, {&quot;say&quot;: &quot;&#x27;아, 아깝다&#x27; 웃음&quot;, &quot;far&quot;: &quot;판 2 끝&quot;, &quot;scene&quot;: &quot;✓&quot;, &quot;tm&quot;: &quot;14:05 ~ 14:09&quot;}]">
+      <div class="rec-line">
+        <span class="rec-ax"></span>
+        <button type="button" class="rec-ev" data-i="0" style="left:2%"><b>0:00</b></button>
+        <button type="button" class="rec-ev" data-i="1" style="left:10%"><b>0:08</b></button>
+        <button type="button" class="rec-ev" data-i="2" style="left:24%"><b>0:40</b></button>
+        <button type="button" class="rec-ev" data-i="3" style="left:44%"><b>1:30</b></button>
+        <button type="button" class="rec-ev" data-i="4" style="left:72%"><b>2:50</b></button>
+        <button type="button" class="rec-ev" data-i="5" style="left:96%"><b>3:40</b></button>
+      </div>
+      <div class="rec-saw soft-card rounded-2xl px-5 py-3"><span class="tagchip bg-slate-800 text-white mr-2">본 것</span><span class="rec-s" data-i="0">테스터가 앉아서 START 를 눌렀어요</span><span class="rec-s" data-i="1">방향키 대신 마우스로 화면을 여기저기 눌러 봤어요</span><span class="rec-s" data-i="2">'점프 어떻게 해요?' 하고 물었어요. 지킴이는 되물었어요</span><span class="rec-s" data-i="3">알파에서 가장 많이 막힌 첫 높은 발판. 2번 떨어지고 3번째에 넘었어요</span><span class="rec-s" data-i="4">판 2 오른쪽 벽에 붙어 점프하다 벽 속에 끼었어요. 처음부터 다시 했어요</span><span class="rec-s" data-i="5">판 2 끝에서 게임 오버. '아, 아깝다' 하고 웃었어요. 코인을 낚아채는 장면은 나왔어요</span><span class="rec-s on" data-i="-1">아래 기록지는 아직 비어 있어요</span></div>
+      <div class="rec-sheet">
+        <div class="rec-c" data-k="no"><div class="rec-h">번호</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="tm"><div class="rec-h">시작과 끝 시각</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="far"><div class="rec-h">어디까지</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="first"><div class="rec-h">처음 한 행동</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="stuck"><div class="rec-h">막힌 곳, 그때 한 것</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="ask"><div class="rec-h">물어본 말</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="say"><div class="rec-h">말, 표정</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="scene"><div class="rec-h">장면</div><div class="rec-v"></div></div>
+        <div class="rec-c" data-k="fix"><div class="rec-h">고친 곳</div><div class="rec-v"></div></div>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 mt-4">
+      <button type="button" class="ib" data-rec-play><i class="fa-solid fa-play"></i>한 판 보기</button>
+      <button type="button" class="ib" data-rec-reset><i class="fa-solid fa-rotate-left"></i>다시</button>
+      <span class="text-[14.5px] text-slate-600">'어려워함', '잘 못함'처럼 느낌으로 적지 않아요. <b>본 행동과 들은 말 그대로</b> 적어요. 죽은 곳은 뒷면 지도에 ×</span>
     </div>
   </div>
 </section>
@@ -1177,6 +1286,45 @@ a.lk:hover{background:#4f46e5;color:#fff}
     </div>
   </div>
 </section>
+<section class="slide wk" data-part="read">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">예시 · 코인 러너</span></div>
+    <h2 class="text-4xl font-black mb-2">어디까지 갔나</h2>
+    <p class="text-lg text-slate-500 mb-4">기록지 '어디까지' 칸을 세면 테스터가 떨어져 나간 곳이 보여요</p>
+    <div class="grid md:grid-cols-[1.5fr_1fr] gap-5 items-start" id="fn">
+      <div>
+        <div class="flex gap-2 mb-3"><button type="button" class="ib" data-fn="a">알파 15명</button><button type="button" class="ib on" data-fn="b">베타 12명</button></div>
+        <div class="fn-box" data-k="a">
+<div class="fn-r"><span class="fn-l">시작</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b>15명</b></div>
+<div class="fn-d worst">−9명</div>
+<div class="fn-r"><span class="fn-l">판 1 클리어</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>6명</b></div>
+<div class="fn-d">−3명</div>
+<div class="fn-r"><span class="fn-l">판 2 클리어</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>3명</b></div>
+<div class="fn-d">−2명</div>
+<div class="fn-r"><span class="fn-l">보스 방 도착</span><span class="fn-dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>1명</b></div>
+<div class="fn-d">−1명</div>
+<div class="fn-r"><span class="fn-l">끝까지 클리어</span><span class="fn-dots"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>0명</b></div>
+        </div>
+        <div class="fn-box on" data-k="b">
+<div class="fn-r"><span class="fn-l">시작</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><b>12명</b></div>
+<div class="fn-d">−2명</div>
+<div class="fn-r"><span class="fn-l">판 1 클리어</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><b>10명</b></div>
+<div class="fn-d worst">−4명</div>
+<div class="fn-r"><span class="fn-l">판 2 클리어</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>6명</b></div>
+<div class="fn-d">−1명</div>
+<div class="fn-r"><span class="fn-l">보스 방 도착</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>5명</b></div>
+<div class="fn-d">−2명</div>
+<div class="fn-r"><span class="fn-l">끝까지 클리어</span><span class="fn-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><b>3명</b></div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-3">
+        <div class="soft-card rounded-2xl px-5 py-4" style="background:#fff7ed;border-color:#fed7aa"><div class="font-black mb-1">읽어 보면</div><p class="text-[15px] text-slate-700 fn-n" data-k="a">알파: 시작하고 판 1 을 넘지 못한 사람이 9명. 첫 높은 발판에서 막혔어요. 그래서 베타까지 그곳을 고쳤어요</p><p class="text-[15px] text-slate-700 fn-n on" data-k="b">베타: 판 1 은 12명 중 10명이 넘었어요. 이제 가장 많이 떨어진 곳은 판 2, 4명. 기록지 '막힌 곳'을 보면 벽 끼임이에요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">가장 많이 떨어진 곳부터</div><p class="text-[14.5px] text-slate-600">주황색 줄이 먼저 볼 곳이에요. 이유는 기록지 막힌 곳 칸과 뒷면 지도에 있어요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">우리 팀도 이렇게</div><p class="text-[14.5px] text-slate-600">기록지 두 장의 '어디까지'를 판마다 세요. 종이에 점으로 그려도 돼요</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="slide wk" data-part="bug">
   <div class="max-w-7xl w-full">
     <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-dev-600 text-white">팀 활동</span></div>
@@ -1242,14 +1390,19 @@ a.lk:hover{background:#4f46e5;color:#fff}
         <div class="soft-card rounded-2xl p-4">
           <div class="pr-g">
             <div class="h"></div><div class="h">테스터 3분의 1 이상</div><div class="h">그보다 적게</div>
-            <div class="r">Blocker</div><div class="p1">P1</div><div class="p1">P1</div>
-            <div class="r">Major</div><div class="p1">P1</div><div class="p2">P2</div>
-            <div class="r">Minor</div><div class="p2">P2</div><div class="p3">P3</div>
+            <div class="r">Blocker</div><div class="p1" data-c="b1">P1</div><div class="p1" data-c="b0">P1</div>
+            <div class="r">Major</div><div class="p1" data-c="m1">P1</div><div class="p2" data-c="m0">P2</div>
+            <div class="r">Minor</div><div class="p2" data-c="n1">P2</div><div class="p3" data-c="n0">P3</div>
           </div>
-          <p class="text-[13.5px] text-slate-500 mt-2">자세한 표는 <a class="lk" href="https://dayoung-univ.github.io/GameDevelopment26-2/week12.html#11" target="_blank" rel="noopener">12주차 #11</a></p>
+          <div class="pr-ex">
+            <button type="button" data-c="b1">[판 2] 벽 속에 낀다<span>Blocker, 12명 중 4명</span></button>
+            <button type="button" data-c="b0">[보스 방] 문이 안 열린다<span>Blocker, 12명 중 2명</span></button>
+            <button type="button" data-c="m0">[RETRY] 점수가 0 이 안 된다<span>Major, 12명 중 2명</span></button>
+            <button type="button" data-c="n0">[Title] START 글자가 잘린다<span>Minor, 12명 중 1명</span></button>
+          </div>
+          <p class="text-[13.5px] text-slate-500 mt-2">버그를 누르면 칸이 켜져요. 자세한 표는 <a class="lk" href="https://dayoung-univ.github.io/GameDevelopment26-2/week12.html#11" target="_blank" rel="noopener">12주차 #11</a></p>
         </div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">14주차에 고칠 것</div><p class="text-[14.5px] text-slate-600"><span class="gl" tabindex="0" data-gl="우선순위 1. 가장 먼저 고칠 것. P2 는 남는 시간에, P3 는 시간이 남으면.">P1</span> 은 전부. P2 는 남는 칸만큼. 새 기능은 넣지 않아요</p></div>
-<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">'못 고친 것'</div><p class="text-[14.5px] text-slate-600">P3 와 손대지 못한 P2 는 지우지 않고 이유와 함께 남겨요. 15주차 회고에 써요</p></div>
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">14주차에 고칠 것</div><p class="text-[14.5px] text-slate-600"><span class="gl" tabindex="0" data-gl="우선순위 1. 가장 먼저 고칠 것. P2 는 남는 시간에, P3 는 시간이 남으면.">P1</span> 은 전부, P2 는 남는 칸만큼. P3 와 손대지 못한 P2 는 '못 고친 것'에 이유와 함께 남겨요</p></div>
       </div>
       <div class="cp">
         <div class="cp-bar"><span><i class="fa-solid fa-table"></i> 버그 시트 첫 줄 · 구글 시트 A1 에 붙여 넣기</span><button class="cp-btn" type="button" data-copy="cp-sheet"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
@@ -1318,7 +1471,7 @@ a.lk:hover{background:#4f46e5;color:#fff}
   <div class="max-w-7xl w-full">
     <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-flame-600 text-white">과제 · 팀원 중 한 명이 대표로 · 11/25(수) 23:59</span></div>
     <h2 class="text-4xl font-black mb-2">베타 테스트 결과 · 버그 목록</h2>
-    <p class="text-lg text-slate-500 mb-5">팀 노트북에서 이 장(주소 끝 <span class="mono">#14</span>)을 열어 복사하고 사이버캠퍼스 과제란에 붙여 넣어요</p>
+    <p class="text-lg text-slate-500 mb-5">팀 노트북에서 이 장(주소 끝 <span class="mono">#16</span>)을 열어 복사하고 사이버캠퍼스 과제란에 붙여 넣어요</p>
     <div class="grid md:grid-cols-[1.2fr_1fr] gap-5 items-start">
       <div class="cp">
         <div class="cp-bar"><span><i class="fa-solid fa-file-lines"></i> 과제란에 붙여 넣을 글</span><button class="cp-btn" type="button" data-copy="cp-task"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
@@ -1394,13 +1547,13 @@ a.lk:hover{background:#4f46e5;color:#fff}
   <div class="max-w-6xl w-full">
     <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">14주차 미리 보기</span></div>
     <h2 class="text-4xl font-black mb-2">다음 주는 트레일러</h2>
-    <p class="text-lg text-slate-500 mb-4">60초짜리 예시 트레일러를 구간으로 나눠 봐요. 구간을 눌러 보세요</p>
+    <p class="text-lg text-slate-500 mb-4">60초짜리 트레일러를 구간으로 나누면 이래요. 구간을 눌러 보세요</p>
     <div id="trl">
       <div class="trl-bar">
         <button type="button" class="trl-seg on" data-i="0" style="flex:5;--c:#f97316"><b>Hook</b><span>0 ~ 5초</span></button>
         <button type="button" class="trl-seg" data-i="1" style="flex:15;--c:#6366f1"><b>핵심 조작</b><span>5 ~ 20초</span></button>
         <button type="button" class="trl-seg" data-i="2" style="flex:20;--c:#10b981"><b>넓히기</b><span>20 ~ 40초</span></button>
-        <button type="button" class="trl-seg" data-i="3" style="flex:12;--c:#ec4899"><b>절정</b><span>40 ~ 52초</span></button>
+        <button type="button" class="trl-seg" data-i="3" style="flex:12;--c:#ec4899"><b>클라이맥스</b><span>40 ~ 52초</span></button>
         <button type="button" class="trl-seg" data-i="4" style="flex:8;--c:#0f172a"><b>제목</b><span>52 ~ 60초</span></button>
       </div>
       <div class="trl-ax"><span>0초</span><span>60초</span></div>
@@ -1430,6 +1583,141 @@ a.lk:hover{background:#4f46e5;color:#fff}
 <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">소리 없이 보는 사람이 많아요</div><p class="text-[14.5px] text-slate-600">상점 페이지 영상은 소리 없이 자동 재생될 때가 많아요. 화면만 봐도 알게 만들어요</p></div>
 <div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">재료는 우리 플레이 화면</div><p class="text-[14.5px] text-slate-600">오늘 녹화한 장면, 다음 주 Unity Recorder 로 찍을 장면이 컷이 돼요</p></div>
     </div>
+  </div>
+</section>
+<section class="slide wk" data-part="next">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">예시 · 12컷</span></div>
+    <h2 class="text-4xl font-black mb-2">예시로 보는 장면 분석</h2>
+    <p class="text-lg text-slate-500 mb-3">가상의 '코인 러너' 트레일러 45초를 컷마다 나눴어요. 컷을 누르거나 재생해 보세요</p>
+    <div id="tst" data-total="45">
+      <div class="grid md:grid-cols-[1fr_1.1fr] gap-5 items-stretch">
+        <div class="tst-screen">
+          <div class="tst-f on" data-i="0"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#bae6fd"/><rect y="74" width="160" height="16" fill="#65a30d"/><circle cx="92" cy="44" r="6" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><rect x="40" y="40" width="16" height="16" rx="2" fill="#dc2626"/><rect x="104" y="26" width="16" height="16" rx="2" fill="#dc2626"/><rect x="112" y="58" width="16" height="16" rx="2" fill="#dc2626"/><rect x="66" y="44" width="20" height="20" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="1"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#bae6fd"/><rect width="160" height="90" fill="#0f172a" opacity="1"/><text x="80" y="48" text-anchor="middle" font-family="Pretendard,sans-serif" font-weight="900" font-size="20" fill="#fff">COIN RUNNER</text></svg></div>
+          <div class="tst-f" data-i="2"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#bae6fd"/><rect y="74" width="160" height="16" fill="#65a30d"/><circle cx="70" cy="60" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><circle cx="84" cy="60" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><circle cx="98" cy="60" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><rect x="40" y="62" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/><rect x="0" y="0" width="160" height="20" fill="#0f172a" opacity=".55"/><text x="80" y="14" text-anchor="middle" font-family="Pretendard,sans-serif" font-weight="900" font-size="11" fill="#fff">달리고</text></svg></div>
+          <div class="tst-f" data-i="3"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#bae6fd"/><rect y="74" width="160" height="16" fill="#65a30d"/><rect x="84" y="50" width="30" height="6" rx="2" fill="#78350f"/><rect x="60" y="63" width="11" height="11" rx="2" fill="#dc2626"/><rect x="96" y="63" width="11" height="11" rx="2" fill="#dc2626"/><rect x="58" y="36" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/><rect x="0" y="0" width="160" height="20" fill="#0f172a" opacity=".55"/><text x="80" y="14" text-anchor="middle" font-family="Pretendard,sans-serif" font-weight="900" font-size="11" fill="#fff">피하고</text></svg></div>
+          <div class="tst-f" data-i="4"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#bae6fd"/><rect y="74" width="160" height="16" fill="#65a30d"/><circle cx="96" cy="50" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><rect x="52" y="63" width="11" height="11" rx="2" fill="#dc2626"/><rect x="112" y="38" width="11" height="11" rx="2" fill="#dc2626"/><rect x="70" y="50" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/><rect x="0" y="0" width="160" height="20" fill="#0f172a" opacity=".55"/><text x="80" y="14" text-anchor="middle" font-family="Pretendard,sans-serif" font-weight="900" font-size="11" fill="#fff">낚아채라</text></svg></div>
+          <div class="tst-f" data-i="5"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#1e293b"/><circle cx="132" cy="18" r="9" fill="#fef9c3"/><g fill="#fff" opacity=".7"><circle cx="20" cy="14" r="1"/><circle cx="60" cy="24" r="1"/><circle cx="96" cy="10" r="1"/></g><rect y="74" width="160" height="16" fill="#334155"/><rect x="60" y="48" width="28" height="6" rx="2" fill="#78350f"/><circle cx="70" cy="40" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><circle cx="120" cy="56" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><rect x="90" y="63" width="11" height="11" rx="2" fill="#dc2626"/><rect x="36" y="62" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="6"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#fed7aa"/><rect y="74" width="160" height="16" fill="#b45309"/><rect x="40" y="42" width="30" height="6" rx="2" fill="#78350f"/><rect x="88" y="34" width="30" height="6" rx="2" fill="#78350f"/><rect x="120" y="52" width="28" height="6" rx="2" fill="#78350f"/><circle cx="98" cy="24" r="4" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><rect x="48" y="30" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="7"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#312e81"/><rect y="74" width="160" height="16" fill="#1e1b4b"/><rect x="100" y="26" width="44" height="48" rx="6" fill="#7c3aed"/><circle cx="113" cy="44" r="4" fill="#fff"/><circle cx="131" cy="44" r="4" fill="#fff"/><rect x="110" y="58" width="24" height="5" fill="#1e1b4b"/><rect x="24" y="62" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="8"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#312e81"/><rect y="74" width="160" height="16" fill="#1e1b4b"/><rect x="54" y="50" width="11" height="11" rx="2" fill="#dc2626"/><rect x="100" y="26" width="44" height="48" rx="6" fill="#7c3aed"/><circle cx="113" cy="44" r="4" fill="#fff"/><circle cx="131" cy="44" r="4" fill="#fff"/><rect x="110" y="58" width="24" height="5" fill="#1e1b4b"/><rect x="70" y="40" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="9"><svg viewBox="0 0 160 90" class="tsc shk2" aria-hidden="true"><rect width="160" height="90" fill="#7f1d1d"/><rect y="74" width="160" height="16" fill="#450a0a"/><rect x="100" y="26" width="44" height="48" rx="6" fill="#7c3aed"/><circle cx="113" cy="44" r="4" fill="#fff"/><circle cx="131" cy="44" r="4" fill="#fff"/><rect x="110" y="58" width="24" height="5" fill="#1e1b4b"/><rect x="60" y="58" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="10"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#312e81"/><rect y="74" width="160" height="16" fill="#1e1b4b"/><circle cx="112" cy="14" r="6" fill="#facc15" stroke="#a16207" stroke-width="1.5"/><rect x="100" y="26" width="44" height="48" rx="6" fill="#7c3aed"/><circle cx="113" cy="44" r="4" fill="#fff"/><circle cx="131" cy="44" r="4" fill="#fff"/><rect x="110" y="58" width="24" height="5" fill="#1e1b4b"/><rect x="84" y="14" width="20" height="20" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/></svg></div>
+          <div class="tst-f" data-i="11"><svg viewBox="0 0 160 90" class="tsc" aria-hidden="true"><rect width="160" height="90" fill="#312e81"/><rect y="74" width="160" height="16" fill="#1e1b4b"/><rect x="100" y="26" width="44" height="48" rx="6" fill="#7c3aed"/><circle cx="113" cy="44" r="4" fill="#fff"/><circle cx="131" cy="44" r="4" fill="#fff"/><rect x="110" y="58" width="24" height="5" fill="#1e1b4b"/><rect x="84" y="14" width="12" height="12" rx="3" fill="#f97316" stroke="#0f172a" stroke-width="1.5"/><rect width="160" height="90" fill="#0f172a" opacity=".55"/><text x="80" y="44" text-anchor="middle" font-family="Pretendard,sans-serif" font-weight="900" font-size="20" fill="#fff">COIN RUNNER</text><text x="80" y="62" text-anchor="middle" font-family="Pretendard,sans-serif" font-weight="800" font-size="9" fill="#fdba74">지금 플레이 · 팀 코인</text></svg></div>
+        </div>
+        <div class="tst-info">
+          <div class="tst-d on" data-i="0">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#f97316">Hook</span><b class="text-[17px]">컷 1 / 12</b><span class="text-[14px] text-slate-500">0 ~ 3초, 3초짜리</span></div>
+            <dl><dt>화면</dt><dd>적 3마리 사이로 코인을 낚아채는 순간. 가까이, 느리게</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>코인 소리 '딩' 하나, 그 뒤에 음악이 시작돼요</dd><dt>노리는 것</dt><dd class="why">핵심 재미를 첫 화면에. 로고는 그다음</dd></dl>
+          </div>
+          <div class="tst-d" data-i="1">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#f97316">Hook</span><b class="text-[17px]">컷 2 / 12</b><span class="text-[14px] text-slate-500">3 ~ 5초, 2초짜리</span></div>
+            <dl><dt>화면</dt><dd>게임 이름만 잠깐</dd><dt>글자</dt><dd>COIN RUNNER</dd><dt>소리</dt><dd>음악 첫 박자</dd><dt>노리는 것</dt><dd class="why">이름은 짧게 알려 주고 바로 게임 화면으로</dd></dl>
+          </div>
+          <div class="tst-d" data-i="2">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#6366f1">핵심 조작</span><b class="text-[17px]">컷 3 / 12</b><span class="text-[14px] text-slate-500">5 ~ 10초, 5초짜리</span></div>
+            <dl><dt>화면</dt><dd>달리면서 코인 3개를 연달아 먹어요</dd><dt>글자</dt><dd>달리고</dd><dt>소리</dt><dd>코인 소리 3번, 음악</dd><dt>노리는 것</dt><dd class="why">주 행동 하나를 한 컷에</dd></dl>
+          </div>
+          <div class="tst-d" data-i="3">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#6366f1">핵심 조작</span><b class="text-[17px]">컷 4 / 12</b><span class="text-[14px] text-slate-500">10 ~ 15초, 5초짜리</span></div>
+            <dl><dt>화면</dt><dd>적 위로 이중 점프</dd><dt>글자</dt><dd>피하고</dd><dt>소리</dt><dd>점프 소리, 음악</dd><dt>노리는 것</dt><dd class="why">두 번째 행동. 글자는 한 낱말</dd></dl>
+          </div>
+          <div class="tst-d" data-i="4">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#6366f1">핵심 조작</span><b class="text-[17px]">컷 5 / 12</b><span class="text-[14px] text-slate-500">15 ~ 20초, 5초짜리</span></div>
+            <dl><dt>화면</dt><dd>적 사이를 지나며 코인. 점수가 올라가요</dd><dt>글자</dt><dd>낚아채라</dd><dt>소리</dt><dd>코인 소리와 점수 오르는 소리</dd><dt>노리는 것</dt><dd class="why">세 낱말로 무엇을 하는 게임인지 끝</dd></dl>
+          </div>
+          <div class="tst-d" data-i="5">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#10b981">넓히기</span><b class="text-[17px]">컷 6 / 12</b><span class="text-[14px] text-slate-500">20 ~ 26초, 6초짜리</span></div>
+            <dl><dt>화면</dt><dd>판 2. 밤 배경, 새 적</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>음악이 한 단계 커져요</dd><dt>노리는 것</dt><dd class="why">같은 재미가 다른 곳에서도</dd></dl>
+          </div>
+          <div class="tst-d" data-i="6">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#10b981">넓히기</span><b class="text-[17px]">컷 7 / 12</b><span class="text-[14px] text-slate-500">26 ~ 31초, 5초짜리</span></div>
+            <dl><dt>화면</dt><dd>판 3. 움직이는 발판 위에서 코인</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>음악</dd><dt>노리는 것</dt><dd class="why">판이 여러 개라는 것. 비슷한 장면은 넣지 않아요</dd></dl>
+          </div>
+          <div class="tst-d" data-i="7">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#ec4899">클라이맥스</span><b class="text-[17px]">컷 8 / 12</b><span class="text-[14px] text-slate-500">31 ~ 33초, 2초짜리</span></div>
+            <dl><dt>화면</dt><dd>보스 등장</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>음악이 가장 커지고 쿵</dd><dt>노리는 것</dt><dd class="why">컷이 2초로 짧아져요</dd></dl>
+          </div>
+          <div class="tst-d" data-i="8">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#ec4899">클라이맥스</span><b class="text-[17px]">컷 9 / 12</b><span class="text-[14px] text-slate-500">33 ~ 35초, 2초짜리</span></div>
+            <dl><dt>화면</dt><dd>보스의 공격을 아슬아슬하게 피함</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>박자에 맞춰 컷</dd><dt>노리는 것</dt><dd class="why">가장 아슬아슬한 순간</dd></dl>
+          </div>
+          <div class="tst-d" data-i="9">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#ec4899">클라이맥스</span><b class="text-[17px]">컷 10 / 12</b><span class="text-[14px] text-slate-500">35 ~ 37초, 2초짜리</span></div>
+            <dl><dt>화면</dt><dd>맞아서 화면이 흔들려요</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>맞는 소리</dd><dt>노리는 것</dt><dd class="why">위험하다는 것도 보여 줘요</dd></dl>
+          </div>
+          <div class="tst-d" data-i="10">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#ec4899">클라이맥스</span><b class="text-[17px]">컷 11 / 12</b><span class="text-[14px] text-slate-500">37 ~ 39초, 2초짜리</span></div>
+            <dl><dt>화면</dt><dd>보스 머리 위 마지막 코인으로 뛰어요</dd><dt>글자</dt><dd>없음</dd><dt>소리</dt><dd>음악이 뚝 끊겨요</dd><dt>노리는 것</dt><dd class="why">결과는 보여 주지 않고 끊어요</dd></dl>
+          </div>
+          <div class="tst-d" data-i="11">
+            <div class="flex items-center gap-2 mb-2"><span class="tst-p" style="background:#0f172a">제목</span><b class="text-[17px]">컷 12 / 12</b><span class="text-[14px] text-slate-500">39 ~ 45초, 6초짜리</span></div>
+            <dl><dt>화면</dt><dd>게임 이름, 한 줄, 팀 이름</dd><dt>글자</dt><dd>COIN RUNNER, 지금 플레이, 팀 코인</dd><dt>소리</dt><dd>코인 소리 '딩'</dd><dt>노리는 것</dt><dd class="why">처음과 같은 소리로 끝</dd></dl>
+          </div>
+        </div>
+      </div>
+      <div class="tst-strip">
+        <button type="button" class="tst-b on" data-i="0" data-a="0" data-b="3" style="flex:3;--c:#f97316">1</button>
+        <button type="button" class="tst-b" data-i="1" data-a="3" data-b="5" style="flex:2;--c:#f97316">2</button>
+        <button type="button" class="tst-b" data-i="2" data-a="5" data-b="10" style="flex:5;--c:#6366f1">3</button>
+        <button type="button" class="tst-b" data-i="3" data-a="10" data-b="15" style="flex:5;--c:#6366f1">4</button>
+        <button type="button" class="tst-b" data-i="4" data-a="15" data-b="20" style="flex:5;--c:#6366f1">5</button>
+        <button type="button" class="tst-b" data-i="5" data-a="20" data-b="26" style="flex:6;--c:#10b981">6</button>
+        <button type="button" class="tst-b" data-i="6" data-a="26" data-b="31" style="flex:5;--c:#10b981">7</button>
+        <button type="button" class="tst-b" data-i="7" data-a="31" data-b="33" style="flex:2;--c:#ec4899">8</button>
+        <button type="button" class="tst-b" data-i="8" data-a="33" data-b="35" style="flex:2;--c:#ec4899">9</button>
+        <button type="button" class="tst-b" data-i="9" data-a="35" data-b="37" style="flex:2;--c:#ec4899">10</button>
+        <button type="button" class="tst-b" data-i="10" data-a="37" data-b="39" style="flex:2;--c:#ec4899">11</button>
+        <button type="button" class="tst-b" data-i="11" data-a="39" data-b="45" style="flex:6;--c:#0f172a">12</button>
+        <span class="tst-ph"></span>
+      </div>
+      <svg class="tst-mu" viewBox="0 0 450 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 L0,36 L30,34 L50,26 L200,24 L210,16 L310,14 L315,4 L390,3 L392,38 L450,36 L450,40 Z" fill="#c7d2fe"/></svg>
+      <div class="flex flex-wrap items-center gap-3 mt-1">
+        <button type="button" class="ib" data-tst-play><i class="fa-solid fa-play"></i><span>재생</span></button>
+        <span class="text-[13.5px] text-slate-500">컷의 너비가 길이예요. 아래 보라색은 음악 크기. 뒤로 갈수록 컷이 짧아지고 음악이 커져요</span>
+        <span class="tst-lg"><i style="background:#f97316"></i>Hook<i style="background:#6366f1"></i>핵심 조작<i style="background:#10b981"></i>넓히기<i style="background:#ec4899"></i>클라이맥스<i style="background:#0f172a"></i>제목</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="next">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">예시 · 코인 러너 팀</span></div>
+    <h2 class="text-4xl font-black mb-2">분석에서 우리 트레일러로</h2>
+    <p class="text-lg text-slate-500 mb-4">과제의 마지막 칸 '우리 팀에 적용할 것'은 이렇게 써요</p>
+    <div class="grid md:grid-cols-[1.5fr_1fr] gap-5 items-start">
+      <div class="ap13">
+        <div class="ap-h"><span>영상에서 본 것</span><span></span><span>우리 팀에 적용</span></div>
+        <div class="ap-r"><div class="ap-a"><i class="fa-solid fa-bolt"></i>첫 3초가 로고가 아니라 가장 아슬아슬한 장면이었다</div><i class="fa-solid fa-arrow-right ap-ar"></i><div class="ap-b">우리 첫 5초: 보스 앞에서 마지막 코인을 낚아채는 장면</div></div>
+        <div class="ap-r"><div class="ap-a"><i class="fa-solid fa-font"></i>조작을 한 낱말 글자 3개로 나눠 한 컷씩 보여 줬다</div><i class="fa-solid fa-arrow-right ap-ar"></i><div class="ap-b">우리도 조작마다 한 컷. 글자는 한 컷에 3낱말 이하</div></div>
+        <div class="ap-r"><div class="ap-a"><i class="fa-solid fa-music"></i>클라이맥스에서 컷이 2초로 짧아지고 음악 박자에 맞았다</div><i class="fa-solid fa-arrow-right ap-ar"></i><div class="ap-b">보스전 컷 4개를 2초씩. 음악을 먼저 고르고 박자에 자르기</div></div>
+        <div class="ap-r apno"><div class="ap-a"><i class="fa-solid fa-ban"></i>판마다 긴 스토리 자막이 나왔다 (다른 영상에서 본 것)</div><i class="fa-solid fa-arrow-right ap-ar"></i><div class="ap-b">하지 않을 것: 우리 게임은 이야기가 없어서 자막 설명은 빼기</div></div>
+      </div>
+      <div class="soft-card rounded-2xl p-5">
+        <div class="font-black text-[17px] mb-1">찍어 둘 장면 3개</div>
+        <p class="text-[13.5px] text-slate-500 mb-3">어느 판, 무슨 순간, 어떻게 찍을지</p>
+        <div class="sl13"><span class="no">1</span><div><b>판 1</b> 코인 3개를 연달아 먹는 달리기<small>성공할 때까지 여러 번</small></div></div>
+        <div class="sl13"><span class="no">2</span><div><b>판 2</b> 적 2마리 사이 이중 점프<small>UI 가 보이게 한 번, 안 보이게 한 번</small></div></div>
+        <div class="sl13"><span class="no">3</span><div><b>보스 방</b> 마지막 코인으로 뛰는 순간<small>맞는 장면도 따로 한 번</small></div></div>
+        <p class="text-[13.5px] text-slate-500 mt-3">오늘 베타에서 테스터가 웃거나 소리를 낸 순간이 있었다면 그 장면부터 넣어요</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="next">
+  <div class="max-w-6xl w-full">
+    <h2 class="text-4xl font-black mb-2">장르별로 찾아볼 영상</h2>
+    <p class="text-lg text-slate-500 mb-4">이름을 누르면 Steam 검색이 열려요. 상점 페이지 맨 위 영상이 트레일러예요</p>
+    <div class="grid md:grid-cols-3 gap-3">
+      <div class="soft-card rounded-2xl px-5 py-4"><div class="font-black text-[17px] mb-2"><i class="fa-solid fa-person-running text-dev-600 mr-2"></i>2D 플랫포머</div><div class="flex flex-wrap gap-2 mb-2"><a class="gnk" href="https://store.steampowered.com/search/?term=Celeste" target="_blank" rel="noopener">Celeste</a><a class="gnk" href="https://store.steampowered.com/search/?term=Hollow%20Knight" target="_blank" rel="noopener">Hollow Knight</a></div><p class="text-[14px] text-slate-600"><b class="text-flame-600">볼 것</b> 조작 장면이 몇 초에 처음 나오나. 판이 몇 곳 나오나</p></div>
+      <div class="soft-card rounded-2xl px-5 py-4"><div class="font-black text-[17px] mb-2"><i class="fa-solid fa-skull text-dev-600 mr-2"></i>로그라이크, 액션</div><div class="flex flex-wrap gap-2 mb-2"><a class="gnk" href="https://store.steampowered.com/search/?term=Hades" target="_blank" rel="noopener">Hades</a><a class="gnk" href="https://store.steampowered.com/search/?term=Vampire%20Survivors" target="_blank" rel="noopener">Vampire Survivors</a></div><p class="text-[14px] text-slate-600"><b class="text-flame-600">볼 것</b> 한 판 안에서 강해지는 것을 어떻게 보여 주나</p></div>
+      <div class="soft-card rounded-2xl px-5 py-4"><div class="font-black text-[17px] mb-2"><i class="fa-solid fa-puzzle-piece text-dev-600 mr-2"></i>퍼즐</div><div class="flex flex-wrap gap-2 mb-2"><a class="gnk" href="https://store.steampowered.com/search/?term=Baba%20Is%20You" target="_blank" rel="noopener">Baba Is You</a><a class="gnk" href="https://store.steampowered.com/search/?term=Portal%202" target="_blank" rel="noopener">Portal 2</a></div><p class="text-[14px] text-slate-600"><b class="text-flame-600">볼 것</b> 규칙을 글로 설명하나, 푸는 장면으로 보여 주나</p></div>
+      <div class="soft-card rounded-2xl px-5 py-4"><div class="font-black text-[17px] mb-2"><i class="fa-solid fa-layer-group text-dev-600 mr-2"></i>카드, 덱 빌딩</div><div class="flex flex-wrap gap-2 mb-2"><a class="gnk" href="https://store.steampowered.com/search/?term=Slay%20the%20Spire" target="_blank" rel="noopener">Slay the Spire</a><a class="gnk" href="https://store.steampowered.com/search/?term=Balatro" target="_blank" rel="noopener">Balatro</a></div><p class="text-[14px] text-slate-600"><b class="text-flame-600">볼 것</b> 카드 화면을 얼마나 가까이 잡나. 숫자를 읽을 수 있나</p></div>
+      <div class="soft-card rounded-2xl px-5 py-4"><div class="font-black text-[17px] mb-2"><i class="fa-solid fa-people-group text-dev-600 mr-2"></i>협동, 파티</div><div class="flex flex-wrap gap-2 mb-2"><a class="gnk" href="https://store.steampowered.com/search/?term=Overcooked%21%202" target="_blank" rel="noopener">Overcooked! 2</a><a class="gnk" href="https://store.steampowered.com/search/?term=Fall%20Guys" target="_blank" rel="noopener">Fall Guys</a></div><p class="text-[14px] text-slate-600"><b class="text-flame-600">볼 것</b> 여러 명이 같이 하는 것을 어떤 장면으로 보여 주나</p></div>
+      <div class="soft-card rounded-2xl px-5 py-4"><div class="font-black text-[17px] mb-2"><i class="fa-solid fa-mountain-sun text-dev-600 mr-2"></i>3D 탐험, 어드벤처</div><div class="flex flex-wrap gap-2 mb-2"><a class="gnk" href="https://store.steampowered.com/search/?term=A%20Short%20Hike" target="_blank" rel="noopener">A Short Hike</a><a class="gnk" href="https://store.steampowered.com/search/?term=Firewatch" target="_blank" rel="noopener">Firewatch</a></div><p class="text-[14px] text-slate-600"><b class="text-flame-600">볼 것</b> 카메라가 어떻게 움직이나. 플레이 화면과 풍경의 비율</p></div>
+    </div>
+    <p class="text-[14.5px] text-slate-500 mt-4">여기 없는 장르는 팀이 참고한 게임이나 가장 가까운 게임으로 골라요. 유튜브에서 '게임 이름 trailer'로 찾아도 돼요. 예시 말고 다른 게임을 골라도 좋아요</p>
   </div>
 </section>
 <section class="slide wk" data-part="trtask">
@@ -2187,6 +2475,71 @@ window.addEventListener("touchend",(e)=>{
       $$(".trl-seg", trl).forEach(function(x){ x.classList.toggle("on", x === b); });
       $$(".trl-d", trl).forEach(function(d){ d.classList.toggle("on", d.dataset.i === i); });
     }); });
+  }
+  /* 기록지 한 줄 */
+  var rec = $("#rec");
+  if (rec){
+    var EV = JSON.parse(rec.dataset.ev), rN = -1, rT = null;
+    function recPaint(){
+      var val = {}, fresh = {};
+      for (var i = 0; i <= rN; i++){ for (var k in EV[i]){ val[k] = EV[i][k]; if (i === rN) fresh[k] = 1; } }
+      $$(".rec-c", rec).forEach(function(c){ var k = c.dataset.k; $(".rec-v", c).textContent = val[k] || ""; c.classList.toggle("new", !!fresh[k]); });
+      $$(".rec-ev", rec).forEach(function(b){ var i = +b.dataset.i; b.classList.toggle("on", i === rN); b.classList.toggle("done", i < rN); });
+      $$(".rec-s", rec).forEach(function(x){ x.classList.toggle("on", +x.dataset.i === rN); });
+    }
+    function recStop(){ if (rT){ clearInterval(rT); rT = null; } }
+    $$(".rec-ev", rec).forEach(function(b){ on(b, "click", function(e){ e.stopPropagation(); recStop(); rN = +b.dataset.i; recPaint(); }); });
+    on($("[data-rec-play]"), "click", function(e){ e.stopPropagation(); recStop(); rN = 0; recPaint(); rT = setInterval(function(){ if (rN >= EV.length - 1){ recStop(); return; } rN++; recPaint(); }, 2200); });
+    on($("[data-rec-reset]"), "click", function(e){ e.stopPropagation(); recStop(); rN = -1; recPaint(); });
+    recPaint();
+  }
+
+  /* 어디까지 갔나 */
+  var fn = $("#fn");
+  if (fn){
+    $$("[data-fn]", fn).forEach(function(b){ on(b, "click", function(e){
+      e.stopPropagation(); var k = b.dataset.fn;
+      $$("[data-fn]", fn).forEach(function(x){ x.classList.toggle("on", x === b); });
+      $$(".fn-box, .fn-n", fn).forEach(function(x){ x.classList.toggle("on", x.dataset.k === k); });
+    }); });
+  }
+
+  /* 우선순위 예시 */
+  $$(".pr-ex button").forEach(function(b){ on(b, "click", function(e){
+    e.stopPropagation();
+    $$(".pr-ex button").forEach(function(x){ x.classList.toggle("on", x === b); });
+    $$(".pr-g [data-c]").forEach(function(c){ c.classList.toggle("hit", c.dataset.c === b.dataset.c); });
+  }); });
+
+  /* 예시 트레일러 */
+  var tst = $("#tst");
+  if (tst){
+    var TOT = +tst.dataset.total, tb = $$(".tst-b", tst), ph = $(".tst-ph", tst), strip = $(".tst-strip", tst), tRun = false, tAt = 0, tLast = null;
+    var pbtn = $("[data-tst-play]");
+    function tShow(i){
+      tb.forEach(function(x, j){ x.classList.toggle("on", j === i); });
+      $$(".tst-f, .tst-d", tst).forEach(function(x){ x.classList.toggle("on", +x.dataset.i === i); });
+    }
+    function tStop(){ tRun = false; tst.classList.remove("playing"); pbtn.querySelector("span").textContent = "재생"; pbtn.querySelector("i").className = "fa-solid fa-play"; }
+    function tTick(ts){
+      if (!tRun) return;
+      if (tLast == null) tLast = ts;
+      tAt += (ts - tLast) / 1000 * 2.5; tLast = ts;      /* 2.5배로 보여 줌 */
+      if (tAt >= TOT){ tAt = TOT; tStop(); return; }
+      var idx = 0; tb.forEach(function(x, j){ if (tAt >= +x.dataset.a) idx = j; });
+      tShow(idx);
+      var b = tb[idx], f = (tAt - +b.dataset.a) / (+b.dataset.b - +b.dataset.a);
+      ph.style.left = (b.offsetLeft + b.offsetWidth * f) + "px";
+      requestAnimationFrame(tTick);
+    }
+    tb.forEach(function(b, i){ on(b, "click", function(e){ e.stopPropagation(); tStop(); tShow(i); }); });
+    on(pbtn, "click", function(e){
+      e.stopPropagation();
+      if (tRun){ tStop(); return; }
+      tRun = true; tAt = 0; tLast = null; tst.classList.add("playing");
+      pbtn.querySelector("span").textContent = "멈춤"; pbtn.querySelector("i").className = "fa-solid fa-pause";
+      requestAnimationFrame(tTick);
+    });
   }
 })();
 
