@@ -992,6 +992,60 @@ a.lk:hover{background:#4f46e5;color:#fff}
 .sl13 small{display:block;font-size:12.5px;color:#64748b}
 a.gnk{display:inline-flex!important;align-items:center;line-height:1.5!important;height:auto!important;min-height:0!important;padding:2px 11px!important;font-size:13.5px;font-weight:800;color:#3730a3;background:#eef2ff;border:1px solid #c7d2fe;border-radius:999px;padding:2px 11px;text-decoration:none}
 a.gnk:hover{background:#e0e7ff}
+
+/* ── 4판 최적화 ── */
+.pf{background:#fff;border:1.5px solid #e2e8f0;border-radius:18px;padding:14px 16px}
+.pf-chart{position:relative;height:230px;border-left:2px solid #cbd5e1;border-bottom:2px solid #cbd5e1;margin-left:4px}
+.pf-bars{position:absolute;inset:0;display:flex;align-items:flex-end;gap:3px;padding:0 4px}
+.pf-b{flex:1;background:#a5b4fc;border-radius:3px 3px 0 0;transition:background .3s,opacity .3s}
+#pf.spike .pf-b{opacity:.35}
+#pf.spike .pf-b.sp,#pf.spike .pf-b.md{opacity:1;background:#f97316}
+.pf-ln{position:absolute;left:0;right:0;border-top:2px dashed #22c55e;z-index:1}
+.pf-ln.l30{border-color:#f59e0b}
+.pf-ln b{position:absolute;right:4px;top:-22px;font-size:12.5px;font-weight:900;color:#15803d;background:#fff;padding:0 4px;border-radius:6px}
+.pf-ln.l30 b{color:#b45309}
+.pf-avg{position:absolute;left:0;right:0;border-top:3px solid #4f46e5;z-index:2;transition:opacity .3s}
+#pf.spike .pf-avg{opacity:.15}
+.pf-ax{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:#94a3b8;margin:5px 2px 8px}
+.pf-say{font-size:16.5px;color:#334155;background:#eef2ff;border-radius:12px;padding:9px 13px}
+.pf-say[data-k=spike]{background:#fff7ed}
+.pf-say b{color:#0f172a}
+.prf{background:#1e1f22;border-radius:16px;padding:12px 14px;color:#d4d4d8;font-family:ui-sans-serif,system-ui,sans-serif}
+.prf-top{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;margin-bottom:8px}
+.prf-top .rec{width:12px;height:12px;border-radius:50%;background:#ef4444}
+.prf-lg{margin-left:auto;display:flex;gap:10px;font-weight:700;font-size:12.5px}
+.prf-lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.prf-g{position:relative;height:150px;display:flex;align-items:flex-end;gap:3px;background:#111214;border-radius:8px;padding:0 6px}
+.prf-l16{position:absolute;left:0;right:0;bottom:55.7%;border-top:1.5px dashed #52525b}
+.pr-b{flex:1;height:100%;display:flex;flex-direction:column-reverse;border:none;background:none;padding:0;cursor:pointer;border-radius:3px;opacity:.85}
+.pr-b i{display:block;width:100%}
+.pr-b:hover{opacity:1;outline:2px solid #71717a}
+.pr-b.on{opacity:1;outline:2.5px solid #fff}
+.prt{margin-top:10px;font-size:13.5px}
+.prt-h,.prt-r{display:grid;grid-template-columns:2.4fr .7fr .8fr .6fr .9fr;gap:6px;padding:5px 8px}
+.prt-h{font-weight:900;color:#a1a1aa;border-bottom:1px solid #3f3f46;font-size:12.5px}
+.prt-h span:not(:first-child),.prt-r span:not(:first-child){text-align:right}
+.prt-r{border-bottom:1px solid #27272a;font-family:ui-monospace,Consolas,monospace}
+.prt-r.hot{background:#3b82f6;color:#fff;font-weight:800;border-radius:6px}
+.prt-n{margin-top:8px;font-size:14.5px;font-weight:700;color:#fde68a}
+.cz-g{font-size:13px;font-weight:900;color:#475569;margin:0 0 4px 2px}
+.cz-g i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.cz-l{display:flex;flex-direction:column;gap:5px}
+.cz-b{display:flex;align-items:center;gap:12px;text-align:left;border:1.5px solid #e2e8f0;border-left:5px solid var(--c);background:#fff;border-radius:12px;padding:4px 12px;cursor:pointer;transition:all .2s}
+.cz-b>i{color:var(--c);width:20px;text-align:center}
+.cz-b b{display:block;font-size:15.5px;color:#0f172a}
+.cz-b small{display:block;font-size:12.5px;line-height:1.3;color:#64748b}
+.cz-b:hover{border-color:#a5b4fc}
+.cz-b.on{background:#eef2ff;border-color:var(--c);box-shadow:0 4px 12px rgba(15,23,42,.08)}
+.cz-d{background:#fff;border:1.5px solid #e2e8f0;border-radius:18px;padding:16px 18px}
+.cz-t{font-size:21px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.cz-t span{font-size:15px;font-weight:700;color:#64748b}
+.cz-ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cz-h{font-size:12.5px;font-weight:900;border-radius:999px;padding:2px 10px;display:inline-block;margin-bottom:6px}
+.cz-h.bad{background:#fee2e2;color:#b91c1c}.cz-h.ok{background:#dcfce7;color:#15803d}
+.cz-x pre{margin:0;background:#0f172a;color:#e2e8f0;border-radius:10px;padding:10px 12px;font-family:ui-monospace,Consolas,"Pretendard",monospace;font-size:13.5px;line-height:1.5;white-space:pre-wrap;word-break:keep-all;min-height:118px}
+.cz-x pre .k{color:#f472b6}.cz-x pre .c{color:#64748b}.cz-x pre .bad{color:#fca5a5;font-weight:800}.cz-x pre .ok{color:#4ade80;font-weight:800}
+.cz-n{margin-top:12px;font-size:16px;line-height:1.5;color:#334155}
 </style>
 </head>
 <body>
@@ -1416,6 +1470,144 @@ a.gnk:hover{background:#e0e7ff}
 <section class="slide wk" data-part="eng">
   <div class="max-w-7xl w-full">
     <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">엔진</span></div>
+    <h2 class="text-4xl font-black mb-2">'끊겨요'가 나왔다면 먼저 재요</h2>
+    <p class="text-lg text-slate-500 mb-4">고치기 전에 어디가 얼마나 느린지 숫자로 봐요. FPS 보다 한 프레임에 걸린 ms 로</p>
+    <div class="grid md:grid-cols-[1.45fr_1fr] gap-5 items-start">
+      <div class="pf" id="pf">
+        <div class="flex flex-wrap gap-2 mb-3">
+          <button type="button" class="ib on" data-pf="avg">평균으로 보면</button>
+          <button type="button" class="ib" data-pf="spike">튀는 프레임을 보면</button>
+        </div>
+        <div class="pf-chart">
+          <span class="pf-ln" style="bottom:27.8%"><b>16.7ms = 60 FPS</b></span>
+          <span class="pf-ln l30" style="bottom:55.5%"><b>33.3ms = 30 FPS</b></span>
+          <span class="pf-avg" style="bottom:29.4%"></span>
+          <div class="pf-bars"><i class="pf-b" style="height:26.3%" data-ms="15.8"></i><i class="pf-b" style="height:27.3%" data-ms="16.4"></i><i class="pf-b" style="height:26.8%" data-ms="16.1"></i><i class="pf-b" style="height:26.5%" data-ms="15.9"></i><i class="pf-b" style="height:27.7%" data-ms="16.6"></i><i class="pf-b" style="height:27.0%" data-ms="16.2"></i><i class="pf-b" style="height:26.2%" data-ms="15.7"></i><i class="pf-b" style="height:27.2%" data-ms="16.3"></i><i class="pf-b" style="height:26.7%" data-ms="16.0"></i><i class="pf-b" style="height:27.5%" data-ms="16.5"></i><i class="pf-b" style="height:27.0%" data-ms="16.2"></i><i class="pf-b" style="height:26.5%" data-ms="15.9"></i><i class="pf-b" style="height:27.3%" data-ms="16.4"></i><i class="pf-b sp" style="height:86.7%" data-ms="52.0"></i><i class="pf-b" style="height:26.8%" data-ms="16.1"></i><i class="pf-b" style="height:27.2%" data-ms="16.3"></i><i class="pf-b" style="height:26.3%" data-ms="15.8"></i><i class="pf-b" style="height:27.7%" data-ms="16.6"></i><i class="pf-b" style="height:26.7%" data-ms="16.0"></i><i class="pf-b" style="height:27.0%" data-ms="16.2"></i><i class="pf-b" style="height:27.3%" data-ms="16.4"></i><i class="pf-b" style="height:26.5%" data-ms="15.9"></i><i class="pf-b" style="height:26.8%" data-ms="16.1"></i><i class="pf-b sp" style="height:57.5%" data-ms="34.5"></i><i class="pf-b" style="height:27.2%" data-ms="16.3"></i><i class="pf-b" style="height:26.7%" data-ms="16.0"></i><i class="pf-b" style="height:26.3%" data-ms="15.8"></i><i class="pf-b" style="height:27.5%" data-ms="16.5"></i><i class="pf-b" style="height:27.0%" data-ms="16.2"></i><i class="pf-b" style="height:26.8%" data-ms="16.1"></i><i class="pf-b" style="height:26.5%" data-ms="15.9"></i><i class="pf-b" style="height:27.3%" data-ms="16.4"></i><i class="pf-b" style="height:26.7%" data-ms="16.0"></i><i class="pf-b" style="height:27.2%" data-ms="16.3"></i><i class="pf-b" style="height:26.3%" data-ms="15.8"></i><i class="pf-b" style="height:27.0%" data-ms="16.2"></i></div>
+        </div>
+        <div class="pf-ax"><span>프레임 →</span><span>막대 하나가 프레임 하나, 높이가 걸린 시간</span></div>
+        <div class="pf-say" data-k="avg"><b>평균 17.6ms, 약 57 FPS.</b> 숫자로는 괜찮아 보여요</div>
+        <div class="pf-say" data-k="spike" hidden><b>이 한 프레임이 52ms.</b> 평균은 괜찮아도 사람 눈에는 여기서 뚝 끊겨 보여요. 평균보다 튀는 막대를 찾아요</div>
+      </div>
+      <div class="flex flex-col gap-3">
+<div class="soft-card rounded-2xl px-5 py-3"><div class="font-black mb-0.5">FPS 보다 ms</div><p class="text-[14.5px] text-slate-600">60 FPS 를 내려면 한 프레임을 16.7ms 안에, 30 FPS 면 33.3ms 안에 끝내야 해요. ms 는 '이 스크립트가 5ms'처럼 더하고 뺄 수 있어요</p></div>
+        <div class="soft-card rounded-2xl px-5 py-4">
+          <div class="font-black mb-2">어디서 재나</div>
+<div class="step"><span class="no">1</span><div><div class="font-black text-[16px]">빌드로</div><p class="text-[14.5px] text-slate-600">에디터 숫자는 참고용이에요. 에디터 창도 같이 그려서 빌드와 달라요</p></div></div>
+<div class="step"><span class="no">2</span><div><div class="font-black text-[16px]">테스트에 쓸 컴퓨터에서</div><p class="text-[14.5px] text-slate-600">팀에서 가장 느린 노트북, 테스트 날처럼 전원을 꽂고</p></div></div>
+<div class="step"><span class="no">3</span><div><div class="font-black text-[16px]">가장 무거운 장면에서</div><p class="text-[14.5px] text-slate-600">적이 가장 많은 곳, 효과가 가장 많이 터지는 곳, 마지막 판</p></div></div>
+        </div>
+        <p class="text-[14px] text-slate-500 px-1">빨리 보기: Play 중 Game 창 위쪽 오른편 <b>Stats</b>. FPS 옆 괄호 안이 ms 예요</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="eng">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">엔진</span></div>
+    <h2 class="text-4xl font-black mb-2"><span class="gl" tabindex="0" data-gl="한 프레임에 무엇이 얼마나 걸렸는지 보여 주는 유니티 창. Window → Analysis → Profiler.">Profiler</span> 로 범인 찾기</h2>
+    <p class="text-lg text-slate-500 mb-4">Stats 는 얼마나 느린지, Profiler 는 무엇 때문인지 알려 줘요. 위로 튄 막대를 눌러 보세요</p>
+    <div class="grid md:grid-cols-[1.5fr_1fr] gap-5 items-start">
+      <div class="prf" id="prf">
+        <div class="prf-top"><span class="rec"></span>CPU Usage<span class="prf-lg"><span><i style="background:#3b82f6"></i>스크립트</span><span><i style="background:#22c55e"></i>그리기</span><span><i style="background:#a855f7"></i>메모리 정리</span><span><i style="background:#eab308"></i>기다림</span></span></div>
+        <div class="prf-g"><span class="prf-l16"></span><button type="button" class="pr-b" data-k="n" aria-label="프레임 1"><i style="height:6.7%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:35.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 2"><i style="height:7.7%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:32.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 3"><i style="height:8.7%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:32.3%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 4"><i style="height:7.2%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:34.5%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 5"><i style="height:8.2%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:34.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 6"><i style="height:6.7%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:33.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 7"><i style="height:7.7%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:33.3%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 8"><i style="height:8.7%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:33.0%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 9"><i style="height:7.2%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:35.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 10"><i style="height:8.2%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:32.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 11"><i style="height:6.7%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:34.3%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 12"><i style="height:7.7%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:34.0%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 13"><i style="height:8.7%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:33.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 14"><i style="height:7.2%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:33.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 15"><i style="height:8.2%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:32.8%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 16"><i style="height:6.7%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:35.0%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 17"><i style="height:7.7%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:34.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 18"><i style="height:8.7%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:31.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 19"><i style="height:7.2%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:33.8%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 20"><i style="height:8.2%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:33.5%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="s" aria-label="프레임 21"><i style="height:67.7%;background:#3b82f6"></i><i style="height:13.7%;background:#22c55e"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 22"><i style="height:7.7%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:32.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 23"><i style="height:8.7%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:32.3%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 24"><i style="height:7.2%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:34.5%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 25"><i style="height:8.2%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:34.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 26"><i style="height:6.7%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:33.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 27"><i style="height:7.7%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:33.3%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="g" aria-label="프레임 28"><i style="height:7.0%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:58.7%;background:#a855f7"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 29"><i style="height:7.2%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:35.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 30"><i style="height:8.2%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:32.2%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 31"><i style="height:6.7%;background:#3b82f6"></i><i style="height:14.7%;background:#22c55e"></i><i style="height:34.3%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 32"><i style="height:7.7%;background:#3b82f6"></i><i style="height:14.0%;background:#22c55e"></i><i style="height:34.0%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 33"><i style="height:8.7%;background:#3b82f6"></i><i style="height:13.3%;background:#22c55e"></i><i style="height:33.7%;background:#eab308"></i></button><button type="button" class="pr-b" data-k="n" aria-label="프레임 34"><i style="height:7.2%;background:#3b82f6"></i><i style="height:15.3%;background:#22c55e"></i><i style="height:33.2%;background:#eab308"></i></button></div>
+        <div class="prt" data-k="n"><div class="prt-h"><span>평범한 프레임, Hierarchy</span><span>Total</span><span>Time ms</span><span>Calls</span><span>GC Alloc</span></div><div class="prt-r"><span>PlayerLoop</span><span>100%</span><span>6.2</span><span>1</span><span>0 B</span></div><div class="prt-r"><span>&nbsp;&nbsp;Update.ScriptRunBehaviourUpdate</span><span>13%</span><span>2.1</span><span>1</span><span>0 B</span></div><div class="prt-r"><span>&nbsp;&nbsp;&nbsp;&nbsp;PlayerMove.Update()</span><span>4%</span><span>0.3</span><span>1</span><span>0 B</span></div><div class="prt-r"><span>&nbsp;&nbsp;Gfx.WaitForPresent</span><span>61%</span><span>10.5</span><span>1</span><span>0 B</span></div><div class="prt-n">스크립트가 2ms 쯤이고 나머지는 기다림이에요. 노랑은 느린 게 아니라 쉬는 시간</div></div>
+        <div class="prt" data-k="s" hidden><div class="prt-h"><span>파랑이 튄 프레임, Hierarchy</span><span>Total</span><span>Time ms</span><span>Calls</span><span>GC Alloc</span></div><div class="prt-r"><span>PlayerLoop</span><span>100%</span><span>24.4</span><span>1</span><span>1.2 KB</span></div><div class="prt-r"><span>&nbsp;&nbsp;Update.ScriptRunBehaviourUpdate</span><span>83%</span><span>20.3</span><span>1</span><span>1.2 KB</span></div><div class="prt-r hot"><span>&nbsp;&nbsp;&nbsp;&nbsp;EnemyChase.Update()</span><span>81%</span><span>19.8</span><span>40</span><span>1.2 KB</span></div><div class="prt-r"><span>&nbsp;&nbsp;&nbsp;&nbsp;PlayerMove.Update()</span><span>1%</span><span>0.3</span><span>1</span><span>0 B</span></div><div class="prt-n">우리 스크립트 EnemyChase 가 범인. Calls 40 은 적 40마리가 한 번씩 불렀다는 뜻이에요</div></div>
+        <div class="prt" data-k="g" hidden><div class="prt-h"><span>보라가 튄 프레임, Hierarchy</span><span>Total</span><span>Time ms</span><span>Calls</span><span>GC Alloc</span></div><div class="prt-r"><span>PlayerLoop</span><span>100%</span><span>23.7</span><span>1</span><span>0 B</span></div><div class="prt-r hot"><span>&nbsp;&nbsp;GC.Collect</span><span>74%</span><span>17.6</span><span>1</span><span>0 B</span></div><div class="prt-r"><span>&nbsp;&nbsp;Update.ScriptRunBehaviourUpdate</span><span>9%</span><span>2.1</span><span>1</span><span>0.9 KB</span></div><div class="prt-r hot"><span>&nbsp;&nbsp;&nbsp;&nbsp;Shooter.Update()</span><span>6%</span><span>1.4</span><span>1</span><span>0.9 KB</span></div><div class="prt-n">매 프레임 버린 메모리를 한 번에 치우느라 멈칫. GC Alloc 이 0 이 아닌 스크립트를 찾아요</div></div>
+      </div>
+      <div class="flex flex-col gap-2.5">
+<div class="step"><span class="no">1</span><div><div class="font-black text-[16px]">Window → Analysis → Profiler</div><p class="text-[14.5px] text-slate-600">단축키 Ctrl + 7. 빨간 ● 가 켜진 채로 Play</p></div></div>
+<div class="step"><span class="no">2</span><div><div class="font-black text-[16px]">무거운 곳에서 멈추고 튄 막대 누르기</div><p class="text-[14.5px] text-slate-600">멈춰도 그래프는 남아요. 색이 무엇 때문인지 알려 줘요</p></div></div>
+<div class="step"><span class="no">3</span><div><div class="font-black text-[16px]">아래 Timeline 을 Hierarchy 로</div><p class="text-[14.5px] text-slate-600">Time ms 가 큰 줄을 펼쳐 내려가요</p></div></div>
+<div class="step"><span class="no">4</span><div><div class="font-black text-[16px]">우리 스크립트 이름이 나오면 범인</div><p class="text-[14.5px] text-slate-600">유니티 안쪽 이름은 넘기고 우리가 만든 이름만 찾아요. GC Alloc 이 0 이 아닌지도</p></div></div>
+        <p class="text-[13.5px] text-slate-500 px-1 mt-1">빌드도 잴 수 있어요. Build Profiles 에서 Development Build 와 Autoconnect Profiler 를 켜고 빌드. 테스트에 가져갈 빌드는 두 칸을 끄고 다시 빌드해요</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="eng">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">엔진</span></div>
+    <h2 class="text-4xl font-black mb-2">자주 느려지는 곳 7가지</h2>
+    <p class="text-lg text-slate-500 mb-4"><span class="gl" tabindex="0" data-gl="한 프레임에 무엇이 얼마나 걸렸는지 보여 주는 유니티 창. Window → Analysis → Profiler.">Profiler</span> 에서 본 색으로 어디부터 볼지 정해요. 누르면 고치기 전과 고친 뒤가 보여요</p>
+    <div class="grid md:grid-cols-[1fr_1.35fr] gap-5 items-start" id="cz">
+      <div class="flex flex-col gap-2">
+        <div><div class="cz-g"><i style="background:#3b82f6"></i>파랑, 스크립트가 클 때</div><div class="cz-l"><button type="button" class="cz-b on" data-i="0" style="--c:#3b82f6"><i class="fa-solid fa-magnifying-glass"></i><span><b>Update 에서 찾기</b><small>적이 많아질수록 느려져요</small></span></button><button type="button" class="cz-b" data-i="1" style="--c:#3b82f6"><i class="fa-solid fa-recycle"></i><span><b>만들고 지우기 반복</b><small>총알을 쏠 때 가끔 멈칫해요</small></span></button><button type="button" class="cz-b" data-i="2" style="--c:#3b82f6"><i class="fa-solid fa-terminal"></i><span><b>매 프레임 Debug.Log, 글자</b><small>빌드에서만 조금씩 느려요</small></span></button></div></div>
+        <div><div class="cz-g"><i style="background:#22c55e"></i>초록, 그리기가 클 때</div><div class="cz-l"><button type="button" class="cz-b" data-i="3" style="--c:#22c55e"><i class="fa-solid fa-lightbulb"></i><span><b>실시간 조명과 그림자</b><small>빛이 많은 판에서 느려요</small></span></button><button type="button" class="cz-b" data-i="4" style="--c:#22c55e"><i class="fa-solid fa-sliders"></i><span><b>포스트 프로세싱, Quality</b><small>좋은 컴퓨터에서만 부드러워요</small></span></button><button type="button" class="cz-b" data-i="5" style="--c:#22c55e"><i class="fa-solid fa-table-cells-large"></i><span><b>자주 바뀌는 UI</b><small>타이머가 돌 때 느려요</small></span></button></div></div>
+        <div><div class="cz-g"><i style="background:#64748b"></i>메모리와 로딩</div><div class="cz-l"><button type="button" class="cz-b" data-i="6" style="--c:#64748b"><i class="fa-solid fa-file-image"></i><span><b>큰 그림, 긴 소리</b><small>처음 로딩이 길고 학교 컴퓨터에서 멈춰요</small></span></button></div></div>
+      </div>
+      <div class="cz-d">
+        <div class="cz-p" data-i="0">
+          <div class="cz-t"><i class="fa-solid fa-magnifying-glass" style="color:#3b82f6"></i>Update 에서 찾기<span>'적이 많아질수록 느려져요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre><span class="k">void</span> Update() {
+  <span class="bad">var p = GameObject.Find("Player");</span>
+  Chase(p.transform);
+}</pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="k">Transform</span> player;
+<span class="k">void</span> Start() {
+  <span class="ok">player = GameObject.Find("Player").transform;</span>
+}
+<span class="k">void</span> Update() { Chase(player); }</pre></div></div>
+          <p class="cz-n">적 40마리가 1초에 60번이면 2400번 찾아요. 시작할 때 한 번 찾아 담아 두고 Update 에서는 담아 둔 걸 써요. GetComponent 도 같아요</p>
+        </div>
+        <div class="cz-p" data-i="1" hidden>
+          <div class="cz-t"><i class="fa-solid fa-recycle" style="color:#3b82f6"></i>만들고 지우기 반복<span>'총알을 쏠 때 가끔 멈칫해요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre><span class="bad">Instantiate(bullet, muzzle.position, muzzle.rotation);</span>
+<span class="c">// Bullet.cs</span>
+<span class="bad">Destroy(gameObject, 2f);</span></pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="ok">var b = pool.Get();</span>  <span class="c">// 꺼내 쓰기</span>
+<span class="ok">pool.Release(b);</span>  <span class="c">// 지우지 않고 돌려놓기</span>
+<span class="c">// 처음 상태로 되돌리기는 OnEnable 에</span></pre></div></div>
+          <p class="cz-n">지울 때마다 버린 메모리가 쌓이고 한 번에 치울 때 멈칫해요(Profiler 의 보라). 유니티에 들어 있는 ObjectPool 로 꺼서 모아 뒀다 다시 써요</p>
+        </div>
+        <div class="cz-p" data-i="2" hidden>
+          <div class="cz-t"><i class="fa-solid fa-terminal" style="color:#3b82f6"></i>매 프레임 Debug.Log, 글자<span>'빌드에서만 조금씩 느려요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre><span class="k">void</span> Update() {
+  <span class="bad">Debug.Log(transform.position);</span>
+  <span class="bad">scoreText.text = "점수 " + score;</span>
+}</pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="k">public void</span> AddScore(<span class="k">int</span> n) {
+  score += n;
+  <span class="ok">scoreText.text = "점수 " + score;</span>  <span class="c">// 바뀔 때만</span>
+}</pre></div></div>
+          <p class="cz-n">Debug.Log 는 빌드에서 파일에도 써요. Visual Studio 에서 Ctrl + Shift + F 로 Debug.Log 를 찾아 Update 안의 것을 지워요</p>
+        </div>
+        <div class="cz-p" data-i="3" hidden>
+          <div class="cz-t"><i class="fa-solid fa-lightbulb" style="color:#22c55e"></i>실시간 조명과 그림자<span>'빛이 많은 판에서 느려요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre>실시간 조명 8개
+Shadow Distance 150
+바닥 돌멩이도 그림자</pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="ok">해 하나 + 꼭 필요한 곳만</span>
+<span class="ok">Shadow Distance 50</span>
+<span class="ok">작은 것은 Cast Shadows Off</span></pre></div></div>
+          <p class="cz-n">빛이 닿는 오브젝트는 빛마다 한 번 더 계산돼요. 그림자 거리를 줄이는 게 가장 효과가 커요. Cast Shadows 는 Mesh Renderer 에 있어요</p>
+        </div>
+        <div class="cz-p" data-i="4" hidden>
+          <div class="cz-t"><i class="fa-solid fa-sliders" style="color:#22c55e"></i>포스트 프로세싱, Quality<span>'좋은 컴퓨터에서만 부드러워요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre>Bloom, 모션 블러, 높은 안티에일리어싱
+Quality 한 단계</pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="ok">노트북에서는 포스트 프로세싱 끄기</span>
+<span class="ok">Project Settings → Quality 에
+노트북용 낮은 단계</span></pre></div></div>
+          <p class="cz-n">Quality 단계를 낮추면 그림자, 안티에일리어싱이 한꺼번에 낮아져요. 단계마다 Render Pipeline Asset 이 따로라 낮은 쪽 값을 바꿔요</p>
+        </div>
+        <div class="cz-p" data-i="5" hidden>
+          <div class="cz-t"><i class="fa-solid fa-table-cells-large" style="color:#22c55e"></i>자주 바뀌는 UI<span>'타이머가 돌 때 느려요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre>Canvas 하나에
+메뉴, 배경 그림, 큰 패널, <span class="bad">타이머</span></pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="ok">Canvas A: 가만있는 것</span>
+<span class="ok">Canvas B: 타이머, 점수, 게이지</span>
+누를 일 없는 그림, 글자는 Raycast Target 끄기</pre></div></div>
+          <p class="cz-n">글자 하나만 바뀌어도 그 Canvas 전체를 다시 계산해요. 자주 바뀌는 것만 다른 Canvas 로. Canvas 안에 Canvas 를 넣어도 따로 계산돼요</p>
+        </div>
+        <div class="cz-p" data-i="6" hidden>
+          <div class="cz-t"><i class="fa-solid fa-file-image" style="color:#64748b"></i>큰 그림, 긴 소리<span>'처음 로딩이 길고 학교 컴퓨터에서 멈춰요'</span></div>
+          <div class="cz-ba"><div class="cz-x"><div class="cz-h bad">고치기 전</div><pre>배경 그림 4096 × 4096, 21.3 MB
+배경 음악 Load Type: Decompress On Load</pre></div><div class="cz-x"><div class="cz-h ok">고친 뒤</div><pre><span class="ok">Max Size 2048 → 5.3 MB</span>  <span class="c">// 작은 아이콘은 256, 512</span>
+<span class="ok">배경 음악 Load Type: Streaming</span>  <span class="c">// 효과음은 그대로</span></pre></div></div>
+          <p class="cz-n">화면이 1920 × 1080 이면 2048 이 넘을 일이 거의 없어요. Max Size 는 원본 파일을 그대로 두고 게임에 넣는 크기만 줄여요</p>
+        </div>
+        <p class="text-[13.5px] text-slate-500 mt-3 px-1">고친 뒤에는 같은 장면에서 다시 재요. 버그 시트 '고친 뒤 확인' 칸에 몇 ms 에서 몇 ms 로 바뀌었는지 적어요</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="slide wk" data-part="eng">
+  <div class="max-w-7xl w-full">
+    <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-slate-100 text-slate-600 border border-slate-200">엔진</span></div>
     <h2 class="text-4xl font-black mb-2">노트북마다 빠르기가 다른 버그</h2>
     <p class="text-lg text-slate-500 mb-4">Update 는 프레임마다 한 번 불려요. 빠른 컴퓨터는 1초에 더 많이 불려요</p>
     <div class="grid md:grid-cols-[1.45fr_1fr] gap-5 items-start">
@@ -1471,7 +1663,7 @@ a.gnk:hover{background:#e0e7ff}
   <div class="max-w-7xl w-full">
     <div class="flex items-center gap-3 mb-2"><span class="tagchip bg-flame-600 text-white">과제 · 팀원 중 한 명이 대표로 · 11/25(수) 23:59</span></div>
     <h2 class="text-4xl font-black mb-2">베타 테스트 결과 · 버그 목록</h2>
-    <p class="text-lg text-slate-500 mb-5">팀 노트북에서 이 장(주소 끝 <span class="mono">#16</span>)을 열어 복사하고 사이버캠퍼스 과제란에 붙여 넣어요</p>
+    <p class="text-lg text-slate-500 mb-5">팀 노트북에서 이 장(주소 끝 <span class="mono">#19</span>)을 열어 복사하고 사이버캠퍼스 과제란에 붙여 넣어요</p>
     <div class="grid md:grid-cols-[1.2fr_1fr] gap-5 items-start">
       <div class="cp">
         <div class="cp-bar"><span><i class="fa-solid fa-file-lines"></i> 과제란에 붙여 넣을 글</span><button class="cp-btn" type="button" data-copy="cp-task"><i class="fa-regular fa-copy"></i><span>복사</span></button></div>
@@ -2539,6 +2731,47 @@ window.addEventListener("touchend",(e)=>{
       tRun = true; tAt = 0; tLast = null; tst.classList.add("playing");
       pbtn.querySelector("span").textContent = "멈춤"; pbtn.querySelector("i").className = "fa-solid fa-pause";
       requestAnimationFrame(tTick);
+    });
+  }
+})();
+
+/* 4판 최적화: 재기, Profiler, 자주 느려지는 곳 */
+(function(){
+  function $(s, r){ return (r || document).querySelector(s); }
+  function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  var pf = $("#pf");
+  if (pf){
+    $$("[data-pf]", pf).forEach(function(b){
+      b.addEventListener("click", function(e){
+        e.stopPropagation();
+        var k = b.dataset.pf;
+        $$("[data-pf]", pf).forEach(function(x){ x.classList.toggle("on", x === b); });
+        pf.classList.toggle("spike", k === "spike");
+        $$(".pf-say", pf).forEach(function(x){ x.hidden = x.dataset.k !== k; });
+        b.blur();
+      });
+    });
+  }
+  var prf = $("#prf");
+  if (prf){
+    $$(".pr-b", prf).forEach(function(b){
+      b.addEventListener("click", function(e){
+        e.stopPropagation();
+        $$(".pr-b", prf).forEach(function(x){ x.classList.toggle("on", x === b); });
+        $$(".prt", prf).forEach(function(x){ x.hidden = x.dataset.k !== b.dataset.k; });
+        b.blur();
+      });
+    });
+  }
+  var cz = $("#cz");
+  if (cz){
+    $$(".cz-b", cz).forEach(function(b){
+      b.addEventListener("click", function(e){
+        e.stopPropagation();
+        $$(".cz-b", cz).forEach(function(x){ x.classList.toggle("on", x === b); });
+        $$(".cz-p", cz).forEach(function(x){ x.hidden = x.dataset.i !== b.dataset.i; });
+        b.blur();
+      });
     });
   }
 })();
